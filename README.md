@@ -11,7 +11,7 @@ Download the latest **[release](https://github.com/universum-studios/android_ui/
 
 ## Compatibility ##
 
-Available from the **Android [API Level 1](http://developer.android.com/about/versions/android-1.1.html "See API highlights")**.
+Available from the **Android [API Level 9](http://developer.android.com/about/versions/android-2.3.html "See API highlights")**.
 
 ### Dependencies ###
 
