@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- RefreshController attributes. -->
+    <declare-styleable name="Ui.RefreshController">
+        <!-- Distance in which can a user swipe the refresh indicator. -->
+        <attr name="uiRefreshDistance" format="dimension"/>
+        <!--
+            Fraction from the range [0.0, 1.0] used to calculate distance in which can a user swipe
+            the refresh indicator.
+         -->
+        <attr name="uiRefreshDistanceFraction" format="float"/>
+        <!--
+            Position from the range [0.0, 1.0] used to determine a distance by which need to be the
+            refresh indicator swiped (from the top) by a user to initiate refresh.
+        -->
+        <attr name="uiRefreshPosition" format="float"/>
+        <!--
+            Position from the range [0.0, 1.0] used to determine a distance (from the top) where should
+            be the refresh indicator settled after it was released by a user (if refresh has been initiated).
+        -->
+        <attr name="uiRefreshSettlePosition" format="float"/>
+        <!--
+            Duration in milliseconds for the refresh indicator's settle animation, played when a user
+            releases the refresh indicator after refresh position to move it to the settle position.
+        -->
+        <attr name="uiRefreshSettleDuration" format="integer"/>
+        <!-- Interpolator used to interpolate pull value of refresh gesture. -->
+        <attr name="uiRefreshGestureInterpolator" format="reference"/>
+        <!--
+			Transition type determining how to transition the refresh indicator when it is being
+			 pulled down/up by a user.
+		-->
+        <attr name="uiRefreshIndicatorTransition">
+            <!--
+				Transition type for the refresh indicator used for refreshing of a content that is
+				 below another surface in z-space.
+			-->
+            <enum name="below" value="0x01"/>
+            <!--
+				This transition type is not supported yet. Using this type will resolve into same
+				behaviour as described for {@link #TRANSITION_ABOVE} transition.
+				Transition type for the refresh indicator used for refreshing of a content that is
+				coplanar with another surface.
+			-->
+            <enum name="coplanar" value="0x02"/>
+            <!--
+				Transition type for the refresh indicator used for refreshing of a content that is
+				 above every other surface in z-space.
+			-->
+            <enum name="above" value="0x03"/>
+        </attr>
+        <!--
+            Duration in milliseconds for the refresh indicator's hide animation, played whenever the
+            refresh indicator need to be hided (translated to its origin position).
+        -->
+        <attr name="uiRefreshIndicatorHideDuration" format="integer"/>
+        <!--
+            Duration in milliseconds for the refresh indicator's pop animation, played whenever the
+            refresh indicator need to be popped (showed via scale animation).
+        -->
+        <attr name="uiRefreshIndicatorPopDuration" format="integer"/>
+        <!--
+            Duration in milliseconds for the refresh indicator's dismiss animation, played whenever
+            the refresh indicator need to be dismissed (hided via scale animation).
+        -->
+        <attr name="uiRefreshIndicatorDismissDuration" format="integer"/>
+        <!--
+            Duration in milliseconds for the arrow's scale animation of the refresh indicator, played
+            whenever the arrow need to be showed or hided.
+        -->
+        <attr name="uiRefreshIndicatorArrowScaleDuration" format="integer"/>
+        <!-- Offset for the originating position of the refresh indicator. -->
+        <attr name="uiRefreshIndicatorOffset" format="dimension"/>
+        <!-- Style for the refresh indicator. -->
+        <attr name="uiRefreshIndicatorStyle" format="reference"/>
+    </declare-styleable>
+
+    <!-- RefreshIndicator attributes. -->
+    <declare-styleable name="Ui.RefreshIndicator">
+        <!-- Color for refresh graphics used when graphics is drawn in single-colored mode. -->
+        <attr name="uiRefreshColor" format="color"/>
+        <!--
+			Reference to an array of colors for refresh graphics used when graphics is drawn in
+			multi-colored mode.
+		-->
+        <attr name="uiRefreshColors" format="reference"/>
+        <!-- Whether a multi-colored refresh graphics should be drawn or a single-colored one. -->
+        <attr name="uiRefreshMultiColored" format="boolean"/>
+        <!--
+			Speed determining how fast is the refresh indeterminate indicator spinning.
+			Should be from the range [0, infinite).
+		-->
+        <attr name="uiRefreshIndeterminateSpeed" format="float"/>
+        <!-- Thickness of the refresh indicator. -->
+        <attr name="android:thickness"/>
+    </declare-styleable>
+</resources>

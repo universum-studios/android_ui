@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- PullController attributes. -->
+    <declare-styleable name="Ui.PullController">
+        <!--
+            Mode determining whether a specific pullable view can be pulled on its start, end or both.
+        -->
+        <attr name="uiPullMode">
+            <flag name="none" value="0x00"/>
+            <flag name="start" value="0x01"/>
+            <flag name="end" value="0x02"/>
+        </attr>
+        <!--
+            Fraction from the range [0.0, 1.0] used to calculate distance in which can a user pull
+            the pullable view.
+         -->
+        <attr name="uiPullDistanceFraction" format="float"/>
+        <!-- Distance in which can a user pull the pullable view. -->
+        <attr name="uiPullDistance" format="dimension"/>
+        <!--
+            Duration in milliseconds for the pull collapse animation, played when a user releases
+            the already pulled view.
+        -->
+        <attr name="uiPullCollapseDuration" format="integer"/>
+        <!-- Delay in milliseconds for the pull collapse animation. -->
+        <attr name="uiPullCollapseDelay" format="integer"/>
+        <!--
+            Min velocity in pixels per second that need to be reached to initiate pull.
+            For example:
+                - value 2000 means that a user needs to pull the pullable view in velocity 2px per
+                  second to initiate a pull
+                - as the value will increase, it will be harder for a user to initiate the pull
+                - value 0 means that a user can initiate the pull immediately after he/she starts
+                  a move motion upon the pullable view from the pull origin
+        -->
+        <attr name="uiPullMinVelocity" format="float"/>
+    </declare-styleable>
+</resources>

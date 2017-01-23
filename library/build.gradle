@@ -66,6 +66,7 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile 'com.android.support:support-annotations:' + supportVersion
+    compile 'universum.studios.android:graphics-color-util:1.0.0@aar'
 
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
@@ -87,6 +88,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
 }
+
+// Apply all modules configuration.
+// fixme: remove this when library is separated into modules
+apply from: 'gradle/module-all.gradle'
 
 // Apply PUBLISH script.
 apply from: '../publish/publish.gradle'

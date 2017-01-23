@@ -22,6 +22,4 @@ as usually.
         }
     }
 
-**[Core](https://github.com/universum-studios/android_ui/tree/master/library/src/main)**
-
-    compile 'universum.studios.android:ui-core:1.0.0@aar'
+> COMING SOON

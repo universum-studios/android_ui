@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<FrameLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+
+		<universum.studios.android.ui.widget.CircularProgressBar
+			android:id="@id/ui_search_progress"
+			style="?attr/uiSearchProgressBarStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:visibility="invisible"/>
+
+		<universum.studios.android.ui.widget.ImageButtonWidget
+			android:id="@id/ui_search_icon"
+			style="?attr/uiSearchIconStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center" />
+	</FrameLayout>
+
+	<universum.studios.android.ui.widget.AutoCompleteTextViewWidget
+		android:id="@id/ui_search_input"
+		style="?attr/uiSearchInputStyle"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1" />
+
+	<universum.studios.android.ui.widget.ImageButtonWidget
+		android:id="@id/ui_search_mic"
+		style="?attr/uiSearchButtonMicStyle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" />
+
+	<universum.studios.android.ui.widget.ImageButtonWidget
+		android:id="@id/ui_search_clear"
+		style="?attr/uiSearchButtonClearStyle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:visibility="gone" />
+</merge>

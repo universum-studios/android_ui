@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources>
+
+	<!-- ### SELECTION ========================================================================= -->
+
+	<!-- Platform based parent style for CompoundButton widget. -->
+	<style name="Ui.Platform.Widget.CompoundButton" parent="android:Widget.CompoundButton"/>
+
+	<!-- Base style for CompoundButton widget. -->
+	<style name="Ui.Base.Widget.CompoundButton" parent="Ui.Platform.Widget.CompoundButton"/>
+
+	<!-- Platform based parent style for CheckBox widget. -->
+	<style name="Ui.Platform.Widget.CompoundButton.CheckBox" parent="android:Widget.CompoundButton.CheckBox"/>
+
+	<!-- Base style for CheckBox widget. -->
+	<style name="Ui.Base.Widget.CompoundButton.CheckBox" parent="Ui.Platform.Widget.CompoundButton.CheckBox">
+		<item name="android:paddingLeft">40dp</item>
+	</style>
+
+	<!-- Platform based parent style for RadioButton widget. -->
+	<style name="Ui.Platform.Widget.CompoundButton.RadioButton" parent="android:Widget.CompoundButton.RadioButton"/>
+
+	<!-- Base style for RadioButton widget. -->
+	<style name="Ui.Base.Widget.CompoundButton.RadioButton" parent="Ui.Platform.Widget.CompoundButton.RadioButton">
+		<item name="android:paddingLeft">40dp</item>
+	</style>
+
+	<!-- Platform based parent style for Switch widget. -->
+	<style name="Ui.Platform.Widget.CompoundButton.Switch" parent="Widget.AppCompat.CompoundButton.Switch"/>
+
+	<!-- Base style for Switch widget. -->
+	<style name="Ui.Base.Widget.CompoundButton.Switch" parent="Ui.Platform.Widget.CompoundButton.Switch">
+		<item name="android:background">@null</item>
+	</style>
+</resources>

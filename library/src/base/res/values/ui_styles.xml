@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ### PARENT STYLES ===================================================================== -->
+
+    <!-- Parent style for widget styles. -->
+    <style name="Ui.Widget" parent=""/>
+
+	<!-- ### ACTIONBAR/TOOLBAR ================================================================= -->
+
+	<!-- Style for Toolbar widget. -->
+	<style name="Ui.Widget.Toolbar" parent="Ui.Base.Widget.Toolbar">
+		<item name="android:background">?attr/colorPrimary</item>
+		<item name="titleMarginStart">?attr/uiSpacingSecondary</item>
+	</style>
+
+	<!-- Light style for Toolbar widget. -->
+	<style name="Ui.Widget.Light.Toolbar" parent="Ui.Widget.Toolbar"/>
+
+	<!-- Style for ActionButton widget without icon with only text presented. -->
+	<style name="Ui.Widget.ActionButton.Text" parent="Widget.AppCompat.ActionButton">
+		<item name="android:textAppearance">@style/Ui.TextAppearance.Widget.ActionButton.Text</item>
+		<item name="android:paddingRight">16dp</item>
+		<item name="android:paddingLeft">16dp</item>
+	</style>
+
+	<!-- Light style for ActionButton widget without icon with only text presented. -->
+	<style name="Ui.Widget.Light.ActionButton.Text" parent="Ui.Widget.ActionButton.Text"/>
+
+	<!-- ### ACTION MODE ======================================================================= -->
+
+	<!-- Style for ActionMode widget. -->
+	<style name="Ui.Widget.ActionMode" parent="Ui.Base.Widget.ActionMode">
+		<item name="android:background">?attr/actionModeBackground</item>
+		<item name="android:height">?attr/actionBarSize</item>
+	</style>
+
+	<!-- Light style for ActionMode widget. -->
+	<style name="Ui.Widget.Light.ActionMode" parent="Ui.Widget.ActionMode"/>
+
+	<!-- Style for close ActionButton of ActionMode widget. -->
+	<style name="Ui.Widget.ActionButton.CloseMode" parent="Widget.AppCompat.ActionButton.CloseMode">
+		<item name="android:layout_marginLeft">@dimen/ui_action_button_close_mode_margin_start</item>
+		<item name="android:layout_marginRight">@dimen/ui_action_button_close_mode_margin_end</item>
+	</style>
+
+	<!-- Light style for close ActionButton of ActionMode widget. -->
+	<style name="Ui.Widget.Light.ActionButton.CloseMode" parent="Ui.Widget.ActionButton.CloseMode"/>
+</resources>

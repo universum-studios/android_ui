@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources>
+
+    <!-- Ui theme. -->
+    <style name="Ui.Theme" parent="Ui.Theme.Material">
+
+        <!-- ## CONFIGURATION ================================================================== -->
+
+        <!-- ## METRICS ======================================================================== -->
+
+        <item name="uiSpacingPrimary">@dimen/ui_spacing_primary</item>
+        <item name="uiSpacingSecondary">@dimen/ui_spacing_secondary</item>
+        <item name="uiSpacingTertiary">@dimen/ui_spacing_tertiary</item>
+
+        <!-- ## COLORS ========================================================================= -->
+
+        <item name="uiColorErrorHighlight">@color/ui_error</item>
+
+        <!-- ## DRAWABLES ====================================================================== -->
+
+        <!-- ## STYLES ========================================================================= -->
+
+        <item name="android:editTextStyle">@style/Ui.Widget.EditText</item>
+        <item name="android:autoCompleteTextViewStyle">@style/Ui.Widget.AutoCompleteTextView</item>
+        <item name="uiColoredButtonStyle">@style/Ui.Widget.Button.Colored.Background</item>
+        <item name="uiColoredTextButtonStyle">@style/Ui.Widget.Button.Colored.Text</item>
+        <item name="uiFlatButtonStyle">@style/Ui.Widget.Button.Flat</item>
+        <item name="uiColoredFlatButtonStyle">@style/Ui.Widget.Button.Flat.Colored.Background</item>
+        <item name="uiColoredTextFlatButtonStyle">@style/Ui.Widget.Button.Flat.Colored.Text</item>
+        <item name="uiFloatingActionButtonStyle">@style/Ui.Widget.FloatingActionButton</item>
+        <item name="android:imageButtonStyle">@style/Ui.Widget.ImageButton</item>
+        <item name="uiProgressBarCircularStyle">@style/Ui.Widget.ProgressBar.Circular</item>
+        <item name="uiProgressBarCircularSmallStyle">@style/Ui.Widget.ProgressBar.Circular.Small</item>
+        <item name="uiProgressBarCircularLargeStyle">@style/Ui.Widget.ProgressBar.Circular.Large</item>
+        <item name="uiProgressBarLinearStyle">@style/Ui.Widget.ProgressBar.Linear</item>
+        <item name="uiDiscreteSeekBarStyle">@style/Ui.Widget.SeekBar.Discrete</item>
+        <item name="uiInputLayoutTextAppearance">@style/Ui.TextAppearance.Widget.TextView.InputLayout</item>
+        <item name="uiInputLabelStyle">@style/Ui.Widget.TextView.InputLayout.Label</item>
+        <item name="uiInputNoteStyle">@style/Ui.Widget.TextView.InputLayout.Note</item>
+        <item name="uiInputConstraintStyle">@style/Ui.Widget.TextView.InputLayout.Constraint</item>
+        <item name="uiEditLayoutStyle">@style/Ui.Widget.EditLayout</item>
+        <item name="uiEditTextInputStyle">?android:attr/editTextStyle</item>
+        <item name="uiSpinnerLayoutStyle">@style/Ui.Widget.SpinnerLayout</item>
+        <item name="uiSpinnerInputStyle">@style/Ui.Widget.Spinner.Input</item>
+        <item name="uiNumberPickerCircularStyle">@style/Ui.Widget.NumberPicker.Circular</item>
+        <item name="uiCalendarViewStyle">@style/Ui.Widget.CalendarView</item>
+        <item name="uiMonthViewStyle">@style/Ui.Widget.MonthView</item>
+        <item name="android:listViewStyle">@style/Ui.Widget.ListView</item>
+        <item name="android:gridViewStyle">@style/Ui.Widget.GridView</item>
+        <item name="uiRecyclerViewStyle">@style/Ui.Widget.RecyclerView</item>
+        <item name="uiViewPagerStyle">@style/Ui.Widget.ViewPager</item>
+        <item name="uiEmptyViewStyle">@style/Ui.Widget.EmptyView</item>
+        <item name="uiRefreshableLayoutStyle">@style/Ui.Widget.RefreshableLayout</item>
+
+        <!-- ## ACTIONBAR/TOOLBAR ============================================================== -->
+
+        <item name="toolbarStyle">@style/Ui.Widget.Toolbar</item>
+        <item name="uiActionTextButtonStyle">@style/Ui.Widget.ActionButton.Text</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat</item>
+
+        <!-- ## ACTION MODE ==================================================================== -->
+
+        <item name="windowActionModeOverlay">false</item>
+        <item name="actionModeBackground">?android:attr/windowBackground</item>
+        <item name="actionModeCloseButtonStyle">@style/Ui.Widget.ActionButton.CloseMode</item>
+
+        <!-- ## SEARCH ========================================================================= -->
+
+		<item name="uiSearchTextColor">#FF222222</item>
+		<item name="uiSearchTextColorHint">#DD222222</item>
+		<item name="uiSearchSelectHandleColor">#FF222222</item>
+		<item name="uiSearchViewStyle">@style/Ui.Widget.Light.SearchView</item>
+		<item name="uiSearchInputStyle">@style/Ui.Widget.Light.AutoCompleteTextView.Search</item>
+		<item name="uiSearchIconStyle">@style/Ui.Widget.Light.ImageButton.Search.Icon</item>
+		<item name="uiSearchVectorIcon">@drawable/ui_vc_search_icon</item>
+        <item name="uiSearchProgressBarStyle">@style/Ui.Widget.ProgressBar.Search</item>
+		<item name="uiSearchButtonClearStyle">@style/Ui.Widget.Light.ImageButton.Search.Clear</item>
+		<item name="uiSearchButtonMicStyle">@style/Ui.Widget.Light.ImageButton.Search.Mic</item>
+    </style>
+
+    <!-- Ui light theme. -->
+    <style name="Ui.Theme.Light" parent="Ui.Theme.Light.Material">
+
+        <!-- ## CONFIGURATION ================================================================== -->
+
+        <!-- ## METRICS ======================================================================== -->
+
+        <item name="uiSpacingPrimary">@dimen/ui_spacing_primary</item>
+        <item name="uiSpacingSecondary">@dimen/ui_spacing_secondary</item>
+        <item name="uiSpacingTertiary">@dimen/ui_spacing_tertiary</item>
+
+        <!-- ## COLORS ========================================================================= -->
+
+        <item name="uiColorErrorHighlight">@color/ui_error</item>
+
+        <!-- ## DRAWABLES ====================================================================== -->
+
+        <!-- ## STYLES ========================================================================= -->
+
+        <item name="android:editTextStyle">@style/Ui.Widget.Light.EditText</item>
+        <item name="android:autoCompleteTextViewStyle">@style/Ui.Widget.Light.AutoCompleteTextView</item>
+        <item name="uiColoredButtonStyle">@style/Ui.Widget.Light.Button.Colored.Background</item>
+        <item name="uiColoredTextButtonStyle">@style/Ui.Widget.Light.Button.Colored.Text</item>
+        <item name="uiFlatButtonStyle">@style/Ui.Widget.Light.Button.Flat</item>
+        <item name="uiColoredFlatButtonStyle">@style/Ui.Widget.Light.Button.Flat.Colored.Background</item>
+        <item name="uiColoredTextFlatButtonStyle">@style/Ui.Widget.Light.Button.Flat.Colored.Text</item>
+        <item name="uiFloatingActionButtonStyle">@style/Ui.Widget.Light.FloatingActionButton</item>
+        <item name="android:imageButtonStyle">@style/Ui.Widget.Light.ImageButton</item>
+        <item name="uiProgressBarCircularStyle">@style/Ui.Widget.Light.ProgressBar.Circular</item>
+        <item name="uiProgressBarCircularSmallStyle">@style/Ui.Widget.Light.ProgressBar.Circular.Small</item>
+        <item name="uiProgressBarCircularLargeStyle">@style/Ui.Widget.Light.ProgressBar.Circular.Large</item>
+        <item name="uiProgressBarLinearStyle">@style/Ui.Widget.Light.ProgressBar.Linear</item>
+        <item name="uiDiscreteSeekBarStyle">@style/Ui.Widget.Light.SeekBar.Discrete</item>
+        <item name="uiInputLayoutTextAppearance">@style/Ui.TextAppearance.Light.Widget.TextView.InputLayout</item>
+        <item name="uiInputLabelStyle">@style/Ui.Widget.Light.TextView.InputLayout.Label</item>
+        <item name="uiInputNoteStyle">@style/Ui.Widget.Light.TextView.InputLayout.Note</item>
+        <item name="uiInputConstraintStyle">@style/Ui.Widget.Light.TextView.InputLayout.Constraint</item>
+        <item name="uiEditLayoutStyle">@style/Ui.Widget.Light.EditLayout</item>
+        <item name="uiEditTextInputStyle">?android:attr/editTextStyle</item>
+        <item name="uiSpinnerLayoutStyle">@style/Ui.Widget.Light.SpinnerLayout</item>
+        <item name="uiSpinnerInputStyle">@style/Ui.Widget.Light.Spinner.Input</item>
+        <item name="uiNumberPickerCircularStyle">@style/Ui.Widget.Light.NumberPicker.Circular</item>
+        <item name="uiCalendarViewStyle">@style/Ui.Widget.Light.CalendarView</item>
+        <item name="uiMonthViewStyle">@style/Ui.Widget.Light.MonthView</item>
+        <item name="android:listViewStyle">@style/Ui.Widget.Light.ListView</item>
+        <item name="android:gridViewStyle">@style/Ui.Widget.Light.GridView</item>
+        <item name="uiRecyclerViewStyle">@style/Ui.Widget.Light.RecyclerView</item>
+        <item name="uiViewPagerStyle">@style/Ui.Widget.Light.ViewPager</item>
+        <item name="uiEmptyViewStyle">@style/Ui.Widget.Light.EmptyView</item>
+        <item name="uiRefreshableLayoutStyle">@style/Ui.Widget.Light.RefreshableLayout</item>
+
+        <!-- ## ACTIONBAR/TOOLBAR ============================================================== -->
+
+        <item name="toolbarStyle">@style/Ui.Widget.Light.Toolbar</item>
+        <item name="uiActionTextButtonStyle">@style/Ui.Widget.Light.ActionButton.Text</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
+        <!-- ## ACTION MODE ==================================================================== -->
+
+        <item name="windowActionModeOverlay">false</item>
+        <item name="actionModeBackground">?android:attr/windowBackground</item>
+        <item name="actionModeCloseButtonStyle">@style/Ui.Widget.Light.ActionButton.CloseMode</item>
+
+        <!-- ## SEARCH ========================================================================= -->
+
+		<item name="uiSearchTextColor">#FFFFFFFF</item>
+		<item name="uiSearchTextColorHint">#DDFFFFFF</item>
+		<item name="uiSearchSelectHandleColor">#FFFFFFFF</item>
+        <item name="uiSearchViewStyle">@style/Ui.Widget.SearchView</item>
+        <item name="uiSearchInputStyle">@style/Ui.Widget.AutoCompleteTextView.Search</item>
+        <item name="uiSearchIconStyle">@style/Ui.Widget.ImageButton.Search.Icon</item>
+		<item name="uiSearchVectorIcon">@drawable/ui_vc_search_icon</item>
+        <item name="uiSearchProgressBarStyle">@style/Ui.Widget.Light.ProgressBar.Search</item>
+        <item name="uiSearchButtonClearStyle">@style/Ui.Widget.ImageButton.Search.Clear</item>
+        <item name="uiSearchButtonMicStyle">@style/Ui.Widget.ImageButton.Search.Mic</item>
+    </style>
+</resources>

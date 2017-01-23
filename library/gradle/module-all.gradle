@@ -1,0 +1,98 @@
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2016 Martin Albedinsky
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+/**
+ * Library Module options ==========================================================================
+ */
+android {
+    defaultConfig {
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    sourceSets {
+        main.manifest.srcFile 'src/main/AndroidManifest.xml'
+        main.java.srcDirs = [
+                'src/main/java',
+                'src/core/java',
+                'src/base/java',
+                'src/animation/java',
+                'src/callback/java',
+                'src/controller/base/java',
+                'src/controller/refresh/java',
+                'src/controller/pull/java',
+                'src/experimental/java',
+                'src/form/java',
+                'src/graphics/base/java',
+                'src/graphics/progress/java',
+                'src/graphics/refresh/java',
+                'src/interpolator/java',
+                'src/navigation/java',
+                'src/transition/java',
+                'src/util/java',
+                'src/widget/adapter/java',
+                'src/widget/collection/java',
+                'src/widget/common/button/java',
+                'src/widget/common/image/java',
+                'src/widget/common/menu/java',
+                'src/widget/common/progress/java',
+                'src/widget/common/selection/java',
+                'src/widget/common/text/java',
+                'src/widget/input/java',
+                'src/widget/layout/base/java',
+                'src/widget/layout/refresh/java',
+                'src/widget/layout/scroll/java',
+                'src/widget/paging/java',
+                'src/widget/picker/java',
+                'src/widget/web/java'
+        ]
+        main.res.srcDirs = [
+                'src/main/res',
+                'src/core/res',
+                'src/base/res',
+                'src/controller/refresh/res',
+                'src/controller/pull/res',
+                'src/experimental/res',
+                'src/navigation/res',
+                'src/transition/res',
+                'src/widget/collection/res',
+                'src/widget/common/button/res',
+                'src/widget/common/image/res',
+                'src/widget/common/menu/res',
+                'src/widget/common/progress/res',
+                'src/widget/common/selection/res',
+                'src/widget/common/text/res',
+                'src/widget/input/res',
+                'src/widget/layout/base/res',
+                'src/widget/layout/refresh/res',
+                'src/widget/layout/scroll/res',
+                'src/widget/paging/res',
+                'src/widget/picker/res',
+                'src/widget/web/res'
+        ]
+    }
+}
+
+/**
+ * Library Module dependencies =====================================================================
+ */
+dependencies {
+    final String supportVersion = project.property('android.support.version')
+    compile 'com.android.support:appcompat-v7:' + supportVersion
+    compile 'com.android.support:support-vector-drawable:' + supportVersion
+    compile 'com.android.support:recyclerview-v7:' + supportVersion
+}

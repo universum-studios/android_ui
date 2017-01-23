@@ -69,7 +69,7 @@ task sourcesJar(type: Jar) {
     description 'Bundles Raw sources into a .jar! file.'
     from android.sourceSets.main.java.sourceFiles
     // Uncomment if this project contains res/ folder.
-    // from android.sourceSets.main.res.sourceFiles
+    from android.sourceSets.main.res.sourceFiles
 }
 
 /**

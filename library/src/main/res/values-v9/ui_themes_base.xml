@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources>
+
+    <!-- Base theme specific for the Android 9 platform. -->
+    <style name="Ui.Base.V9.Theme" parent="Ui.Base.V8.Theme">
+        <item name="android:textSelectHandleLeft">@drawable/ui_text_select_handle_left_alpha</item>
+        <item name="android:textSelectHandleRight">@drawable/ui_text_select_handle_right_alpha</item>
+        <item name="android:textSelectHandle">@drawable/ui_text_select_handle_middle_alpha</item>
+    </style>
+
+    <!-- Base light theme specific for the Android 9 platform. -->
+    <style name="Ui.Base.V9.Theme.Light" parent="Ui.Base.V8.Theme.Light">
+        <item name="android:textSelectHandleLeft">@drawable/ui_text_select_handle_left_alpha</item>
+        <item name="android:textSelectHandleRight">@drawable/ui_text_select_handle_right_alpha</item>
+        <item name="android:textSelectHandle">@drawable/ui_text_select_handle_middle_alpha</item>
+    </style>
+
+    <!-- Base theme. (API 9) -->
+    <style name="Ui.Base.Theme" parent="Ui.Base.V9.Theme"/>
+
+    <!-- Base light theme. (API 9) -->
+    <style name="Ui.Base.Theme.Light" parent="Ui.Base.V9.Theme.Light"/>
+</resources>

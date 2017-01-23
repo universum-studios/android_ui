@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Picker theme attributes. -->
+    <declare-styleable name="Ui.Theme.Picker">
+
+        <!-- ### SLIDER ======================================================================== -->
+
+        <!-- Style for SeekBar widget with discrete interval. -->
+        <attr name="uiDiscreteSeekBarStyle" format="reference"/>
+
+        <!-- ### PICKER ======================================================================== -->
+
+        <!-- Style for CircularNumberPicker. -->
+        <attr name="uiNumberPickerCircularStyle" format="reference"/>
+        <!-- Style for CalendarView widget. -->
+        <attr name="uiCalendarViewStyle" format="reference"/>
+        <!-- Style for MonthView widget. -->
+        <attr name="uiMonthViewStyle" format="reference"/>
+    </declare-styleable>
+
+	<!-- SeekBar attributes. -->
+	<declare-styleable name="Ui.SeekBar">
+		<!-- Re-used. -->
+		<attr name="android:enabled"/>
+		<!-- Re-used. -->
+		<attr name="uiThumbTint"/>
+		<!-- Re-used. -->
+		<attr name="uiThumbTintMode"/>
+		<!-- Re-used. -->
+		<attr name="uiProgressTint"/>
+		<!-- Re-used. -->
+		<attr name="uiProgressTintMode"/>
+		<!-- Re-used. -->
+		<attr name="uiSecondaryProgressTint"/>
+		<!-- Re-used. -->
+		<attr name="uiSecondaryProgressTintMode"/>
+		<!-- Re-used. -->
+		<attr name="uiProgressBackgroundTint"/>
+		<!-- Re-used. -->
+		<attr name="uiProgressBackgroundTintMode"/>
+		<!-- Re-used. -->
+		<attr name="uiBackgroundTint"/>
+		<!-- Re-used. -->
+		<attr name="uiBackgroundTintMode"/>
+		<!-- Flag indicating whether this SeekBar is discrete or not. -->
+		<attr name="uiDiscrete" format="boolean"/>
+		<!-- Flag indicating whether this SeekBar should indicate to a user that it is discrete or not. -->
+		<attr name="uiDiscretePreviewEnabled" format="boolean"/>
+		<!-- Drawable for the discrete indicator drawn in SeekBarWidget's discrete mode. -->
+		<attr name="uiDiscreteIndicator" format="reference"/>
+		<!-- TextAppearance style for the discrete indicator's text. -->
+		<attr name="uiDiscreteIndicatorTextAppearance" format="reference"/>
+		<!-- Gravity for the discrete indicator's text. -->
+		<attr name="uiDiscreteIndicatorTextGravity">
+			<!-- Push text to the top of discrete indicator, not changing its size. -->
+			<flag name="top" value="0x30" />
+			<!-- Push text to the bottom of discrete indicator, not changing its size. -->
+			<flag name="bottom" value="0x50" />
+			<!-- Place text in the vertical center of discrete indicator, not changing its size. -->
+			<flag name="center_vertical" value="0x10" />
+			<!-- Place text in the horizontal center of discrete indicator, not changing its size. -->
+			<flag name="center_horizontal" value="0x01" />
+			<!-- Place text in the center of discrete indicator in both the vertical and horizontal axis, not changing its size. -->
+			<flag name="center" value="0x11" />
+			<!-- Push text to the beginning of discrete indicator, not changing its size. -->
+			<flag name="start" value="0x00800003" />
+			<!-- Push text to the end of discrete indicator, not changing its size. -->
+			<flag name="end" value="0x00800005" />
+		</attr>
+		<!-- Padding to be applied to the discrete indicator's text at the beginning of discrete indicator. -->
+		<attr name="uiDiscreteIndicatorTextPaddingStart" format="dimension"/>
+		<!-- Padding to be applied to the discrete indicator's text at the top of discrete indicator. -->
+		<attr name="uiDiscreteIndicatorTextPaddingTop" format="dimension"/>
+		<!-- Padding to be applied to the discrete indicator's text at the end of discrete indicator. -->
+		<attr name="uiDiscreteIndicatorTextPaddingEnd" format="dimension"/>
+		<!-- Padding to be applied to the discrete indicator's text at the bottom of discrete indicator. -->
+		<attr name="uiDiscreteIndicatorTextPaddingBottom" format="dimension"/>
+		<!-- Tint to apply to the discrete indicator graphics. -->
+		<attr name="uiDiscreteIndicatorTint" format="color"/>
+		<!-- Blending mode used to apply the discrete indicator graphics tint. -->
+		<attr name="uiDiscreteIndicatorTintMode">
+			<!-- No tint will be applied at all. -->
+			<enum name="none" value="-1"/>
+			<!--
+				The tint is drawn on top of the drawable.
+				[Sa + (1 - Sa)*Da, Rc = Sc + (1 - Sa)*Dc]
+			-->
+			<enum name="src_over" value="3"/>
+			<!--
+				The tint is masked by the alpha channel of the drawable. The drawable’s
+				color channels are thrown out. [Sa * Da, Sc * Da]
+			-->
+			<enum name="src_in" value="5"/>
+			<!--
+				The tint is drawn above the drawable, but with the drawable’s alpha
+				channel masking the result. [Da, Sc * Da + (1 - Sa) * Dc]
+			-->
+			<enum name="src_atop" value="9"/>
+			<!--
+				Multiplies the color and alpha channels of the drawable with those of
+				the tint. [Sa * Da, Sc * Dc]
+			-->
+			<enum name="multiply" value="14"/>
+			<!-- [Sa + Da - Sa * Da, Sc + Dc - Sc * Dc] -->
+			<enum name="screen" value="15"/>
+			<!--
+				Combines the tint and drawable color and alpha channels, clamping the
+				result to valid color values. Saturate(S + D)
+			-->
+			<enum name="add" value="16"/>
+		</attr>
+		<!-- Ratio determining how many tick marks should be drawn in discrete interval. -->
+		<attr name="uiDiscreteIntervalRatio" format="float"/>
+		<!-- Color for tick mark of discrete interval. -->
+		<attr name="uiDiscreteIntervalTickMarkColor" format="color"/>
+		<!-- Radius for tick mark of discrete interval. -->
+		<attr name="uiDiscreteIntervalTickMarkRadius" format="dimension"/>
+	</declare-styleable>
+
+	<!-- CircularNumberPicker attributes. -->
+	<declare-styleable name="Ui.NumberPicker.Circular">
+		<!-- Reference to an array of numbers to pick from. -->
+		<attr name="uiPickerNumbers" format="reference"/>
+		<!-- Format used to format number's text. -->
+		<attr name="uiPickerNumberFormat" format="string"/>
+		<!-- Initially selected number in picker. -->
+		<attr name="uiPickerSelection" format="integer"/>
+		<!-- Range for picker's available selection. -->
+		<attr name="uiPickerSelectionRange" format="integer"/>
+		<!-- Re-used. -->
+		<attr name="android:radius"/>
+		<!-- Re-used. -->
+		<attr name="android:textAppearance"/>
+		<!-- Re-used. -->
+		<attr name="android:textSize"/>
+		<!-- Re-used. -->
+		<attr name="android:textColor"/>
+		<!-- Re-used. -->
+		<attr name="android:textStyle"/>
+		<!-- Re-used. -->
+		<attr name="uiSelectionIndicator"/>
+		<!-- Re-used. -->
+		<attr name="uiSelectionIndicatorTint"/>
+		<!-- Re-used. -->
+		<attr name="uiSelectionIndicatorTintMode"/>
+		<!-- Color for picker's selection indicator bearing line. -->
+		<attr name="uiPickerBearingLineColor" format="color"/>
+		<!-- Thickness for picker's selection indicator bearing line. -->
+		<attr name="uiPickerBearingLineThickness" format="dimension"/>
+		<!-- Color for picker's middle circle. -->
+		<attr name="uiPickerMiddleCircleColor" format="color"/>
+		<!-- Radius for picker's middle circle. -->
+		<attr name="uiPickerMiddleCircleRadius" format="dimension"/>
+	</declare-styleable>
+
+	<!-- CalendarView attributes. -->
+	<declare-styleable name="Ui.CalendarView">
+		<!-- Re-used. -->
+		<attr name="android:orientation"/>
+		<!-- Re-used. -->
+		<attr name="uiFlingMinVelocity"/>
+		<!-- Re-used. -->
+		<attr name="uiFlingMaxVelocity"/>
+		<!-- Scrolling speed in milliseconds per inch. -->
+		<attr name="uiScrollSpeedPerInch" format="float"/>
+	</declare-styleable>
+
+	<!-- MonthView attributes. -->
+	<declare-styleable name="Ui.MonthView">
+		<!-- Offset used to move first letters of days in week vertically. -->
+		<attr name="uiMonthDayLettersOffsetVertical" format="dimension"/>
+		<!-- Offset used to move month day numbers vertically. -->
+		<attr name="uiMonthDayNumbersOffsetVertical" format="dimension"/>
+		<!-- Re-used. -->
+		<attr name="android:horizontalSpacing"/>
+		<!-- Re-used. -->
+		<attr name="android:verticalSpacing"/>
+		<!-- Text appearance style for month title. -->
+		<attr name="uiMonthTitleTextAppearance" format="reference"/>
+		<!-- Text appearance style for first letters of days of week of month. -->
+		<attr name="uiMonthDayLetterTextAppearance" format="reference"/>
+		<!-- Text appearance style for month day number. -->
+		<attr name="uiMonthDayNumberTextAppearance" format="reference"/>
+		<!-- Drawable used to highlight selected day. -->
+		<attr name="uiMonthDaySelector" format="reference"/>
+		<!-- Radius for the day selector drawable. -->
+		<attr name="uiMonthDaySelectorRadius" format="dimension"/>
+		<!-- Re-used. -->
+		<attr name="uiIndicatorTint"/>
+		<!-- Re-used. -->
+		<attr name="uiIndicatorTintMode"/>
+		<!-- Color used to highlight number of the current day. -->
+		<attr name="uiMonthCurrentDayTextColor" format="reference|color"/>
+	</declare-styleable>
+</resources>

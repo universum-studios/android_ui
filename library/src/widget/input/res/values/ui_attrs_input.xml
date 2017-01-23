@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Input theme attributes. -->
+    <declare-styleable name="Ui.Theme.Input">
+
+        <!-- ### INPUT LAYOUT ================================================================== -->
+
+        <!-- Style for label view of InputLayout. -->
+        <attr name="uiInputLabelStyle" format="reference"/>
+        <!-- Style for note/error view of InputLayout. -->
+        <attr name="uiInputNoteStyle" format="reference"/>
+        <!-- Style for constraint view of InputLayout. -->
+        <attr name="uiInputConstraintStyle" format="reference"/>
+        <!-- Style for EditLayout widget. -->
+        <attr name="uiEditLayoutStyle" format="reference"/>
+        <!-- Style for EditText used as input. -->
+        <attr name="uiEditTextInputStyle" format="reference"/>
+        <!-- Style for SpinnerLayout widget. -->
+        <attr name="uiSpinnerLayoutStyle" format="reference"/>
+        <!-- Style for Spinner used as input. -->
+        <attr name="uiSpinnerInputStyle" format="reference"/>
+
+        <!-- ### SEARCH ======================================================================== -->
+
+		<!-- Color for the text of SearchView's EditText. -->
+		<attr name="uiSearchTextColor" format="color"/>
+		<!-- Color for the text hint of SearchView's EditText. -->
+		<attr name="uiSearchTextColorHint" format="color"/>
+        <!-- Color for the text handle of SearchView's EditText. -->
+        <attr name="uiSearchSelectHandleColor" format="color"/>
+        <!-- Style for SearchView widget. -->
+        <attr name="uiSearchViewStyle" format="reference"/>
+        <!-- Style for AutoCompleteTextView input of SearchView widget. -->
+        <attr name="uiSearchInputStyle" format="reference"/>
+        <!-- Style for icon of SearchView widget. -->
+        <attr name="uiSearchIconStyle" format="reference"/>
+		<!-- Vector icon for the SearchView widget. -->
+		<attr name="uiSearchVectorIcon" format="reference"/>
+		<!-- Style for CircularProgressBar of SearchView widget. -->
+		<attr name="uiSearchProgressBarStyle" format="reference"/>
+        <!-- Style for clear button of SearchView widget. -->
+        <attr name="uiSearchButtonClearStyle" format="reference"/>
+        <!-- Style for mic button of SearchView widget. -->
+        <attr name="uiSearchButtonMicStyle" format="reference"/>
+    </declare-styleable>
+
+    <!-- ### INPUT LAYOUT ================================================================== -->
+
+    <!-- InputLayout attributes. -->
+    <declare-styleable name="Ui.InputLayout">
+        <!-- Re-used. -->
+        <attr name="android:minWidth"/>
+        <!-- Re-used. -->
+        <attr name="android:minHeight"/>
+        <!-- Re-used. -->
+        <attr name="android:enabled"/>
+        <!-- Re-used. -->
+        <attr name="android:label"/>
+        <!-- Re-used. -->
+        <attr name="uiNote"/>
+        <!-- Duration of animation played whenever a note text is to be changed. -->
+        <attr name="uiNoteTextChangeDuration" format="integer"/>
+        <!-- Input features flag. -->
+        <attr name="uiInputFeatures">
+            <flag name="none" value="0x00"/>
+            <flag name="label" value="0x01"/>
+            <flag name="note" value="0x02"/>
+            <flag name="constraint" value="0x04"/>
+        </attr>
+        <!-- TextAppearance style for text presented within InputLayout. -->
+        <attr name="uiInputLayoutTextAppearance" format="reference"/>
+        <!-- Re-used. -->
+        <attr name="uiBackgroundTint"/>
+        <!-- Re-used. -->
+        <attr name="uiBackgroundTintMode"/>
+    </declare-styleable>
+
+	<!-- LayoutParams attributes for InputLayout. -->
+	<declare-styleable name="Ui.InputLayout.LayoutParams">
+		<!-- Type used to identify child views of InputLayout. -->
+		<attr name="uiInputChildType">
+			<!-- Identifies main input view of InputLayout. -->
+			<enum name="input" value="0x01"/>
+			<!-- Identifies label view of InputLayout. -->
+			<enum name="label" value="0x02"/>
+			<!-- Identifies note view of InputLayout. -->
+			<enum name="note" value="0x03"/>
+			<!-- Identifies constraint view of InputLayout. -->
+			<enum name="constraint" value="0x04"/>
+		</attr>
+	</declare-styleable>
+
+    <!-- EditLayout attributes. -->
+    <declare-styleable name="Ui.EditLayout">
+        <!-- Re-used. -->
+        <attr name="android:text"/>
+        <!-- Re-used. -->
+        <attr name="android:hint"/>
+        <!-- Re-used. -->
+        <attr name="android:inputType"/>
+        <!-- Re-used. -->
+        <attr name="android:maxLength"/>
+        <!-- Re-used. -->
+        <attr name="android:lines"/>
+        <!-- Re-used. -->
+        <attr name="android:minLines"/>
+        <!-- Re-used. -->
+        <attr name="android:maxLines"/>
+        <!-- Re-used. -->
+        <attr name="uiWithEmptyViewHierarchy"/>
+        <!-- Animation used to show floating label view. -->
+        <attr name="uiFloatingLabelAnimationIn" format="reference"/>
+        <!-- Animation used to hide floating label view. -->
+        <attr name="uiFloatingLabelAnimationOut" format="reference"/>
+        <!--
+			Constraint for EditText's text length. Note, that this is only informative, as it does
+			not constraint the number of characters which can be inputted into EditText, but just
+			shows how many characters are allowed.
+		-->
+        <attr name="uiLengthConstraint" format="integer"/>
+    </declare-styleable>
+
+    <!-- SpinnerLayout attributes. -->
+    <declare-styleable name="Ui.SpinnerLayout">
+        <!-- Re-used. -->
+        <attr name="uiWithEmptyViewHierarchy"/>
+    </declare-styleable>
+
+    <!-- ### SEARCH ============================================================================ -->
+
+    <!-- SearchView attributes. -->
+    <declare-styleable name="Ui.SearchView">
+        <!-- Re-used. -->
+        <attr name="android:queryHint"/>
+        <!-- Re-used. -->
+        <attr name="uiTint"/>
+        <!-- Re-used. -->
+        <attr name="uiTintMode"/>
+		<!-- Re-used. -->
+		<attr name="uiRevealDuration"/>
+		<!-- Re-used. -->
+		<attr name="uiConcealDuration"/>
+		<!-- Re-used. -->
+		<attr name="uiRevealInterpolator"/>
+    </declare-styleable>
+</resources>

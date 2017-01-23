@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Progress theme attributes. -->
+    <declare-styleable name="Ui.Theme.Progress">
+        <!-- Style for CircularProgressBar widget. -->
+        <attr name="uiProgressBarCircularStyle" format="reference"/>
+        <!-- Style for small CircularProgressBar widget. -->
+        <attr name="uiProgressBarCircularSmallStyle" format="reference"/>
+        <!-- Style for large CircularProgressBar widget. -->
+        <attr name="uiProgressBarCircularLargeStyle" format="reference"/>
+        <!-- Style for CircularProgressBar widget. -->
+        <attr name="uiProgressBarLinearStyle" format="reference"/>
+    </declare-styleable>
+
+    <!-- ProgressBar attributes. -->
+    <declare-styleable name="Ui.ProgressBar">
+        <!-- Re-used. -->
+        <attr name="android:progress"/>
+        <!-- Re-used. -->
+        <attr name="android:max"/>
+        <!-- Color for progress graphics used when graphics is drawn in single-colored mode. -->
+        <attr name="uiColorProgress" format="color"/>
+        <!--
+			Reference to an array of colors for progress graphics used when graphics is drawn in
+			multi-colored mode.
+		-->
+        <attr name="uiColorsProgress" format="reference"/>
+        <!-- Re-used. -->
+        <attr name="uiMultiColored"/>
+        <!-- Color for progress background graphics. -->
+        <attr name="uiColorProgressBackground" format="color"/>
+        <!-- Re-used. -->
+        <attr name="uiRounded"/>
+        <!-- Re-used. -->
+        <attr name="android:thickness"/>
+        <!--
+			Speed determining how fast is the indeterminate indicator spinning.
+			Should be from the range [0, infinite).
+		-->
+        <attr name="uiIndeterminateSpeed" format="float"/>
+        <!-- Re-used. -->
+        <attr name="uiProgressTint"/>
+        <!-- Re-used. -->
+        <attr name="uiProgressTintMode"/>
+        <!-- Re-used. -->
+        <attr name="uiSecondaryProgressTint"/>
+        <!-- Re-used. -->
+        <attr name="uiSecondaryProgressTintMode"/>
+        <!-- Re-used. -->
+        <attr name="uiProgressBackgroundTint"/>
+        <!-- Re-used. -->
+        <attr name="uiProgressBackgroundTintMode"/>
+        <!-- Re-used. -->
+        <attr name="uiIndeterminateTint"/>
+        <!-- Re-used. -->
+        <attr name="uiIndeterminateTintMode"/>
+        <!-- Re-used. -->
+        <attr name="uiBackgroundTint"/>
+        <!-- Re-used. -->
+        <attr name="uiBackgroundTintMode"/>
+    </declare-styleable>
+
+    <!-- CircularProgressBar attributes. -->
+    <declare-styleable name="Ui.ProgressBar.Circular">
+        <!-- Whether an arrow at the progress's 'head' should be presented or not. -->
+        <attr name="uiProgressArrowEnabled" format="boolean"/>
+        <!-- Progress mode determining progress indicator's appearance and capabilities. -->
+        <attr name="uiCircularProgressMode">
+            <enum name="determinate" value="0x01"/>
+            <enum name="indeterminate" value="0x02"/>
+        </attr>
+    </declare-styleable>
+
+    <!-- LinearProgressBar attributes. -->
+    <declare-styleable name="Ui.ProgressBar.Linear">
+		<!-- Re-used. -->
+		<attr name="android:secondaryProgress"/>
+        <!-- Progress mode determining progress indicator's appearance and capabilities. -->
+        <attr name="uiLinearProgressMode">
+            <enum name="determinate" value="0x01"/>
+            <enum name="indeterminate" value="0x02"/>
+            <enum name="buffer" value="0x03"/>
+            <enum name="queryIndeterminateDeterminate" value="0x04"/>
+        </attr>
+        <!-- Re-used. -->
+        <attr name="uiSecondaryProgressTint"/>
+        <!-- Re-used. -->
+        <attr name="uiSecondaryProgressTintMode"/>
+    </declare-styleable>
+</resources>

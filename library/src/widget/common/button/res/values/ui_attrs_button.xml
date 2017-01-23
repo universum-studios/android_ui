@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Button theme attributes. -->
+    <declare-styleable name="Ui.Theme.Button">
+        <!-- Style for Button widget with colored background. -->
+        <attr name="uiColoredButtonStyle" format="reference"/>
+        <!-- Style for Button widget with colored text. -->
+        <attr name="uiColoredTextButtonStyle" format="reference"/>
+        <!-- Style for FlatButton widget. -->
+        <attr name="uiFlatButtonStyle" format="reference"/>
+        <!-- Style for FlatButton widget with colored background. -->
+        <attr name="uiColoredFlatButtonStyle" format="reference"/>
+        <!-- Style for FlatButton widget with colored text. -->
+        <attr name="uiColoredTextFlatButtonStyle" format="reference"/>
+    </declare-styleable>
+
+    <!-- Button attributes. -->
+    <declare-styleable name="Ui.Button">
+		<!-- Re-used. -->
+		<attr name="uiVectorDrawableStart"/>
+		<!-- Re-used. -->
+		<attr name="uiVectorDrawableEnd"/>
+		<!-- Re-used. -->
+		<attr name="uiVectorDrawableTop"/>
+		<!-- Re-used. -->
+		<attr name="uiVectorDrawableBottom"/>
+		<!-- Re-used. -->
+		<attr name="uiDrawableTint"/>
+		<!-- Re-used. -->
+		<attr name="uiDrawableTintMode"/>
+        <!-- Re-used. -->
+        <attr name="uiBackgroundTint"/>
+        <!-- Re-used. -->
+        <attr name="uiBackgroundTintMode"/>
+    </declare-styleable>
+
+	<!-- ActionTextButton attributes. -->
+	<declare-styleable name="Ui.ActionTextButton">
+		<!-- Re-used. -->
+		<attr name="android:text"/>
+		<!-- Re-used. -->
+		<attr name="android:paddingLeft"/>
+		<!-- Re-used. -->
+		<attr name="android:paddingRight"/>
+	</declare-styleable>
+</resources>

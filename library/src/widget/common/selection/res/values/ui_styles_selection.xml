@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources>
+
+	<!-- ### SELECTION ========================================================================= -->
+
+	<!-- Style for CheckBox widget. -->
+	<style name="Ui.Widget.CompoundButton.CheckBox" parent="Ui.Base.Widget.CompoundButton.CheckBox">
+		<item name="android:textAppearance">?android:attr/textAppearance</item>
+		<!-- Force to use color specified within text appearance. -->
+		<item name="android:textColor">@null</item>
+	</style>
+
+	<!-- Light style for CheckBox widget. -->
+	<style name="Ui.Widget.Light.CompoundButton.CheckBox" parent="Ui.Widget.CompoundButton.CheckBox"/>
+
+	<!-- Style for RadioButton widget. -->
+	<style name="Ui.Widget.CompoundButton.RadioButton" parent="Ui.Base.Widget.CompoundButton.RadioButton">
+		<item name="android:textAppearance">?android:attr/textAppearance</item>
+		<!-- Force to use color specified within text appearance. -->
+		<item name="android:textColor">@null</item>
+	</style>
+
+	<!-- Light style for RadioButton widget. -->
+	<style name="Ui.Widget.Light.CompoundButton.RadioButton" parent="Ui.Widget.CompoundButton.RadioButton"/>
+
+	<!-- Style for Switch widget. -->
+	<style name="Ui.Widget.CompoundButton.Switch" parent="Ui.Base.Widget.CompoundButton.Switch">
+		<item name="android:textAppearance">?android:attr/textAppearance</item>
+		<!-- Force to use color specified within text appearance. -->
+		<item name="android:textColor">@null</item>
+	</style>
+
+	<!-- Light style for Switch widget. -->
+	<style name="Ui.Widget.Light.CompoundButton.Switch" parent="Ui.Widget.CompoundButton.Switch"/>
+</resources>
