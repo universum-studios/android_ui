@@ -81,6 +81,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:' + supportVersion
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile 'universum.studios.android:samples:0.1.2@aar'
-    compile 'universum.studios.android:fragments:1.0.1@aar'
+    compile 'universum.studios.android.support:support-samples:0.1.2@aar'
+    compile 'universum.studios.android.support:support-fragments:1.0.1@aar'
 }
