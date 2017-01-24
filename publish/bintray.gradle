@@ -100,7 +100,7 @@ bintray {
         userOrg = 'universum-studios'
         licenses = ['Apache-2.0']
         vcsUrl = project.property('maven.pom.project.url') + '.git'
-        labels = ['android']
+        labels = ['android', 'ui', 'widget', 'layout']
         publicDownloadNumbers = true
         version {
             name = project.property('bintray.package.version.name')
