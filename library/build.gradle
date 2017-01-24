@@ -27,6 +27,7 @@ android {
 
     defaultConfig {
         minSdkVersion project.property('library.minSdkVersion')
+        consumerProguardFiles 'proguard-rules.pro'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,9 +42,64 @@ android {
     }
 
     sourceSets {
+        main.manifest.srcFile 'src/main/AndroidManifest.xml'
         main.java.srcDirs = [
                 'src/main/java',
-                '../library-core/src/main/java'
+                'src/core/java',
+                'src/base/java',
+                'src/animation/java',
+                'src/callback/java',
+                'src/controller/base/java',
+                'src/controller/refresh/java',
+                'src/controller/pull/java',
+                'src/experimental/java',
+                'src/form/java',
+                'src/graphics/base/java',
+                'src/graphics/progress/java',
+                'src/graphics/refresh/java',
+                'src/interpolator/java',
+                'src/navigation/java',
+                'src/transition/java',
+                'src/util/java',
+                'src/widget/adapter/java',
+                'src/widget/collection/java',
+                'src/widget/common/button/java',
+                'src/widget/common/image/java',
+                'src/widget/common/menu/java',
+                'src/widget/common/progress/java',
+                'src/widget/common/selection/java',
+                'src/widget/common/text/java',
+                'src/widget/input/java',
+                'src/widget/layout/base/java',
+                'src/widget/layout/refresh/java',
+                'src/widget/layout/scroll/java',
+                'src/widget/paging/java',
+                'src/widget/picker/java',
+                'src/widget/web/java'
+        ]
+        main.res.srcDirs = [
+                'src/main/res',
+                'src/core/res',
+                'src/base/res',
+                'src/controller/refresh/res',
+                'src/controller/pull/res',
+                'src/experimental/res',
+                'src/navigation/res',
+                'src/transition/res',
+                'src/widget/collection/res',
+                'src/widget/common/button/res',
+                'src/widget/common/image/res',
+                'src/widget/common/menu/res',
+                'src/widget/common/progress/res',
+                'src/widget/common/selection/res',
+                'src/widget/common/text/res',
+                'src/widget/input/res',
+                'src/widget/layout/base/res',
+                'src/widget/layout/refresh/res',
+                'src/widget/layout/scroll/res',
+                'src/widget/paging/res',
+                'src/widget/picker/res',
+                'src/widget/web/res'
         ]
     }
 
@@ -66,6 +122,9 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile 'com.android.support:support-annotations:' + supportVersion
+    compile 'com.android.support:appcompat-v7:' + supportVersion
+    compile 'com.android.support:support-vector-drawable:' + supportVersion
+    compile 'com.android.support:recyclerview-v7:' + supportVersion
     compile 'universum.studios.android:graphics-color-util:1.0.0@aar'
 
     /*
@@ -88,10 +147,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
 }
-
-// Apply all modules configuration.
-// fixme: remove this when library is separated into modules
-apply from: 'gradle/module-all.gradle'
 
 // Apply PUBLISH script.
 apply from: '../publish/publish.gradle'

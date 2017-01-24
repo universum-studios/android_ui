@@ -94,6 +94,7 @@ bintray {
     user = project.hasProperty('bintray.user') ? project.property('bintray.user') : System.getenv('BINTRAY_USER')
     key = project.hasProperty('bintray.apiKey') ? project.property('bintray.apiKey') : System.getenv('BINTRAY_API_KEY')
     publications = ['LibraryPublication']
+    override = true
     pkg {
         repo = 'android'
         name = project.property('bintray.package.name')
@@ -105,6 +106,7 @@ bintray {
         version {
             name = project.property('bintray.package.version.name')
             desc = project.property('bintray.package.version.description')
+            released = new Date()
             vcsTag = project.property('bintray.package.version.tag')
         }
     }
