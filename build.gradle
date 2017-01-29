@@ -25,6 +25,53 @@ allprojects {
 /**
  * All projects global tasks =======================================================================
  */
+/**
+ * Task that cleans build directory of the root project.
+ */
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+/**
+ * Task that publishes all library modules (except groups) into Maven local repository.
+ */
+task publishModulesToMavenLocal() {
+    subprojects.findAll {
+        if (it.name.startsWith("library-") && !it.name.endsWith('_group')) {
+            dependsOn ':' + it.name + ':uploadArchives'
+        }
+    }
+}
+
+/**
+ * Task that publishes all library module groups into Maven local repository.
+ */
+task publishGroupsToMavenLocal() {
+    subprojects.findAll {
+        if (it.name.startsWith("library-") && it.name.endsWith('_group')) {
+            dependsOn ':' + it.name + ':uploadArchives'
+        }
+    }
+}
+
+/**
+ * Task that publishes (uploads) all library modules (except groups) up to the Bintray repository.
+ */
+task publishModulesToBintray() {
+    subprojects.findAll {
+        if (it.name.startsWith("library-") && !it.name.endsWith('_group')) {
+            dependsOn ':' + it.name + ':bintrayUpload'
+        }
+    }
+}
+
+/**
+ * Task that publishes (uploads) all library module groups up to the Bintray repository.
+ */
+task publishGroupsToBintray() {
+    subprojects.findAll {
+        if (it.name.startsWith("library-") && it.name.endsWith('_group')) {
+            dependsOn ':' + it.name + ':bintrayUpload'
+        }
+    }
 }
