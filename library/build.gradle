@@ -45,8 +45,7 @@ android {
     }
 
     sourceSets {
-        main.manifest.srcFile 'src/main/AndroidManifest.xml'
-        main.java.srcDirs = [
+        release.java.srcDirs = [
                 'src/main/java',
                 'src/core/java',
                 'src/base/java',
@@ -81,7 +80,7 @@ android {
                 'src/widget/web/java'
         ]
         debug.java.srcDirs = release.java.srcDirs
-        main.res.srcDirs = [
+        release.res.srcDirs = [
                 'src/main/res',
                 'src/core/res',
                 'src/base/res',
