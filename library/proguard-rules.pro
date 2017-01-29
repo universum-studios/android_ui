@@ -16,4 +16,12 @@
 # See the License for the specific language governing permissions and limitations under the License.
 # ==================================================================================================
 ##
-# No rules are required.
+# Keep names of all classes and theris methods form the UI package.
+-keepnames class universum.studios.android.ui.** { *; }
+# Keep constructors for all UI widgets.
+-keepclasseswithmembers class universum.studios.android.ui.widget.** {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public <init>(android.content.Context, android.util.AttributeSet, int, int);
+}

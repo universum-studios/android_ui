@@ -95,6 +95,7 @@ bintray {
     key = project.hasProperty('bintray.apiKey') ? project.property('bintray.apiKey') : System.getenv('BINTRAY_API_KEY')
     publications = ['LibraryPublication']
     override = true
+    publish = Boolean.valueOf((String) project.property('bintray.publish'))
     pkg {
         repo = 'android'
         name = project.property('bintray.package.name')
