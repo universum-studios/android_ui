@@ -58,6 +58,15 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile releaseDependencies.androidSupportAnnotations
+    // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-edit:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-input-base:${libraryVersion}@aar"
+
+    /*
+     * DEBUG DEPENDENCIES --------------------------------------------------------------------------
+     */
+    debugCompile project(':library-widget-input-base')
 }
 
 // Apply PUBLISH script.

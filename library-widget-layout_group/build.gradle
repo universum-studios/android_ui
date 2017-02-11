@@ -34,10 +34,26 @@ android {
         release {
             minifyEnabled false
         }
+        modules {
+            minifyEnabled false
+        }
         debug {
             minifyEnabled false
             testCoverageEnabled true
         }
+    }
+
+    sourceSets {
+        release.java.srcDirs = [
+                '../library-widget-layout-common/src/main/java',
+                '../library-widget-layout-scroll/src/main/java'
+        ]
+        debug.java.srcDirs = release.java.srcDirs
+        release.res.srcDirs = [
+                '../library-widget-layout-common/src/main/res',
+                '../library-widget-layout-scroll/src/main/res'
+        ]
+        debug.res.srcDirs = release.res.srcDirs
     }
 
     compileOptions {
@@ -58,6 +74,13 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile releaseDependencies.androidSupportAnnotations
+    // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
+
+    /*
+     * DEBUG DEPENDENCIES --------------------------------------------------------------------------
+     */
+    debugCompile project(':library-widget-core')
 }
 
 // Apply PUBLISH script.

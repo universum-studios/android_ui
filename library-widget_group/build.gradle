@@ -34,10 +34,70 @@ android {
         release {
             minifyEnabled false
         }
+        modules {
+            minifyEnabled false
+        }
         debug {
             minifyEnabled false
             testCoverageEnabled true
         }
+    }
+
+    sourceSets {
+        release.java.srcDirs = [
+                '../library-widget-button/src/main/java',
+                '../library-widget-collection-core/src/main/java',
+                '../library-widget-collection-grid/src/main/java',
+                '../library-widget-collection-list/src/main/java',
+                '../library-widget-collection-pager/src/main/java',
+                '../library-widget-collection-recycler/src/main/java',
+                '../library-widget-core/src/main/java',
+                '../library-widget-edit/src/main/java',
+                '../library-widget-fab/src/main/java',
+                '../library-widget-image/src/main/java',
+                '../library-widget-input-base/src/main/java',
+                '../library-widget-input-edit/src/main/java',
+                '../library-widget-input-menu/src/main/java',
+                '../library-widget-layout-common/src/main/java',
+                '../library-widget-layout-scroll/src/main/java',
+                '../library-widget-menu/src/main/java',
+                '../library-widget-picker-date/src/main/java',
+                '../library-widget-picker-number/src/main/java',
+                '../library-widget-progress/src/main/java',
+                '../library-widget-selection/src/main/java',
+                '../library-widget-slider/src/main/java',
+                '../library-widget-text/src/main/java',
+                '../library-widget-util/src/main/java',
+                '../library-widget-web/src/main/java'
+        ]
+        debug.java.srcDirs = release.java.srcDirs
+        release.res.srcDirs = [
+                '../library-widget-button/src/main/res',
+                '../library-widget-collection-core/src/main/res',
+                '../library-widget-collection-grid/src/main/res',
+                '../library-widget-collection-list/src/main/res',
+                '../library-widget-collection-pager/src/main/res',
+                '../library-widget-collection-recycler/src/main/res',
+                '../library-widget-core/src/main/res',
+                '../library-widget-edit/src/main/res',
+                '../library-widget-fab/src/main/res',
+                '../library-widget-image/src/main/res',
+                '../library-widget-input-base/src/main/res',
+                '../library-widget-input-edit/src/main/res',
+                '../library-widget-input-menu/src/main/res',
+                '../library-widget-layout-common/src/main/res',
+                '../library-widget-layout-scroll/src/main/res',
+                '../library-widget-menu/src/main/res',
+                '../library-widget-picker-date/src/main/res',
+                '../library-widget-picker-number/src/main/res',
+                '../library-widget-progress/src/main/res',
+                '../library-widget-selection/src/main/res',
+                '../library-widget-slider/src/main/res',
+                '../library-widget-text/src/main/res',
+                '../library-widget-util/src/main/res',
+                '../library-widget-web/src/main/res'
+        ]
+        debug.res.srcDirs = release.res.srcDirs
     }
 
     compileOptions {
