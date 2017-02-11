@@ -49,21 +49,14 @@ android {
                 'src/main/java',
                 'src/core/java',
                 'src/base/java',
-                'src/animation/java',
-                'src/callback/java',
                 'src/controller/base/java',
                 'src/controller/refresh/java',
                 'src/controller/pull/java',
-                'src/experimental/java',
-                'src/form/java',
                 'src/graphics/base/java',
                 'src/graphics/progress/java',
                 'src/graphics/refresh/java',
                 'src/interpolator/java',
-                'src/navigation/java',
-                'src/transition/java',
                 'src/util/java',
-                'src/widget/adapter/java',
                 'src/widget/collection/java',
                 'src/widget/common/button/java',
                 'src/widget/common/image/java',
@@ -86,9 +79,6 @@ android {
                 'src/base/res',
                 'src/controller/refresh/res',
                 'src/controller/pull/res',
-                'src/experimental/res',
-                'src/navigation/res',
-                'src/transition/res',
                 'src/widget/collection/res',
                 'src/widget/common/button/res',
                 'src/widget/common/image/res',
@@ -121,36 +111,38 @@ repositories {
 }
 
 dependencies {
-    def String supportVersion = project.property('android.support.version')
     /*
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
-    compile 'com.android.support:support-annotations:' + supportVersion
-    compile 'com.android.support:appcompat-v7:' + supportVersion
-    compile 'com.android.support:support-vector-drawable:' + supportVersion
-    compile 'com.android.support:recyclerview-v7:' + supportVersion
-    compile 'universum.studios.android:graphics-color-util:1.0.0@aar'
+    compile releaseDependencies.androidSupportAnnotations
+    compile releaseDependencies.androidSupportAppCompatV7
+    compile releaseDependencies.androidSupportVectorDrawable
+    compile releaseDependencies.androidSupportRecyclerViewV7
+    compile releaseDependencies.androidUniversumGraphicsUtil
 
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
      */
-    // Local JUnit test dependencies.
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.0.57-beta'
     // Android Instrumentation test dependencies.
-    androidTestCompile 'com.android.support:support-annotations:' + supportVersion
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+    androidTestCompile testDependencies.androidSupportAnnotations
+    androidTestCompile testDependencies.androidRunner
+    androidTestCompile testDependencies.androidRules
+    androidTestCompile testDependencies.androidEspressoCore
+    androidTestCompile testDependencies.androidEspressoIntents
+    androidTestCompile(testDependencies.androidEspressoContrib) {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
+    // Local JUnit test dependencies.
+    testCompile testDependencies.junit
+    testCompile testDependencies.mockitoCore
 }
 
 // Apply PUBLISH script.
 apply from: '../publish/publish.gradle'
+
+// Apply CODACY script.
+apply from: 'codacy.gradle'

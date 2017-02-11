@@ -1,0 +1,37 @@
+// Defines all dependencies used across the library project.
+ext {
+    // Versions.
+    libraryVersion = '0.9.0'
+    androidSupportVersion = '25.1.1'
+    androidTestVersion = '0.5'
+    androidEspressoVersion = '2.2.2'
+    junitVersion = '4.12'
+    mockitoVersion = '2.0.57-beta'
+
+    /**
+     * Release =====================================================================================
+     */
+    releaseDependencies = [
+            androidSupportAnnotations: "com.android.support:support-annotations:${androidSupportVersion}",
+            androidSupportAppCompatV7: "com.android.support:appcompat-v7:${androidSupportVersion}",
+            androidSupportVectorDrawable: "com.android.support:support-vector-drawable:${androidSupportVersion}",
+            androidSupportRecyclerViewV7: "com.android.support:recyclerview-v7:${androidSupportVersion}",
+            androidUniversumGraphicsUtil: "universum.studios.android:graphics-color-util:1.0.0@aar"
+    ]
+
+    /**
+     * Test ========================================================================================
+     */
+    testDependencies = [
+            // Android Instrumentation test dependencies.
+            androidSupportAnnotations: releaseDependencies.androidSupportAnnotations,
+            androidRunner: "com.android.support.test:runner:${androidTestVersion}",
+            androidRules: "com.android.support.test:rules:${androidTestVersion}",
+            androidEspressoCore: "com.android.support.test.espresso:espresso-core:${androidEspressoVersion}",
+            androidEspressoIntents: "com.android.support.test.espresso:espresso-intents:${androidEspressoVersion}",
+            androidEspressoContrib: "com.android.support.test.espresso:espresso-contrib:${androidEspressoVersion}",
+            // Local JUnit test dependencies.
+            junit: "junit:junit:${junitVersion}",
+            mockitoCore: "org.mockito:mockito-core:${mockitoVersion}"
+    ]
+}

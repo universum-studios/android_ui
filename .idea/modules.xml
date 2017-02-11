@@ -4,7 +4,48 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Ui.iml" filepath="$PROJECT_DIR$/Ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-base/library-base.iml" filepath="$PROJECT_DIR$/library-base/library-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-controller-base/library-controller-base.iml" filepath="$PROJECT_DIR$/library-controller-base/library-controller-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-controller-pull/library-controller-pull.iml" filepath="$PROJECT_DIR$/library-controller-pull/library-controller-pull.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-controller-refresh/library-controller-refresh.iml" filepath="$PROJECT_DIR$/library-controller-refresh/library-controller-refresh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-controller_group/library-controller_group.iml" filepath="$PROJECT_DIR$/library-controller_group/library-controller_group.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-core/library-core.iml" filepath="$PROJECT_DIR$/library-core/library-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-graphics-progress/library-graphics-progress.iml" filepath="$PROJECT_DIR$/library-graphics-progress/library-graphics-progress.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-graphics-refresh/library-graphics-refresh.iml" filepath="$PROJECT_DIR$/library-graphics-refresh/library-graphics-refresh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-graphics_group/library-graphics_group.iml" filepath="$PROJECT_DIR$/library-graphics_group/library-graphics_group.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-interpolator/library-interpolator.iml" filepath="$PROJECT_DIR$/library-interpolator/library-interpolator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-util/library-util.iml" filepath="$PROJECT_DIR$/library-util/library-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-button/library-widget-button.iml" filepath="$PROJECT_DIR$/library-widget-button/library-widget-button.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-collection-core/library-widget-collection-core.iml" filepath="$PROJECT_DIR$/library-widget-collection-core/library-widget-collection-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-collection-grid/library-widget-collection-grid.iml" filepath="$PROJECT_DIR$/library-widget-collection-grid/library-widget-collection-grid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-collection-list/library-widget-collection-list.iml" filepath="$PROJECT_DIR$/library-widget-collection-list/library-widget-collection-list.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-collection-pager/library-widget-collection-pager.iml" filepath="$PROJECT_DIR$/library-widget-collection-pager/library-widget-collection-pager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-collection-recycler/library-widget-collection-recycler.iml" filepath="$PROJECT_DIR$/library-widget-collection-recycler/library-widget-collection-recycler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-collection_group/library-widget-collection_group.iml" filepath="$PROJECT_DIR$/library-widget-collection_group/library-widget-collection_group.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-common_group/library-widget-common_group.iml" filepath="$PROJECT_DIR$/library-widget-common_group/library-widget-common_group.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-core/library-widget-core.iml" filepath="$PROJECT_DIR$/library-widget-core/library-widget-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-edit/library-widget-edit.iml" filepath="$PROJECT_DIR$/library-widget-edit/library-widget-edit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-fab/library-widget-fab.iml" filepath="$PROJECT_DIR$/library-widget-fab/library-widget-fab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-image/library-widget-image.iml" filepath="$PROJECT_DIR$/library-widget-image/library-widget-image.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-input-base/library-widget-input-base.iml" filepath="$PROJECT_DIR$/library-widget-input-base/library-widget-input-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-input-edit/library-widget-input-edit.iml" filepath="$PROJECT_DIR$/library-widget-input-edit/library-widget-input-edit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-input-menu/library-widget-input-menu.iml" filepath="$PROJECT_DIR$/library-widget-input-menu/library-widget-input-menu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-input_group/library-widget-input_group.iml" filepath="$PROJECT_DIR$/library-widget-input_group/library-widget-input_group.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-layout-common/library-widget-layout-common.iml" filepath="$PROJECT_DIR$/library-widget-layout-common/library-widget-layout-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-layout-core/library-widget-layout-core.iml" filepath="$PROJECT_DIR$/library-widget-layout-core/library-widget-layout-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-layout-scroll/library-widget-layout-scroll.iml" filepath="$PROJECT_DIR$/library-widget-layout-scroll/library-widget-layout-scroll.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-layout_group/library-widget-layout_group.iml" filepath="$PROJECT_DIR$/library-widget-layout_group/library-widget-layout_group.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-menu/library-widget-menu.iml" filepath="$PROJECT_DIR$/library-widget-menu/library-widget-menu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-picker-date/library-widget-picker-date.iml" filepath="$PROJECT_DIR$/library-widget-picker-date/library-widget-picker-date.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-picker-number/library-widget-picker-number.iml" filepath="$PROJECT_DIR$/library-widget-picker-number/library-widget-picker-number.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-picker_group/library-widget-picker_group.iml" filepath="$PROJECT_DIR$/library-widget-picker_group/library-widget-picker_group.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-progress/library-widget-progress.iml" filepath="$PROJECT_DIR$/library-widget-progress/library-widget-progress.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-selection/library-widget-selection.iml" filepath="$PROJECT_DIR$/library-widget-selection/library-widget-selection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-slider/library-widget-slider.iml" filepath="$PROJECT_DIR$/library-widget-slider/library-widget-slider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-text/library-widget-text.iml" filepath="$PROJECT_DIR$/library-widget-text/library-widget-text.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-util/library-widget-util.iml" filepath="$PROJECT_DIR$/library-widget-util/library-widget-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-web/library-widget-web.iml" filepath="$PROJECT_DIR$/library-widget-web/library-widget-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget_group/library-widget_group.iml" filepath="$PROJECT_DIR$/library-widget_group/library-widget_group.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/samples.iml" filepath="$PROJECT_DIR$/samples/samples.iml" />
     </modules>
   </component>
