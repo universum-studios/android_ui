@@ -70,7 +70,6 @@
         <item name="uiRecyclerViewStyle">@style/Ui.Widget.RecyclerView</item>
         <item name="uiViewPagerStyle">@style/Ui.Widget.ViewPager</item>
         <item name="uiEmptyViewStyle">@style/Ui.Widget.EmptyView</item>
-        <item name="uiRefreshableLayoutStyle">@style/Ui.Widget.RefreshableLayout</item>
 
         <!-- ## ACTIONBAR/TOOLBAR ============================================================== -->
 
@@ -147,7 +146,6 @@
         <item name="uiRecyclerViewStyle">@style/Ui.Widget.Light.RecyclerView</item>
         <item name="uiViewPagerStyle">@style/Ui.Widget.Light.ViewPager</item>
         <item name="uiEmptyViewStyle">@style/Ui.Widget.Light.EmptyView</item>
-        <item name="uiRefreshableLayoutStyle">@style/Ui.Widget.Light.RefreshableLayout</item>
 
         <!-- ## ACTIONBAR/TOOLBAR ============================================================== -->
 

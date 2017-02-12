@@ -61,6 +61,7 @@ dependencies {
     // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-base:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-refresh:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-collection-core:${libraryVersion}@aar"
 
     /*

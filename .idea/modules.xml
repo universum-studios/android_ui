@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/library-controller-refresh/library-controller-refresh.iml" filepath="$PROJECT_DIR$/library-controller-refresh/library-controller-refresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-controller_group/library-controller_group.iml" filepath="$PROJECT_DIR$/library-controller_group/library-controller_group.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-core/library-core.iml" filepath="$PROJECT_DIR$/library-core/library-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-graphics-core/library-graphics-core.iml" filepath="$PROJECT_DIR$/library-graphics-core/library-graphics-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-graphics-progress/library-graphics-progress.iml" filepath="$PROJECT_DIR$/library-graphics-progress/library-graphics-progress.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-graphics-refresh/library-graphics-refresh.iml" filepath="$PROJECT_DIR$/library-graphics-refresh/library-graphics-refresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-graphics_group/library-graphics_group.iml" filepath="$PROJECT_DIR$/library-graphics_group/library-graphics_group.iml" />
@@ -40,6 +41,7 @@
       <module fileurl="file://$PROJECT_DIR$/library-widget-picker-number/library-widget-picker-number.iml" filepath="$PROJECT_DIR$/library-widget-picker-number/library-widget-picker-number.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-picker_group/library-widget-picker_group.iml" filepath="$PROJECT_DIR$/library-widget-picker_group/library-widget-picker_group.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-progress/library-widget-progress.iml" filepath="$PROJECT_DIR$/library-widget-progress/library-widget-progress.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-search/library-widget-search.iml" filepath="$PROJECT_DIR$/library-widget-search/library-widget-search.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-selection/library-widget-selection.iml" filepath="$PROJECT_DIR$/library-widget-selection/library-widget-selection.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-slider/library-widget-slider.iml" filepath="$PROJECT_DIR$/library-widget-slider/library-widget-slider.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-text/library-widget-text.iml" filepath="$PROJECT_DIR$/library-widget-text/library-widget-text.iml" />

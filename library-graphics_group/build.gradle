@@ -45,6 +45,7 @@ android {
 
     sourceSets {
         release.java.srcDirs = [
+                '../library-graphics-core/src/main/java',
                 '../library-graphics-progress/src/main/java',
                 '../library-graphics-refresh/src/main/java'
         ]

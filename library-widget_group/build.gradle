@@ -118,6 +118,9 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile releaseDependencies.androidSupportAnnotations
+    compile releaseDependencies.androidSupportAppCompatV7
+    compile releaseDependencies.androidSupportVectorDrawable
+    compile releaseDependencies.androidSupportRecyclerViewV7
 }
 
 // Apply PUBLISH script.

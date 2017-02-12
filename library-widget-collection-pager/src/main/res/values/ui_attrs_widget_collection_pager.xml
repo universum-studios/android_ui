@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Pager collection theme attributes. -->
+    <declare-styleable name="Ui.Theme.Collection.Pager">
+        <!-- Style for ViewPager widget. -->
+        <attr name="uiViewPagerStyle" format="reference"/>
+    </declare-styleable>
+
+    <!-- ViewPager attributes. -->
+    <declare-styleable name="Ui.ViewPager">
+        <!-- Re-used. -->
+        <attr name="android:background"/>
+        <!-- Re-used. -->
+        <attr name="uiBackgroundTint"/>
+        <!-- Re-used. -->
+        <attr name="uiBackgroundTintMode"/>
+        <!-- Size of the margin applied between pages. -->
+        <attr name="uiPageMargin" format="dimension"/>
+        <!-- Drawable drawn in page margin area. -->
+        <attr name="uiPageMarginDrawable" format="dimension"/>
+        <!-- Whether the page swiping gesture is enabled or not. -->
+        <attr name="uiPageSwipingEnabled" format="boolean"/>
+        <!-- Whether the page swiping gesture on fling is enabled or not. -->
+        <attr name="uiPageFlingSwipingEnabled" format="boolean"/>
+        <!-- Sensitivity determining when the page swiping gesture on fling has been started. -->
+        <attr name="uiPageFlingSwipingSensitivity" format="float"/>
+        <!-- Duration of scroll between one page to another. -->
+        <attr name="uiPageScrollDuration" format="integer"/>
+        <!-- Whether page scroll duration should be computed relatively for a specific page's position or not. -->
+        <attr name="uiPageScrollRelativeDurationEnabled" format="boolean"/>
+        <!-- Index of page that should be initially visible. -->
+        <attr name="uiCurrentPage" format="integer"/>
+        <!-- Number of pages that should be pre-initialized off screen (to the left and right). -->
+        <attr name="uiOffScreenPageLimit" format="integer"/>
+    </declare-styleable>
+</resources>

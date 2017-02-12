@@ -58,6 +58,7 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile releaseDependencies.androidSupportAnnotations
+    compile releaseDependencies.androidSupportVectorDrawable
 }
 
 // Apply PUBLISH script.

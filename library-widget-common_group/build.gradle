@@ -94,12 +94,18 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile releaseDependencies.androidSupportAnnotations
+    compile releaseDependencies.androidSupportAppCompatV7
+    compile releaseDependencies.androidSupportVectorDrawable
+    compile releaseDependencies.androidSupportRecyclerViewV7
     // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-controller-base:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-controller-refresh:${libraryVersion}@aar"
 
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
     debugCompile project(':library-core')
+    debugCompile project(':library-controller-refresh')
 }
 
 // Apply PUBLISH script.

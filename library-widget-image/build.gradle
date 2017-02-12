@@ -64,7 +64,7 @@ dependencies {
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
-    debugCompile project(':library-core')
+    debugCompile project(':library-widget-core')
 }
 
 // Apply PUBLISH script.

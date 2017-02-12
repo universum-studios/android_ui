@@ -65,6 +65,7 @@ dependencies {
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
+    debugCompile project(':library-widget-core')
     debugCompile project(':library-widget-text')
 }
 

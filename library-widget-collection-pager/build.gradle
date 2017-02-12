@@ -58,7 +58,14 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile releaseDependencies.androidSupportAnnotations
-    // todo: compile releaseDependencies.androidSupportV4
+    compile releaseDependencies.androidSupportV4
+    // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
+
+    /*
+     * DEBUG DEPENDENCIES --------------------------------------------------------------------------
+     */
+    debugCompile project(':library-widget-core')
 }
 
 // Apply PUBLISH script.

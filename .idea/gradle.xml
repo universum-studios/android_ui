@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/library-controller-refresh" />
             <option value="$PROJECT_DIR$/library-controller_group" />
             <option value="$PROJECT_DIR$/library-core" />
+            <option value="$PROJECT_DIR$/library-graphics-core" />
             <option value="$PROJECT_DIR$/library-graphics-progress" />
             <option value="$PROJECT_DIR$/library-graphics-refresh" />
             <option value="$PROJECT_DIR$/library-graphics_group" />
@@ -45,6 +46,7 @@
             <option value="$PROJECT_DIR$/library-widget-picker-number" />
             <option value="$PROJECT_DIR$/library-widget-picker_group" />
             <option value="$PROJECT_DIR$/library-widget-progress" />
+            <option value="$PROJECT_DIR$/library-widget-search" />
             <option value="$PROJECT_DIR$/library-widget-selection" />
             <option value="$PROJECT_DIR$/library-widget-slider" />
             <option value="$PROJECT_DIR$/library-widget-text" />

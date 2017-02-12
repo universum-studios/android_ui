@@ -58,6 +58,8 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile releaseDependencies.androidSupportAnnotations
+    compile releaseDependencies.androidSupportAppCompatV7
+    compile releaseDependencies.androidSupportVectorDrawable
     // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
 
     /*
