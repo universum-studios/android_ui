@@ -24,6 +24,7 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
@@ -120,28 +121,6 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  * <b>Note, that it is not necessary to specify also '.ttf' suffix for custom font paths, the library
  * will add one if it is missing.</b>
  *
- * <h3>Sliding</h3>
- * This updated view allows updating of its current position along <b>x</b> and <b>y</b> axis by
- * changing <b>fraction</b> of these properties depending on its current size using the new animation
- * framework introduced in {@link android.os.Build.VERSION_CODES#HONEYCOMB HONEYCOMB} via
- * {@link android.animation.ObjectAnimator ObjectAnimator}s API.
- * <p>
- * Changing of fraction of X or Y is supported via these two methods:
- * <ul>
- * <li>{@link #setFractionX(float)}</li>
- * <li>{@link #setFractionY(float)}</li>
- * </ul>
- * <p>
- * For example if an instance of this view class needs to be slided to the right by its whole width,
- * an Xml file with ObjectAnimator would look like this:
- * <pre>
- *  &lt;objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
- *                  android:propertyName="fractionX"
- *                  android:valueFrom="0.0"
- *                  android:valueTo="1.0"
- *                  android:duration="300"/&gt;
- * </pre>
- *
  * <h3>XML attributes</h3>
  * See {@link RadioButton},
  * {@link R.styleable#Ui_CompoundButton CompoundButton Attributes}
@@ -192,7 +171,7 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 	 * Same as {@link #RadioButtonWidget(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public RadioButtonWidget(Context context) {
+	public RadioButtonWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -200,7 +179,7 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 	 * Same as {@link #RadioButtonWidget(android.content.Context, android.util.AttributeSet, int)}
 	 * with {@link android.R.attr#radioButtonStyle} as attribute for default style.
 	 */
-	public RadioButtonWidget(Context context, AttributeSet attrs) {
+	public RadioButtonWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, android.R.attr.radioButtonStyle);
 	}
 
@@ -208,13 +187,13 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 	 * Same as {@link #RadioButtonWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public RadioButtonWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public RadioButtonWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of RadioButtonWidget within the given <var>context</var>.
+	 * Creates a new instance of RadioButtonWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -222,8 +201,9 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 	 *                     this view within a theme of the given context.
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
+	@SuppressWarnings("unused")
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public RadioButtonWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public RadioButtonWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -421,89 +401,10 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 	/**
 	 */
 	@Override
-	public void setFractionX(float fraction) {
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
 		this.ensureDecorator();
-		mDecorator.setFractionX(fraction);
-	}
-
-	/**
-	 */
-	@Override
-	public float getFractionX() {
-		this.ensureDecorator();
-		return mDecorator.getFractionX();
-	}
-
-	/**
-	 */
-	@Override
-	public void setFractionY(float fraction) {
-		this.ensureDecorator();
-		mDecorator.setFractionY(fraction);
-	}
-
-	/**
-	 */
-	@Override
-	public float getFractionY() {
-		this.ensureDecorator();
-		return mDecorator.getFractionY();
-	}
-
-	/**
-	 */
-	@Override
-	public void setPressed(boolean pressed) {
-		final boolean isPressed = isPressed();
-		super.setPressed(pressed);
-		if (!isPressed && pressed) onPressed();
-		else if (isPressed) onReleased();
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code true} and this view
-	 * isn't in the pressed state yet.
-	 */
-	protected void onPressed() {
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code false} and this view
-	 * is currently in the pressed state.
-	 */
-	protected void onReleased() {
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelected(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelected(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelectionState(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.ensureDecorator();
-		mDecorator.setAllowDefaultSelection(allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		this.ensureDecorator();
-		return mDecorator.allowsDefaultSelection();
+		mDecorator.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	/**
@@ -513,15 +414,6 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 	public WidgetSizeAnimator animateSize() {
 		this.ensureDecorator();
 		return mDecorator.animateSize();
-	}
-
-	/**
-	 */
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		this.ensureDecorator();
-		mDecorator.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	/**
@@ -538,13 +430,6 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 		 */
 		Decorator(RadioButtonWidget widget) {
 			super(widget);
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			RadioButtonWidget.super.setSelected(selected);
 		}
 
 		/**

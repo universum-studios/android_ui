@@ -28,8 +28,6 @@
         <!-- Re-used. -->
         <attr name="uiBackgroundTintMode"/>
         <!-- Re-used. -->
-        <attr name="uiPullEnabled"/>
-        <!-- Re-used. -->
         <attr name="uiRefreshEnabled"/>
         <!-- Re-used. -->
         <attr name="uiRefreshGestureEnabled"/>

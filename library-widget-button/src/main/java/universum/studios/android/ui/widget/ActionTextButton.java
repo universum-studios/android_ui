@@ -24,9 +24,11 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v4.view.MenuItemCompat;
 import android.util.AttributeSet;
 import android.view.Menu;
@@ -88,7 +90,7 @@ public class ActionTextButton extends ActionButton {
 	 * Same as {@link #ActionTextButton(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public ActionTextButton(Context context) {
+	public ActionTextButton(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -96,7 +98,7 @@ public class ActionTextButton extends ActionButton {
 	 * Same as {@link #ActionTextButton(android.content.Context, android.util.AttributeSet, int)}
 	 * with {@link R.attr#uiActionTextButtonStyle} as attribute for default style.
 	 */
-	public ActionTextButton(Context context, AttributeSet attrs) {
+	public ActionTextButton(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, R.attr.uiActionTextButtonStyle);
 	}
 
@@ -104,13 +106,13 @@ public class ActionTextButton extends ActionButton {
 	 * Same as {@link #ActionTextButton(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public ActionTextButton(Context context, AttributeSet attrs, int defStyleAttr) {
+	public ActionTextButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of ActionTextButton within the given <var>context</var>.
+	 * Creates a new instance of ActionTextButton for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -119,7 +121,7 @@ public class ActionTextButton extends ActionButton {
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public ActionTextButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public ActionTextButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}

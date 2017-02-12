@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- EditLayout attributes. -->
+    <declare-styleable name="Ui.EditLayout">
+        <!-- Re-used. -->
+        <attr name="android:text"/>
+        <!-- Re-used. -->
+        <attr name="android:hint"/>
+        <!-- Re-used. -->
+        <attr name="android:inputType"/>
+        <!-- Re-used. -->
+        <attr name="android:maxLength"/>
+        <!-- Re-used. -->
+        <attr name="android:lines"/>
+        <!-- Re-used. -->
+        <attr name="android:minLines"/>
+        <!-- Re-used. -->
+        <attr name="android:maxLines"/>
+        <!-- Re-used. -->
+        <attr name="uiWithEmptyViewHierarchy"/>
+        <!-- Animation used to show floating label view. -->
+        <attr name="uiFloatingLabelAnimationIn" format="reference"/>
+        <!-- Animation used to hide floating label view. -->
+        <attr name="uiFloatingLabelAnimationOut" format="reference"/>
+        <!--
+			Constraint for EditText's text length. Note, that this is only informative, as it does
+			not constraint the number of characters which can be inputted into EditText, but just
+			shows how many characters are allowed.
+		-->
+        <attr name="uiLengthConstraint" format="integer"/>
+    </declare-styleable>
+</resources>

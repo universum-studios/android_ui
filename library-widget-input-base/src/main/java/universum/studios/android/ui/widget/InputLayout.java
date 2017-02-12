@@ -29,10 +29,12 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -43,10 +45,10 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import universum.studios.android.ui.R;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import universum.studios.android.ui.R;
 
 /**
  * A {@link FrameLayoutWidget} implementation that represents a container for a view component of
@@ -127,14 +129,6 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 	// private static final String TAG = "InputLayout";
 
 	/**
-	 * Defines an annotation for determining set of allowed input feature flags.
-	 */
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef(flag = true, value = {FEATURE_NONE, FEATURE_LABEL, FEATURE_NOTE, FEATURE_CONSTRAINT})
-	public @interface InputFeature {
-	}
-
-	/**
 	 * Feature flag to clear all before requested features or just to not request any features at all.
 	 */
 	public static final int FEATURE_NONE = 0x00000000;
@@ -153,6 +147,14 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 	 * Feature flag to request a view which can present a constraint text below the input view.
 	 */
 	public static final int FEATURE_CONSTRAINT = 0x00000001 << 2;
+
+	/**
+	 * Defines an annotation for determining set of allowed input feature flags.
+	 */
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef(flag = true, value = {FEATURE_NONE, FEATURE_LABEL, FEATURE_NOTE, FEATURE_CONSTRAINT})
+	public @interface InputFeature {
+	}
 
 	/**
 	 * Flag indicating whether this input layout has some error set via {@link #setError(CharSequence)}
@@ -260,7 +262,7 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 	/**
 	 * Same as {@link #InputLayout(android.content.Context, android.util.AttributeSet)} without attributes.
 	 */
-	public InputLayout(Context context) {
+	public InputLayout(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -268,7 +270,7 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 	 * Same as {@link #InputLayout(android.content.Context, android.util.AttributeSet, int)} with
 	 * {@code 0} as attribute for default style.
 	 */
-	public InputLayout(Context context, AttributeSet attrs) {
+	public InputLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
@@ -276,13 +278,13 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 	 * Same as {@link #InputLayout(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public InputLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+	public InputLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of InputLayout within the given <var>context</var>.
+	 * Creates a new instance of InputLayout for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -291,7 +293,7 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public InputLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public InputLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -314,43 +316,28 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 		if (ANIMABLE) {
 			this.mNoteTextChangeListener = new NoteTextChangeListener();
 		}
-		/**
-		 * Process attributes.
-		 */
-		final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Ui_InputLayout, defStyleAttr, defStyleRes);
-		if (typedArray != null) {
-			this.processTintValues(context, typedArray);
-			final int n = typedArray.getIndexCount();
-			for (int i = 0; i < n; i++) {
-				final int index = typedArray.getIndex(i);
-				if (index == R.styleable.Ui_InputLayout_android_enabled) {
-					setEnabled(typedArray.getBoolean(index, true));
-				} else if (index == R.styleable.Ui_InputLayout_android_minWidth) {
-					setMinimumWidth(typedArray.getDimensionPixelSize(index, 0));
-				} else if (index == R.styleable.Ui_InputLayout_android_minHeight) {
-					setMinimumHeight(typedArray.getDimensionPixelSize(index, 0));
-				} else if (index == R.styleable.Ui_InputLayout_android_label) {
-					setLabel(typedArray.getText(index));
-				} else if (index == R.styleable.Ui_InputLayout_uiNote) {
-					setNote(typedArray.getText(index));
-				} else if (index == R.styleable.Ui_InputLayout_uiNoteTextChangeDuration) {
-					this.mNoteTextChangeDuration = typedArray.getInt(index, (int) mNoteTextChangeDuration);
-				} else if (index == R.styleable.Ui_InputLayout_uiInputFeatures) {
-					this.mFeatures = typedArray.getInteger(index, mFeatures);
-				}
-			}
-			typedArray.recycle();
-		}
-	}
 
-	/**
-	 * Called from the constructor to process tint values for this view.
-	 *
-	 * @param context    The context passed to constructor.
-	 * @param typedArray TypedArray obtained for styleable attributes specific for this view.
-	 */
-	@SuppressWarnings("All")
-	private void processTintValues(Context context, TypedArray typedArray) {
+		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_InputLayout, defStyleAttr, defStyleRes);
+		for (int i = 0; i < attributes.getIndexCount(); i++) {
+			final int index = attributes.getIndex(i);
+			if (index == R.styleable.Ui_InputLayout_android_enabled) {
+				setEnabled(attributes.getBoolean(index, true));
+			} else if (index == R.styleable.Ui_InputLayout_android_minWidth) {
+				setMinimumWidth(attributes.getDimensionPixelSize(index, 0));
+			} else if (index == R.styleable.Ui_InputLayout_android_minHeight) {
+				setMinimumHeight(attributes.getDimensionPixelSize(index, 0));
+			} else if (index == R.styleable.Ui_InputLayout_android_label) {
+				setLabel(attributes.getText(index));
+			} else if (index == R.styleable.Ui_InputLayout_uiNote) {
+				setNote(attributes.getText(index));
+			} else if (index == R.styleable.Ui_InputLayout_uiNoteTextChangeDuration) {
+				this.mNoteTextChangeDuration = attributes.getInt(index, (int) mNoteTextChangeDuration);
+			} else if (index == R.styleable.Ui_InputLayout_uiInputFeatures) {
+				this.mFeatures = attributes.getInteger(index, mFeatures);
+			}
+		}
+		attributes.recycle();
+
 		this.ensureTintInfo();
 		int tintColor = Color.TRANSPARENT;
 		final Resources.Theme theme = context.getTheme();

@@ -27,9 +27,11 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -62,28 +64,6 @@ import universum.studios.android.ui.util.ResourceUtils;
  * the current version of SDK but invoking of these methods below {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP}
  * can be done only directly upon instance of this widget otherwise {@link NoSuchMethodException}
  * will be thrown.
- *
- * <h3>Sliding</h3>
- * This updated view allows updating of its current position along <b>x</b> and <b>y</b> axis by
- * changing <b>fraction</b> of these properties depending on its current size using the new animation
- * framework introduced in {@link android.os.Build.VERSION_CODES#HONEYCOMB HONEYCOMB} via
- * {@link android.animation.ObjectAnimator ObjectAnimator}s API.
- * <p>
- * Changing of fraction of X or Y is supported via these two methods:
- * <ul>
- * <li>{@link #setFractionX(float)}</li>
- * <li>{@link #setFractionY(float)}</li>
- * </ul>
- * <p>
- * For example if an instance of this view class needs to be slided to the right by its whole width,
- * an Xml file with ObjectAnimator would look like this:
- * <pre>
- *  &lt;objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
- *                  android:propertyName="fractionX"
- *                  android:valueFrom="0.0"
- *                  android:valueTo="1.0"
- *                  android:duration="300"/&gt;
- * </pre>
  *
  * <h3>XML attributes</h3>
  * See {@link ImageView},
@@ -132,7 +112,7 @@ public class ImageViewWidget extends ImageView implements Widget {
 	 * Same as {@link #ImageViewWidget(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public ImageViewWidget(Context context) {
+	public ImageViewWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -140,7 +120,7 @@ public class ImageViewWidget extends ImageView implements Widget {
 	 * Same as {@link #ImageViewWidget(android.content.Context, android.util.AttributeSet, int)}
 	 * with {@code 0} as attribute for default style.
 	 */
-	public ImageViewWidget(Context context, AttributeSet attrs) {
+	public ImageViewWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
@@ -148,13 +128,13 @@ public class ImageViewWidget extends ImageView implements Widget {
 	 * Same as {@link #ImageViewWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public ImageViewWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public ImageViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of ImageViewWidget within the given <var>context</var>.
+	 * Creates a new instance of ImageViewWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -162,8 +142,9 @@ public class ImageViewWidget extends ImageView implements Widget {
 	 *                     this view within a theme of the given context.
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
+	@SuppressWarnings("unused")
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public ImageViewWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public ImageViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -218,7 +199,7 @@ public class ImageViewWidget extends ImageView implements Widget {
 	 * @param resId Resource id of the desired <b>vector</b> drawable. Can be {@code 0} to clear the
 	 *              current image drawable.
 	 */
-	public void setVectorImageResource(@DrawableRes int resId) {
+	public void setImageVectorResource(@DrawableRes int resId) {
 		this.ensureDecorator();
 		setImageDrawable(resId != 0 ? mDecorator.inflateVectorDrawable(resId) : null);
 	}
@@ -343,89 +324,10 @@ public class ImageViewWidget extends ImageView implements Widget {
 	/**
 	 */
 	@Override
-	public void setFractionX(float fraction) {
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
 		this.ensureDecorator();
-		mDecorator.setFractionX(fraction);
-	}
-
-	/**
-	 */
-	@Override
-	public float getFractionX() {
-		this.ensureDecorator();
-		return mDecorator.getFractionX();
-	}
-
-	/**
-	 */
-	@Override
-	public void setFractionY(float fraction) {
-		this.ensureDecorator();
-		mDecorator.setFractionY(fraction);
-	}
-
-	/**
-	 */
-	@Override
-	public float getFractionY() {
-		this.ensureDecorator();
-		return mDecorator.getFractionY();
-	}
-
-	/**
-	 */
-	@Override
-	public void setPressed(boolean pressed) {
-		final boolean isPressed = isPressed();
-		super.setPressed(pressed);
-		if (!isPressed && pressed) onPressed();
-		else if (isPressed) onReleased();
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code true} and this view
-	 * isn't in the pressed state yet.
-	 */
-	protected void onPressed() {
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code false} and this view
-	 * is currently in the pressed state.
-	 */
-	protected void onReleased() {
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelected(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelected(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelectionState(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.ensureDecorator();
-		mDecorator.setAllowDefaultSelection(allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		this.ensureDecorator();
-		return mDecorator.allowsDefaultSelection();
+		mDecorator.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	/**
@@ -435,15 +337,6 @@ public class ImageViewWidget extends ImageView implements Widget {
 	public WidgetSizeAnimator animateSize() {
 		this.ensureDecorator();
 		return mDecorator.animateSize();
-	}
-
-	/**
-	 */
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		this.ensureDecorator();
-		mDecorator.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	/**
@@ -465,10 +358,10 @@ public class ImageViewWidget extends ImageView implements Widget {
 		/**
 		 */
 		@Override
-		void onProcessTypedValues(Context context, TypedArray typedArray) {
-			super.onProcessTypedValues(context, typedArray);
-			if (typedArray.hasValue(R.styleable.Ui_ImageView_uiVectorSrc)) {
-				final Drawable drawable = inflateVectorDrawable(typedArray.getResourceId(
+		void onProcessAttributes(Context context, TypedArray attributes) {
+			super.onProcessAttributes(context, attributes);
+			if (attributes.hasValue(R.styleable.Ui_ImageView_uiVectorSrc)) {
+				final Drawable drawable = inflateVectorDrawable(attributes.getResourceId(
 						R.styleable.Ui_ImageView_uiVectorSrc,
 						0
 				));
@@ -480,49 +373,42 @@ public class ImageViewWidget extends ImageView implements Widget {
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_ImageView_uiTint)) {
-					setImageTintList(tintArray.getColorStateList(R.styleable.Ui_ImageView_uiTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_ImageView_uiTint)) {
+					setImageTintList(tintAttributes.getColorStateList(R.styleable.Ui_ImageView_uiTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ImageView_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_ImageView_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_ImageView_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_ImageView_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ImageView_uiTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_ImageView_uiTintMode)) {
 					setImageTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_ImageView_uiTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_ImageView_uiTintMode, 0),
 							mTintInfo.tintList != null ? PorterDuff.Mode.SRC_IN : null
 					));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ImageView_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_ImageView_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInteger(R.styleable.Ui_ImageView_uiBackgroundTintMode, 0),
+							tintAttributes.getInteger(R.styleable.Ui_ImageView_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_ImageView_uiTint)) {
-					mTintInfo.tintList = tintArray.getColorStateList(R.styleable.Ui_ImageView_uiTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_ImageView_uiTint)) {
+					mTintInfo.tintList = tintAttributes.getColorStateList(R.styleable.Ui_ImageView_uiTint);
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ImageView_uiBackgroundTint)) {
-					mTintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_ImageView_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_ImageView_uiBackgroundTint)) {
+					mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_ImageView_uiBackgroundTint);
 				}
 				mTintInfo.tintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_ImageView_uiTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_ImageView_uiTintMode, 0),
 						mTintInfo.tintList != null ? PorterDuff.Mode.SRC_IN : null
 				);
 				mTintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInteger(R.styleable.Ui_ImageView_uiBackgroundTintMode, 0),
+						tintAttributes.getInteger(R.styleable.Ui_ImageView_uiBackgroundTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				);
 			}
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			ImageViewWidget.super.setSelected(selected);
 		}
 
 		/**

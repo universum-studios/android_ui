@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<universum.studios.android.ui.widget.ScrollViewWidget
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:ui="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+	<universum.studios.android.ui.widget.LinearLayoutWidget
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			ui:uiHideSoftKeyboardOnTouch="true">
+
+		<LinearLayout
+				style="@style/Ex.Layout"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+			<TextView
+					style="@style/Ex.Widget.TextView.Section.Heading"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/components_text_fields_edit_text"/>
+
+			<universum.studios.android.ui.widget.EditTextWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/components_text_fields_edit_text"/>
+
+			<include layout="@layout/spacer_vertical"/>
+
+			<universum.studios.android.ui.widget.EditTextWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/components_text_fields_edit_text"/>
+
+			<include layout="@layout/spacer_vertical"/>
+
+			<universum.studios.android.ui.widget.EditTextWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/components_text_fields_edit_text_disabled"
+					android:enabled="false"/>
+
+			<include layout="@layout/spacer_vertical"/>
+
+			<universum.studios.android.ui.widget.EditTextWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/components_text_fields_edit_text_disabled"
+					android:enabled="false"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+				style="@style/Ex.Layout"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+			<TextView
+					style="@style/Ex.Widget.TextView.Section.Heading"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/components_text_fields_edit_layout"/>
+
+			<universum.studios.android.ui.widget.EditLayout
+					android:id="@+id/fragment_components_text_fields_error_field"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/components_text_fields_edit_layout"/>
+
+			<universum.studios.android.ui.widget.FlatButton
+				android:id="@+id/validate_input"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:text="Validate input"/>
+
+			<include layout="@layout/spacer_vertical"/>
+
+			<universum.studios.android.ui.widget.EditLayout
+					android:id="@+id/fragment_components_text_fields_length_constraint_field_1"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/components_text_fields_edit_layout"
+					ui:uiLengthConstraint="10"
+					ui:uiNote="Enter maximum 10 characters"/>
+
+			<include layout="@layout/spacer_vertical"/>
+
+			<universum.studios.android.ui.widget.EditLayout
+					android:id="@+id/fragment_components_text_fields_length_constraint_field_2"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/components_text_fields_edit_layout"
+					ui:uiLengthConstraint="10"/>
+
+			<include layout="@layout/spacer_vertical"/>
+
+			<universum.studios.android.ui.widget.EditLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/components_text_fields_edit_layout"
+					android:maxLength="20"
+					android:inputType="textPassword">
+
+				<universum.studios.android.ui.widget.EditTextWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textColor="?attr/colorAccent"
+					ui:uiInputChildType="input"/>
+			</universum.studios.android.ui.widget.EditLayout>
+
+			<include layout="@layout/spacer_vertical"/>
+
+			<universum.studios.android.ui.widget.EditLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/components_text_fields_edit_layout"
+					android:maxLength="20"
+					android:inputType="textEmailAddress"
+					ui:uiInputFeatures="note|constraint"
+					ui:uiNote="Enter e-mail address in valid format"/>
+
+			<include layout="@layout/spacer_vertical"/>
+
+			<universum.studios.android.ui.widget.EditLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/components_text_fields_edit_layout_disabled"
+					android:enabled="false"
+					ui:uiInputFeatures="none"/>
+
+			<include layout="@layout/spacer_vertical"/>
+
+			<universum.studios.android.ui.widget.EditLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/components_text_fields_edit_layout_disabled"
+					android:enabled="false"
+					ui:uiInputFeatures="none"/>
+		</LinearLayout>
+	</universum.studios.android.ui.widget.LinearLayoutWidget>
+
+</universum.studios.android.ui.widget.ScrollViewWidget>

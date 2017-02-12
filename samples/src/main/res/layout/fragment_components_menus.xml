@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<universum.studios.android.ui.widget.ScrollViewWidget
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ui="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                style="@style/Ex.Layout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <universum.studios.android.support.examples.widget.ExSectionHeadingView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/components_menus_spinner"/>
+
+            <universum.studios.android.ui.widget.SpinnerWidget
+                    android:id="@+id/fragment_components_menus_spinner_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"/>
+
+            <include layout="@layout/spacer_vertical"/>
+
+            <universum.studios.android.ui.widget.SpinnerWidget
+                    android:id="@+id/fragment_components_menus_spinner_when"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/components_menus_menu_min_width"/>
+
+            <include layout="@layout/spacer_vertical"/>
+
+            <universum.studios.android.ui.widget.SpinnerWidget
+                    android:id="@+id/fragment_components_menus_spinner_colors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/components_menus_menu_min_width"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                style="@style/Ex.Layout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <universum.studios.android.support.examples.widget.ExSectionHeadingView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/components_menus_spinner_layout"/>
+
+            <universum.studios.android.ui.widget.SpinnerLayout
+                    android:id="@+id/fragment_components_menus_spinner_layout_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    ui:uiInputFeatures="none"/>
+
+            <include layout="@layout/spacer_vertical"/>
+
+            <universum.studios.android.ui.widget.SpinnerLayout
+                    android:id="@+id/fragment_components_menus_spinner_layout_when"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="250dip"
+                    android:label="When"/>
+
+            <include layout="@layout/spacer_vertical"/>
+
+            <universum.studios.android.ui.widget.SpinnerLayout
+                    android:id="@+id/fragment_components_menus_spinner_layout_colors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:label="Colors"
+                    ui:uiNote="Pick a color you like most or create the custom one"/>
+
+            <include layout="@layout/spacer_vertical"/>
+
+            <universum.studios.android.ui.widget.SpinnerLayout
+                    android:id="@+id/fragment_components_menus_spinner_layout_colors_disabled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:label="Colors (disabled)"
+                    android:enabled="false"
+                    ui:uiNote="Pick a color you like most or create the custom one"/>
+        </LinearLayout>
+    </LinearLayout>
+</universum.studios.android.ui.widget.ScrollViewWidget>

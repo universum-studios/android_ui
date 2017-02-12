@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<universum.studios.android.ui.widget.ScrollViewWidget xmlns:android="http://schemas.android.com/apk/res/android"
+												   xmlns:ui="http://schemas.android.com/apk/res-auto"
+												   android:layout_width="match_parent"
+												   android:layout_height="match_parent">
+
+	<LinearLayout
+		style="@style/Ex.Layout.Section"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/style_navigation_icons" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<universum.studios.android.ui.widget.ImageViewWidget
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:src="@drawable/ic_action_account_balance_wallet"
+				ui:uiTint="#f44336" />
+
+			<include layout="@layout/spacer_horizontal_expand" />
+
+			<universum.studios.android.ui.widget.ImageViewWidget
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:src="@drawable/ic_action_alarm"
+				ui:uiTint="#4CAF50" />
+
+			<include layout="@layout/spacer_horizontal_expand" />
+
+			<universum.studios.android.ui.widget.ImageViewWidget
+				android:id="@+id/fragment_style_icons_image_view_favorite"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:src="@drawable/ic_action_favorite"
+				ui:uiTint="#2196f3" />
+
+			<include layout="@layout/spacer_horizontal_expand" />
+
+			<universum.studios.android.ui.widget.ImageViewWidget
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:src="@drawable/ic_action_backup"
+				ui:uiTint="#ff9800" />
+		</LinearLayout>
+
+		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/style_navigation_icons_vector" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_horizontal">
+
+			<universum.studios.android.ui.widget.ImageViewWidget
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				ui:uiVectorSrc="@drawable/ic_vc_motorcycle"
+				ui:uiTint="#CDDC39" />
+		</LinearLayout>
+
+		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/style_navigation_icons_compound" />
+
+		<universum.studios.android.ui.widget.TextViewWidget
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:drawableBottom="@drawable/ic_action_account_balance_wallet"
+			android:drawableLeft="@drawable/ic_action_favorite"
+			android:drawableRight="@drawable/ic_action_backup"
+			android:drawableTop="@drawable/ic_action_alarm"
+			android:gravity="center"
+			android:text="Text with compound icons"
+			ui:uiDrawableTint="#2196F3" />
+
+		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/style_navigation_icons_vector" />
+
+		<universum.studios.android.ui.widget.TextViewWidget
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			ui:uiVectorDrawableBottom="@drawable/ic_vc_pets"
+			ui:uiVectorDrawableStart="@drawable/ic_vc_motorcycle"
+			ui:uiVectorDrawableEnd="@drawable/ic_vc_pets"
+			ui:uiVectorDrawableTop="@drawable/ic_vc_motorcycle"
+			android:gravity="center"
+			android:text="Text with compound vector icons"
+			ui:uiDrawableTint="#4CAF50" />
+	</LinearLayout>
+</universum.studios.android.ui.widget.ScrollViewWidget>

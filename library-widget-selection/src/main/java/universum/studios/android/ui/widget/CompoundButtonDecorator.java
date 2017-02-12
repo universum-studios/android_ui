@@ -98,40 +98,40 @@ abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> ex
 	 */
 	@Override
 	@SuppressWarnings("ResourceType")
-	void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+	void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
 		if (UiConfig.MATERIALIZED) {
-			if (tintArray.hasValue(R.styleable.Ui_CompoundButton_uiButtonTint)) {
-				setButtonTintList(tintArray.getColorStateList(R.styleable.Ui_CompoundButton_uiButtonTint));
+			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiButtonTint)) {
+				setButtonTintList(tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_uiButtonTint));
 			}
-			if (tintArray.hasValue(R.styleable.Ui_CompoundButton_uiBackgroundTint)) {
-				setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_CompoundButton_uiBackgroundTint));
+			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiBackgroundTint)) {
+				setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_uiBackgroundTint));
 			}
-			if (tintArray.hasValue(R.styleable.Ui_CompoundButton_uiButtonTintMode)) {
+			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiButtonTintMode)) {
 				setButtonTintMode(TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_CompoundButton_uiButtonTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_CompoundButton_uiButtonTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				));
 			}
-			if (tintArray.hasValue(R.styleable.Ui_CompoundButton_uiBackgroundTintMode)) {
+			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiBackgroundTintMode)) {
 				setBackgroundTintMode(TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_CompoundButton_uiBackgroundTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_CompoundButton_uiBackgroundTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				));
 			}
 		} else {
 			mTintInfo.tintList = TintManager.createCompoundButtonTintColors(getContext(), tintColor);
-			if (tintArray.hasValue(R.styleable.Ui_CompoundButton_uiButtonTint)) {
-				mTintInfo.tintList = tintArray.getColorStateList(R.styleable.Ui_CompoundButton_uiButtonTint);
+			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiButtonTint)) {
+				mTintInfo.tintList = tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_uiButtonTint);
 			}
-			if (tintArray.hasValue(R.styleable.Ui_CompoundButton_uiBackgroundTint)) {
-				mTintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_CompoundButton_uiBackgroundTint);
+			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiBackgroundTint)) {
+				mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_uiBackgroundTint);
 			}
 			mTintInfo.tintMode = TintManager.parseTintMode(
-					tintArray.getInt(R.styleable.Ui_CompoundButton_uiButtonTintMode, 0),
+					tintAttributes.getInt(R.styleable.Ui_CompoundButton_uiButtonTintMode, 0),
 					PorterDuff.Mode.SRC_IN
 			);
 			mTintInfo.backgroundTintMode = TintManager.parseTintMode(
-					tintArray.getInt(R.styleable.Ui_CompoundButton_uiBackgroundTintMode, 0),
+					tintAttributes.getInt(R.styleable.Ui_CompoundButton_uiBackgroundTintMode, 0),
 					mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
 			);
 		}
@@ -140,8 +140,8 @@ abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> ex
 	/**
 	 */
 	@Override
-	void processTintValues(Context context, TypedArray tintArray) {
-		super.processTintValues(context, tintArray);
+	void processTintAttributes(Context context, TypedArray tintAttributes) {
+		super.processTintAttributes(context, tintAttributes);
 		applyButtonTint();
 	}
 

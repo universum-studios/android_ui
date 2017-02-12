@@ -25,8 +25,10 @@ import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
@@ -57,28 +59,6 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  * can be done only directly upon instance of this widget otherwise {@link NoSuchMethodException}
  * will be thrown.
  *
- * <h3>Sliding</h3>
- * This updated view allows updating of its current position along <b>x</b> and <b>y</b> axis by
- * changing <b>fraction</b> of these properties depending on its current size using the new animation
- * framework introduced in {@link android.os.Build.VERSION_CODES#HONEYCOMB HONEYCOMB} via
- * {@link android.animation.ObjectAnimator ObjectAnimator}s API.
- * <p>
- * Changing of fraction of X or Y is supported via these two methods:
- * <ul>
- * <li>{@link #setFractionX(float)}</li>
- * <li>{@link #setFractionY(float)}</li>
- * </ul>
- * <p>
- * For example if an instance of this view class needs to be slided to the right by its whole width,
- * an Xml file with ObjectAnimator would look like this:
- * <pre>
- *  &lt;objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
- *                  android:propertyName="fractionX"
- *                  android:valueFrom="0.0"
- *                  android:valueTo="1.0"
- *                  android:duration="300"/&gt;
- * </pre>
- *
  * <h3>XML attributes</h3>
  * See {@link View},
  * {@link R.styleable#Ui_View ViewWidget Attributes}
@@ -102,7 +82,7 @@ public class ViewWidget extends View implements Widget {
 	public interface OnScrollChangeListener {
 
 		/**
-		 * Invoked whenever a change in scroll occurs within the given <var>view</var>.
+		 * Invoked whenever a change in scroll occurs for the given <var>view</var>.
 		 *
 		 * @param view       The view within which has scroll change occurred.
 		 * @param scrollX    Current horizontal scroll position.
@@ -143,7 +123,7 @@ public class ViewWidget extends View implements Widget {
 	/**
 	 * Same as {@link #ViewWidget(android.content.Context, android.util.AttributeSet)} without attributes.
 	 */
-	public ViewWidget(Context context) {
+	public ViewWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -151,7 +131,7 @@ public class ViewWidget extends View implements Widget {
 	 * Same as {@link #ViewWidget(android.content.Context, android.util.AttributeSet, int)} with
 	 * {@code 0} as attribute for default style.
 	 */
-	public ViewWidget(Context context, AttributeSet attrs) {
+	public ViewWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
@@ -159,13 +139,13 @@ public class ViewWidget extends View implements Widget {
 	 * Same as {@link #ViewWidget(android.content.Context, android.util.AttributeSet, int, int)} with
 	 * {@code 0} as default style.
 	 */
-	public ViewWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public ViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of ViewWidget within the given <var>context</var>.
+	 * Creates a new instance of ViewWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be this view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -174,7 +154,7 @@ public class ViewWidget extends View implements Widget {
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public ViewWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public ViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -280,89 +260,19 @@ public class ViewWidget extends View implements Widget {
 	/**
 	 */
 	@Override
-	public void setFractionX(float fraction) {
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
 		this.ensureDecorator();
-		mDecorator.setFractionX(fraction);
+		mDecorator.onAttachedToWindow();
 	}
 
 	/**
 	 */
 	@Override
-	public float getFractionX() {
+	public boolean isAttachedToWindow() {
 		this.ensureDecorator();
-		return mDecorator.getFractionX();
-	}
-
-	/**
-	 */
-	@Override
-	public void setFractionY(float fraction) {
-		this.ensureDecorator();
-		mDecorator.setFractionY(fraction);
-	}
-
-	/**
-	 */
-	@Override
-	public float getFractionY() {
-		this.ensureDecorator();
-		return mDecorator.getFractionY();
-	}
-
-	/**
-	 */
-	@Override
-	public void setPressed(boolean pressed) {
-		final boolean isPressed = isPressed();
-		super.setPressed(pressed);
-		if (!isPressed && pressed) onPressed();
-		else if (isPressed) onReleased();
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code true} and this view
-	 * isn't in the pressed state yet.
-	 */
-	protected void onPressed() {
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code false} and this view
-	 * is currently in the pressed state.
-	 */
-	protected void onReleased() {
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelected(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelected(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelectionState(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.ensureDecorator();
-		mDecorator.setAllowDefaultSelection(allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		this.ensureDecorator();
-		return mDecorator.allowsDefaultSelection();
+		return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && super.isAttachedToWindow()) ||
+				mDecorator.hasPrivateFlag(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW);
 	}
 
 	/**
@@ -381,27 +291,6 @@ public class ViewWidget extends View implements Widget {
 	public WidgetSizeAnimator animateSize() {
 		this.ensureDecorator();
 		return mDecorator.animateSize();
-	}
-
-	/**
-	 */
-	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		this.ensureDecorator();
-		mDecorator.onAttachedToWindow();
-	}
-
-	/**
-	 */
-	@Override
-	@SuppressWarnings("NewApi")
-	public boolean isAttachedToWindow() {
-		this.ensureDecorator();
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-			return super.isAttachedToWindow();
-		else
-			return mDecorator.hasPrivateFlag(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW);
 	}
 
 	/**
@@ -433,33 +322,26 @@ public class ViewWidget extends View implements Widget {
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_View_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_View_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_View_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_View_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_View_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_View_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_View_uiBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_View_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_View_uiBackgroundTint)) {
-					mTintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_View_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_View_uiBackgroundTint)) {
+					mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_View_uiBackgroundTint);
 				}
 				mTintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInteger(R.styleable.Ui_View_uiBackgroundTintMode, 0),
+						tintAttributes.getInteger(R.styleable.Ui_View_uiBackgroundTintMode, 0),
 						mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
 				);
 			}
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			ViewWidget.super.setSelected(selected);
 		}
 
 		/**

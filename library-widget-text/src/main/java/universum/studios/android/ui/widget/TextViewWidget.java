@@ -27,6 +27,7 @@ import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -122,28 +123,6 @@ import universum.studios.android.ui.util.ResourceUtils;
  * <b>Note, that it is not necessary to specify also '.ttf' suffix for custom font paths, the library
  * will add one if it is missing.</b>
  *
- * <h3>Sliding</h3>
- * This updated view allows updating of its current position along <b>x</b> and <b>y</b> axis by
- * changing <b>fraction</b> of these properties depending on its current size using the new animation
- * framework introduced in {@link android.os.Build.VERSION_CODES#HONEYCOMB HONEYCOMB} via
- * {@link android.animation.ObjectAnimator ObjectAnimator}s API.
- * <p>
- * Changing of fraction of X or Y is supported via these two methods:
- * <ul>
- * <li>{@link #setFractionX(float)}</li>
- * <li>{@link #setFractionY(float)}</li>
- * </ul>
- * <p>
- * For example if an instance of this view class needs to be slided to the right by its whole width,
- * an Xml file with ObjectAnimator would look like this:
- * <pre>
- *  &lt;objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
- *                  android:propertyName="fractionX"
- *                  android:valueFrom="0.0"
- *                  android:valueTo="1.0"
- *                  android:duration="300"/&gt;
- * </pre>
- *
  * <h3>XML attributes</h3>
  * See {@link TextView},
  * {@link R.styleable#Ui_TextView TextViewWidget Attributes}
@@ -193,7 +172,7 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	 * Same as {@link #TextViewWidget(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public TextViewWidget(Context context) {
+	public TextViewWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -201,7 +180,7 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	 * Same as {@link #TextViewWidget(android.content.Context, android.util.AttributeSet, int)} with
 	 * {@link android.R.attr#textViewStyle} as attribute for default style.
 	 */
-	public TextViewWidget(Context context, AttributeSet attrs) {
+	public TextViewWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, android.R.attr.textViewStyle);
 	}
 
@@ -209,13 +188,13 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	 * Same as {@link #TextViewWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public TextViewWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public TextViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of TextViewWidget within the given <var>context</var>.
+	 * Creates a new instance of TextViewWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -224,7 +203,7 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public TextViewWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public TextViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -504,89 +483,9 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	/**
 	 */
 	@Override
-	public void setFractionX(float fraction) {
-		this.ensureDecorator();
-		mDecorator.setFractionX(fraction);
-	}
-
-	/**
-	 */
-	@Override
-	public float getFractionX() {
-		this.ensureDecorator();
-		return mDecorator.getFractionX();
-	}
-
-	/**
-	 */
-	@Override
-	public void setFractionY(float fraction) {
-		this.ensureDecorator();
-		mDecorator.setFractionY(fraction);
-	}
-
-	/**
-	 */
-	@Override
-	public float getFractionY() {
-		this.ensureDecorator();
-		return mDecorator.getFractionY();
-	}
-
-	/**
-	 */
-	@Override
-	public void setPressed(boolean pressed) {
-		final boolean isPressed = isPressed();
-		super.setPressed(pressed);
-		if (!isPressed && pressed) onPressed();
-		else if (isPressed) onReleased();
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code true} and this view
-	 * isn't in the pressed state yet.
-	 */
-	protected void onPressed() {
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code false} and this view
-	 * is currently in the pressed state.
-	 */
-	protected void onReleased() {
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelected(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelected(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelectionState(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.ensureDecorator();
-		mDecorator.setAllowDefaultSelection(allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		this.ensureDecorator();
-		return mDecorator.allowsDefaultSelection();
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		mDecorator.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	/**
@@ -596,14 +495,6 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	public WidgetSizeAnimator animateSize() {
 		this.ensureDecorator();
 		return mDecorator.animateSize();
-	}
-
-	/**
-	 */
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		mDecorator.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	/**
@@ -636,35 +527,35 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 		/**
 		 */
 		@Override
-		void onProcessTypedValues(Context context, TypedArray typedArray) {
-			super.onProcessTypedValues(context, typedArray);
+		void onProcessAttributes(Context context, TypedArray attributes) {
+			super.onProcessAttributes(context, attributes);
 			final Drawable[] compoundDrawables = RELATIVE_COMPOUND_DRAWABLES_SUPPORTED ?
 					getCompoundDrawablesRelative() :
 					getCompoundDrawables();
 			boolean compoundDrawablesChanged = false;
-			if (typedArray.hasValue(R.styleable.Ui_TextView_uiVectorDrawableStart)) {
-				compoundDrawables[0] = inflateVectorDrawable(typedArray.getResourceId(
+			if (attributes.hasValue(R.styleable.Ui_TextView_uiVectorDrawableStart)) {
+				compoundDrawables[0] = inflateVectorDrawable(attributes.getResourceId(
 						R.styleable.Ui_TextView_uiVectorDrawableStart,
 						0
 				));
 				compoundDrawablesChanged = true;
 			}
-			if (typedArray.hasValue(R.styleable.Ui_TextView_uiVectorDrawableTop)) {
-				compoundDrawables[1] = inflateVectorDrawable(typedArray.getResourceId(
+			if (attributes.hasValue(R.styleable.Ui_TextView_uiVectorDrawableTop)) {
+				compoundDrawables[1] = inflateVectorDrawable(attributes.getResourceId(
 						R.styleable.Ui_TextView_uiVectorDrawableTop,
 						0
 				));
 				compoundDrawablesChanged = true;
 			}
-			if (typedArray.hasValue(R.styleable.Ui_TextView_uiVectorDrawableEnd)) {
-				compoundDrawables[2] = inflateVectorDrawable(typedArray.getResourceId(
+			if (attributes.hasValue(R.styleable.Ui_TextView_uiVectorDrawableEnd)) {
+				compoundDrawables[2] = inflateVectorDrawable(attributes.getResourceId(
 						R.styleable.Ui_TextView_uiVectorDrawableEnd,
 						0
 				));
 				compoundDrawablesChanged = true;
 			}
-			if (typedArray.hasValue(R.styleable.Ui_TextView_uiVectorDrawableBottom)) {
-				compoundDrawables[3] = inflateVectorDrawable(typedArray.getResourceId(
+			if (attributes.hasValue(R.styleable.Ui_TextView_uiVectorDrawableBottom)) {
+				compoundDrawables[3] = inflateVectorDrawable(attributes.getResourceId(
 						R.styleable.Ui_TextView_uiVectorDrawableBottom,
 						0
 				));
@@ -693,55 +584,48 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
 			final CompoundTintInfo tintInfo = getTintInfo();
 			// Process compound drawable tint values.
 			if (UiConfig.MATERIALIZED_MARSHMALLOW) {
-				if (tintArray.hasValue(R.styleable.Ui_TextView_uiDrawableTint)) {
-					setCompoundDrawableTintList(tintArray.getColorStateList(R.styleable.Ui_TextView_uiDrawableTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_TextView_uiDrawableTint)) {
+					setCompoundDrawableTintList(tintAttributes.getColorStateList(R.styleable.Ui_TextView_uiDrawableTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_TextView_uiDrawableTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_TextView_uiDrawableTintMode)) {
 					setCompoundDrawableTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_TextView_uiDrawableTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_TextView_uiDrawableTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_TextView_uiDrawableTint)) {
-					tintInfo.compoundTintList = tintArray.getColorStateList(R.styleable.Ui_TextView_uiDrawableTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_TextView_uiDrawableTint)) {
+					tintInfo.compoundTintList = tintAttributes.getColorStateList(R.styleable.Ui_TextView_uiDrawableTint);
 				}
 				tintInfo.compoundTintMode = TintManager.parseTintMode(
-						tintArray.getInteger(R.styleable.Ui_TextView_uiDrawableTintMode, 0),
+						tintAttributes.getInteger(R.styleable.Ui_TextView_uiDrawableTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				);
 			}
 			// Process background tint values.
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_TextView_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_TextView_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_TextView_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_TextView_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_TextView_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_TextView_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_TextView_uiBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_TextView_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_TextView_uiBackgroundTint)) {
-					tintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_TextView_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_TextView_uiBackgroundTint)) {
+					tintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_TextView_uiBackgroundTint);
 				}
 				tintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInteger(R.styleable.Ui_TextView_uiBackgroundTintMode, 0),
+						tintAttributes.getInteger(R.styleable.Ui_TextView_uiBackgroundTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				);
 			}
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			TextViewWidget.super.setSelected(selected);
 		}
 
 		/**

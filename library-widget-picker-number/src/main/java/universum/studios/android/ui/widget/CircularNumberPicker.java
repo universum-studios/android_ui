@@ -32,6 +32,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
@@ -44,13 +45,13 @@ import android.view.MotionEvent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
 import universum.studios.android.ui.util.ResourceUtils;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 /**
  * A view that can be used to present a circular picker within a layout that allows to a user to pick
@@ -293,7 +294,7 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	 * Same as {@link #CircularNumberPicker(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public CircularNumberPicker(Context context) {
+	public CircularNumberPicker(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -301,7 +302,7 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	 * Same as {@link #CircularNumberPicker(android.content.Context, android.util.AttributeSet, int)} with
 	 * {@link R.attr#uiNumberPickerCircularStyle} as attribute for default style.
 	 */
-	public CircularNumberPicker(Context context, AttributeSet attrs) {
+	public CircularNumberPicker(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, R.attr.uiNumberPickerCircularStyle);
 	}
 
@@ -309,13 +310,13 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	 * Same as {@link #CircularNumberPicker(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public CircularNumberPicker(Context context, AttributeSet attrs, int defStyleAttr) {
+	public CircularNumberPicker(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of CircularNumberPicker within the given <var>context</var>.
+	 * Creates a new instance of CircularNumberPicker for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -324,7 +325,7 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public CircularNumberPicker(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public CircularNumberPicker(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -361,57 +362,51 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 			FONT_APPLIER.applyFont(attrs, defStyleAttr);
 		}
 
-		/**
-		 * Process attributes.
-		 */
-		final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Ui_NumberPicker_Circular, defStyleAttr, defStyleRes);
-		if (typedArray != null) {
-			this.ensureTintInfo();
-			final int n = typedArray.getIndexCount();
-			for (int i = 0; i < n; i++) {
-				final int index = typedArray.getIndex(i);
-				if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerNumbers) {
-					final int resId = typedArray.getResourceId(index, -1);
-					if (resId != -1) {
-						setNumbers(context.getResources().getIntArray(resId));
-					}
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerNumberFormat) {
-					setNumberFormat(typedArray.getString(index));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerSelection) {
-					setSelection(typedArray.getInt(index, mSelection));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerSelectionRange) {
-					setSelectionRange(typedArray.getInt(index, mSelectionRange));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_android_radius) {
-					setRadius(typedArray.getDimensionPixelSize(index, 0));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_android_textAppearance) {
-					setTextAppearance(typedArray.getResourceId(index, 0));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_android_textColor) {
-					setTextColor(typedArray.getColorStateList(index));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_android_textSize) {
-					setTextSize(typedArray.getDimensionPixelSize(index, 0));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_android_textStyle) {
-					setTypeface(TEXT_INFO.paint.getTypeface(), typedArray.getInt(index, Typeface.NORMAL));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiSelectionIndicator) {
-					setSelectionIndicator(typedArray.getDrawable(index));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiSelectionIndicatorTint) {
-					mTintInfo.tintList = typedArray.getColorStateList(index);
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiSelectionIndicatorTintMode) {
-					mTintInfo.tintMode = TintManager.parseTintMode(typedArray.getInt(index, 0), PorterDuff.Mode.SRC_IN);
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerBearingLineColor) {
-					setBearingLineColor(typedArray.getColorStateList(index));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerBearingLineThickness) {
-					setBearingLineThickness(typedArray.getDimensionPixelSize(index, 0));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerMiddleCircleColor) {
-					setMiddleCircleColor(typedArray.getColor(index, 0));
-				} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerMiddleCircleRadius) {
-					setMiddleCircleRadius(typedArray.getDimensionPixelSize(index, 0));
+		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_NumberPicker_Circular, defStyleAttr, defStyleRes);
+		this.ensureTintInfo();
+		for (int i = 0; i < attributes.getIndexCount(); i++) {
+			final int index = attributes.getIndex(i);
+			if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerNumbers) {
+				final int resId = attributes.getResourceId(index, -1);
+				if (resId != -1) {
+					setNumbers(context.getResources().getIntArray(resId));
 				}
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerNumberFormat) {
+				setNumberFormat(attributes.getString(index));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerSelection) {
+				setSelection(attributes.getInt(index, mSelection));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerSelectionRange) {
+				setSelectionRange(attributes.getInt(index, mSelectionRange));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_android_radius) {
+				setRadius(attributes.getDimensionPixelSize(index, 0));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_android_textAppearance) {
+				setTextAppearance(attributes.getResourceId(index, 0));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_android_textColor) {
+				setTextColor(attributes.getColorStateList(index));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_android_textSize) {
+				setTextSize(attributes.getDimensionPixelSize(index, 0));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_android_textStyle) {
+				setTypeface(TEXT_INFO.paint.getTypeface(), attributes.getInt(index, Typeface.NORMAL));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiSelectionIndicator) {
+				setSelectionIndicator(attributes.getDrawable(index));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiSelectionIndicatorTint) {
+				mTintInfo.tintList = attributes.getColorStateList(index);
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiSelectionIndicatorTintMode) {
+				mTintInfo.tintMode = TintManager.parseTintMode(attributes.getInt(index, 0), PorterDuff.Mode.SRC_IN);
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerBearingLineColor) {
+				setBearingLineColor(attributes.getColorStateList(index));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerBearingLineThickness) {
+				setBearingLineThickness(attributes.getDimensionPixelSize(index, 0));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerMiddleCircleColor) {
+				setMiddleCircleColor(attributes.getColor(index, 0));
+			} else if (index == R.styleable.Ui_NumberPicker_Circular_uiPickerMiddleCircleRadius) {
+				setMiddleCircleRadius(attributes.getDimensionPixelSize(index, 0));
 			}
-			typedArray.recycle();
-			mTintInfo.hasTintList = mTintInfo.tintList != null;
-			mTintInfo.hasTintMode = mTintInfo.tintMode != null;
-			this.applySelectionIndicatorTint();
 		}
+		attributes.recycle();
+		mTintInfo.hasTintList = mTintInfo.tintList != null;
+		mTintInfo.hasTintMode = mTintInfo.tintMode != null;
+		this.applySelectionIndicatorTint();
 	}
 
 	/**

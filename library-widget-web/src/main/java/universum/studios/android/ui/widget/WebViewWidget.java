@@ -26,8 +26,10 @@ import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -38,7 +40,6 @@ import android.webkit.WebViewClient;
 
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
-import universum.studios.android.ui.controller.PullController;
 import universum.studios.android.ui.controller.RefreshController;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
 
@@ -75,16 +76,6 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  * {@link RefreshController} by which is this feature supported within this widget. Each refreshable
  * widget uses its own RefreshController that can be accessed via {@link #getRefreshController()}.
  *
- * <h3>Pulling</h3>
- * This feature can be enabled/disabled via {@link #setPullEnabled(boolean)} or via Xml attribute
- * {@link R.attr#uiPullEnabled uiPullEnabled}. For configuration of all parameters used to support
- * pulling feature see {@link PullController} by which is this feature supported within this widget.
- * To receive callback about initiated and performed pull gesture you need to register {@link OnPullListener}
- * via {@link PullController#registerOnPullListener(OnPullListener)}. Each pullable widget uses its
- * own PullController that can be accessed via {@link #getPullController()}. This widget, according
- * to its {@link Orientation#VERTICAL VERTICAL} orientation, can be pulled at its top or bottom
- * whenever its content is scrolled at the start or at the end of its total size.
- *
  * <h3>Sliding</h3>
  * This updated view group allows updating of its current position along <b>x</b> and <b>y</b> axis
  * by changing <b>fraction</b> of these properties depending on its current size using the new animation
@@ -118,7 +109,7 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  *
  * @author Martin Albedinsky
  */
-public class WebViewWidget extends WebView implements Widget, Pullable, Refreshable {
+public class WebViewWidget extends WebView implements WidgetGroup, Refreshable {
 
 	/**
 	 * Interface ===================================================================================
@@ -155,7 +146,7 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 	 * Same as {@link #WebViewWidget(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public WebViewWidget(Context context) {
+	public WebViewWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -163,7 +154,7 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 	 * Same as {@link #WebViewWidget(android.content.Context, android.util.AttributeSet, int)} with
 	 * {@link android.R.attr#webViewStyle} as attribute for default style.
 	 */
-	public WebViewWidget(Context context, AttributeSet attrs) {
+	public WebViewWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, android.R.attr.webViewStyle);
 	}
 
@@ -171,13 +162,13 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 	 * Same as {@link #WebViewWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public WebViewWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public WebViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of WebViewWidget within the given <var>context</var>.
+	 * Creates a new instance of WebViewWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -187,7 +178,7 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 	 */
 	@SuppressWarnings("unused")
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public WebViewWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public WebViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -326,80 +317,6 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 	/**
 	 */
 	@Override
-	public void setPressed(boolean pressed) {
-		final boolean isPressed = isPressed();
-		super.setPressed(pressed);
-		if (!isPressed && pressed) onPressed();
-		else if (isPressed) onReleased();
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code true} and this view
-	 * isn't in the pressed state yet.
-	 */
-	protected void onPressed() {
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code false} and this view
-	 * is currently in the pressed state.
-	 */
-	protected void onReleased() {
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelected(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelected(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelectionState(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.ensureDecorator();
-		mDecorator.setAllowDefaultSelection(allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		this.ensureDecorator();
-		return mDecorator.allowsDefaultSelection();
-	}
-
-	/**
-	 */
-	@NonNull
-	@Override
-	public WidgetSizeAnimator animateSize() {
-		this.ensureDecorator();
-		return mDecorator.animateSize();
-	}
-
-	/**
-	 */
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		this.ensureDecorator();
-		mDecorator.onSizeChanged(w, h, oldw, oldh);
-	}
-
-	/**
-	 */
-	@Override
 	public void setRefreshEnabled(boolean enabled) {
 		this.ensureDecorator();
 		mDecorator.setRefreshEnabled(enabled);
@@ -492,36 +409,9 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 	 * @return RefreshController of this refreshable view.
 	 */
 	@NonNull
-	public RefreshController getRefreshController() {
+	public final RefreshController getRefreshController() {
 		this.ensureDecorator();
 		return mDecorator.getRefreshController();
-	}
-
-	/**
-	 */
-	@Override
-	public void setPullEnabled(boolean enabled) {
-		this.ensureDecorator();
-		mDecorator.setPullEnabled(enabled);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean isPullEnabled() {
-		this.ensureDecorator();
-		return mDecorator.isPullEnabled();
-	}
-
-	/**
-	 * Returns the controller used to support the <b>pullable</b> feature for this view.
-	 *
-	 * @return PullController of this pullable view.
-	 */
-	@NonNull
-	public PullController getPullController() {
-		this.ensureDecorator();
-		return mDecorator.getPullController();
 	}
 
 	/**
@@ -543,17 +433,24 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 	/**
 	 */
 	@Override
-	protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
-		super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
-		this.ensureDecorator();
-		mDecorator.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
+	public int getOrientation() {
+		return Orientation.VERTICAL;
 	}
 
 	/**
 	 */
 	@Override
-	public int getOrientation() {
-		return Orientation.VERTICAL;
+	public void setHideSoftKeyboardOnTouchEnabled(boolean enabled) {
+		this.ensureDecorator();
+		mDecorator.setHideSoftKeyboardOnTouchEnabled(enabled);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean isHideSoftKeyboardOnTouchEnabled() {
+		this.ensureDecorator();
+		return mDecorator.isHideSoftKeyboardOnTouchEnabled();
 	}
 
 	/**
@@ -563,6 +460,33 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 		super.onAttachedToWindow();
 		this.ensureDecorator();
 		mDecorator.onAttachedToWindow();
+	}
+
+	/**
+	 */
+	@Override
+	public boolean isAttachedToWindow() {
+		this.ensureDecorator();
+		return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && super.isAttachedToWindow()) ||
+				mDecorator.hasPrivateFlag(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW);
+	}
+
+	/**
+	 */
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		this.ensureDecorator();
+		mDecorator.onSizeChanged(w, h, oldw, oldh);
+	}
+
+	/**
+	 */
+	@NonNull
+	@Override
+	public WidgetSizeAnimator animateSize() {
+		this.ensureDecorator();
+		return mDecorator.animateSize();
 	}
 
 	/**
@@ -578,13 +502,17 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 	@Override
 	public boolean onTouchEvent(@NonNull MotionEvent event) {
 		this.ensureDecorator();
-		return mDecorator.onTouchEvent(event) || super.onTouchEvent(event);
+		if (mDecorator.onTouchEvent(event) || super.onTouchEvent(event)) {
+			return true;
+		}
+		mDecorator.hideSoftKeyboardOnTouch();
+		return false;
 	}
 
 	/**
 	 */
 	@Override
-	public boolean verifyDrawable(Drawable drawable) {
+	public boolean verifyDrawable(@NonNull Drawable drawable) {
 		this.ensureDecorator();
 		return mDecorator.verifyDrawable(drawable) || super.verifyDrawable(drawable);
 	}
@@ -596,18 +524,6 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 		super.draw(canvas);
 		this.ensureDecorator();
 		mDecorator.draw(canvas);
-	}
-
-	/**
-	 */
-	@Override
-	@SuppressWarnings("NewApi")
-	public boolean isAttachedToWindow() {
-		this.ensureDecorator();
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-			return super.isAttachedToWindow();
-		else
-			return mDecorator.hasPrivateFlag(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW);
 	}
 
 	/**
@@ -638,17 +554,15 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 		/**
 		 */
 		@Override
-		void onProcessTypedValues(Context context, TypedArray typedArray) {
-			super.onProcessTypedValues(context, typedArray);
-			final int n = typedArray.getIndexCount();
+		void onProcessAttributes(Context context, TypedArray attributes) {
+			super.onProcessAttributes(context, attributes);
+			final int n = attributes.getIndexCount();
 			for (int i = 0; i < n; i++) {
-				int index = typedArray.getIndex(i);
-				if (index == R.styleable.Ui_WebView_uiPullEnabled) {
-					setPullEnabled(typedArray.getBoolean(index, false));
-				} else if (index == R.styleable.Ui_WebView_uiRefreshEnabled) {
-					setRefreshEnabled(typedArray.getBoolean(index, false));
+				int index = attributes.getIndex(i);
+				if (index == R.styleable.Ui_WebView_uiRefreshEnabled) {
+					setRefreshEnabled(attributes.getBoolean(index, false));
 				} else if (index == R.styleable.Ui_WebView_uiRefreshGestureEnabled) {
-					setRefreshGestureEnabled(typedArray.getBoolean(index, false));
+					setRefreshGestureEnabled(attributes.getBoolean(index, false));
 				}
 			}
 		}
@@ -657,33 +571,26 @@ public class WebViewWidget extends WebView implements Widget, Pullable, Refresha
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_WebView_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_WebView_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_WebView_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_WebView_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_WebView_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_WebView_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_WebView_uiBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_WebView_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_WebView_uiBackgroundTint)) {
-					mTintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_WebView_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_WebView_uiBackgroundTint)) {
+					mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_WebView_uiBackgroundTint);
 				}
 				mTintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_WebView_uiBackgroundTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_WebView_uiBackgroundTintMode, 0),
 						mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
 				);
 			}
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			WebViewWidget.super.setSelected(selected);
 		}
 
 		/**

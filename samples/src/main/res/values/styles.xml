@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources>
+
+    <!-- ### STYLE ============================================================================= -->
+
+    <!-- ## STYLE:Typography -->
+
+    <style name="TextAppearance.Widget.TextView.Typography" parent="Ui.TextAppearance.Widget.TextView">
+        <item name="uiFontPath">@string/config_font_amatic</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Widget.Button.Typography" parent="Ui.TextAppearance.Widget.Button">
+        <item name="uiFontPath">@string/config_font_dumb_3</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Widget.EditText.Typography" parent="Ui.TextAppearance.Widget.EditText">
+        <item name="uiFontPath">@string/config_font_redressed</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- ### COLLECTIONS ======================================================================= -->
+
+    <style name="Collections.Widget.ImageView.Item.Grid.App.Icon" parent="">
+        <item name="android:layout_width">62dip</item>
+        <item name="android:layout_height">62dip</item>
+    </style>
+
+    <!-- ## COLLECTIONS:ViewPager -->
+    <style name="Collections.ViewPager" parent="Ui.Widget.ViewPager"/>
+</resources>

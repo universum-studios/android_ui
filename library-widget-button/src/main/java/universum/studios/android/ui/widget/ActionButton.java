@@ -27,11 +27,13 @@ import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,8 +47,8 @@ import universum.studios.android.ui.util.ResourceUtils;
 
 /**
  * A {@link ButtonWidget} implementation that can be used as action button within an {@link ActionBar}'s
- * menu to show custom action button or as utility class to configure menu items via {@link #configureMenuItem(ItemConfiguration, Context)}
- * method.
+ * menu to show custom action button or as utility class to configure menu items via
+ * {@link #configureMenuItem(ItemConfiguration, Context)} method.
  *
  * <h3>XML attributes</h3>
  * See {@link ButtonWidget}
@@ -86,7 +88,7 @@ public class ActionButton extends ButtonWidget {
 	/**
 	 * Same as {@link #ActionButton(Context, AttributeSet)} without attributes.
 	 */
-	public ActionButton(Context context) {
+	public ActionButton(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -94,20 +96,20 @@ public class ActionButton extends ButtonWidget {
 	 * Same as {@link #ActionButton(Context, AttributeSet, int)} with {@link R.attr#actionButtonStyle}
 	 * as attribute for default style.
 	 */
-	public ActionButton(Context context, AttributeSet attrs) {
+	public ActionButton(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, R.attr.actionButtonStyle);
 	}
 
 	/**
 	 * Same as {@link #ActionButton(Context, AttributeSet, int, int)} with {@code 0} as default style.
 	 */
-	public ActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
+	public ActionButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of ActionButton within the given <var>context</var>.
+	 * Creates a new instance of ActionButton for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -117,7 +119,7 @@ public class ActionButton extends ButtonWidget {
 	 */
 	@SuppressWarnings("unused")
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public ActionButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public ActionButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}

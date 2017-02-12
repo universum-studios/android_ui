@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources>
+
+	<!-- ### SLIDER ============================================================================ -->
+
+	<!-- Style for SeekBar widget. -->
+	<style name="Ui.Widget.SeekBar" parent="Ui.Base.Widget.SeekBar"/>
+
+	<!-- Light style for SeekBar widget. -->
+	<style name="Ui.Widget.Light.SeekBar" parent="Ui.Widget.SeekBar"/>
+
+	<!-- Style for discrete SeekBar widget. -->
+	<style name="Ui.Widget.SeekBar.Discrete">
+		<item name="uiDiscrete">true</item>
+		<item name="uiDiscretePreviewEnabled">false</item>
+		<item name="uiDiscreteIntervalRatio">0.2</item>
+		<item name="uiDiscreteIndicator">@drawable/ui_scrubber_discrete_indicator</item>
+		<item name="uiDiscreteIndicatorTextAppearance">@style/Ui.TextAppearance.Widget.SeekBar.DiscreteIndicator</item>
+		<item name="uiDiscreteIndicatorTextGravity">center_horizontal</item>
+		<item name="uiDiscreteIndicatorTextPaddingTop">10dp</item>
+		<item name="uiDiscreteIntervalTickMarkColor">#FFDDDDDD</item>
+		<item name="uiDiscreteIntervalTickMarkRadius">2dp</item>
+	</style>
+
+	<!-- Light style for discrete SeekBar widget. -->
+	<style name="Ui.Widget.Light.SeekBar.Discrete" parent="Ui.Widget.SeekBar.Discrete">
+		<item name="uiDiscreteIntervalTickMarkColor">#FF111111</item>
+	</style>
+</resources>

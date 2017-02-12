@@ -62,7 +62,35 @@ public final class MainActivity extends SamplesNavigationActivity implements Fra
 			case R.id.navigation_item_home:
 				fragmentController.newRequest(new SamplesMainFragment()).execute();
 				return true;
+			case R.id.navigation_item_style:
+				return true;
+			case R.id.navigation_item_layout:
+				return true;
+			case R.id.navigation_item_components:
+				return true;
+			case R.id.navigation_item_patterns:
+				return true;
 		}
 		return true;
 	}
+
+	// todo:
+	/*@Override
+	protected void onAttachFragmentFactory(@NonNull FragmentController controller) {
+		controller.setFragmentFactory(new NavigationFragments());
+	}
+	*/
+
+	// todo:
+	/*@Override
+	protected boolean onBackPress() {
+		if (dispatchBackPressToCurrentFragment()) return true;
+		final FragmentManager fragmentManager = getSupportFragmentManager();
+		return (fragmentManager.getBackStackEntryCount() > 0 && fragmentManager.popBackStackImmediate()) || super.onBackPress();
+	}
+
+	private boolean dispatchBackPressToCurrentFragment() {
+		final Fragment fragment = getCurrentFragment();
+		return fragment instanceof BackPressWatcher && ((BackPressWatcher) fragment).dispatchBackPressed();
+	}*/
 }

@@ -106,21 +106,21 @@ abstract class TextViewDecorator<W extends TextView & FontWidget> extends FontDe
 	/**
 	 */
 	@Override
-	void processTintValues(Context context, TypedArray tintArray) {
-		super.processTintValues(context, tintArray);
+	void processTintAttributes(Context context, TypedArray tintAttributes) {
+		super.processTintAttributes(context, tintAttributes);
 		applyCompoundDrawablesTint();
 	}
 
 	/**
 	 */
 	@Override
-	void onTintValuesProcessed() {
+	void onTintAttributesProcessed() {
 		final CompoundTintInfo tintInfo = getTintInfo();
 		// If there is no tint mode specified within style/xml do not tint at all.
 		if (tintInfo.compoundTintMode == null) tintInfo.compoundTintList = null;
 		tintInfo.hasCompoundTintList = tintInfo.compoundTintList != null;
 		tintInfo.hasCompoundTintMode = tintInfo.compoundTintMode != null;
-		super.onTintValuesProcessed();
+		super.onTintAttributesProcessed();
 	}
 
 	/**

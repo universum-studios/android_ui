@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Number picker theme attributes. -->
+    <declare-styleable name="Ui.Theme.Picker.Number">
+        <!-- Style for CircularNumberPicker. -->
+        <attr name="uiNumberPickerCircularStyle" format="reference"/>
+    </declare-styleable>
+
+	<!-- CircularNumberPicker attributes. -->
+	<declare-styleable name="Ui.NumberPicker.Circular">
+		<!-- Reference to an array of numbers to pick from. -->
+		<attr name="uiPickerNumbers" format="reference"/>
+		<!-- Format used to format number's text. -->
+		<attr name="uiPickerNumberFormat" format="string"/>
+		<!-- Initially selected number in picker. -->
+		<attr name="uiPickerSelection" format="integer"/>
+		<!-- Range for picker's available selection. -->
+		<attr name="uiPickerSelectionRange" format="integer"/>
+		<!-- Re-used. -->
+		<attr name="android:radius"/>
+		<!-- Re-used. -->
+		<attr name="android:textAppearance"/>
+		<!-- Re-used. -->
+		<attr name="android:textSize"/>
+		<!-- Re-used. -->
+		<attr name="android:textColor"/>
+		<!-- Re-used. -->
+		<attr name="android:textStyle"/>
+		<!-- Re-used. -->
+		<attr name="uiSelectionIndicator"/>
+		<!-- Re-used. -->
+		<attr name="uiSelectionIndicatorTint"/>
+		<!-- Re-used. -->
+		<attr name="uiSelectionIndicatorTintMode"/>
+		<!-- Color for picker's selection indicator bearing line. -->
+		<attr name="uiPickerBearingLineColor" format="color"/>
+		<!-- Thickness for picker's selection indicator bearing line. -->
+		<attr name="uiPickerBearingLineThickness" format="dimension"/>
+		<!-- Color for picker's middle circle. -->
+		<attr name="uiPickerMiddleCircleColor" format="color"/>
+		<!-- Radius for picker's middle circle. -->
+		<attr name="uiPickerMiddleCircleRadius" format="dimension"/>
+	</declare-styleable>
+</resources>

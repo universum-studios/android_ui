@@ -26,8 +26,10 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -197,7 +199,7 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	 * Same as {@link #ViewPagerWidget(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public ViewPagerWidget(Context context) {
+	public ViewPagerWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -205,7 +207,7 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	 * Same as {@link #ViewPagerWidget(android.content.Context, android.util.AttributeSet, int)}
 	 * with {@link R.attr#uiViewPagerStyle} as attribute for default style.
 	 */
-	public ViewPagerWidget(Context context, AttributeSet attrs) {
+	public ViewPagerWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, R.attr.uiViewPagerStyle);
 	}
 
@@ -213,12 +215,12 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	 * Same as {@link #ViewPagerWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public ViewPagerWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public ViewPagerWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		this(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of ViewPagerWidget within the given <var>context</var>.
+	 * Creates a new instance of ViewPagerWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -226,7 +228,7 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	 *                     this view within a theme of the given context.
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
-	public ViewPagerWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public ViewPagerWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -810,33 +812,26 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_ViewPager_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_ViewPager_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_ViewPager_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_ViewPager_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ViewPager_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_ViewPager_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_ViewPager_uiBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_ViewPager_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_ViewPager_uiBackgroundTint)) {
-					mTintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_ViewPager_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_ViewPager_uiBackgroundTint)) {
+					mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_ViewPager_uiBackgroundTint);
 				}
 				mTintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_ViewPager_uiBackgroundTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_ViewPager_uiBackgroundTintMode, 0),
 						mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
 				);
 			}
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			ViewPagerWidget.super.setSelected(selected);
 		}
 
 		/**

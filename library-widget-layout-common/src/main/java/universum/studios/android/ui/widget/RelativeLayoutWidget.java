@@ -151,7 +151,7 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 	}
 
 	/**
-	 * Creates a new instance of RelativeLayoutWidget within the given <var>context</var>.
+	 * Creates a new instance of RelativeLayoutWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -297,80 +297,6 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 	/**
 	 */
 	@Override
-	public void setPressed(boolean pressed) {
-		final boolean isPressed = isPressed();
-		super.setPressed(pressed);
-		if (!isPressed && pressed) onPressed();
-		else if (isPressed) onReleased();
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code true} and this view
-	 * isn't in the pressed state yet.
-	 */
-	protected void onPressed() {
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code false} and this view
-	 * is currently in the pressed state.
-	 */
-	protected void onReleased() {
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelected(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelected(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelectionState(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.ensureDecorator();
-		mDecorator.setAllowDefaultSelection(allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		this.ensureDecorator();
-		return mDecorator.allowsDefaultSelection();
-	}
-
-	/**
-	 */
-	@NonNull
-	@Override
-	public WidgetSizeAnimator animateSize() {
-		this.ensureDecorator();
-		return mDecorator.animateSize();
-	}
-
-	/**
-	 */
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		this.ensureDecorator();
-		mDecorator.onSizeChanged(w, h, oldw, oldh);
-	}
-
-	/**
-	 */
-	@Override
 	public void setHideSoftKeyboardOnTouchEnabled(boolean enabled) {
 		this.ensureDecorator();
 		mDecorator.setHideSoftKeyboardOnTouchEnabled(enabled);
@@ -387,18 +313,6 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 	/**
 	 */
 	@Override
-	public boolean onTouchEvent(@NonNull MotionEvent event) {
-		if (!super.onTouchEvent(event)) {
-			this.ensureDecorator();
-			mDecorator.hideSoftKeyboardOnTouch();
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 */
-	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		this.ensureDecorator();
@@ -408,13 +322,40 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 	/**
 	 */
 	@Override
-	@SuppressWarnings("NewApi")
 	public boolean isAttachedToWindow() {
 		this.ensureDecorator();
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-			return super.isAttachedToWindow();
-		else
-			return mDecorator.hasPrivateFlag(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW);
+		return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && super.isAttachedToWindow()) ||
+				mDecorator.hasPrivateFlag(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW);
+	}
+
+	/**
+	 */
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		this.ensureDecorator();
+		mDecorator.onSizeChanged(w, h, oldw, oldh);
+	}
+
+	/**
+	 */
+	@NonNull
+	@Override
+	public WidgetSizeAnimator animateSize() {
+		this.ensureDecorator();
+		return mDecorator.animateSize();
+	}
+
+	/**
+	 */
+	@Override
+	public boolean onTouchEvent(@NonNull MotionEvent event) {
+		if (super.onTouchEvent(event)) {
+			return true;
+		}
+		this.ensureDecorator();
+		mDecorator.hideSoftKeyboardOnTouch();
+		return false;
 	}
 
 	/**
@@ -440,13 +381,6 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 		 */
 		Decorator(RelativeLayoutWidget widgetGroup) {
 			super(widgetGroup);
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			RelativeLayoutWidget.super.setSelected(selected);
 		}
 
 		/**

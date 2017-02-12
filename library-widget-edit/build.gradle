@@ -58,6 +58,7 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile releaseDependencies.androidSupportAnnotations
+    compile releaseDependencies.androidSupportAppCompatV7
     // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-text:${libraryVersion}@aar"
@@ -65,6 +66,7 @@ dependencies {
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
+    debugCompile project(':library-widget-core')
     debugCompile project(':library-widget-text')
 }
 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources>
+
+    <!-- ### CAPITALS ========================================================================== -->
+    <string-array name="capitals">
+        <item>Afghanistan:Kabul:2206300</item>
+        <item>Albania:Tirana:353400</item>
+        <item>Algeria:Algiers:3917000</item>
+        <item>Andorra:Andorra la Vella:23000</item>
+        <item>Angola:Luanda:2287200</item>
+        <item>Antiqua and Barbuda:St. John\'s:23500</item>
+        <item>Argentina:Buenos Aires:13349000</item>
+        <item>Armenia:Yerevan:1462700</item>
+        <item>Australia:Canberra:327700</item>
+        <item>Austria:Vienna:2041300</item>
+        <item>Azerbaijan:Baku:2118600</item>
+        <item>Bahamas:Nassau:222200</item>
+        <item>Bahrain:Al-Manámah:527000</item>
+        <item>Bangladesh:Dhaka:12560000</item>
+        <item>Barbados:Bridgetown:98900</item>
+        <item>Belarus:Mensk (Minsk):1769500</item>
+        <item>Belgium:Brussels:1750600</item>
+        <item>Belize:Belmopan:8700</item>
+        <item>Benin:Porto-Novo:231600</item>
+        <item>Bhutan:Thimpfu:60200</item>
+    </string-array>
+</resources>

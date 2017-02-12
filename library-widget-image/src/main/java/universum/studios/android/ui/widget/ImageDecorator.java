@@ -80,8 +80,8 @@ abstract class ImageDecorator<W extends ImageView> extends WidgetDecorator<W> {
 	/**
 	 */
 	@Override
-	void processTintValues(Context context, TypedArray tintArray) {
-		super.processTintValues(context, tintArray);
+	void processTintAttributes(Context context, TypedArray tintAttributes) {
+		super.processTintAttributes(context, tintAttributes);
 		applyImageTint();
 	}
 

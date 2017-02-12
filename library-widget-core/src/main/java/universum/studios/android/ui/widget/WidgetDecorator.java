@@ -19,7 +19,6 @@
 package universum.studios.android.ui.widget;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -28,7 +27,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -52,7 +50,6 @@ import universum.studios.android.ui.util.ResourceUtils;
  *
  * @param <W> A type of the widget that will use this decorator.
  * @author Martin Albedinsky
- * @see WidgetGroupDecorator
  */
 abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 
@@ -123,7 +120,7 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	 * @param widget         The widget for which to create new decorator.
 	 * @param styleableAttrs Set of styleable attributes specific for the widget. These attributes
 	 *                       will be used to obtain an instance of {@link TypedArray} passed to
-	 *                       {@link #onProcessTypedValues(Context, TypedArray)} whenever
+	 *                       {@link #onProcessAttributes(Context, TypedArray)} whenever
 	 *                       {@link #processAttributes(Context, AttributeSet, int, int)} is called.
 	 */
 	WidgetDecorator(W widget, int[] styleableAttrs) {
@@ -145,30 +142,23 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	 * @param defStyleRes  Resource id of the default style for the attached widget.
 	 */
 	void processAttributes(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-		final TypedArray viewTypedArray = context.obtainStyledAttributes(attrs, R.styleable.Ui_View, defStyleAttr, defStyleRes);
-		if (viewTypedArray != null) {
-			if (viewTypedArray.hasValue(R.styleable.Ui_View_uiAllowDefaultSelection)) {
-				setAllowDefaultSelection(viewTypedArray.getBoolean(R.styleable.Ui_View_uiAllowDefaultSelection, true));
-			}
-			viewTypedArray.recycle();
-		}
-		final TypedArray typedArray = context.obtainStyledAttributes(attrs, mStyleableAttrs, defStyleAttr, defStyleRes);
-		if (typedArray != null) {
-			onProcessTypedValues(context, typedArray);
-			typedArray.recycle();
+		final TypedArray attributes = context.obtainStyledAttributes(attrs, mStyleableAttrs, defStyleAttr, defStyleRes);
+		if (attributes != null) {
+			onProcessAttributes(context, attributes);
+			attributes.recycle();
 		}
 	}
 
 	/**
 	 * Invoked from {@link #processAttributes(Context, AttributeSet, int, int)} to process all values
-	 * from the given <var>typedArray</var> that are related to the attached widgets.
+	 * from the given <var>attributes</var> that are related to the attached widget.
 	 *
 	 * @param context    The context that can be used to access resource values.
-	 * @param typedArray The typed array obtained for the styleable attributes supplied to this decorator
+	 * @param attributes The typed array obtained for the styleable attributes supplied to this decorator
 	 *                   during its initialization.
 	 */
-	void onProcessTypedValues(Context context, TypedArray typedArray) {
-		processTintValues(context, typedArray);
+	void onProcessAttributes(Context context, TypedArray attributes) {
+		processTintAttributes(context, attributes);
 	}
 
 	/**
@@ -184,10 +174,10 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	}
 
 	/**
-	 * Invoked from {@link #onProcessTypedValues(Context, TypedArray)} to process only values from
+	 * Invoked from {@link #onProcessAttributes(Context, TypedArray)} to process only values from
 	 * the given <var>tintArray</var> related to tint.
 	 */
-	void processTintValues(Context context, TypedArray tintArray) {
+	void processTintAttributes(Context context, TypedArray tintAttributes) {
 		this.ensureTintInfo();
 		int tintColor = Color.TRANSPARENT;
 		final Resources.Theme theme = context.getTheme();
@@ -197,23 +187,23 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 				tintColor = typedValue.data;
 			}
 		}
-		onProcessTintValues(context, tintArray, tintColor);
-		onTintValuesProcessed();
+		onProcessTintAttributes(context, tintAttributes, tintColor);
+		onTintAttributesProcessed();
 		applyBackgroundTint();
 	}
 
 	/**
-	 * Invoked from {@link #processTintValues(Context, TypedArray)}.
+	 * Invoked from {@link #processTintAttributes(Context, TypedArray)}.
 	 *
 	 * @param tintColor Color obtained from the current theme for {@link R.attr#colorControlActivated}
 	 *                  attribute.
 	 */
-	abstract void onProcessTintValues(Context context, TypedArray tintArray, int tintColor);
+	abstract void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor);
 
 	/**
-	 * Invoked after {@link #onProcessTintValues(Context, TypedArray, int)} has been completed.
+	 * Invoked after {@link #onProcessTintAttributes(Context, TypedArray, int)} has been completed.
 	 */
-	void onTintValuesProcessed() {
+	void onTintAttributesProcessed() {
 		// If there is no tint mode specified within style/xml do not tint at all.
 		if (mTintInfo.tintMode == null) mTintInfo.tintList = null;
 		mTintInfo.hasTintList = mTintInfo.tintList != null;
@@ -236,43 +226,6 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	 */
 	boolean shouldInvalidateTintInfo(@NonNull BackgroundTintInfo tintInfo) {
 		return !tintInfo.hasTintList && !tintInfo.hasTintMode && !tintInfo.hasBackgroundTintList && !tintInfo.hasBackgroundTinMode;
-	}
-
-	/**
-	 * Changes selection state of the attached widget.
-	 *
-	 * @param selected {@code True} to make attached widget selected, {@code false} otherwise.
-	 */
-	void setSelected(boolean selected) {
-		if (hasPrivateFlag(PrivateFlags.PFLAG_ALLOWS_DEFAULT_SELECTION)) {
-			setSelectionState(selected);
-		}
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		superSetSelected(selected);
-	}
-
-	/**
-	 * Delegate method for super's {@link View#setSelected(boolean)}.
-	 */
-	abstract void superSetSelected(boolean selected);
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.updatePrivateFlags(PrivateFlags.PFLAG_ALLOWS_DEFAULT_SELECTION, allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		return hasPrivateFlag(PrivateFlags.PFLAG_ALLOWS_DEFAULT_SELECTION);
 	}
 
 	/**
@@ -469,44 +422,6 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	}
 
 	/**
-	 */
-	@Override
-	@SuppressWarnings("ResourceType")
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public void setFractionX(float fraction) {
-		if (Slideable.SLIDEABLE) mWidget.setX(mWidth > 0 ?
-				(mWidget.getLeft() + (fraction * mWidth)) :
-				Slideable.OUT_OF_SCREEN);
-	}
-
-	/**
-	 */
-	@Override
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public float getFractionX() {
-		return (SLIDEABLE && mWidth > 0) ? (mWidget.getLeft() + (mWidget.getX() / mWidth)) : 0;
-	}
-
-	/**
-	 */
-	@Override
-	@SuppressWarnings("ResourceType")
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public void setFractionY(float fraction) {
-		if (Slideable.SLIDEABLE) mWidget.setY(mHeight > 0 ?
-				(mWidget.getTop() + (fraction * mHeight)) :
-				Slideable.OUT_OF_SCREEN);
-	}
-
-	/**
-	 */
-	@Override
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public float getFractionY() {
-		return (SLIDEABLE && mHeight > 0) ? (mWidget.getTop() + (mWidget.getY() / mHeight)) : 0;
-	}
-
-	/**
 	 * This should be called from the attached widget whenever its {@link View#onSizeChanged(int, int, int, int)}
 	 * method is invoked.
 	 */
@@ -575,7 +490,6 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	 * @param flag Value of the desired flag to add/remove to/from the current private flags.
 	 * @param add  Boolean flag indicating whether to add or remove the specified <var>flag</var>.
 	 */
-	@SuppressWarnings("unused")
 	void updatePrivateFlags(int flag, boolean add) {
 		if (add) this.mPrivateFlags |= flag;
 		else this.mPrivateFlags &= ~flag;
@@ -588,7 +502,6 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	 * @param flag Value of the flag to check.
 	 * @return {@code True} if the requested flag is contained, {@code false} otherwise.
 	 */
-	@SuppressWarnings("unused")
 	boolean hasPrivateFlag(int flag) {
 		return (mPrivateFlags & flag) != 0;
 	}

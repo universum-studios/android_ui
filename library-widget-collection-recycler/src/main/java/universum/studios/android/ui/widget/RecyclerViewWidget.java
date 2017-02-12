@@ -27,8 +27,10 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcelable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -152,7 +154,7 @@ public class RecyclerViewWidget extends RecyclerView implements WidgetGroup, Ref
 	 * Same as {@link #RecyclerViewWidget(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public RecyclerViewWidget(Context context) {
+	public RecyclerViewWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -160,7 +162,7 @@ public class RecyclerViewWidget extends RecyclerView implements WidgetGroup, Ref
 	 * Same as {@link #RecyclerViewWidget(android.content.Context, android.util.AttributeSet, int)}
 	 * with {@link R.attr#uiRecyclerViewStyle} as attribute for default style.
 	 */
-	public RecyclerViewWidget(Context context, AttributeSet attrs) {
+	public RecyclerViewWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, R.attr.uiRecyclerViewStyle);
 	}
 
@@ -168,12 +170,12 @@ public class RecyclerViewWidget extends RecyclerView implements WidgetGroup, Ref
 	 * Same as {@link #RecyclerViewWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public RecyclerViewWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public RecyclerViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		this(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of RecyclerViewWidget within the given <var>context</var>.
+	 * Creates a new instance of RecyclerViewWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -181,7 +183,7 @@ public class RecyclerViewWidget extends RecyclerView implements WidgetGroup, Ref
 	 *                     this view within a theme of the given context.
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
-	public RecyclerViewWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public RecyclerViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr);
 		this.ensureDecorator();
 		mDecorator.processAttributes(context, attrs, defStyleAttr, defStyleRes);
@@ -665,15 +667,15 @@ public class RecyclerViewWidget extends RecyclerView implements WidgetGroup, Ref
 		/**
 		 */
 		@Override
-		void onProcessTypedValues(Context context, TypedArray typedArray) {
-			super.onProcessTypedValues(context, typedArray);
-			final int n = typedArray.getIndexCount();
+		void onProcessAttributes(Context context, TypedArray attributes) {
+			super.onProcessAttributes(context, attributes);
+			final int n = attributes.getIndexCount();
 			for (int i = 0; i < n; i++) {
-				int index = typedArray.getIndex(i);
+				int index = attributes.getIndex(i);
 				if (index == R.styleable.Ui_RecyclerView_uiRefreshEnabled) {
-					setRefreshEnabled(typedArray.getBoolean(index, false));
+					setRefreshEnabled(attributes.getBoolean(index, false));
 				} else if (index == R.styleable.Ui_RecyclerView_uiRefreshGestureEnabled) {
-					setRefreshGestureEnabled(typedArray.getBoolean(index, false));
+					setRefreshGestureEnabled(attributes.getBoolean(index, false));
 				}
 			}
 		}
@@ -682,33 +684,26 @@ public class RecyclerViewWidget extends RecyclerView implements WidgetGroup, Ref
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_RecyclerView_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_RecyclerView_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_RecyclerView_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_RecyclerView_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_RecyclerView_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_RecyclerView_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_RecyclerView_uiBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_RecyclerView_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_RecyclerView_uiBackgroundTint)) {
-					mTintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_RecyclerView_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_RecyclerView_uiBackgroundTint)) {
+					mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_RecyclerView_uiBackgroundTint);
 				}
 				mTintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_RecyclerView_uiBackgroundTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_RecyclerView_uiBackgroundTintMode, 0),
 						mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
 				);
 			}
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			RecyclerViewWidget.super.setSelected(selected);
 		}
 
 		/**

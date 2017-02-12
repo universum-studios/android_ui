@@ -27,5 +27,21 @@
 			android:id="@+id/navigation_item_home"
 			android:checked="true"
 			android:title="@string/navigation_item_home" />
+
+		<item
+			android:id="@+id/navigation_item_style"
+			android:title="@string/navigation_item_style" />
+
+		<item
+			android:id="@+id/navigation_item_layout"
+			android:title="@string/navigation_item_layout" />
+
+		<item
+			android:id="@+id/navigation_item_components"
+			android:title="@string/navigation_item_components" />
+
+		<item
+			android:id="@+id/navigation_item_patterns"
+			android:title="@string/navigation_item_patterns" />
 	</group>
 </menu>

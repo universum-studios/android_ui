@@ -22,8 +22,11 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -81,14 +84,6 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 	// private static final String TAG = "CircularProgressBar";
 
 	/**
-	 * Defines an annotation for determining set of allowed modes for CircularProgressBar.
-	 */
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({MODE_INDETERMINATE, MODE_DETERMINATE})
-	public @interface ProgressMode {
-	}
-
-	/**
 	 * Flag copied from {@link universum.studios.android.ui.graphics.drawable.CircularProgressDrawable#MODE_DETERMINATE} for better access.
 	 */
 	public static final int MODE_DETERMINATE = CircularProgressDrawable.MODE_DETERMINATE;
@@ -97,6 +92,14 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 	 * Flag copied from {@link universum.studios.android.ui.graphics.drawable.CircularProgressDrawable#MODE_INDETERMINATE} for better access.
 	 */
 	public static final int MODE_INDETERMINATE = CircularProgressDrawable.MODE_INDETERMINATE;
+
+	/**
+	 * Defines an annotation for determining set of allowed modes for CircularProgressBar.
+	 */
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({MODE_INDETERMINATE, MODE_DETERMINATE})
+	public @interface ProgressMode {
+	}
 
 	/**
 	 * Static members ==============================================================================
@@ -114,7 +117,7 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 	 * Same as {@link #CircularProgressBar(android.content.Context, android.util.AttributeSet)}
 	 * without attributes.
 	 */
-	public CircularProgressBar(Context context) {
+	public CircularProgressBar(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -122,7 +125,7 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 	 * Same as {@link #CircularProgressBar(android.content.Context, android.util.AttributeSet, int)}
 	 * with {@link R.attr#uiProgressBarCircularStyle} as attribute for default style.
 	 */
-	public CircularProgressBar(Context context, AttributeSet attrs) {
+	public CircularProgressBar(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, R.attr.uiProgressBarCircularStyle);
 	}
 
@@ -130,13 +133,13 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 	 * Same as {@link #CircularProgressBar(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public CircularProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
+	public CircularProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of CircularProgressBar within the given <var>context</var>.
+	 * Creates a new instance of CircularProgressBar for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -145,7 +148,7 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public CircularProgressBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public CircularProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -164,22 +167,16 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 	 */
 	@SuppressWarnings("ConstantConditions")
 	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-		/**
-		 * Process attributes.
-		 */
-		final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Ui_ProgressBar_Circular, defStyleAttr, defStyleRes);
-		if (typedArray != null) {
-			final int n = typedArray.getIndexCount();
-			for (int i = 0; i < n; i++) {
-				final int index = typedArray.getIndex(i);
-				if (index == R.styleable.Ui_ProgressBar_Circular_uiCircularProgressMode) {
-					changeMode(typedArray.getInt(index, getProgressMode()));
-				} else if (index == R.styleable.Ui_ProgressBar_Circular_uiProgressArrowEnabled) {
-					mDrawable.setArrowEnabled(typedArray.getBoolean(index, false));
-				}
+		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_ProgressBar_Circular, defStyleAttr, defStyleRes);
+		for (int i = 0; i < attributes.getIndexCount(); i++) {
+			final int index = attributes.getIndex(i);
+			if (index == R.styleable.Ui_ProgressBar_Circular_uiCircularProgressMode) {
+				changeMode(attributes.getInt(index, getProgressMode()));
+			} else if (index == R.styleable.Ui_ProgressBar_Circular_uiProgressArrowEnabled) {
+				mDrawable.setArrowEnabled(attributes.getBoolean(index, false));
 			}
-			typedArray.recycle();
 		}
+		attributes.recycle();
 	}
 
 	/**

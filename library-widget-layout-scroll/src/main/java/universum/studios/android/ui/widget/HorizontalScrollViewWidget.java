@@ -26,8 +26,10 @@ import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -35,13 +37,12 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.HorizontalScrollView;
 
-import universum.studios.android.ui.controller.PullController;
+import java.util.ArrayList;
+import java.util.List;
+
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Extended version of {@link android.widget.HorizontalScrollView}. This updated HorizontalScrollView
@@ -68,13 +69,6 @@ import java.util.List;
  * To receive callbacks about changes in scroll position there can be registered {@link ViewWidget.OnScrollChangeListener}
  * via {@link #addOnScrollChangeListener(ViewWidget.OnScrollChangeListener)}. Already registered listener
  * can be removed via {@link #removeOnScrollChangeListener(ViewWidget.OnScrollChangeListener)}.
- *
- * <h3>Pulling</h3>
- * This widget group can be pulled at its start and also at its end. This feature is supported via
- * {@link PullController PullController}. ScrollViewWidget has
- * {@link Orientation#VERTICAL} orientation, so its content can be pulled at the top or at the bottom
- * by offsetting its current position via {@link #offsetTopAndBottom(int)} what the PullController
- * pretty much does.
  *
  * <h3>Sliding</h3>
  * This updated view group allows updating of its current position along <b>x</b> and <b>y</b> axis
@@ -111,7 +105,7 @@ import java.util.List;
  * @author Martin Albedinsky
  * @see ScrollViewWidget
  */
-public class HorizontalScrollViewWidget extends HorizontalScrollView implements WidgetGroup, Pullable {
+public class HorizontalScrollViewWidget extends HorizontalScrollView implements WidgetGroup, Scrollable {
 
 	/**
 	 * Interface ===================================================================================
@@ -153,7 +147,7 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	 * Same as {@link #HorizontalScrollViewWidget(android.content.Context, android.util.AttributeSet)}
 	 * without attributes.
 	 */
-	public HorizontalScrollViewWidget(Context context) {
+	public HorizontalScrollViewWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -162,7 +156,7 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	 * with {@link android.R.attr#horizontalScrollViewStyle} as attribute for default style.
 	 */
 	@SuppressLint("InlinedApi")
-	public HorizontalScrollViewWidget(Context context, AttributeSet attrs) {
+	public HorizontalScrollViewWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ? android.R.attr.horizontalScrollViewStyle : 0);
 	}
 
@@ -170,13 +164,13 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	 * Same as {@link #HorizontalScrollViewWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public HorizontalScrollViewWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public HorizontalScrollViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of HorizontalScrollViewWidget within the given <var>context</var>.
+	 * Creates a new instance of HorizontalScrollViewWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -184,8 +178,9 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	 *                     this view within a theme of the given context.
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
+	@SuppressWarnings("unused")
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public HorizontalScrollViewWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public HorizontalScrollViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -322,80 +317,6 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	/**
 	 */
 	@Override
-	public void setPressed(boolean pressed) {
-		final boolean isPressed = isPressed();
-		super.setPressed(pressed);
-		if (!isPressed && pressed) onPressed();
-		else if (isPressed) onReleased();
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code true} and this view
-	 * isn't in the pressed state yet.
-	 */
-	protected void onPressed() {
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code false} and this view
-	 * is currently in the pressed state.
-	 */
-	protected void onReleased() {
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelected(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelected(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelectionState(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.ensureDecorator();
-		mDecorator.setAllowDefaultSelection(allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		this.ensureDecorator();
-		return mDecorator.allowsDefaultSelection();
-	}
-
-	/**
-	 */
-	@NonNull
-	@Override
-	public WidgetSizeAnimator animateSize() {
-		this.ensureDecorator();
-		return mDecorator.animateSize();
-	}
-
-	/**
-	 */
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		this.ensureDecorator();
-		mDecorator.onSizeChanged(w, h, oldw, oldh);
-	}
-
-	/**
-	 */
-	@Override
 	public void setHideSoftKeyboardOnTouchEnabled(boolean enabled) {
 		this.ensureDecorator();
 		mDecorator.setHideSoftKeyboardOnTouchEnabled(enabled);
@@ -407,57 +328,6 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	public boolean isHideSoftKeyboardOnTouchEnabled() {
 		this.ensureDecorator();
 		return mDecorator.isHideSoftKeyboardOnTouchEnabled();
-	}
-
-	/**
-	 */
-	@Override
-	public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
-		this.ensureDecorator();
-		return mDecorator.onInterceptTouchEvent(event) || super.onInterceptTouchEvent(event);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean onTouchEvent(@NonNull MotionEvent event) {
-		this.ensureDecorator();
-		mDecorator.hideSoftKeyboardOnTouch();
-		return mDecorator.onTouchEvent(event) || super.onTouchEvent(event);
-	}
-
-	/**
-	 */
-	@Override
-	public void setPullEnabled(boolean enabled) {
-		this.ensureDecorator();
-		mDecorator.setPullEnabled(enabled);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean isPullEnabled() {
-		this.ensureDecorator();
-		return mDecorator.isPullEnabled();
-	}
-
-	/**
-	 * Returns the controller used to support the <b>pullable</b> feature for this view.
-	 *
-	 * @return PullController of this pullable view.
-	 */
-	@NonNull
-	public PullController getPullController() {
-		this.ensureDecorator();
-		return mDecorator.getPullController();
-	}
-
-	/**
-	 */
-	@Override
-	public int getOrientation() {
-		return Orientation.HORIZONTAL;
 	}
 
 	/**
@@ -485,6 +355,48 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	/**
 	 */
 	@Override
+	public int getOrientation() {
+		return Orientation.HORIZONTAL;
+	}
+
+	/**
+	 */
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		this.ensureDecorator();
+		mDecorator.onSizeChanged(w, h, oldw, oldh);
+	}
+
+	/**
+	 */
+	@NonNull
+	@Override
+	public WidgetSizeAnimator animateSize() {
+		this.ensureDecorator();
+		return mDecorator.animateSize();
+	}
+
+	/**
+	 */
+	@Override
+	public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
+		this.ensureDecorator();
+		return mDecorator.onInterceptTouchEvent(event) || super.onInterceptTouchEvent(event);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean onTouchEvent(@NonNull MotionEvent event) {
+		this.ensureDecorator();
+		mDecorator.hideSoftKeyboardOnTouch();
+		return mDecorator.onTouchEvent(event) || super.onTouchEvent(event);
+	}
+
+	/**
+	 */
+	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		super.onScrollChanged(l, t, oldl, oldt);
 		if (mScrollChangeListeners != null && !mScrollChangeListeners.isEmpty()) {
@@ -497,18 +409,9 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	/**
 	 */
 	@Override
-	protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
-		super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
-		this.ensureDecorator();
-		mDecorator.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
-	}
-
-	/**
-	 */
-	@Override
 	public boolean isScrolledAtStart() {
 		this.ensureDecorator();
-		return mDecorator.isScrolledAtStart();
+		return mDecorator.scrollableWrapper.isScrolledAtStart();
 	}
 
 	/**
@@ -516,7 +419,7 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	@Override
 	public boolean isScrolledAtEnd() {
 		this.ensureDecorator();
-		return mDecorator.isScrolledAtEnd();
+		return mDecorator.scrollableWrapper.isScrolledAtEnd();
 	}
 
 	/**
@@ -526,28 +429,28 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	/**
 	 * Decorator implementation for this widget.
 	 */
-	private final class Decorator extends PullableDecorator<HorizontalScrollViewWidget> {
+	private final class Decorator extends WidgetGroupDecorator<HorizontalScrollViewWidget> {
 
 		/**
-		 * See {@link PullableDecorator#PullableDecorator(ViewGroup, int[])}.
+		 * Helper used to check if the attached scrollable view is scrolled at start or at end.
+		 */
+		final ScrollableWrapper scrollableWrapper;
+
+		/**
+		 * See {@link WidgetGroupDecorator#WidgetGroupDecorator(ViewGroup, int[])}.
 		 */
 		Decorator(HorizontalScrollViewWidget widgetGroup) {
 			super(widgetGroup, R.styleable.Ui_HorizontalScrollView);
+			this.scrollableWrapper = ScrollableWrapper.wrapScrollableView(widgetGroup);
 		}
 
-		/**
-		 */
 		@Override
-		void onProcessTypedValues(Context context, TypedArray typedArray) {
-			super.onProcessTypedValues(context, typedArray);
-
-			final int n = typedArray.getIndexCount();
-			for (int i = 0; i < n; i++) {
-				int index = typedArray.getIndex(i);
+		void onProcessAttributes(Context context, TypedArray attributes) {
+			super.onProcessAttributes(context, attributes);
+			for (int i = 0; i < attributes.getIndexCount(); i++) {
+				final int index = attributes.getIndex(i);
 				if (index == R.styleable.Ui_HorizontalScrollView_uiHideSoftKeyboardOnTouch) {
-					setHideSoftKeyboardOnTouchEnabled(typedArray.getBoolean(index, false));
-				} else if (index == R.styleable.Ui_HorizontalScrollView_uiPullEnabled) {
-					setPullEnabled(typedArray.getBoolean(index, false));
+					setHideSoftKeyboardOnTouchEnabled(attributes.getBoolean(index, false));
 				}
 			}
 		}
@@ -556,33 +459,27 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
+			super.onProcessTintAttributes(context, tintAttributes, tintColor);
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_HorizontalScrollView_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_HorizontalScrollView_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_HorizontalScrollView_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_HorizontalScrollView_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_HorizontalScrollView_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_HorizontalScrollView_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_HorizontalScrollView_uiBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_HorizontalScrollView_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_HorizontalScrollView_uiBackgroundTint)) {
-					mTintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_HorizontalScrollView_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_HorizontalScrollView_uiBackgroundTint)) {
+					mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_HorizontalScrollView_uiBackgroundTint);
 				}
 				mTintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_HorizontalScrollView_uiBackgroundTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_HorizontalScrollView_uiBackgroundTintMode, 0),
 						mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
 				);
 			}
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			HorizontalScrollViewWidget.super.setSelected(selected);
 		}
 
 		/**

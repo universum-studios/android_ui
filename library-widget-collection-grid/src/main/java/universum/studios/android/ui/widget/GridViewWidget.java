@@ -27,8 +27,10 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcelable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -148,7 +150,7 @@ public class GridViewWidget extends GridView implements WidgetGroup, Refreshable
 	 * Same as {@link #GridViewWidget(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public GridViewWidget(Context context) {
+	public GridViewWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -156,7 +158,7 @@ public class GridViewWidget extends GridView implements WidgetGroup, Refreshable
 	 * Same as {@link #GridViewWidget(android.content.Context, android.util.AttributeSet, int)} with
 	 * {@link android.R.attr#gridViewStyle} as attribute for default style.
 	 */
-	public GridViewWidget(Context context, AttributeSet attrs) {
+	public GridViewWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, android.R.attr.gridViewStyle);
 	}
 
@@ -164,13 +166,13 @@ public class GridViewWidget extends GridView implements WidgetGroup, Refreshable
 	 * Same as {@link #GridViewWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public GridViewWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public GridViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of GridViewWidget within the given <var>context</var>.
+	 * Creates a new instance of GridViewWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -178,8 +180,9 @@ public class GridViewWidget extends GridView implements WidgetGroup, Refreshable
 	 *                     this view within a theme of the given context.
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
+	@SuppressWarnings("unused")
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public GridViewWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public GridViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -618,15 +621,15 @@ public class GridViewWidget extends GridView implements WidgetGroup, Refreshable
 		/**
 		 */
 		@Override
-		void onProcessTypedValues(Context context, TypedArray typedArray) {
-			super.onProcessTypedValues(context, typedArray);
-			final int n = typedArray.getIndexCount();
+		void onProcessAttributes(Context context, TypedArray attributes) {
+			super.onProcessAttributes(context, attributes);
+			final int n = attributes.getIndexCount();
 			for (int i = 0; i < n; i++) {
-				int index = typedArray.getIndex(i);
+				int index = attributes.getIndex(i);
 				if (index == R.styleable.Ui_GridView_uiRefreshEnabled) {
-					setRefreshEnabled(typedArray.getBoolean(index, false));
+					setRefreshEnabled(attributes.getBoolean(index, false));
 				} else if (index == R.styleable.Ui_GridView_uiRefreshGestureEnabled) {
-					setRefreshGestureEnabled(typedArray.getBoolean(index, false));
+					setRefreshGestureEnabled(attributes.getBoolean(index, false));
 				}
 			}
 		}
@@ -635,33 +638,26 @@ public class GridViewWidget extends GridView implements WidgetGroup, Refreshable
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_GridView_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_GridView_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_GridView_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_GridView_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_GridView_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_GridView_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_GridView_uiBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_GridView_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_GridView_uiBackgroundTint)) {
-					mTintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_GridView_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_GridView_uiBackgroundTint)) {
+					mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_GridView_uiBackgroundTint);
 				}
 				mTintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_GridView_uiBackgroundTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_GridView_uiBackgroundTintMode, 0),
 						mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
 				);
 			}
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			GridViewWidget.super.setSelected(selected);
 		}
 
 		/**

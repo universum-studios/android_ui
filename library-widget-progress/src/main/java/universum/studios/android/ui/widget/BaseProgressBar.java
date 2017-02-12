@@ -31,20 +31,22 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.AnyThread;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v4.util.Pools;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.ProgressDrawable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A {@link ViewWidget} implementation which represents a base container for {@link ProgressDrawable}
@@ -273,7 +275,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	 * Same as {@link #BaseProgressBar(android.content.Context, android.util.AttributeSet)}
 	 * without attributes.
 	 */
-	BaseProgressBar(Context context) {
+	BaseProgressBar(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -281,7 +283,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	 * Same as {@link #BaseProgressBar(android.content.Context, android.util.AttributeSet, int)}
 	 * with <code>0</code> as attribute for default style.
 	 */
-	BaseProgressBar(Context context, AttributeSet attrs) {
+	BaseProgressBar(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
@@ -289,13 +291,13 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	 * Same as {@link #BaseProgressBar(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	BaseProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
+	BaseProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of BaseProgressBar within the given <var>context</var>.
+	 * Creates a new instance of BaseProgressBar for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -304,7 +306,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	BaseProgressBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	BaseProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -332,41 +334,34 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 		if (mDrawable == null) {
 			throw new IllegalArgumentException("No progress drawable has been attached.");
 		}
-		/**
-		 * Process attributes.
-		 */
-		final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Ui_ProgressBar, defStyleAttr, defStyleRes);
-		if (typedArray != null) {
-			this.processTintValues(context, typedArray);
-			final int n = typedArray.getIndexCount();
-			for (int i = 0; i < n; i++) {
-				final int index = typedArray.getIndex(i);
-				if (index == R.styleable.Ui_ProgressBar_android_max) {
-					setMax(typedArray.getInt(index, getMax()));
-				} else if (index == R.styleable.Ui_ProgressBar_android_progress) {
-					setProgress(typedArray.getInt(index, mProgress));
-				} else if (index == R.styleable.Ui_ProgressBar_uiColorProgress) {
-					mDrawable.setColor(typedArray.getColor(index, mDrawable.getColor()));
-				} else if (index == R.styleable.Ui_ProgressBar_uiColorsProgress) {
-					final int colorsResId = typedArray.getResourceId(index, -1);
-					if (colorsResId > 0 && !isInEditMode()) {
-						mDrawable.setColors(context.getResources().getIntArray(colorsResId));
-					}
-				} else if (index == R.styleable.Ui_ProgressBar_uiMultiColored) {
-					mDrawable.setMultiColored(typedArray.getBoolean(index, mDrawable.isMultiColored()));
-				} else if (index == R.styleable.Ui_ProgressBar_uiColorProgressBackground) {
-					mDrawable.setBackgroundColor(typedArray.getInt(index, Color.TRANSPARENT));
-				} else if (index == R.styleable.Ui_ProgressBar_android_thickness) {
-					mDrawable.setThickness(typedArray.getDimensionPixelSize(index, 0));
-				} else if (index == R.styleable.Ui_ProgressBar_uiRounded) {
-					mDrawable.setRounded(!isInEditMode() && typedArray.getBoolean(index, mDrawable.isRounded()));
-				} else if (index == R.styleable.Ui_ProgressBar_uiIndeterminateSpeed) {
-					mDrawable.setIndeterminateSpeed(typedArray.getFloat(index, 1));
+		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_ProgressBar, defStyleAttr, defStyleRes);
+		this.processTintValues(context, attributes);
+		for (int i = 0; i < attributes.getIndexCount(); i++) {
+			final int index = attributes.getIndex(i);
+			if (index == R.styleable.Ui_ProgressBar_android_max) {
+				setMax(attributes.getInt(index, getMax()));
+			} else if (index == R.styleable.Ui_ProgressBar_android_progress) {
+				setProgress(attributes.getInt(index, mProgress));
+			} else if (index == R.styleable.Ui_ProgressBar_uiColorProgress) {
+				mDrawable.setColor(attributes.getColor(index, mDrawable.getColor()));
+			} else if (index == R.styleable.Ui_ProgressBar_uiColorsProgress) {
+				final int colorsResId = attributes.getResourceId(index, -1);
+				if (colorsResId > 0 && !isInEditMode()) {
+					mDrawable.setColors(context.getResources().getIntArray(colorsResId));
 				}
+			} else if (index == R.styleable.Ui_ProgressBar_uiMultiColored) {
+				mDrawable.setMultiColored(attributes.getBoolean(index, mDrawable.isMultiColored()));
+			} else if (index == R.styleable.Ui_ProgressBar_uiColorProgressBackground) {
+				mDrawable.setBackgroundColor(attributes.getInt(index, Color.TRANSPARENT));
+			} else if (index == R.styleable.Ui_ProgressBar_android_thickness) {
+				mDrawable.setThickness(attributes.getDimensionPixelSize(index, 0));
+			} else if (index == R.styleable.Ui_ProgressBar_uiRounded) {
+				mDrawable.setRounded(!isInEditMode() && attributes.getBoolean(index, mDrawable.isRounded()));
+			} else if (index == R.styleable.Ui_ProgressBar_uiIndeterminateSpeed) {
+				mDrawable.setIndeterminateSpeed(attributes.getFloat(index, 1));
 			}
 		}
 		mDrawable.setInEditMode(isInEditMode());
-
 		this.applyProgressTint();
 		this.applyIndeterminateTint();
 		this.applyProgressBackgroundTint();
@@ -558,21 +553,24 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	 */
 	@Override
 	public void onStarted(@NonNull ProgressDrawable drawable) {
-		if (mProgressAnimationListener != null) mProgressAnimationListener.onStarted(this, drawable);
+		if (mProgressAnimationListener != null)
+			mProgressAnimationListener.onStarted(this, drawable);
 	}
 
 	/**
 	 */
 	@Override
 	public void onStopped(@NonNull ProgressDrawable drawable) {
-		if (mProgressAnimationListener != null) mProgressAnimationListener.onStopped(this, drawable);
+		if (mProgressAnimationListener != null)
+			mProgressAnimationListener.onStopped(this, drawable);
 	}
 
 	/**
 	 */
 	@Override
 	public void onExploded(@NonNull ProgressDrawable drawable) {
-		if (mProgressExplodeAnimationListener != null) mProgressExplodeAnimationListener.onExploded(this, drawable);
+		if (mProgressExplodeAnimationListener != null)
+			mProgressExplodeAnimationListener.onExploded(this, drawable);
 	}
 
 	/**
@@ -1159,7 +1157,8 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	@Override
 	protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
 		super.onVisibilityChanged(changedView, visibility);
-		if (mDrawable != null) handleVisibilityChange(visibility == VISIBLE && getVisibility() == VISIBLE);
+		if (mDrawable != null)
+			handleVisibilityChange(visibility == VISIBLE && getVisibility() == VISIBLE);
 	}
 
 	/**

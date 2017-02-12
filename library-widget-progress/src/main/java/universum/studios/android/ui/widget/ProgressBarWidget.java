@@ -27,8 +27,10 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
@@ -61,28 +63,6 @@ import universum.studios.android.ui.graphics.drawable.TintLayerDrawable;
  * <p>
  * <b>Note, that tinting of the background is also supported by this widget for the versions below
  * LOLLIPOP.</b>
- *
- * <h3>Sliding</h3>
- * This updated view allows updating of its current position along <b>x</b> and <b>y</b> axis by
- * changing <b>fraction</b> of these properties depending on its current size using the new animation
- * framework introduced in {@link android.os.Build.VERSION_CODES#HONEYCOMB HONEYCOMB} by
- * {@link android.animation.ObjectAnimator ObjectAnimator}s API.
- * <p>
- * Changing of fraction of X or Y is supported by these two methods:
- * <ul>
- * <li>{@link #setFractionX(float)}</li>
- * <li>{@link #setFractionY(float)}</li>
- * </ul>
- * <p>
- * For example if an instance of this view class needs to be slided to the right by whole width of
- * such a view, an Xml file with ObjectAnimator will look like this:
- * <pre>
- *  &lt;objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
- *                  android:propertyName="fractionX"
- *                  android:valueFrom="0.0"
- *                  android:valueTo="1.0"
- *                  android:duration="300"/&gt;
- * </pre>
  *
  * @author Martin Albedinsky
  */
@@ -133,7 +113,7 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 	 * Same as {@link #ProgressBarWidget(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public ProgressBarWidget(Context context) {
+	public ProgressBarWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -141,7 +121,7 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 	 * Same as {@link #ProgressBarWidget(android.content.Context, android.util.AttributeSet, int)}
 	 * with {@link android.R.attr#progressBarStyle} as attribute for default style.
 	 */
-	public ProgressBarWidget(Context context, AttributeSet attrs) {
+	public ProgressBarWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, android.R.attr.progressBarStyle);
 	}
 
@@ -149,13 +129,13 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 	 * Same as {@link #ProgressBarWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public ProgressBarWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public ProgressBarWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of ProgressBarWidget within the given <var>context</var>.
+	 * Creates a new instance of ProgressBarWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -163,8 +143,9 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 	 *                     this view within a theme of the given context.
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
+	@SuppressWarnings("unused")
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public ProgressBarWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public ProgressBarWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -764,89 +745,10 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 	/**
 	 */
 	@Override
-	public void setFractionX(float fraction) {
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
 		this.ensureDecorator();
-		mDecorator.setFractionX(fraction);
-	}
-
-	/**
-	 */
-	@Override
-	public float getFractionX() {
-		this.ensureDecorator();
-		return mDecorator.getFractionX();
-	}
-
-	/**
-	 */
-	@Override
-	public void setFractionY(float fraction) {
-		this.ensureDecorator();
-		mDecorator.setFractionY(fraction);
-	}
-
-	/**
-	 */
-	@Override
-	public float getFractionY() {
-		this.ensureDecorator();
-		return mDecorator.getFractionY();
-	}
-
-	/**
-	 */
-	@Override
-	public void setPressed(boolean pressed) {
-		final boolean isPressed = isPressed();
-		super.setPressed(pressed);
-		if (!isPressed && pressed) onPressed();
-		else if (isPressed) onReleased();
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code true} and this view
-	 * isn't in the pressed state yet.
-	 */
-	protected void onPressed() {
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code false} and this view
-	 * is currently in the pressed state.
-	 */
-	protected void onReleased() {
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelected(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelected(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelectionState(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.ensureDecorator();
-		mDecorator.setAllowDefaultSelection(allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		this.ensureDecorator();
-		return mDecorator.allowsDefaultSelection();
+		mDecorator.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	/**
@@ -856,15 +758,6 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 	public WidgetSizeAnimator animateSize() {
 		this.ensureDecorator();
 		return mDecorator.animateSize();
-	}
-
-	/**
-	 */
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		this.ensureDecorator();
-		mDecorator.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	/**
@@ -968,94 +861,94 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiProgressTint)) {
-					setProgressTintList(tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiProgressTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiProgressTint)) {
+					setProgressTintList(tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiProgressTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiSecondaryProgressTint)) {
-					setSecondaryProgressTintList(tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiSecondaryProgressTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiSecondaryProgressTint)) {
+					setSecondaryProgressTintList(tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiSecondaryProgressTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiProgressBackgroundTint)) {
-					setProgressBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiProgressBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiProgressBackgroundTint)) {
+					setProgressBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiProgressBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiIndeterminateTint)) {
-					setIndeterminateTintList(tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiIndeterminateTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiIndeterminateTint)) {
+					setIndeterminateTintList(tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiIndeterminateTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiProgressTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiProgressTintMode)) {
 					setProgressTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_ProgressBar_uiProgressTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiProgressTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiSecondaryProgressTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiSecondaryProgressTintMode)) {
 					setSecondaryProgressTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_ProgressBar_uiSecondaryProgressTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiSecondaryProgressTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiProgressBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiProgressBackgroundTintMode)) {
 					setProgressBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_ProgressBar_uiProgressBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiProgressBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiIndeterminateTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiIndeterminateTintMode)) {
 					setIndeterminateTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_ProgressBar_uiIndeterminateTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiIndeterminateTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_ProgressBar_uiBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
 				final ProgressTintInfo tintInfo = getTintInfo();
 				tintInfo.tintList = ColorStateList.valueOf(tintColor);
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiProgressTint)) {
-					tintInfo.tintList = tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiProgressTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiProgressTint)) {
+					tintInfo.tintList = tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiProgressTint);
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiSecondaryProgressTint)) {
-					tintInfo.secondaryProgressTintList = tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiSecondaryProgressTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiSecondaryProgressTint)) {
+					tintInfo.secondaryProgressTintList = tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiSecondaryProgressTint);
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiProgressBackgroundTint)) {
-					tintInfo.progressBackgroundTintList = tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiProgressBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiProgressBackgroundTint)) {
+					tintInfo.progressBackgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiProgressBackgroundTint);
 				}
 				tintInfo.indeterminateTintList = ColorStateList.valueOf(tintColor);
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiIndeterminateTint)) {
-					tintInfo.indeterminateTintList = tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiIndeterminateTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiIndeterminateTint)) {
+					tintInfo.indeterminateTintList = tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiIndeterminateTint);
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ProgressBar_uiBackgroundTint)) {
-					tintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_ProgressBar_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_ProgressBar_uiBackgroundTint)) {
+					tintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_ProgressBar_uiBackgroundTint);
 				}
 				tintInfo.tintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_ProgressBar_uiProgressTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiProgressTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				);
 				tintInfo.secondaryProgressTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_ProgressBar_uiSecondaryProgressTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiSecondaryProgressTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				);
 				tintInfo.progressBackgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_ProgressBar_uiProgressBackgroundTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiProgressBackgroundTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				);
 				tintInfo.indeterminateTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_ProgressBar_uiIndeterminateTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiIndeterminateTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				);
 				tintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_ProgressBar_uiBackgroundTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_ProgressBar_uiBackgroundTintMode, 0),
 						tintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
 				);
 				tintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInteger(R.styleable.Ui_ProgressBar_uiBackgroundTintMode, 0),
+						tintAttributes.getInteger(R.styleable.Ui_ProgressBar_uiBackgroundTintMode, 0),
 						PorterDuff.Mode.SRC_IN
 				);
 			}
@@ -1064,7 +957,7 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 		/**
 		 */
 		@Override
-		void onTintValuesProcessed() {
+		void onTintAttributesProcessed() {
 			final ProgressTintInfo tintInfo = getTintInfo();
 			// If there is no tint mode specified within style/xml do not tint at all.
 			if (tintInfo.indeterminateTintMode == null) tintInfo.indeterminateTintList = null;
@@ -1076,7 +969,7 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 			tintInfo.hasProgressBackgroundTintMode = tintInfo.progressBackgroundTintMode != null;
 			tintInfo.hasIndeterminateTintList = tintInfo.indeterminateTintList != null;
 			tintInfo.hasIndeterminateTintMode = tintInfo.indeterminateTintMode != null;
-			super.onTintValuesProcessed();
+			super.onTintAttributesProcessed();
 		}
 
 		/**
@@ -1088,13 +981,6 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 					!info.hasSecondaryProgressTintList && !info.hasSecondaryProgressTintMode &&
 					!info.hasProgressBackgroundTintList && !info.hasProgressBackgroundTintMode &&
 					super.shouldInvalidateTintInfo(tintInfo);
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			ProgressBarWidget.super.setSelected(selected);
 		}
 
 		/**

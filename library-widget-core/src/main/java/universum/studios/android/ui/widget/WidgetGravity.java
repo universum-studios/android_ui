@@ -26,12 +26,18 @@ import android.view.Gravity;
  *
  * @author Martin Albedinsky
  */
-final class WidgetGravity extends Gravity {
+public final class WidgetGravity extends Gravity {
 
 	/**
 	 * Boolean flag indicating whether the current Android version supports <b>RTL</b> layout direction.
 	 */
-	static final boolean RTL_SUPPORT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+	public static final boolean RTL_SUPPORT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+
+	/**
+	 */
+	private WidgetGravity() {
+		// Creation of instances of this class is not publicly allowed.
+	}
 
 	/**
 	 * Compatibility version of {@link Gravity#getAbsoluteGravity(int, int)}.

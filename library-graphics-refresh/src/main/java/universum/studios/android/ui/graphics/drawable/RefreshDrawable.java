@@ -533,9 +533,9 @@ public class RefreshDrawable extends DrawableWrapper implements Animatable {
 	}
 
 	/**
-	 * Centers bounds of the given <var>drawable</var> within the given <var>bounds</var>.
+	 * Centers bounds of the given <var>drawable</var> for the given <var>bounds</var>.
 	 *
-	 * @param drawable The drawable which to center within the given bounds.
+	 * @param drawable The drawable which to center for the given bounds.
 	 * @param width    Width of the specified drawable.
 	 * @param height   Height of the specified drawable.
 	 * @param bounds   The bounds within which to center the drawable.

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources>
+
+	<!-- ### DATE PICKER ======================================================================= -->
+
+	<!-- Style for CalendarView widget. -->
+	<style name="Ui.Widget.CalendarView">
+		<item name="android:orientation">horizontal</item>
+		<item name="android:listSelector">@drawable/ui_selector_transparent</item>
+		<item name="android:scrollbars">none</item>
+		<item name="uiFlingMinVelocity">250</item>
+		<item name="uiFlingMaxVelocity">750</item>
+		<item name="uiScrollSpeedPerInch">50.0</item>
+	</style>
+
+	<!-- Light style for CalendarView widget. -->
+	<style name="Ui.Widget.Light.CalendarView" parent="Ui.Widget.CalendarView"/>
+
+	<!-- Style for MonthView widget. -->
+	<style name="Ui.Widget.MonthView" parent="Ui.Base.Widget.MonthView">
+		<item name="android:paddingLeft">?attr/uiSpacingPrimary</item>
+		<item name="android:paddingTop">?attr/uiSpacingPrimary</item>
+		<item name="android:paddingRight">?attr/uiSpacingPrimary</item>
+		<item name="android:paddingBottom">?attr/uiSpacingPrimary</item>
+		<item name="uiMonthDayLettersOffsetVertical">32dp</item>
+		<item name="uiMonthDayNumbersOffsetVertical">32dp</item>
+		<item name="android:horizontalSpacing">40dp</item>
+		<item name="android:verticalSpacing">40dp</item>
+		<item name="uiMonthTitleTextAppearance">@style/Ui.TextAppearance.Widget.MonthView.Title</item>
+		<item name="uiMonthDayLetterTextAppearance">@style/Ui.TextAppearance.Widget.MonthView.DayLetter</item>
+		<item name="uiMonthDayNumberTextAppearance">@style/Ui.TextAppearance.Widget.MonthView.DayNumber</item>
+		<item name="uiMonthDaySelector">@drawable/ui_selector_month_day</item>
+		<item name="uiMonthDaySelectorRadius">20dp</item>
+		<item name="uiMonthCurrentDayTextColor">?attr/colorControlActivated</item>
+	</style>
+
+	<!-- Light style for MonthView widget. -->
+	<style name="Ui.Widget.Light.MonthView" parent="Ui.Widget.MonthView">
+		<item name="uiMonthTitleTextAppearance">@style/Ui.TextAppearance.Light.Widget.MonthView.Title</item>
+		<item name="uiMonthDayLetterTextAppearance">@style/Ui.TextAppearance.Light.Widget.MonthView.DayLetter</item>
+		<item name="uiMonthDayNumberTextAppearance">@style/Ui.TextAppearance.Light.Widget.MonthView.DayNumber</item>
+	</style>
+</resources>

@@ -23,8 +23,10 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -73,7 +75,7 @@ public class FlatButton extends ButtonWidget {
 	 * Same as {@link #FlatButton(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public FlatButton(Context context) {
+	public FlatButton(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -81,7 +83,7 @@ public class FlatButton extends ButtonWidget {
 	 * Same as {@link #FlatButton(android.content.Context, android.util.AttributeSet, int)} with
 	 * {@link R.attr#uiFlatButtonStyle} as attribute for default style.
 	 */
-	public FlatButton(Context context, AttributeSet attrs) {
+	public FlatButton(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, R.attr.uiFlatButtonStyle);
 	}
 
@@ -89,12 +91,12 @@ public class FlatButton extends ButtonWidget {
 	 * Same as {@link #FlatButton(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public FlatButton(Context context, AttributeSet attrs, int defStyleAttr) {
+	public FlatButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
 
 	/**
-	 * Creates a new instance of FlatButton within the given <var>context</var>.
+	 * Creates a new instance of FlatButton for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -103,7 +105,7 @@ public class FlatButton extends ButtonWidget {
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public FlatButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public FlatButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 	}
 

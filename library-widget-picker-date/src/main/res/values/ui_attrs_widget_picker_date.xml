@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Date picker theme attributes. -->
+    <declare-styleable name="Ui.Theme.Picker.Date">
+        <!-- Style for CalendarView widget. -->
+        <attr name="uiCalendarViewStyle" format="reference"/>
+        <!-- Style for MonthView widget. -->
+        <attr name="uiMonthViewStyle" format="reference"/>
+    </declare-styleable>
+
+	<!-- CalendarView attributes. -->
+	<declare-styleable name="Ui.CalendarView">
+		<!-- Re-used. -->
+		<attr name="android:orientation"/>
+		<!-- Re-used. -->
+		<attr name="uiFlingMinVelocity"/>
+		<!-- Re-used. -->
+		<attr name="uiFlingMaxVelocity"/>
+		<!-- Scrolling speed in milliseconds per inch. -->
+		<attr name="uiScrollSpeedPerInch" format="float"/>
+	</declare-styleable>
+
+	<!-- MonthView attributes. -->
+	<declare-styleable name="Ui.MonthView">
+		<!-- Offset used to move first letters of days in week vertically. -->
+		<attr name="uiMonthDayLettersOffsetVertical" format="dimension"/>
+		<!-- Offset used to move month day numbers vertically. -->
+		<attr name="uiMonthDayNumbersOffsetVertical" format="dimension"/>
+		<!-- Re-used. -->
+		<attr name="android:horizontalSpacing"/>
+		<!-- Re-used. -->
+		<attr name="android:verticalSpacing"/>
+		<!-- Text appearance style for month title. -->
+		<attr name="uiMonthTitleTextAppearance" format="reference"/>
+		<!-- Text appearance style for first letters of days of week of month. -->
+		<attr name="uiMonthDayLetterTextAppearance" format="reference"/>
+		<!-- Text appearance style for month day number. -->
+		<attr name="uiMonthDayNumberTextAppearance" format="reference"/>
+		<!-- Drawable used to highlight selected day. -->
+		<attr name="uiMonthDaySelector" format="reference"/>
+		<!-- Radius for the day selector drawable. -->
+		<attr name="uiMonthDaySelectorRadius" format="dimension"/>
+		<!-- Re-used. -->
+		<attr name="uiIndicatorTint"/>
+		<!-- Re-used. -->
+		<attr name="uiIndicatorTintMode"/>
+		<!-- Color used to highlight number of the current day. -->
+		<attr name="uiMonthCurrentDayTextColor" format="reference|color"/>
+	</declare-styleable>
+</resources>

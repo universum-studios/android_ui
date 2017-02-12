@@ -25,8 +25,10 @@ import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -34,13 +36,12 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ScrollView;
 
-import universum.studios.android.ui.controller.PullController;
+import java.util.ArrayList;
+import java.util.List;
+
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Extended version of {@link android.widget.ScrollView}. This updated ScrollView supports tinting
@@ -67,13 +68,6 @@ import java.util.List;
  * To receive callbacks about changes in scroll position there can be registered {@link ViewWidget.OnScrollChangeListener}
  * via {@link #addOnScrollChangeListener(ViewWidget.OnScrollChangeListener)}. Already registered listener
  * can be removed via {@link #removeOnScrollChangeListener(ViewWidget.OnScrollChangeListener)}.
- *
- * <h3>Pulling</h3>
- * This widget group can be pulled at its start and also at its end. This feature is supported via
- * {@link PullController PullController}. ScrollViewWidget has
- * {@link Orientation#VERTICAL} orientation, so its content can be pulled at the top or at the bottom
- * by offsetting its current position via {@link #offsetTopAndBottom(int)} what the PullController
- * pretty much does.
  *
  * <h3>Sliding</h3>
  * This updated view group allows updating of its current position along <b>x</b> and <b>y</b> axis
@@ -110,7 +104,7 @@ import java.util.List;
  * @author Martin Albedinsky
  * @see HorizontalScrollViewWidget
  */
-public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullable {
+public class ScrollViewWidget extends ScrollView implements WidgetGroup, Scrollable {
 
 	/**
 	 * Interface ===================================================================================
@@ -152,7 +146,7 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 	 * Same as {@link #ScrollViewWidget(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public ScrollViewWidget(Context context) {
+	public ScrollViewWidget(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -160,7 +154,7 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 	 * Same as {@link #ScrollViewWidget(android.content.Context, android.util.AttributeSet, int)}
 	 * with {@link android.R.attr#scrollViewStyle} as attribute for default style.
 	 */
-	public ScrollViewWidget(Context context, AttributeSet attrs) {
+	public ScrollViewWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, android.R.attr.scrollViewStyle);
 	}
 
@@ -168,13 +162,13 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 	 * Same as {@link #ScrollViewWidget(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public ScrollViewWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+	public ScrollViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of ScrollViewWidget within the given <var>context</var>.
+	 * Creates a new instance of ScrollViewWidget for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -182,8 +176,9 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 	 *                     this view within a theme of the given context.
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
+	@SuppressWarnings("unused")
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public ScrollViewWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public ScrollViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -319,62 +314,6 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 
 	/**
 	 */
-	@Override
-	public void setPressed(boolean pressed) {
-		final boolean isPressed = isPressed();
-		super.setPressed(pressed);
-		if (!isPressed && pressed) onPressed();
-		else if (isPressed) onReleased();
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code true} and this view
-	 * isn't in the pressed state yet.
-	 */
-	protected void onPressed() {
-	}
-
-	/**
-	 * Invoked whenever {@link #setPressed(boolean)} is called with {@code false} and this view
-	 * is currently in the pressed state.
-	 */
-	protected void onReleased() {
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelected(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelected(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setSelectionState(boolean selected) {
-		this.ensureDecorator();
-		mDecorator.setSelectionState(selected);
-	}
-
-	/**
-	 */
-	@Override
-	public void setAllowDefaultSelection(boolean allow) {
-		this.ensureDecorator();
-		mDecorator.setAllowDefaultSelection(allow);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean allowsDefaultSelection() {
-		this.ensureDecorator();
-		return mDecorator.allowsDefaultSelection();
-	}
-
-	/**
-	 */
 	@NonNull
 	@Override
 	public WidgetSizeAnimator animateSize() {
@@ -408,57 +347,6 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 	}
 
 	/**
-	 */
-	@Override
-	public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
-		this.ensureDecorator();
-		return mDecorator.onInterceptTouchEvent(event) || super.onInterceptTouchEvent(event);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean onTouchEvent(@NonNull MotionEvent event) {
-		this.ensureDecorator();
-		mDecorator.hideSoftKeyboardOnTouch();
-		return mDecorator.onTouchEvent(event) || super.onTouchEvent(event);
-	}
-
-	/**
-	 */
-	@Override
-	public void setPullEnabled(boolean enabled) {
-		this.ensureDecorator();
-		mDecorator.setPullEnabled(enabled);
-	}
-
-	/**
-	 */
-	@Override
-	public boolean isPullEnabled() {
-		this.ensureDecorator();
-		return mDecorator.isPullEnabled();
-	}
-
-	/**
-	 * Returns the controller used to support the <b>pullable</b> feature for this view.
-	 *
-	 * @return PullController of this pullable view.
-	 */
-	@NonNull
-	public PullController getPullController() {
-		this.ensureDecorator();
-		return mDecorator.getPullController();
-	}
-
-	/**
-	 */
-	@Override
-	public int getOrientation() {
-		return Orientation.HORIZONTAL;
-	}
-
-	/**
 	 * Adds a callback to be invoked whenever {@link #onScrollChanged(int, int, int, int)} is
 	 * invoked for this view.
 	 *
@@ -483,6 +371,30 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 	/**
 	 */
 	@Override
+	public int getOrientation() {
+		return Orientation.VERTICAL;
+	}
+
+	/**
+	 */
+	@Override
+	public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
+		this.ensureDecorator();
+		return mDecorator.onInterceptTouchEvent(event) || super.onInterceptTouchEvent(event);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean onTouchEvent(@NonNull MotionEvent event) {
+		this.ensureDecorator();
+		mDecorator.hideSoftKeyboardOnTouch();
+		return mDecorator.onTouchEvent(event) || super.onTouchEvent(event);
+	}
+
+	/**
+	 */
+	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		super.onScrollChanged(l, t, oldl, oldt);
 		if (mScrollChangeListeners != null && !mScrollChangeListeners.isEmpty()) {
@@ -495,18 +407,9 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 	/**
 	 */
 	@Override
-	protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
-		super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
-		this.ensureDecorator();
-		mDecorator.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
-	}
-
-	/**
-	 */
-	@Override
 	public boolean isScrolledAtStart() {
 		this.ensureDecorator();
-		return mDecorator.isScrolledAtStart();
+		return mDecorator.scrollableWrapper.isScrolledAtStart();
 	}
 
 	/**
@@ -514,7 +417,7 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 	@Override
 	public boolean isScrolledAtEnd() {
 		this.ensureDecorator();
-		return mDecorator.isScrolledAtEnd();
+		return mDecorator.scrollableWrapper.isScrolledAtEnd();
 	}
 
 	/**
@@ -524,28 +427,30 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 	/**
 	 * Decorator implementation for this widget.
 	 */
-	private final class Decorator extends PullableDecorator<ScrollViewWidget> {
+	private final class Decorator extends WidgetGroupDecorator<ScrollViewWidget> {
 
 		/**
-		 * See {@link PullableDecorator#PullableDecorator(ViewGroup, int[])}.
+		 * Helper used to check if the attached scrollable view is scrolled at start or at end.
+		 */
+		final ScrollableWrapper scrollableWrapper;
+
+		/**
+		 * See {@link WidgetGroupDecorator#WidgetGroupDecorator(ViewGroup, int[])}.
 		 */
 		Decorator(ScrollViewWidget widgetGroup) {
 			super(widgetGroup, R.styleable.Ui_ScrollView);
+			this.scrollableWrapper = ScrollableWrapper.wrapScrollableView(widgetGroup);
 		}
 
 		/**
 		 */
 		@Override
-		void onProcessTypedValues(Context context, TypedArray typedArray) {
-			super.onProcessTypedValues(context, typedArray);
-
-			final int n = typedArray.getIndexCount();
-			for (int i = 0; i < n; i++) {
-				int index = typedArray.getIndex(i);
+		void onProcessAttributes(Context context, TypedArray attributes) {
+			super.onProcessAttributes(context, attributes);
+			for (int i = 0; i < attributes.getIndexCount(); i++) {
+				final int index = attributes.getIndex(i);
 				if (index == R.styleable.Ui_ScrollView_uiHideSoftKeyboardOnTouch) {
-					setHideSoftKeyboardOnTouchEnabled(typedArray.getBoolean(index, false));
-				} else if (index == R.styleable.Ui_ScrollView_uiPullEnabled) {
-					setPullEnabled(typedArray.getBoolean(index, false));
+					setHideSoftKeyboardOnTouchEnabled(attributes.getBoolean(index, false));
 				}
 			}
 		}
@@ -554,33 +459,27 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Pullabl
 		 */
 		@Override
 		@SuppressWarnings("ResourceType")
-		void onProcessTintValues(Context context, TypedArray tintArray, int tintColor) {
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
+			super.onProcessTintAttributes(context, tintAttributes, tintColor);
 			if (UiConfig.MATERIALIZED) {
-				if (tintArray.hasValue(R.styleable.Ui_ScrollView_uiBackgroundTint)) {
-					setBackgroundTintList(tintArray.getColorStateList(R.styleable.Ui_ScrollView_uiBackgroundTint));
+				if (tintAttributes.hasValue(R.styleable.Ui_ScrollView_uiBackgroundTint)) {
+					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_ScrollView_uiBackgroundTint));
 				}
-				if (tintArray.hasValue(R.styleable.Ui_ScrollView_uiBackgroundTintMode)) {
+				if (tintAttributes.hasValue(R.styleable.Ui_ScrollView_uiBackgroundTintMode)) {
 					setBackgroundTintMode(TintManager.parseTintMode(
-							tintArray.getInt(R.styleable.Ui_ScrollView_uiBackgroundTintMode, 0),
+							tintAttributes.getInt(R.styleable.Ui_ScrollView_uiBackgroundTintMode, 0),
 							PorterDuff.Mode.SRC_IN
 					));
 				}
 			} else {
-				if (tintArray.hasValue(R.styleable.Ui_ScrollView_uiBackgroundTint)) {
-					mTintInfo.backgroundTintList = tintArray.getColorStateList(R.styleable.Ui_ScrollView_uiBackgroundTint);
+				if (tintAttributes.hasValue(R.styleable.Ui_ScrollView_uiBackgroundTint)) {
+					mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_ScrollView_uiBackgroundTint);
 				}
 				mTintInfo.backgroundTintMode = TintManager.parseTintMode(
-						tintArray.getInt(R.styleable.Ui_ScrollView_uiBackgroundTintMode, 0),
+						tintAttributes.getInt(R.styleable.Ui_ScrollView_uiBackgroundTintMode, 0),
 						mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
 				);
 			}
-		}
-
-		/**
-		 */
-		@Override
-		void superSetSelected(boolean selected) {
-			ScrollViewWidget.super.setSelected(selected);
 		}
 
 		/**

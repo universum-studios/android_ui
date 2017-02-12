@@ -26,19 +26,21 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.graphics.drawable.LinearProgressDrawable;
 import universum.studios.android.ui.graphics.drawable.ProgressDrawable;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 /**
  * A {@link BaseProgressBar} implementation with {@link LinearProgressDrawable} used to present a
@@ -80,7 +82,6 @@ import java.lang.annotation.RetentionPolicy;
  * {@link R.attr#uiProgressBarLinearStyle uiProgressBarLinearStyle}
  *
  * @author Martin Albedinsky
- *
  * @see CircularProgressBar
  */
 public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
@@ -97,19 +98,6 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 	 * Log TAG.
 	 */
 	// private static final String TAG = "LinearProgressBar";
-
-	/**
-	 * Defines an annotation for determining set of allowed modes for LinearProgressBar.
-	 */
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({
-			MODE_INDETERMINATE,
-			MODE_DETERMINATE,
-			MODE_BUFFER,
-			MODE_QUERY_INDETERMINATE_DETERMINATE
-	})
-	public @interface ProgressMode {
-	}
 
 	/**
 	 * Flag copied from {@link LinearProgressDrawable#MODE_DETERMINATE} for better access.
@@ -131,6 +119,19 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 	 * access.
 	 */
 	public static final int MODE_QUERY_INDETERMINATE_DETERMINATE = LinearProgressDrawable.MODE_QUERY_INDETERMINATE_DETERMINATE;
+
+	/**
+	 * Defines an annotation for determining set of allowed modes for LinearProgressBar.
+	 */
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({
+			MODE_INDETERMINATE,
+			MODE_DETERMINATE,
+			MODE_BUFFER,
+			MODE_QUERY_INDETERMINATE_DETERMINATE
+	})
+	public @interface ProgressMode {
+	}
 
 	/**
 	 * Static members ==============================================================================
@@ -163,7 +164,7 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 	 * Same as {@link #LinearProgressBar(android.content.Context, android.util.AttributeSet)} without
 	 * attributes.
 	 */
-	public LinearProgressBar(Context context) {
+	public LinearProgressBar(@NonNull Context context) {
 		this(context, null);
 	}
 
@@ -171,7 +172,7 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 	 * Same as {@link #LinearProgressBar(android.content.Context, android.util.AttributeSet, int)}
 	 * with {@link R.attr#uiProgressBarLinearStyle} as attribute for default style.
 	 */
-	public LinearProgressBar(Context context, AttributeSet attrs) {
+	public LinearProgressBar(@NonNull Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, R.attr.uiProgressBarLinearStyle);
 	}
 
@@ -179,13 +180,13 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 	 * Same as {@link #LinearProgressBar(android.content.Context, android.util.AttributeSet, int, int)}
 	 * with {@code 0} as default style.
 	 */
-	public LinearProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
+	public LinearProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.init(context, attrs, defStyleAttr, 0);
 	}
 
 	/**
-	 * Creates a new instance of LinearProgressBar within the given <var>context</var>.
+	 * Creates a new instance of LinearProgressBar for the given <var>context</var>.
 	 *
 	 * @param context      Context in which will be the new view presented.
 	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
@@ -194,7 +195,7 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 	 * @param defStyleRes  Resource id of the default style for the new view.
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public LinearProgressBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+	public LinearProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
@@ -212,20 +213,14 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 	 * from the current theme provided by the specified <var>context</var>.
 	 */
 	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-		/**
-		 * Process attributes.
-		 */
-		final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Ui_ProgressBar_Linear, defStyleAttr, defStyleRes);
-		if (typedArray != null) {
-			this.processTintValues(context, typedArray);
-			final int n = typedArray.getIndexCount();
-			for (int i = 0; i < n; i++) {
-				final int index = typedArray.getIndex(i);
-				if (index == R.styleable.Ui_ProgressBar_Linear_android_secondaryProgress) {
-					setSecondaryProgress(typedArray.getInt(index, mSecondaryProgress));
-				} else if (index == R.styleable.Ui_ProgressBar_Linear_uiLinearProgressMode) {
-					changeMode(typedArray.getInt(index, getProgressMode()));
-				}
+		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_ProgressBar_Linear, defStyleAttr, defStyleRes);
+		this.processTintValues(context, attributes);
+		for (int i = 0; i < attributes.getIndexCount(); i++) {
+			final int index = attributes.getIndex(i);
+			if (index == R.styleable.Ui_ProgressBar_Linear_android_secondaryProgress) {
+				setSecondaryProgress(attributes.getInt(index, mSecondaryProgress));
+			} else if (index == R.styleable.Ui_ProgressBar_Linear_uiLinearProgressMode) {
+				changeMode(attributes.getInt(index, getProgressMode()));
 			}
 		}
 		this.applySecondaryProgressTint();

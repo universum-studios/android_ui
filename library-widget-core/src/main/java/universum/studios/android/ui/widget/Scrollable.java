@@ -26,14 +26,6 @@ package universum.studios.android.ui.widget;
 public interface Scrollable {
 
 	/**
-	 * Constants ===================================================================================
-	 */
-
-	/**
-	 * Methods =====================================================================================
-	 */
-
-	/**
 	 * Returns the orientation of this scrollable view to determine how, along which axis, can be this
 	 * view (its content) scrolled.
 	 *

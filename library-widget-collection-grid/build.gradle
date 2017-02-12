@@ -62,11 +62,15 @@ dependencies {
     // todo: releaseCompile "universum.studios.android:ui-controller-base:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-refresh:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-text:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-collection-core:${libraryVersion}@aar"
 
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
+    debugCompile project(':library-controller-refresh')
+    debugCompile project(':library-widget-core')
+    debugCompile project(':library-widget-text')
     debugCompile project(':library-widget-collection-core')
 }
 

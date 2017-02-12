@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:tools="http://schemas.android.com/tools"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  xmlns:app="http://schemas.android.com/apk/res-auto"
+			  android:orientation="vertical">
+
+	<FrameLayout
+		style="?attr/toolbarStyle"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize">
+
+		<android.support.v7.widget.Toolbar
+			android:id="@+id/ex_toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:elevation="0dip" />
+
+		<universum.studios.android.ui.widget.SearchView
+			android:id="@+id/search_view"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:visibility="invisible"
+			android:hint="@string/app_menu_action_search"
+			tools:visibility="visible" />
+	</FrameLayout>
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingTop="?attr/uiSpacingSecondary">
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="?attr/uiSpacingSecondary"
+			android:gravity="center_vertical">
+
+			<universum.studios.android.ui.widget.ImageViewWidget
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="?attr/uiSpacingPrimary"
+				app:uiTint="#000000"
+				app:uiVectorSrc="@drawable/ex_vc_navigation_android"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/app_name"/>
+		</LinearLayout>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="72dip"
+			android:layout_marginTop="?attr/uiSpacingTertiary"
+			android:text="@string/app_name"/>
+	</LinearLayout>
+</LinearLayout>

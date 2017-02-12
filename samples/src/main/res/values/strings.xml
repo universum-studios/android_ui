@@ -28,7 +28,164 @@
 		Welcome to the Ui sample App.
 	</string>
 
+	<!-- ## APPLICATION:Menu actions -->
+	<string name="app_menu_action_refresh">Refresh</string>
+	<string name="app_menu_action_confirm">Confirm</string>
+	<string name="app_menu_action_search">Search</string>
+
 	<!-- ### NAVIGATION ======================================================================== -->
 
 	<string name="navigation_item_home">Home</string>
+	<string name="navigation_item_style">Style</string>
+	<string name="navigation_item_layout">Layout</string>
+	<string name="navigation_item_components">Components</string>
+	<string name="navigation_item_patterns">Patterns</string>
+
+	<!-- ### ANIMATION ========================================================================= -->
+
+	<!-- ## ANIMATION:Transitions -->
+	<string name="animation_navigation_transitions">Transitions</string>
+	<string name="animation_transitions_scale">Scale</string>
+	<string name="animation_transitions_scale_1">Scale transition sample 1</string>
+	<string name="animation_transitions_reveal">Reveal</string>
+	<string name="animation_transitions_reveal_1">Reveal transition sample 1</string>
+
+	<!-- ## ANIMATION:Window transition -->
+	<string name="animation_navigation_window_transitions">Window Transitions</string>
+	<string name="animation_window_transitions_none">None</string>
+	<string name="animation_window_transitions_cross_fade">CROSS FADE</string>
+	<string name="animation_window_transitions_cross_fade_hold">CROSS FADE and HOLD</string>
+	<string name="animation_window_transitions_slide_to_right">Slide to RIGHT</string>
+	<string name="animation_window_transitions_slide_to_right_and_hold">Slide to RIGHT and HOLD</string>
+	<string name="animation_window_transitions_slide_to_left">Slide to LEFT</string>
+	<string name="animation_window_transitions_slide_to_left_and_hold">Slide to LEFT and HOLD</string>
+	<string name="animation_window_transitions_slide_to_top">Slide to TOP</string>
+	<string name="animation_window_transitions_slide_to_top_and_hold">Slide to TOP and HOLD</string>
+	<string name="animation_window_transitions_slide_to_bottom">Slide to BOTTOM</string>
+	<string name="animation_window_transitions_slide_to_bottom_and_hold">Slide to BOTTOM and HOLD</string>
+	<string name="animation_window_transitions_slide_to_left_and_scale_out">Slide to LEFT and SCALE out</string>
+	<string name="animation_window_transitions_slide_to_right_and_scale_out">Slide to RIGHT and SCALE out</string>
+	<string name="animation_window_transitions_slide_to_top_and_scale_out">Slide to TOP and SCALE out</string>
+	<string name="animation_window_transitions_slide_to_bottom_and_scale_out">Slide to BOTTOM and SCALE out</string>
+
+	<!-- ### STYLE ============================================================================= -->
+
+	<string name="style_navigation_color">Color</string>
+	<string name="style_navigation_icons">Icons</string>
+	<string name="style_navigation_icons_vector">Vector icons</string>
+	<string name="style_navigation_icons_compound">Compound icons</string>
+	<string name="style_navigation_icons_vector_compound">Compound vector icons</string>
+	<string name="style_navigation_imagery">Imagery</string>
+
+	<!-- ## STYLE:Typography -->
+	<string name="style_navigation_typography">Typography</string>
+	<string name="style_typography_font_family">Font family</string>
+	<string name="style_typography_font_family_regular">Regular font family</string>
+	<string name="style_typography_font_family_light">Light font family</string>
+	<string name="style_typography_font_family_thin">Thin font family</string>
+	<string name="style_typography_font_family_condensed">Condensed font family</string>
+	<string name="style_typography_font_family_medium">Medium font family</string>
+	<string name="style_typography_custom_font">Custom font</string>
+	<string name="style_typography_custom_font_text_view">TextView with custom font</string>
+	<string name="style_typography_custom_font_edit_text">EditText with custom font</string>
+	<string name="style_typography_custom_font_button">Button with custom font</string>
+
+	<!-- ### LAYOUT ============================================================================ -->
+
+	<string name="layout_navigation_metrics_and_keylines">Metrics &amp; keylines</string>
+	<string name="layout_metrics_and_keylines_toolbar">Toolbar</string>
+
+	<!-- ### COMPONENTS ======================================================================== -->
+
+	<!-- ## COMPONENTS:Buttons -->
+	<string name="components_navigation_buttons">Buttons</string>
+	<string name="components_buttons_button">Button</string>
+	<string name="components_buttons_button_disabled">Button (disabled)</string>
+	<string name="components_buttons_flat_button">Flat Button</string>
+	<string name="components_buttons_flat_button_disabled">Flat Button (disabled)</string>
+	<string name="components_buttons_floating_action_button">Floating Action Button</string>
+	<string name="components_buttons_icon_button">Icon Button</string>
+
+	<!-- ## COMPONENTS:Collections -->
+	<string name="components_navigation_grids">Grids</string>
+	<string name="components_navigation_lists">Lists</string>
+	<string name="components_navigation_pagers">Pagers</string>
+	<string name="components_navigation_grids_simple">Simple Grid</string>
+	<string name="components_navigation_grids_pullable">Pullable Grid</string>
+	<string name="components_navigation_lists_simple">Simple List</string>
+	<string name="components_navigation_lists_pullable">Pullable List</string>
+	<string name="components_navigation_lists_recycler_pullable">Pullable Recycler List</string>
+	<string name="components_collection_empty">No items available.</string>
+
+	<!-- ## COMPONENTS:Menus -->
+	<string name="components_navigation_menus">Menus</string>
+	<string name="components_menus_spinner">Spinner</string>
+	<string name="components_menus_spinner_layout">Spinner Layout</string>
+
+	<!-- ## COMPONENTS:Pickers -->
+	<string name="components_navigation_pickers">Pickers</string>
+	<string name="components_navigation_pickers_number_picker">Number Picker</string>
+	<string name="components_navigation_pickers_date_picker">Date Picker</string>
+
+	<!-- ## COMPONENTS:Progress and activity -->
+	<string name="components_navigation_progress_and_activity">Progress &amp; Activity</string>
+	<string name="components_progress_and_activity_determinate">Determinate</string>
+	<string name="components_progress_and_activity_indeterminate">Indeterminate</string>
+	<string name="components_progress_and_activity_linear">Linear</string>
+	<string name="components_progress_and_activity_buffer">Buffer</string>
+	<string name="components_progress_and_activity_circular">Circular</string>
+	<string name="components_progress_and_activity_query_indeterminate_determinate">Query Indeterminate and Determinate</string>
+	<string name="components_progress_and_activity_circular_with_arrow">With Arrow</string>
+
+	<!-- ## COMPONENTS:Sliders -->
+	<string name="components_navigation_sliders">Sliders</string>
+	<string name="components_sliders_continuous">Continuous slider</string>
+	<string name="components_sliders_discrete">Discrete slider</string>
+
+	<!-- ## COMPONENTS:Switches -->
+	<string name="components_navigation_switches">Switches</string>
+	<string name="components_switches_check_box">Check Box</string>
+	<string name="components_switches_check_box_disabled">Check Box (disabled)</string>
+	<string name="components_switches_radio_button">Radio Button</string>
+	<string name="components_switches_radio_button_disabled">Radio Button (disabled)</string>
+	<string name="components_switches_switch">Switch</string>
+	<string name="components_switches_switch_disabled">Switch (disabled)</string>
+
+	<!-- ## COMPONENTS:Text fields -->
+	<string name="components_navigation_text_fields">Text fields</string>
+	<string name="components_text_fields_edit_text">Edit Text</string>
+	<string name="components_text_fields_edit_text_disabled">Edit Text (disabled)</string>
+	<string name="components_text_fields_edit_layout">Edit Layout</string>
+	<string name="components_text_fields_edit_layout_disabled">Edit Layout (disabled)</string>
+
+	<!-- ## COMPONENTS:Extra -->
+	<string name="components_extra_navigation_motion_image_view">Motion image view</string>
+
+	<!-- ### PATTERNS ========================================================================== -->
+
+	<!-- ## PATTERNS:Errors -->
+	<string name="patterns_navigation_errors">Errors</string>
+
+	<!-- ## PATTERNS:Navigation drawer -->
+	<string name="patterns_navigation_navigation_drawer">Navigation drawer</string>
+	<string name="patterns_navigation_drawer_label_my_library">My library</string>
+	<string name="patterns_navigation_drawer_label_my_favorites">My favorites</string>
+	<string name="patterns_navigation_drawer_label_design_principles">Design principles</string>
+	<string name="patterns_navigation_drawer_subheader_gallery">Gallery</string>
+	<string name="patterns_navigation_drawer_label_all_images">All images</string>
+	<string name="patterns_navigation_drawer_label_all_video">All video</string>
+	<string name="patterns_navigation_drawer_label_all_music">All music</string>
+	<string name="patterns_navigation_drawer_label_settings">Settings</string>
+	<string name="patterns_navigation_drawer_label_feedback">Feedback</string>
+
+	<!-- ## PATTERNS:Search -->
+	<string name="patterns_navigation_search">Search</string>
+
+	<!-- ## PATTERNS:Swipe to refresh -->
+	<string name="patterns_navigation_swipe_to_refresh">Swipe to refresh</string>
+	<string name="patterns_navigation_swipe_to_refresh_list">Swipe to refresh List</string>
+	<string name="patterns_navigation_swipe_to_refresh_grid">Swipe to refresh Grid</string>
+	<string name="patterns_navigation_swipe_to_refresh_recycler">Swipe to refresh Recycler</string>
+	<string name="patterns_navigation_swipe_to_refresh_layout">Swipe to refresh Layout</string>
+	<string name="patterns_navigation_swipe_to_refresh_web">Swipe to refresh Web</string>
 </resources>
