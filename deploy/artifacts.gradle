@@ -31,25 +31,27 @@ task classesJar(type: Jar) {
  */
 task generateJavadoc(type: Javadoc) {
     source isModule ? android.sourceSets.main.java.sourceFiles : android.sourceSets.release.java.sourceFiles
-    final Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    final String sdkDir = properties.getProperty('sdk.dir')
     options {
         author = true
         memberLevel = JavadocMemberLevel.PROTECTED
         header = project.property('maven.pom.project.name') + ' ' + project.property('maven.pom.version') + ' Documentation'
-        links 'http://docs.oracle.com/javase/8/docs/api/'
-        linksOffline 'http://developer.android.com/reference', sdkDir + '\\docs\\reference'
+        links "http://docs.oracle.com/javase/8/docs/api/"
+        linksOffline "http://developer.android.com/reference", "${android.sdkDirectory}\\docs\\reference"
     }
     if (JavaVersion.current().isJava8Compatible()) {
         // Uncomment this when Javadoc tool outputs some (not resolvable) errors like 'reference not found for R.attr#...'.
         //options.addStringOption('Xdoclint:none', '-quiet')
     }
     // Append class path with dependencies.
-    final String mavenLocalDir = project.property('maven.url.local')
+    final String mavenLocalDirectory = System.getenv('MAVEN_URL_LOCAL')
     classpath += files(
             android.getBootClasspath(),
-            sdkDir + "\\extras\\android\\m2repository\\com\\android\\support\\support-annotations\\${androidSupportVersion}\\support-annotations-${androidSupportVersion}.jar"
+            sdkDir + "\\extras\\android\\m2repository\\com\\android\\support\\support-annotations\\${androidSupportVersion}\\support-annotations-${androidSupportVersion}.jar",
+            "${android.sdkDirectory}\\extras\\android\\m2repository\\com\\android\\support\\support-v4\\${androidSupportVersion}\\support-v4-${androidSupportVersion}-sources.jar",
+            "${android.sdkDirectory}\\extras\\android\\m2repository\\com\\android\\support\\appcompat-v7\\${androidSupportVersion}\\appcompat-v7-${androidSupportVersion}-sources.jar",
+            "${android.sdkDirectory}\\extras\\android\\m2repository\\com\\android\\support\\support-vector-drawable\\${androidSupportVersion}\\support-vector-drawable-${androidSupportVersion}-sources.jar",
+            "${android.sdkDirectory}\\extras\\android\\m2repository\\com\\android\\support\\recyclerview-v7\\${androidSupportVersion}\\recyclerview-v7-${androidSupportVersion}-sources.jar",
+            "${mavenLocalDirectory}\\universum\\studios\\android\\graphics-color-util\\${androidUniversumGraphicsVersion}\\graphics-color-util-${androidUniversumGraphicsVersion}-sources.jar",
     )
     failOnError false
 }

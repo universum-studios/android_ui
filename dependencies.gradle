@@ -3,6 +3,7 @@ ext {
     // Versions.
     libraryVersion = '0.9.0'
     androidSupportVersion = '25.1.1'
+    androidUniversumGraphicsVersion = '1.0.0'
     androidTestVersion = '0.5'
     androidEspressoVersion = '2.2.2'
     junitVersion = '4.12'
@@ -17,7 +18,7 @@ ext {
             androidSupportAppCompatV7: "com.android.support:appcompat-v7:${androidSupportVersion}",
             androidSupportVectorDrawable: "com.android.support:support-vector-drawable:${androidSupportVersion}",
             androidSupportRecyclerViewV7: "com.android.support:recyclerview-v7:${androidSupportVersion}",
-            androidUniversumGraphicsUtil: "universum.studios.android:graphics-color-util:1.0.0@aar"
+            androidUniversumGraphicsColorUtil: "universum.studios.android:graphics-color-util:${androidUniversumGraphicsVersion}@aar"
     ]
 
     /**

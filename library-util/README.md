@@ -2,7 +2,8 @@ Ui-Util
 ===============
 
 ## Download ##
+[![Download](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Aui/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Aui/_latestVersion)
 
 ### Gradle ###
 
-    compile 'universum.studios.android:ui-util:0.9.0@aar'
+    compile "universum.studios.android:ui-util:${DESIRED_VERSION}@aar"

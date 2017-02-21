@@ -46,7 +46,6 @@ android {
 
     sourceSets {
         release.java.srcDirs = [
-                '../library/src/main/java',
                 '../library-controller-base/src/main/java',
                 '../library-controller-pull/src/main/java',
                 '../library-controller-refresh/src/main/java',
@@ -86,7 +85,6 @@ android {
         ]
         debug.java.srcDirs = release.java.srcDirs
         release.res.srcDirs = [
-                '../library/src/main/res',
                 '../library-controller-base/src/main/res',
                 '../library-controller-pull/src/main/res',
                 '../library-controller-refresh/src/main/res',
@@ -130,6 +128,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 /**
@@ -137,6 +139,7 @@ android {
  */
 repositories {
     mavenLocal()
+    maven { url "http://dl.bintray.com/universum-studios/android" }
 }
 
 dependencies {
@@ -147,7 +150,7 @@ dependencies {
     compile releaseDependencies.androidSupportAppCompatV7
     compile releaseDependencies.androidSupportVectorDrawable
     compile releaseDependencies.androidSupportRecyclerViewV7
-    compile releaseDependencies.androidUniversumGraphicsUtil
+    compile releaseDependencies.androidUniversumGraphicsColorUtil
 
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
@@ -170,8 +173,8 @@ dependencies {
     testCompile testDependencies.mockitoCore
 }
 
-// Apply PUBLISH script.
-apply from: '../publish/publish.gradle'
+// Apply DEPLOY script.
+apply from: '../deploy/deploy.gradle'
 
 // Apply CODACY script.
 apply from: 'codacy.gradle'

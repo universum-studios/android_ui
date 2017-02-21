@@ -17,10 +17,10 @@
  * =================================================================================================
  */
 // Add ARTIFACTS tasks.
-apply from: '../publish/artifacts.gradle'
+apply from: '../deploy/artifacts.gradle'
 
-// Apply MAVEN publishing script.
-apply from: '../publish/maven.gradle'
+// Apply MAVEN deployment script.
+apply from: '../deploy/maven.gradle'
 
-// Apply BINTRAY publishing script.
-apply from: '../publish/bintray.gradle'
+// Apply BINTRAY deployment script.
+apply from: '../deploy/bintray.gradle'

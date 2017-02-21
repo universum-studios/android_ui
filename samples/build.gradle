@@ -71,6 +71,7 @@ android {
  */
 repositories {
     mavenLocal()
+    maven { url "http://dl.bintray.com/universum-studios/android" }
 }
 
 dependencies {

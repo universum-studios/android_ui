@@ -1,17 +1,21 @@
 Ui
 ===============
 
-## Download ##
+[![Build Status](https://travis-ci.org/universum-studios/android_ui.svg?branch=master)](https://travis-ci.org/universum-studios/android_ui)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d3dcc71d3dbb49af9aa9384a45127850)](https://www.codacy.com/app/universum-studios/android_ui?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=universum-studios/android_ui&amp;utm_campaign=Badge_Grade)
 
-Download the latest **[release](https://github.com/universum-studios/android_ui/releases/tag/0.9.0 "Latest Releases page")** or **add as dependency** in your project via:
+## Download ##
+[![Download](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Aui/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Aui/_latestVersion)
+
+Download the latest **[release](https://github.com/universum-studios/android_ui/releases "Latest Releases page")** or **add as dependency** in your project via:
 
 ### Gradle ###
 
-    compile 'universum.studios.android:ui:0.9.0@aar'
+    compile "universum.studios.android:ui:${DESIRED_VERSION}@aar"
 
 ## Compatibility ##
 
-Available from the **Android [API Level 9](http://developer.android.com/about/versions/android-2.3.html "See API highlights")**.
+Supported down to the **Android [API Level 9](http://developer.android.com/about/versions/android-2.3.html "See API highlights")**.
 
 ### Dependencies ###
 

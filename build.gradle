@@ -35,9 +35,27 @@ task clean(type: Delete) {
 }
 
 /**
- * Task that publishes all library modules (except groups) into Maven local repository.
+ * Task that cleans local artifacts directory.
  */
-task publishModulesToMavenLocal() {
+task cleanLocalArtifacts() {
+    // delete 'artifacts/universum/studios/android'
+}
+
+/**
+ * Task that updates local artifacts directory.
+ */
+task updateLocalArtifacts() {
+    subprojects.findAll {
+        if (it.name.startsWith("library")) {
+            dependsOn ':' + it.name + ':updateLocalArtifacts'
+        }
+    }
+}
+
+/**
+ * Task that deploys (uploads) all library modules (except groups) into Maven local repository.
+ */
+task deployModulesToMavenLocal() {
     subprojects.findAll {
         if (it.name.startsWith("library-") && !it.name.endsWith('_group')) {
             dependsOn ':' + it.name + ':uploadArchives'
@@ -46,9 +64,9 @@ task publishModulesToMavenLocal() {
 }
 
 /**
- * Task that publishes all library module groups into Maven local repository.
+ * Task that deploys (uploads) all library module groups into Maven local repository.
  */
-task publishGroupsToMavenLocal() {
+task deployGroupsToMavenLocal() {
     subprojects.findAll {
         if (it.name.startsWith("library-") && it.name.endsWith('_group')) {
             dependsOn ':' + it.name + ':uploadArchives'
@@ -57,9 +75,9 @@ task publishGroupsToMavenLocal() {
 }
 
 /**
- * Task that publishes (uploads) all library modules (except groups) up to the Bintray repository.
+ * Task that deploys (uploads) all library modules (except groups) up to the Bintray repository.
  */
-task publishModulesToBintray() {
+task deployModulesToBintray() {
     subprojects.findAll {
         if (it.name.startsWith("library-") && !it.name.endsWith('_group')) {
             dependsOn ':' + it.name + ':bintrayUpload'
@@ -68,9 +86,9 @@ task publishModulesToBintray() {
 }
 
 /**
- * Task that publishes (uploads) all library module groups up to the Bintray repository.
+ * Task that deploys (uploads) all library module groups up to the Bintray repository.
  */
-task publishGroupsToBintray() {
+task deployGroupsToBintray() {
     subprojects.findAll {
         if (it.name.startsWith("library-") && it.name.endsWith('_group')) {
             dependsOn ':' + it.name + ':bintrayUpload'

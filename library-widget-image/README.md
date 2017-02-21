@@ -2,10 +2,11 @@ Ui-Widget-Image
 ===============
 
 ## Download ##
+[![Download](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Aui/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Aui/_latestVersion)
 
 ### Gradle ###
 
-    compile 'universum.studios.android:ui-widget-image:0.9.0@aar'
+    compile "universum.studios.android:ui-widget-image:${DESIRED_VERSION}@aar"
 
 _depends on:_
 [ui-widget-core](https://github.com/universum-studios/android_ui/tree/master/library-widget-core)

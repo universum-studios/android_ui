@@ -44,6 +44,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 /**
@@ -51,6 +55,7 @@ android {
  */
 repositories {
     mavenLocal()
+	maven { url "http://dl.bintray.com/universum-studios/android" }
 }
 
 dependencies {
@@ -72,5 +77,5 @@ dependencies {
     debugCompile project(':library-controller-refresh')
 }
 
-// Apply PUBLISH script.
-apply from: '../publish/publish.gradle'
+// Apply DEPLOY script.
+apply from: '../deploy/deploy.gradle'
