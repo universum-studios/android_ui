@@ -22,19 +22,19 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import universum.studios.android.support.examples.model.ExListItem;
-import universum.studios.android.support.examples.widget.ExListItemView;
 import universum.studios.android.samples.ui.R;
+import universum.studios.android.support.samples.model.SampleItem;
 import universum.studios.android.widget.adapter.SimpleAdapter;
 
 /**
  * @author Martin Albedinsky
  */
-public final class SamplesAdapter extends SimpleAdapter<ExListItem, ExListItemView> {
+public final class SamplesAdapter extends SimpleAdapter<SampleItem, TextView> {
 
 	@SuppressWarnings("unused")
-	private static final String TAG = "ExamplesAdapter";
+	private static final String TAG = "SamplesAdapter";
 
 	public SamplesAdapter(Context context) {
 		super(context);
@@ -48,11 +48,11 @@ public final class SamplesAdapter extends SimpleAdapter<ExListItem, ExListItemVi
 	@NonNull
 	@Override
 	protected View onCreateView(@NonNull ViewGroup parent, int position) {
-		return inflate(R.layout.ex_item_list, parent);
+		return inflate(R.layout.item_list_sample, parent);
 	}
 
 	@Override
-	protected void onBindViewHolder(@NonNull ExListItemView itemView, int position) {
-		itemView.setTitle(getItem(position).getText());
+	protected void onBindViewHolder(@NonNull TextView view, int position) {
+		view.setText(getItem(position).getTitle());
 	}
 }

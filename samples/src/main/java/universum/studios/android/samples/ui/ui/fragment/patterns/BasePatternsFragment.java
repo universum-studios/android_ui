@@ -21,8 +21,8 @@ package universum.studios.android.samples.ui.ui.fragment.patterns;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import universum.studios.android.support.fragment.manage.FragmentController;
-import universum.studios.android.samples.ui.fragment.BaseSectionNavigationFragment;
+import universum.studios.android.samples.ui.ui.fragment.BaseSectionNavigationFragment;
+import universum.studios.android.support.fragment.manage.FragmentFactory;
 
 /**
  * @author Martin Albedinsky
@@ -35,21 +35,21 @@ public abstract class BasePatternsFragment extends BaseSectionNavigationFragment
 	/**
 	 * Factory with main navigation fragments.
 	 */
-	private FragmentController.FragmentFactory mNavigationFragments;
+	private FragmentFactory mNavigationFragments;
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		// Change fragment factory for the main fragment controller by the factory with fragments
 		// specific for this section.
-		this.mNavigationFragments = mFragmentController.getFragmentFactory();
-		mFragmentController.setFragmentFactory(new PatternsFragments());
+		this.mNavigationFragments = mFragmentController.getFactory();
+		mFragmentController.setFactory(new PatternsFragments());
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 		// Change back navigation fragments factory.
-		mFragmentController.setFragmentFactory(mNavigationFragments);
+		mFragmentController.setFactory(mNavigationFragments);
 	}
 }

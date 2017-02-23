@@ -19,184 +19,183 @@
  * =================================================================================================
  */
 -->
-<universum.studios.android.ui.widget.ScrollViewWidget
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:ui="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<universum.studios.android.ui.widget.ScrollViewWidget xmlns:android="http://schemas.android.com/apk/res/android"
+													  xmlns:ui="http://schemas.android.com/apk/res-auto"
+													  android:layout_width="match_parent"
+													  android:layout_height="match_parent">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
 
-        <LinearLayout
-                style="@style/Ex.Layout.Section"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+		<LinearLayout
+			style="@style/Layout.Section"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
-            <TextView
-                    style="@style/Ex.Widget.TextView.Section.Heading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_check_box"/>
+			<TextView
+				style="@style/Widget.TextView.Section.Heading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_switches_check_box" />
 
-            <universum.studios.android.ui.widget.CheckBoxWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_check_box"/>
+			<universum.studios.android.ui.widget.CheckBoxWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_switches_check_box" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.CheckBoxWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_check_box"
-                    android:checked="true"/>
+			<universum.studios.android.ui.widget.CheckBoxWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:text="@string/components_switches_check_box" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.CheckBoxWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_check_box"
-                    android:checked="true"
-                    android:buttonTint="#f44336"
-                    ui:uiButtonTint="#f44336"/>
+			<universum.studios.android.ui.widget.CheckBoxWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:buttonTint="#f44336"
+				android:checked="true"
+				android:text="@string/components_switches_check_box"
+				ui:uiButtonTint="#f44336" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.CheckBoxWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_check_box_disabled"
-                    android:enabled="false"
-                    android:checked="false"/>
+			<universum.studios.android.ui.widget.CheckBoxWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:enabled="false"
+				android:text="@string/components_switches_check_box_disabled" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.CheckBoxWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_check_box_disabled"
-                    android:enabled="false"
-                    android:checked="true"/>
+			<universum.studios.android.ui.widget.CheckBoxWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:enabled="false"
+				android:text="@string/components_switches_check_box_disabled" />
 
-        </LinearLayout>
+		</LinearLayout>
 
-        <LinearLayout
-                style="@style/Ex.Layout.Section"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+		<LinearLayout
+			style="@style/Layout.Section"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
-            <TextView
-                    style="@style/Ex.Widget.TextView.Section.Heading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_radio_button"/>
+			<TextView
+				style="@style/Widget.TextView.Section.Heading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_switches_radio_button" />
 
-            <RadioGroup
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+			<RadioGroup
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
 
-                <universum.studios.android.ui.widget.RadioButtonWidget
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/components_switches_radio_button"/>
+				<universum.studios.android.ui.widget.RadioButtonWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/components_switches_radio_button" />
 
-                <include layout="@layout/spacer_vertical"/>
+				<include layout="@layout/spacer_vertical" />
 
-                <universum.studios.android.ui.widget.RadioButtonWidget
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/components_switches_radio_button"/>
+				<universum.studios.android.ui.widget.RadioButtonWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/components_switches_radio_button" />
 
-                <include layout="@layout/spacer_vertical"/>
+				<include layout="@layout/spacer_vertical" />
 
-                <universum.studios.android.ui.widget.RadioButtonWidget
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/components_switches_radio_button"
-                        android:buttonTint="#f44336"
-                        ui:uiButtonTint="#f44336"/>
+				<universum.studios.android.ui.widget.RadioButtonWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:buttonTint="#f44336"
+					android:text="@string/components_switches_radio_button"
+					ui:uiButtonTint="#f44336" />
 
-                <include layout="@layout/spacer_vertical"/>
+				<include layout="@layout/spacer_vertical" />
 
-                <universum.studios.android.ui.widget.RadioButtonWidget
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/components_switches_radio_button_disabled"
-                        android:enabled="false"
-                        android:checked="false"/>
+				<universum.studios.android.ui.widget.RadioButtonWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:checked="false"
+					android:enabled="false"
+					android:text="@string/components_switches_radio_button_disabled" />
 
-                <include layout="@layout/spacer_vertical"/>
+				<include layout="@layout/spacer_vertical" />
 
-                <universum.studios.android.ui.widget.RadioButtonWidget
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/components_switches_radio_button_disabled"
-                        android:enabled="false"
-                        android:checked="true"/>
-            </RadioGroup>
+				<universum.studios.android.ui.widget.RadioButtonWidget
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:checked="true"
+					android:enabled="false"
+					android:text="@string/components_switches_radio_button_disabled" />
+			</RadioGroup>
 
-        </LinearLayout>
+		</LinearLayout>
 
-        <LinearLayout
-                style="@style/Ex.Layout.Section"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+		<LinearLayout
+			style="@style/Layout.Section"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
-            <TextView
-                    style="@style/Ex.Widget.TextView.Section.Heading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_switch"/>
+			<TextView
+				style="@style/Widget.TextView.Section.Heading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_switches_switch" />
 
-            <universum.studios.android.ui.widget.SwitchWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_switch"/>
+			<universum.studios.android.ui.widget.SwitchWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_switches_switch" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SwitchWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_switch"
-                    android:checked="true"/>
+			<universum.studios.android.ui.widget.SwitchWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:text="@string/components_switches_switch" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SwitchWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_switch"
-                    android:checked="true"
-                    ui:uiThumbTint="#f44336"
-                    ui:uiTrackTint="#44f44336"/>
+			<universum.studios.android.ui.widget.SwitchWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:text="@string/components_switches_switch"
+				ui:uiThumbTint="#f44336"
+				ui:uiTrackTint="#44f44336" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SwitchWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_switch_disabled"
-                    android:enabled="false"
-                    android:checked="false"/>
+			<universum.studios.android.ui.widget.SwitchWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:enabled="false"
+				android:text="@string/components_switches_switch_disabled" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SwitchWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_switches_switch_disabled"
-                    android:enabled="false"
-                    android:checked="true"/>
-        </LinearLayout>
-    </LinearLayout>
+			<universum.studios.android.ui.widget.SwitchWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:enabled="false"
+				android:text="@string/components_switches_switch_disabled" />
+		</LinearLayout>
+	</LinearLayout>
 
 </universum.studios.android.ui.widget.ScrollViewWidget>

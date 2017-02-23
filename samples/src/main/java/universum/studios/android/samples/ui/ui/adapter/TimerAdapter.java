@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.model.TimerItem;
+import universum.studios.android.samples.ui.data.model.TimerItem;
 import universum.studios.android.widget.adapter.SimpleSpinnerAdapter;
 
 /**

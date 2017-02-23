@@ -25,7 +25,7 @@
 
     <TextView
             android:id="@+id/fragment_page_text_view_label"
-            style="@style/Ex.Widget.TextView.Item.List.Note"
+            style="@style/Widget.TextView.Item.List.Note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="36sp"

@@ -18,16 +18,18 @@
  */
 package universum.studios.android.samples.ui.data;
 
+import universum.studios.android.samples.ui.BuildConfig;
+
 /**
  * @author Martin Albedinsky
  */
 public final class Extras {
 
-	private static final String PREFIX = "universum.studios.android.samples.ui.EXTRA";
+	private static final String PREFIX = BuildConfig.APPLICATION_ID + ".EXTRA.";
 
-	public static final String EXTRA_TEXT = PREFIX + ".Text";
-	public static final String EXTRA_TEXT_RES = PREFIX + ".TextRes";
-	public static final String EXTRA_LAYOUT_RESOURCE = PREFIX + ".LayoutResource";
-	public static final String EXTRA_WINDOW_TRANSITION = PREFIX + ".WindowTransition";
-	public static final String EXTRA_TRANSITION_EXAMPLE = PREFIX + ".TransitionExample";
+	public static final String EXTRA_TEXT = PREFIX + "Text";
+	public static final String EXTRA_TEXT_RES = PREFIX + "TextRes";
+	public static final String EXTRA_LAYOUT_RESOURCE = PREFIX + "LayoutResource";
+	public static final String EXTRA_WINDOW_TRANSITION = PREFIX + "WindowTransition";
+	public static final String EXTRA_TRANSITION_EXAMPLE = PREFIX + "TransitionExample";
 }

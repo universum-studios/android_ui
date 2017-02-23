@@ -41,33 +41,6 @@
 	<string name="navigation_item_components">Components</string>
 	<string name="navigation_item_patterns">Patterns</string>
 
-	<!-- ### ANIMATION ========================================================================= -->
-
-	<!-- ## ANIMATION:Transitions -->
-	<string name="animation_navigation_transitions">Transitions</string>
-	<string name="animation_transitions_scale">Scale</string>
-	<string name="animation_transitions_scale_1">Scale transition sample 1</string>
-	<string name="animation_transitions_reveal">Reveal</string>
-	<string name="animation_transitions_reveal_1">Reveal transition sample 1</string>
-
-	<!-- ## ANIMATION:Window transition -->
-	<string name="animation_navigation_window_transitions">Window Transitions</string>
-	<string name="animation_window_transitions_none">None</string>
-	<string name="animation_window_transitions_cross_fade">CROSS FADE</string>
-	<string name="animation_window_transitions_cross_fade_hold">CROSS FADE and HOLD</string>
-	<string name="animation_window_transitions_slide_to_right">Slide to RIGHT</string>
-	<string name="animation_window_transitions_slide_to_right_and_hold">Slide to RIGHT and HOLD</string>
-	<string name="animation_window_transitions_slide_to_left">Slide to LEFT</string>
-	<string name="animation_window_transitions_slide_to_left_and_hold">Slide to LEFT and HOLD</string>
-	<string name="animation_window_transitions_slide_to_top">Slide to TOP</string>
-	<string name="animation_window_transitions_slide_to_top_and_hold">Slide to TOP and HOLD</string>
-	<string name="animation_window_transitions_slide_to_bottom">Slide to BOTTOM</string>
-	<string name="animation_window_transitions_slide_to_bottom_and_hold">Slide to BOTTOM and HOLD</string>
-	<string name="animation_window_transitions_slide_to_left_and_scale_out">Slide to LEFT and SCALE out</string>
-	<string name="animation_window_transitions_slide_to_right_and_scale_out">Slide to RIGHT and SCALE out</string>
-	<string name="animation_window_transitions_slide_to_top_and_scale_out">Slide to TOP and SCALE out</string>
-	<string name="animation_window_transitions_slide_to_bottom_and_scale_out">Slide to BOTTOM and SCALE out</string>
-
 	<!-- ### STYLE ============================================================================= -->
 
 	<string name="style_navigation_color">Color</string>
@@ -158,25 +131,10 @@
 	<string name="components_text_fields_edit_layout">Edit Layout</string>
 	<string name="components_text_fields_edit_layout_disabled">Edit Layout (disabled)</string>
 
-	<!-- ## COMPONENTS:Extra -->
-	<string name="components_extra_navigation_motion_image_view">Motion image view</string>
-
 	<!-- ### PATTERNS ========================================================================== -->
 
 	<!-- ## PATTERNS:Errors -->
 	<string name="patterns_navigation_errors">Errors</string>
-
-	<!-- ## PATTERNS:Navigation drawer -->
-	<string name="patterns_navigation_navigation_drawer">Navigation drawer</string>
-	<string name="patterns_navigation_drawer_label_my_library">My library</string>
-	<string name="patterns_navigation_drawer_label_my_favorites">My favorites</string>
-	<string name="patterns_navigation_drawer_label_design_principles">Design principles</string>
-	<string name="patterns_navigation_drawer_subheader_gallery">Gallery</string>
-	<string name="patterns_navigation_drawer_label_all_images">All images</string>
-	<string name="patterns_navigation_drawer_label_all_video">All video</string>
-	<string name="patterns_navigation_drawer_label_all_music">All music</string>
-	<string name="patterns_navigation_drawer_label_settings">Settings</string>
-	<string name="patterns_navigation_drawer_label_feedback">Feedback</string>
 
 	<!-- ## PATTERNS:Search -->
 	<string name="patterns_navigation_search">Search</string>

@@ -22,16 +22,17 @@ import android.os.Bundle;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
+import java.util.Calendar;
+
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 import universum.studios.android.ui.widget.CalendarView;
-import universum.studios.android.util.Logger;
-
-import java.util.Calendar;
 
 /**
  * @author Martin Albedinsky
@@ -40,7 +41,7 @@ import java.util.Calendar;
 		title = R.string.components_navigation_pickers_date_picker
 )
 @ContentView(R.layout.fragment_components_pickers_date)
-public final class DatePickerFragment extends BaseExamplesFragment
+public final class DatePickerFragment extends BaseSamplesFragment
 		implements
 		CalendarView.OnDateSelectionListener,
 		CalendarView.OnMonthChangeListener,
@@ -50,7 +51,7 @@ public final class DatePickerFragment extends BaseExamplesFragment
 	private static final String TAG = "DatePickerFragment";
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		final CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendar_view);
 		calendarView.setOnDateSelectionListener(this);
@@ -73,26 +74,26 @@ public final class DatePickerFragment extends BaseExamplesFragment
 
 	@Override
 	public void onDateSelected(@NonNull CalendarView calendarView, long dateInMillis) {
-		Logger.d(TAG, "Selected date in calendar: " + dateInMillis);
+		Log.d(TAG, "Selected date in calendar: " + dateInMillis);
 	}
 
 	@Override
 	public void onNoDateSelected(@NonNull CalendarView calendarView) {
-		Logger.d(TAG, "No date selected in calendar.");
+		Log.d(TAG, "No date selected in calendar.");
 	}
 
 	@Override
 	public void onMonthScrolled(@NonNull CalendarView calendarView, @IntRange(from = Calendar.JANUARY, to = Calendar.DECEMBER) int month, @FloatRange(from = 0.0f, to = 1.0f) float offset) {
-		Logger.d(TAG, "Month scrolled to: " + offset);
+		Log.d(TAG, "Month scrolled to: " + offset);
 	}
 
 	@Override
 	public void onMonthChanged(@NonNull CalendarView calendarView, @IntRange(from = Calendar.JANUARY, to = Calendar.DECEMBER) int month) {
-		Logger.d(TAG, "Calendar scrolled to month: " + month);
+		Log.d(TAG, "Calendar scrolled to month: " + month);
 	}
 
 	@Override
 	public void onYearChanged(@NonNull CalendarView calendarView, int year) {
-		Logger.d(TAG, "Calendar scrolled to year: " + year);
+		Log.d(TAG, "Calendar scrolled to year: " + year);
 	}
 }

@@ -19,42 +19,30 @@
 package universum.studios.android.samples.ui.ui.fragment.components.collection;
 
 import universum.studios.android.support.fragment.annotation.FactoryFragment;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragmentFactory;
+import universum.studios.android.support.fragment.manage.BaseFragmentFactory;
 
 /**
  * @author Martin Albedinsky
  */
-public class CollectionFragments extends BaseExamplesFragmentFactory {
-
-	@SuppressWarnings("unused")
-	private static final String TAG = "CollectionFragments";
+final class CollectionFragments extends BaseFragmentFactory {
 
 	/**
 	 * GRIDS =======================================================================================
 	 */
 
 	@FactoryFragment(SimpleGridFragment.class)
-	public static final int GRID_SIMPLE = 0x10000000;
-
-	@FactoryFragment(PullableGridFragment.class)
-	public static final int GRID_PULLABLE = 0x10000001;
+	static final int GRID_SIMPLE = 0x10000000;
 
 	/**
 	 * LISTS =======================================================================================
 	 */
 
 	@FactoryFragment(SimpleListFragment.class)
-	public static final int LIST_SIMPLE = 0x20000000;
-
-	@FactoryFragment(PullableListFragment.class)
-	public static final int LIST_PULLABLE = 0x20000001;
-
-	@FactoryFragment(PullableRecyclerListFragment.class)
-	public static final int LIST_RECYCLER_PULLABLE = 0x20000002;
+	static final int LIST_SIMPLE = 0x20000000;
 
 	/**
 	 * PAGERS ======================================================================================
 	 */
 
-	public static final int PAGER = 0x30000000;
+	static final int PAGER = 0x30000000;
 }

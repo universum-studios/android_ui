@@ -26,23 +26,27 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.support.fragment.annotation.ContentView;
+
 
 /**
  * @author Martin Albedinsky
  */
+@ContentView(R.layout.samples_layout_list_view)
 public abstract class BaseSamplesListFragment<A extends ListAdapter> extends BaseSamplesAdapterFragment<ListView, A>
 		implements
 		AdapterView.OnItemClickListener {
 
 	@SuppressWarnings("unused")
-	private static final String TAG = "BaseExamplesListFragment";
+	private static final String TAG = "BaseSamplesListFragment";
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		findAdapterView().setOnItemClickListener(this);
-		// todo:
-		// ((HomeActivity) getActivity()).setNavigationAccessible(false);
+		final ListView listView = findAdapterView();
+		listView.setEmptyView(getEmptyView());
+		listView.setOnItemClickListener(this);
 	}
 
 	@Override

@@ -20,19 +20,16 @@ package universum.studios.android.samples.ui.ui.fragment.components.picker;
 
 
 import universum.studios.android.support.fragment.annotation.FactoryFragment;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragmentFactory;
+import universum.studios.android.support.fragment.manage.BaseFragmentFactory;
 
 /**
  * @author Martin Albedinsky
  */
-public final class PickersFragments extends BaseExamplesFragmentFactory {
-
-	@SuppressWarnings("unused")
-	private static final String TAG = "PickersFragments";
+final class PickersFragments extends BaseFragmentFactory {
 
 	@FactoryFragment(NumberPickerFragment.class)
-	public static final int NUMBER_PICKER = 0x01;
+	static final int NUMBER_PICKER = 0x01;
 
 	@FactoryFragment(DatePickerFragment.class)
-	public static final int DATE_PICKER = 0x02;
+	static final int DATE_PICKER = 0x02;
 }

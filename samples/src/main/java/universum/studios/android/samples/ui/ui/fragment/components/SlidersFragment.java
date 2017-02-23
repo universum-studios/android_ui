@@ -18,17 +18,17 @@
  */
 package universum.studios.android.samples.ui.ui.fragment.components;
 
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 
 /**
  * @author Martin Albedinsky
  */
 @ContentView(R.layout.fragment_components_sliders)
 @ActionBarOptions(title = R.string.components_navigation_sliders)
-public final class SlidersFragment extends BaseExamplesFragment {
+public final class SlidersFragment extends BaseSamplesFragment {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "SlidersFragment";

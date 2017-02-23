@@ -20,19 +20,20 @@ package universum.studios.android.samples.ui.ui.fragment.patterns;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Random;
+
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.fragment.AppsGridFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.MenuOptions;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.AppsGridFragment;
 import universum.studios.android.ui.widget.GridViewWidget;
 import universum.studios.android.ui.widget.Refreshable;
-
-import java.util.Random;
 
 /**
  * @author Martin Albedinsky
@@ -67,13 +68,13 @@ public final class RefreshGridFragment extends AppsGridFragment
 	}
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		mGridView.setOnRefreshListener(this);
 	}
 
 	@Override
-	public void onRefresh(final @NonNull Refreshable refreshable) {
+	public void onRefresh(@NonNull Refreshable refreshable) {
 		this.startRefresh();
 	}
 

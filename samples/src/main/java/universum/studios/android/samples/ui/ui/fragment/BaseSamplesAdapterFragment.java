@@ -24,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * @author Martin Albedinsky
@@ -31,8 +32,9 @@ import android.view.ViewGroup;
 public abstract class BaseSamplesAdapterFragment<AV extends ViewGroup, A> extends BaseSamplesFragment {
 
 	@SuppressWarnings("unused")
-	private static final String TAG = "BaseExamplesFragment";
+	private static final String TAG = "BaseSamplesAdapterFragment";
 
+	private View mEmptyView;
 	private A mAdapter;
 
 	public void setAdapter(@Nullable A adapter) {
@@ -64,6 +66,7 @@ public abstract class BaseSamplesAdapterFragment<AV extends ViewGroup, A> extend
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		this.mEmptyView = view.findViewById(android.R.id.empty);
 		if (mAdapter != null) {
 			onAttachAdapterToView(mAdapter);
 		}
@@ -72,6 +75,11 @@ public abstract class BaseSamplesAdapterFragment<AV extends ViewGroup, A> extend
 	@SuppressWarnings({"ConstantConditions", "unchecked"})
 	protected AV findAdapterView() {
 		return isViewCreated() ? (AV) getView().findViewById(android.R.id.list) : null;
+	}
+
+	@Nullable
+	protected View getEmptyView() {
+		return mEmptyView;
 	}
 
 	protected abstract void onAttachAdapterToView(@NonNull A adapter);
@@ -83,6 +91,6 @@ public abstract class BaseSamplesAdapterFragment<AV extends ViewGroup, A> extend
 	}
 
 	public void setEmptyText(@Nullable CharSequence text) {
-		// todo:
+		if (mEmptyView instanceof TextView) ((TextView) mEmptyView).setText(text);
 	}
 }

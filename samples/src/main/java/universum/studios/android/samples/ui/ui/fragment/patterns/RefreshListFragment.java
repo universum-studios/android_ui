@@ -20,15 +20,16 @@ package universum.studios.android.samples.ui.ui.fragment.patterns;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.fragment.CapitalsListFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.MenuOptions;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.CapitalsListFragment;
 import universum.studios.android.ui.widget.ListViewWidget;
 import universum.studios.android.ui.widget.Refreshable;
 
@@ -64,7 +65,7 @@ public class RefreshListFragment extends CapitalsListFragment
 	}
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		mListView.setOnRefreshListener(this);
 	}

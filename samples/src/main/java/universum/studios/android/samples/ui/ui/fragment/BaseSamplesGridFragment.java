@@ -48,9 +48,9 @@ public abstract class BaseSamplesGridFragment<A extends ListAdapter> extends Bas
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		findAdapterView().setOnItemClickListener(this);
-		// todo:
-		// ((HomeActivity) getActivity()).setNavigationAccessible(false);
+		final GridView gridView = findAdapterView();
+		gridView.setEmptyView(getEmptyView());
+		gridView.setOnItemClickListener(this);
 	}
 
 	@Override

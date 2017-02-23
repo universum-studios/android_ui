@@ -19,12 +19,10 @@
 package universum.studios.android.samples.ui.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import universum.studios.android.support.fragment.manage.FragmentController;
-import universum.studios.android.samples.ui.HomeActivity;
+import universum.studios.android.support.fragment.manage.FragmentFactory;
 
 /**
  * @author Martin Albedinsky
@@ -34,10 +32,7 @@ public abstract class BaseSectionNavigationFragment extends BaseSamplesNavigatio
 	@SuppressWarnings("unused")
 	private static final String TAG = "BaseSectionNavigationFragment";
 
-	/**
-	 * Factory with main navigation fragments.
-	 */
-	private FragmentController.FragmentFactory mNavigationFragments;
+	private FragmentFactory mNavigationFragments;
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -45,7 +40,7 @@ public abstract class BaseSectionNavigationFragment extends BaseSamplesNavigatio
 		if (hasOwnFragmentsFactory()) {
 			// Change fragment factory for the main fragment controller by the factory with fragments
 			// specific for this section.
-			this.mNavigationFragments = mFragmentController.getFragmentFactory();
+			this.mNavigationFragments = mFragmentController.getFactory();
 			onAttachFragmentsFactory(mFragmentController);
 		}
 	}
@@ -58,17 +53,11 @@ public abstract class BaseSectionNavigationFragment extends BaseSamplesNavigatio
 	}
 
 	@Override
-	public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		((HomeActivity) getActivity()).setNavigationAccessible(false);
-	}
-
-	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 		if (mNavigationFragments != null) {
 			// Change back navigation fragments factory.
-			mFragmentController.setFragmentFactory(mNavigationFragments);
+			mFragmentController.setFactory(mNavigationFragments);
 		}
 	}
 }

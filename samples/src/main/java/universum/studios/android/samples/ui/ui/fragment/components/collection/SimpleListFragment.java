@@ -23,9 +23,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.CapitalsListFragment;
+import universum.studios.android.samples.ui.ui.fragment.CapitalsListFragment;
+import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 
 /**
  * @author Martin Albedinsky

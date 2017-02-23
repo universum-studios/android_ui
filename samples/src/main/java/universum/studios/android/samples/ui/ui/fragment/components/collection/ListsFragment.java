@@ -20,13 +20,13 @@ package universum.studios.android.samples.ui.ui.fragment.components.collection;
 
 import android.support.annotation.NonNull;
 
-import universum.studios.android.support.examples.model.ExListItem;
-import universum.studios.android.support.fragment.annotation.ActionBarOptions;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.ui.adapter.SamplesAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.adapter.SamplesAdapter;
+import universum.studios.android.support.fragment.annotation.ActionBarOptions;
+import universum.studios.android.support.samples.model.SampleItem;
 
 /**
  * @author Martin Albedinsky
@@ -38,23 +38,13 @@ public final class ListsFragment extends BaseCollectionsFragment {
 	private static final String TAG = "ListsFragment";
 
 	@Override
-	protected void onBindExamples(@NonNull SamplesAdapter adapter) {
-		final ExListItem.Builder builder = new ExListItem.Builder(getResources());
-		final List<ExListItem> items = new ArrayList<>();
+	protected void onBindSamples(@NonNull SamplesAdapter adapter) {
+		final SampleItem.Builder builder = new SampleItem.Builder(getResources());
+		final List<SampleItem> items = new ArrayList<>();
 		items.add(createItem(
+				builder,
 				CollectionFragments.LIST_SIMPLE,
-				R.string.components_navigation_lists_simple,
-				builder
-		));
-		items.add(createItem(
-				CollectionFragments.LIST_PULLABLE,
-				R.string.components_navigation_lists_pullable,
-				builder
-		));
-		items.add(createItem(
-				CollectionFragments.LIST_RECYCLER_PULLABLE,
-				R.string.components_navigation_lists_recycler_pullable,
-				builder
+				R.string.components_navigation_lists_simple
 		));
 		adapter.changeItems(items);
 	}

@@ -30,17 +30,24 @@ import universum.studios.android.support.samples.ui.SamplesNavigationActivity;
 /**
  * @author Martin Albedinsky
  */
-public abstract class BaseSamplesFragment extends ActionBarFragment {
+public abstract class BaseSamplesFragment extends ActionBarFragment
+		implements
+		View.OnClickListener {
 
 	@SuppressWarnings("unused")
-	private static final String TAG = "BaseExamplesFragment";
+	private static final String TAG = "BaseSamplesFragment";
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		final Activity activity = getActivity();
 		if (activity instanceof SamplesNavigationActivity) {
-			// todo: ((SamplesNavigationActivity) activity).setNavigationAccessible(false);
+			((SamplesNavigationActivity) activity).setNavigationAccessible(false);
 		}
+	}
+
+	@Override
+	public void onClick(View view) {
+		onViewClick(view);
 	}
 }

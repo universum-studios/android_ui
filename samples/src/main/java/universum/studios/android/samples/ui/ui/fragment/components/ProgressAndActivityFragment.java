@@ -23,12 +23,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
 import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 import universum.studios.android.ui.graphics.drawable.CircularProgressDrawable;
 import universum.studios.android.ui.graphics.drawable.LinearProgressDrawable;
 import universum.studios.android.ui.graphics.drawable.ProgressDrawable;
@@ -41,7 +42,7 @@ import universum.studios.android.ui.widget.LinearProgressBar;
  */
 @ContentView(R.layout.fragment_components_progress_and_activity)
 @ActionBarOptions(title = R.string.components_navigation_progress_and_activity)
-public class ProgressAndActivityFragment extends BaseExamplesFragment {
+public class ProgressAndActivityFragment extends BaseSamplesFragment {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "ProgressAndActivityFragment";
@@ -57,7 +58,7 @@ public class ProgressAndActivityFragment extends BaseExamplesFragment {
 	private DeterminateHandler mCircularDeterminateHandler3;
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		this.manageLinearProgressBars(view);
 		this.manageCircularProgressBars(view);

@@ -22,9 +22,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.fragment.NavigationFragments;
+import universum.studios.android.samples.ui.ui.fragment.components.ComponentsNavigationFragment;
+import universum.studios.android.samples.ui.ui.fragment.patterns.PatternsNavigationFragment;
+import universum.studios.android.samples.ui.ui.fragment.style.StyleNavigationFragment;
+import universum.studios.android.support.fragment.BackPressWatcher;
 import universum.studios.android.support.fragment.manage.FragmentController;
 import universum.studios.android.support.fragment.manage.FragmentRequest;
 import universum.studios.android.support.fragment.manage.FragmentRequestInterceptor;
@@ -40,13 +46,19 @@ public final class MainActivity extends SamplesNavigationActivity implements Fra
 	@SuppressWarnings("unused")
 	private static final String TAG = "MainActivity";
 
-	private FragmentController fragmentController;
+	private FragmentController mFragmentController;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.fragmentController = new FragmentController(this);
-		this.fragmentController.setViewContainerId(R.id.samples_container);
+		this.mFragmentController = new FragmentController(this);
+		this.mFragmentController.setFactory(new NavigationFragments());
+		this.mFragmentController.setViewContainerId(R.id.samples_container);
+	}
+
+	@NonNull
+	public FragmentController getFragmentController() {
+		return mFragmentController;
 	}
 
 	@Nullable
@@ -60,37 +72,37 @@ public final class MainActivity extends SamplesNavigationActivity implements Fra
 	protected boolean onHandleNavigationItemSelected(@NonNull MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.navigation_item_home:
-				fragmentController.newRequest(new SamplesMainFragment()).execute();
+				mFragmentController.newRequest(new SamplesMainFragment()).execute();
 				return true;
 			case R.id.navigation_item_style:
+				mFragmentController.newRequest(new StyleNavigationFragment()).execute();
 				return true;
 			case R.id.navigation_item_layout:
 				return true;
 			case R.id.navigation_item_components:
+				mFragmentController.newRequest(new ComponentsNavigationFragment()).execute();
 				return true;
 			case R.id.navigation_item_patterns:
+				mFragmentController.newRequest(new PatternsNavigationFragment()).execute();
 				return true;
 		}
 		return true;
 	}
 
-	// todo:
-	/*@Override
-	protected void onAttachFragmentFactory(@NonNull FragmentController controller) {
-		controller.setFragmentFactory(new NavigationFragments());
-	}
-	*/
-
-	// todo:
-	/*@Override
-	protected boolean onBackPress() {
-		if (dispatchBackPressToCurrentFragment()) return true;
+	@Override
+	public void onBackPressed() {
+		if (dispatchBackPressToCurrentFragment()) {
+			return;
+		}
 		final FragmentManager fragmentManager = getSupportFragmentManager();
-		return (fragmentManager.getBackStackEntryCount() > 0 && fragmentManager.popBackStackImmediate()) || super.onBackPress();
+		if (fragmentManager.getBackStackEntryCount() > 0 && fragmentManager.popBackStackImmediate()) {
+			return;
+		}
+		super.onBackPressed();
 	}
 
 	private boolean dispatchBackPressToCurrentFragment() {
-		final Fragment fragment = getCurrentFragment();
-		return fragment instanceof BackPressWatcher && ((BackPressWatcher) fragment).dispatchBackPressed();
-	}*/
+		final Fragment fragment = mFragmentController.findCurrentFragment();
+		return fragment instanceof BackPressWatcher && ((BackPressWatcher) fragment).dispatchBackPress();
+	}
 }

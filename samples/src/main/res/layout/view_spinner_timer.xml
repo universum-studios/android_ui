@@ -20,19 +20,19 @@
  */
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/Ex.Layout.Section"
+              style="@style/Layout.Section"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
     <TextView
-            style="@style/Ex.Widget.TextView.Item.List.Title"
+            style="@style/Widget.TextView.Item.List.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Timer"/>
 
     <TextView
-            style="@style/Ex.Widget.TextView.Item.List.Note"
+            style="@style/Widget.TextView.Item.List.Note"
             android:id="@+id/view_spinner_timer_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

@@ -21,7 +21,7 @@
 -->
 <resources>
 
-    <style name="Theme" parent="Ui.Theme">
+    <style name="Theme" parent="Ui.Theme.Light">
 
         <!-- ### CONFIGURATION ================================================================= -->
 
@@ -39,13 +39,16 @@
 
         <!-- ### STYLES ======================================================================== -->
 
-        <!--<item name="android:actionOverflowButtonStyle">@style/Samples.Widget.ActionButton.OverFlow</item>-->
+        <item name="android:actionOverflowButtonStyle">@style/Samples.Widget.ActionButton.OverFlow</item>
+        <item name="drawerArrowStyle">@style/Samples.Widget.DrawerArrowStyle</item>
     </style>
 
     <style name="Theme.Toolbar">
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
+
+    <style name="Theme.Navigation" parent="Theme.Toolbar"/>
 
     <style name="Theme.Search" parent="Theme.Toolbar">
 		<item name="uiSearchVectorIcon">@drawable/ui_vc_search_close</item>

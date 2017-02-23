@@ -49,11 +49,8 @@ public class CapitalsListFragment extends BaseSamplesListFragment<CapitalsListAd
 	}
 
 	@Override
-	@SuppressWarnings("ConstantConditions")
 	public void onItemClick(@NonNull AdapterView<?> parent, @NonNull View view, int position, long id) {
 		final CapitalItem capital = getAdapter().getItem(position);
-		if (capital != null) {
-			Toast.makeText(getActivity(), "Clicked: " + capital.name, Toast.LENGTH_SHORT).show();
-		}
+		Toast.makeText(getActivity(), "Clicked: " + capital.name, Toast.LENGTH_SHORT).show();
 	}
 }

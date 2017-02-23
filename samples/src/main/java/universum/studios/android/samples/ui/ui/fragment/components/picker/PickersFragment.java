@@ -20,15 +20,15 @@ package universum.studios.android.samples.ui.ui.fragment.components.picker;
 
 import android.support.annotation.NonNull;
 
-import universum.studios.android.support.examples.model.ExListItem;
-import universum.studios.android.support.fragment.annotation.ActionBarOptions;
-import universum.studios.android.support.fragment.manage.FragmentController;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.ui.adapter.SamplesAdapter;
-import universum.studios.android.samples.ui.fragment.BaseSectionNavigationFragment;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.adapter.SamplesAdapter;
+import universum.studios.android.samples.ui.ui.fragment.BaseSectionNavigationFragment;
+import universum.studios.android.support.fragment.annotation.ActionBarOptions;
+import universum.studios.android.support.fragment.manage.FragmentController;
+import universum.studios.android.support.samples.model.SampleItem;
 
 /**
  * @author Martin Albedinsky
@@ -40,18 +40,18 @@ public final class PickersFragment extends BaseSectionNavigationFragment {
 	private static final String TAG = "PickersFragment";
 
 	@Override
-	protected void onBindExamples(@NonNull SamplesAdapter adapter) {
-		final ExListItem.Builder builder = new ExListItem.Builder(getResources());
-		final List<ExListItem> items = new ArrayList<>();
+	protected void onBindSamples(@NonNull SamplesAdapter adapter) {
+		final SampleItem.Builder builder = new SampleItem.Builder(getResources());
+		final List<SampleItem> items = new ArrayList<>();
 		items.add(createItem(
+				builder,
 				PickersFragments.NUMBER_PICKER,
-				R.string.components_navigation_pickers_number_picker,
-				builder
+				R.string.components_navigation_pickers_number_picker
 		));
 		items.add(createItem(
+				builder,
 				PickersFragments.DATE_PICKER,
-				R.string.components_navigation_pickers_date_picker,
-				builder
+				R.string.components_navigation_pickers_date_picker
 		));
 		adapter.changeItems(items);
 	}
@@ -63,6 +63,6 @@ public final class PickersFragment extends BaseSectionNavigationFragment {
 
 	@Override
 	protected void onAttachFragmentsFactory(FragmentController controller) {
-		controller.setFragmentFactory(new PickersFragments());
+		controller.setFactory(new PickersFragments());
 	}
 }

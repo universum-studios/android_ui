@@ -28,7 +28,7 @@
 		android:id="@android:id/list"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:listitem="@layout/ex_item_list"
+		tools:listitem="@layout/item_list_sample"
 		ui:layout_behavior="@string/appbar_scrolling_view_behavior"
 		ui:uiRefreshEnabled="true"
 		ui:uiRefreshIndicatorTransition="above"/>

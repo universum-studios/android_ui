@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- AVAILABLE FONT FAMILIES
+			Roboto regular                  [sans-serif]
+			Roboto italic                   [sans-serif]
+			Roboto bold                     [sans-serif]
+			Roboto bold italic              [sans-serif]
+			Roboto-Light                    [sans-serif-light]
+			Roboto-Light italic             [sans-serif-light]
+			Roboto-Thin                     [sans-serif-thin] (since Android 4.2)
+			Roboto-Thin italic              [sans-serif-thin] (since Android 4.2)
+			Roboto-Condensed                [sans-serif-condensed]
+			Roboto-Condensed italic         [sans-serif-condensed]
+			Roboto-Condensed bold           [sans-serif-condensed]
+			Roboto-Condensed bold italic    [sans-serif-condensed]
+			Roboto-Medium                   [sans-serif-medium] (since Android 5.0)
+			Roboto-Medium italic            [sans-serif-medium] (since Android 5.0)
+	-->
+
+	<!-- ### PARENT TEXT-APPEARANCES =========================================================== -->
+
+	<!-- Parent style for TextAppearance styles. -->
+	<style name="TextAppearance.Widget" parent="Ui.TextAppearance.Widget"/>
+
+	<!-- ### TEXT FIELD ======================================================================== -->
+
+	<!-- TextAppearance style for TextView widget. -->
+	<style name="TextAppearance.Widget.TextView" parent="Ui.TextAppearance.Widget.TextView"/>
+
+	<!-- TextAppearance style for medium TextView widget. -->
+	<style name="TextAppearance.Widget.TextView.Medium" parent="Ui.TextAppearance.Widget.TextView.Medium"/>
+
+	<!-- ### COLLECTION ======================================================================== -->
+
+	<!-- TextAppearance style for TextView widget of list item. -->
+	<style name="TextAppearance.Widget.TextView.Item.List" parent="TextAppearance.Widget.TextView"/>
+
+	<!-- TextAppearance style for title TextView widget of list item. -->
+	<style name="TextAppearance.Widget.TextView.Item.List.Title" parent="TextAppearance.Widget">
+		<item name="android:textStyle">bold</item>
+	</style>
+
+	<!-- TextAppearance style for note TextView widget of list item. -->
+	<style name="TextAppearance.Widget.TextView.Item.List.Note" parent="TextAppearance.Widget">
+		<item name="android:textColor">#FF333333</item>
+	</style>
+</resources>

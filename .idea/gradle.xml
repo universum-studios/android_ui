@@ -32,6 +32,7 @@
             <option value="$PROJECT_DIR$/library-widget-core" />
             <option value="$PROJECT_DIR$/library-widget-edit" />
             <option value="$PROJECT_DIR$/library-widget-fab" />
+            <option value="$PROJECT_DIR$/library-widget-graphics" />
             <option value="$PROJECT_DIR$/library-widget-image" />
             <option value="$PROJECT_DIR$/library-widget-input-base" />
             <option value="$PROJECT_DIR$/library-widget-input-edit" />
@@ -46,6 +47,7 @@
             <option value="$PROJECT_DIR$/library-widget-picker-number" />
             <option value="$PROJECT_DIR$/library-widget-picker_group" />
             <option value="$PROJECT_DIR$/library-widget-progress" />
+            <option value="$PROJECT_DIR$/library-widget-refresh" />
             <option value="$PROJECT_DIR$/library-widget-search" />
             <option value="$PROJECT_DIR$/library-widget-selection" />
             <option value="$PROJECT_DIR$/library-widget-slider" />

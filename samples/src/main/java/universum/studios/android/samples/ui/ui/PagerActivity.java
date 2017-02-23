@@ -52,7 +52,7 @@ public final class PagerActivity extends SamplesActivity {
 
 	@SuppressWarnings("ConstantConditions")
 	private void setUpActionBar() {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

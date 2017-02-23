@@ -20,6 +20,6 @@
  */
 -->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          style="@style/Ex.Widget.TextView.Item.List.Title.Single"
+          style="@style/Widget.TextView.Item.List.Title.Single"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"/>

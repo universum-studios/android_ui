@@ -23,15 +23,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
+import universum.studios.android.samples.ui.R;
 import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionModeOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 import universum.studios.android.ui.util.ResourceUtils;
 import universum.studios.android.ui.widget.ActionTextButton;
-import universum.studios.android.util.Toaster;
 
 /**
  * @author Martin Albedinsky
@@ -51,7 +50,7 @@ public final class MetricsAndKeyLinesFragment extends BaseSamplesFragment {
 		this.mToolbar1 = (Toolbar) view.findViewById(R.id.fragment_layout_metrics_and_keylines_toolbar_1);
 		this.mToolbar1.setNavigationIcon(ResourceUtils.getVectorDrawable(
 				getResources(),
-				R.drawable.ex_vc_navigation_android,
+				R.drawable.samples_vc_menu_24dp,
 				getContextTheme()
 		));
 		this.mToolbar1.setTitle("Toolbar");
@@ -64,9 +63,10 @@ public final class MetricsAndKeyLinesFragment extends BaseSamplesFragment {
 		actionMode.setTitle("Action Mode");
 		ActionTextButton.setText(actionMode.getMenu(), R.id.menu_action_confirm, "Confirm");
 		ActionTextButton.setOnClickListener(actionMode.getMenu(), R.id.menu_action_confirm, new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				Toaster.showToast(getActivity(), "Clicked");
+				Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

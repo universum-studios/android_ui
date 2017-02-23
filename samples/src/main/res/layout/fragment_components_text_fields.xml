@@ -19,148 +19,147 @@
  * =================================================================================================
  */
 -->
-<universum.studios.android.ui.widget.ScrollViewWidget
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:ui="http://schemas.android.com/apk/res-auto"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+<universum.studios.android.ui.widget.ScrollViewWidget xmlns:android="http://schemas.android.com/apk/res/android"
+													  xmlns:ui="http://schemas.android.com/apk/res-auto"
+													  android:layout_width="match_parent"
+													  android:layout_height="match_parent">
 
 	<universum.studios.android.ui.widget.LinearLayoutWidget
-			android:orientation="vertical"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			ui:uiHideSoftKeyboardOnTouch="true">
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		ui:uiHideSoftKeyboardOnTouch="true">
 
 		<LinearLayout
-				style="@style/Ex.Layout"
-				android:orientation="vertical"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+			style="@style/Layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
 			<TextView
-					style="@style/Ex.Widget.TextView.Section.Heading"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/components_text_fields_edit_text"/>
+				style="@style/Widget.TextView.Section.Heading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_text_fields_edit_text" />
 
 			<universum.studios.android.ui.widget.EditTextWidget
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:hint="@string/components_text_fields_edit_text"/>
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="@string/components_text_fields_edit_text" />
 
-			<include layout="@layout/spacer_vertical"/>
-
-			<universum.studios.android.ui.widget.EditTextWidget
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/components_text_fields_edit_text"/>
-
-			<include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
 			<universum.studios.android.ui.widget.EditTextWidget
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:hint="@string/components_text_fields_edit_text_disabled"
-					android:enabled="false"/>
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_text_fields_edit_text" />
 
-			<include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
 			<universum.studios.android.ui.widget.EditTextWidget
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/components_text_fields_edit_text_disabled"
-					android:enabled="false"/>
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:enabled="false"
+				android:hint="@string/components_text_fields_edit_text_disabled" />
+
+			<include layout="@layout/spacer_vertical" />
+
+			<universum.studios.android.ui.widget.EditTextWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:enabled="false"
+				android:text="@string/components_text_fields_edit_text_disabled" />
 
 		</LinearLayout>
 
 		<LinearLayout
-				style="@style/Ex.Layout"
-				android:orientation="vertical"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+			style="@style/Layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
 			<TextView
-					style="@style/Ex.Widget.TextView.Section.Heading"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/components_text_fields_edit_layout"/>
+				style="@style/Widget.TextView.Section.Heading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_text_fields_edit_layout" />
 
 			<universum.studios.android.ui.widget.EditLayout
-					android:id="@+id/fragment_components_text_fields_error_field"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:hint="@string/components_text_fields_edit_layout"/>
+				android:id="@+id/fragment_components_text_fields_error_field"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="@string/components_text_fields_edit_layout" />
 
 			<universum.studios.android.ui.widget.FlatButton
 				android:id="@+id/validate_input"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
-				android:text="Validate input"/>
+				android:text="Validate input" />
 
-			<include layout="@layout/spacer_vertical"/>
-
-			<universum.studios.android.ui.widget.EditLayout
-					android:id="@+id/fragment_components_text_fields_length_constraint_field_1"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/components_text_fields_edit_layout"
-					ui:uiLengthConstraint="10"
-					ui:uiNote="Enter maximum 10 characters"/>
-
-			<include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
 			<universum.studios.android.ui.widget.EditLayout
-					android:id="@+id/fragment_components_text_fields_length_constraint_field_2"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:hint="@string/components_text_fields_edit_layout"
-					ui:uiLengthConstraint="10"/>
+				android:id="@+id/fragment_components_text_fields_length_constraint_field_1"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_text_fields_edit_layout"
+				ui:uiLengthConstraint="10"
+				ui:uiNote="Enter maximum 10 characters" />
 
-			<include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
 			<universum.studios.android.ui.widget.EditLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:hint="@string/components_text_fields_edit_layout"
-					android:maxLength="20"
-					android:inputType="textPassword">
+				android:id="@+id/fragment_components_text_fields_length_constraint_field_2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="@string/components_text_fields_edit_layout"
+				ui:uiLengthConstraint="10" />
+
+			<include layout="@layout/spacer_vertical" />
+
+			<universum.studios.android.ui.widget.EditLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="@string/components_text_fields_edit_layout"
+				android:inputType="textPassword"
+				android:maxLength="20">
 
 				<universum.studios.android.ui.widget.EditTextWidget
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:textColor="?attr/colorAccent"
-					ui:uiInputChildType="input"/>
+					ui:uiInputChildType="input" />
 			</universum.studios.android.ui.widget.EditLayout>
 
-			<include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
 			<universum.studios.android.ui.widget.EditLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:hint="@string/components_text_fields_edit_layout"
-					android:maxLength="20"
-					android:inputType="textEmailAddress"
-					ui:uiInputFeatures="note|constraint"
-					ui:uiNote="Enter e-mail address in valid format"/>
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="@string/components_text_fields_edit_layout"
+				android:inputType="textEmailAddress"
+				android:maxLength="20"
+				ui:uiInputFeatures="note|constraint"
+				ui:uiNote="Enter e-mail address in valid format" />
 
-			<include layout="@layout/spacer_vertical"/>
-
-			<universum.studios.android.ui.widget.EditLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:hint="@string/components_text_fields_edit_layout_disabled"
-					android:enabled="false"
-					ui:uiInputFeatures="none"/>
-
-			<include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
 			<universum.studios.android.ui.widget.EditLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/components_text_fields_edit_layout_disabled"
-					android:enabled="false"
-					ui:uiInputFeatures="none"/>
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:enabled="false"
+				android:hint="@string/components_text_fields_edit_layout_disabled"
+				ui:uiInputFeatures="none" />
+
+			<include layout="@layout/spacer_vertical" />
+
+			<universum.studios.android.ui.widget.EditLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:enabled="false"
+				android:text="@string/components_text_fields_edit_layout_disabled"
+				ui:uiInputFeatures="none" />
 		</LinearLayout>
 	</universum.studios.android.ui.widget.LinearLayoutWidget>
 

@@ -18,14 +18,19 @@
  */
 package universum.studios.android.samples.ui.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.AdapterView;
 
+import universum.studios.android.samples.ui.ui.MainActivity;
 import universum.studios.android.samples.ui.ui.adapter.SamplesAdapter;
 import universum.studios.android.support.fragment.manage.FragmentController;
+import universum.studios.android.support.samples.model.SampleItem;
+import universum.studios.android.support.samples.ui.SamplesNavigationActivity;
 
 /**
  * @author Martin Albedinsky
@@ -33,45 +38,50 @@ import universum.studios.android.support.fragment.manage.FragmentController;
 public abstract class BaseSamplesNavigationFragment extends BaseSamplesListFragment<SamplesAdapter> {
 
 	@SuppressWarnings("unused")
-	private static final String TAG = "BaseNavigationFragment";
+	private static final String TAG = "BaseSamplesNavigationFragment";
 
 	protected FragmentController mFragmentController;
 
 	@Override
-	@SuppressWarnings("ConstantConditions")
-	public void onItemClick(@NonNull AdapterView<?> parent, @NonNull View view, int position, long id) {
-		final ExListItem item = getAdapter().getItem(position);
-		if (item != null) mFragmentController.showFragment((int) item.getId());
-	}
-
-	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Set up adapter.
 		final SamplesAdapter adapter = new SamplesAdapter(getActivity());
-		onBindExamples(adapter);
+		onBindSamples(adapter);
 		setAdapter(adapter);
 	}
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		this.mFragmentController = ((HomeActivity) getActivity()).getFragmentController();
+		this.mFragmentController = ((MainActivity) getActivity()).getFragmentController();
 	}
 
 	@Override
-	public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		((HomeActivity) getActivity()).setNavigationAccessible(true);
+	public void onItemClick(@NonNull AdapterView<?> parent, @NonNull View view, int position, long id) {
+		final SampleItem item = getAdapter().getItem(position);
+		mFragmentController.newRequest((int) item.getId())
+				.addToBackStack(true)
+				.execute();
 	}
 
-	protected abstract void onBindExamples(@NonNull SamplesAdapter adapter);
+	protected abstract void onBindSamples(@NonNull SamplesAdapter adapter);
 
-	protected ExListItem createItem(int id, int titleResId) {
-		return createItem(id, titleResId, new ExListItem.Builder(getResources()));
+	@NonNull
+	protected SampleItem createItem(int id, @StringRes int titleResId) {
+		return createItem(new SampleItem.Builder(getResources()), id, titleResId);
 	}
 
-	protected ExListItem createItem(int id, int titleResId, ExListItem.Builder builder) {
-		return builder.reset().id(id).text(titleResId).build();
+	@NonNull
+	protected SampleItem createItem(SampleItem.Builder builder, int id, @StringRes int titleResId) {
+		return builder.reset().id(id).title(titleResId).build();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		final Activity activity = getActivity();
+		if (activity instanceof SamplesNavigationActivity) {
+			((SamplesNavigationActivity) activity).setNavigationAccessible(true);
+		}
 	}
 }

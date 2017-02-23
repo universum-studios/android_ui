@@ -21,6 +21,52 @@
 -->
 <resources>
 
+    <!-- ### APPLICATION ======================================================================= -->
+
+	<style name="Layout" parent="">
+		<item name="android:paddingLeft">?attr/uiSpacingSecondary</item>
+		<item name="android:paddingRight">?attr/uiSpacingSecondary</item>
+		<item name="android:paddingTop">?attr/uiSpacingSecondary</item>
+		<item name="android:paddingBottom">?attr/uiSpacingSecondary</item>
+	</style>
+	<style name="Layout.Section">
+		<item name="android:gravity">center_vertical</item>
+	</style>
+	<style name="Layout.Item.List" parent="">
+		<item name="android:paddingTop">?attr/uiSpacingSecondary</item>
+		<item name="android:paddingBottom">?attr/uiSpacingSecondary</item>
+		<item name="android:paddingLeft">?attr/uiSpacingSecondary</item>
+		<item name="android:paddingRight">?attr/uiSpacingSecondary</item>
+		<item name="android:minHeight">48dip</item>
+		<item name="android:gravity">center_vertical</item>
+	</style>
+
+    <style name="Widget.TextView.Section.Heading" parent="Ui.Widget.TextView">
+		<item name="android:minHeight">48dip</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+	<style name="Widget.TextView.Section.Label" parent="Ui.Widget.TextView">
+
+	</style>
+	<style name="Widget.TextView.Item.List.Title" parent="Ui.Widget.TextView">
+		<item name="android:textAppearance">@style/TextAppearance.Widget.TextView.Item.List.Title</item>
+	</style>
+	<style name="Widget.TextView.Item.List.Title.Single">
+		<item name="android:paddingTop">?attr/uiSpacingSecondary</item>
+		<item name="android:paddingBottom">?attr/uiSpacingSecondary</item>
+		<item name="android:paddingLeft">?attr/uiSpacingSecondary</item>
+		<item name="android:paddingRight">?attr/uiSpacingSecondary</item>
+		<item name="android:minHeight">48dip</item>
+		<item name="android:gravity">center_vertical</item>
+	</style>
+	<style name="Widget.TextView.Item.List.Note" parent="Ui.Widget.TextView">
+		<item name="android:textAppearance">@style/TextAppearance.Widget.TextView.Item.List.Note</item>
+		<item name="android:paddingLeft">?attr/uiSpacingTertiary</item>
+		<item name="android:paddingTop">?attr/uiSpacingTertiary</item>
+	</style>
+
     <!-- ### STYLE ============================================================================= -->
 
     <!-- ## STYLE:Typography -->

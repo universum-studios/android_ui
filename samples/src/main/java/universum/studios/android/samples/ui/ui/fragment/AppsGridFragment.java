@@ -26,8 +26,8 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.data.AppsAsyncTask;
 import universum.studios.android.samples.ui.ui.adapter.AppsGridAdapter;
-import universum.studios.android.samples.ui.content.AppsAsyncTask;
 
 /**
  * @author Martin Albedinsky

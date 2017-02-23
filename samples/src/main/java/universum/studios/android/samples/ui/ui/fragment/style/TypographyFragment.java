@@ -18,17 +18,17 @@
  */
 package universum.studios.android.samples.ui.ui.fragment.style;
 
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 
 /**
  * @author Martin Albedinsky
  */
 @ContentView(R.layout.fragment_style_typography)
 @ActionBarOptions(title = R.string.style_navigation_typography)
-public final class TypographyFragment extends BaseExamplesFragment {
+public final class TypographyFragment extends BaseSamplesFragment {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "TypographyFragment";

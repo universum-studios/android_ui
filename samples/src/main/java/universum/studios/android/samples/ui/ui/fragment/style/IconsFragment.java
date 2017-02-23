@@ -21,12 +21,14 @@ package universum.studios.android.samples.ui.ui.fragment.style;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
 import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 import universum.studios.android.ui.widget.ImageViewWidget;
 
 /**
@@ -34,13 +36,13 @@ import universum.studios.android.ui.widget.ImageViewWidget;
  */
 @ContentView(R.layout.fragment_style_icons)
 @ActionBarOptions(title = R.string.style_navigation_icons)
-public final class IconsFragment extends BaseExamplesFragment {
+public final class IconsFragment extends BaseSamplesFragment {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "IconsFragment";
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		final ImageViewWidget imageView = (ImageViewWidget) view.findViewById(R.id.fragment_style_icons_image_view_favorite);
 		imageView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#E91E63")));

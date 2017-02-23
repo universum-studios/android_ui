@@ -20,17 +20,18 @@
  */
 -->
 <universum.studios.android.ui.widget.ScrollViewWidget xmlns:android="http://schemas.android.com/apk/res/android"
-												   xmlns:ui="http://schemas.android.com/apk/res-auto"
-												   android:layout_width="match_parent"
-												   android:layout_height="match_parent">
+													  xmlns:ui="http://schemas.android.com/apk/res-auto"
+													  android:layout_width="match_parent"
+													  android:layout_height="match_parent">
 
 	<LinearLayout
-		style="@style/Ex.Layout.Section"
+		style="@style/Layout.Section"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical">
 
-		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+		<TextView
+			style="@style/Widget.TextView.Section.Heading"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/style_navigation_icons" />
@@ -76,7 +77,8 @@
 				ui:uiTint="#ff9800" />
 		</LinearLayout>
 
-		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+		<TextView
+			style="@style/Widget.TextView.Section.Heading"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/style_navigation_icons_vector" />
@@ -84,18 +86,19 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:gravity="center_horizontal">
+			android:gravity="center_horizontal"
+			android:orientation="horizontal">
 
 			<universum.studios.android.ui.widget.ImageViewWidget
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
-				ui:uiVectorSrc="@drawable/ic_vc_motorcycle"
-				ui:uiTint="#CDDC39" />
+				ui:uiTint="#CDDC39"
+				ui:uiVectorSrc="@drawable/ic_vc_motorcycle" />
 		</LinearLayout>
 
-		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+		<TextView
+			style="@style/Widget.TextView.Section.Heading"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/style_navigation_icons_compound" />
@@ -112,21 +115,22 @@
 			android:text="Text with compound icons"
 			ui:uiDrawableTint="#2196F3" />
 
-		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+		<TextView
+			style="@style/Widget.TextView.Section.Heading"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/style_navigation_icons_vector" />
+			android:text="@string/style_navigation_icons_vector_compound" />
 
 		<universum.studios.android.ui.widget.TextViewWidget
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
-			ui:uiVectorDrawableBottom="@drawable/ic_vc_pets"
-			ui:uiVectorDrawableStart="@drawable/ic_vc_motorcycle"
-			ui:uiVectorDrawableEnd="@drawable/ic_vc_pets"
-			ui:uiVectorDrawableTop="@drawable/ic_vc_motorcycle"
 			android:gravity="center"
 			android:text="Text with compound vector icons"
-			ui:uiDrawableTint="#4CAF50" />
+			ui:uiDrawableTint="#4CAF50"
+			ui:uiVectorDrawableBottom="@drawable/ic_vc_pets"
+			ui:uiVectorDrawableEnd="@drawable/ic_vc_pets"
+			ui:uiVectorDrawableStart="@drawable/ic_vc_motorcycle"
+			ui:uiVectorDrawableTop="@drawable/ic_vc_motorcycle" />
 	</LinearLayout>
 </universum.studios.android.ui.widget.ScrollViewWidget>

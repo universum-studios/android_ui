@@ -20,14 +20,16 @@ package universum.studios.android.samples.ui.ui.fragment.components;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import butterknife.OnClick;
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 import universum.studios.android.ui.widget.EditLayout;
 
 /**
@@ -35,7 +37,7 @@ import universum.studios.android.ui.widget.EditLayout;
  */
 @ContentView(R.layout.fragment_components_text_fields)
 @ActionBarOptions(title = R.string.components_navigation_text_fields)
-public class TextFieldsFragment extends BaseExamplesFragment
+public class TextFieldsFragment extends BaseSamplesFragment
 		implements
 		EditLayout.OnInputLengthChangeListener {
 
@@ -47,7 +49,7 @@ public class TextFieldsFragment extends BaseExamplesFragment
 	private EditLayout mEditLayoutLengthConstraint2;
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		view.findViewById(R.id.validate_input).setOnClickListener(this);
 		this.mEditLayoutError = (EditLayout) view.findViewById(R.id.fragment_components_text_fields_error_field);
@@ -103,13 +105,12 @@ public class TextFieldsFragment extends BaseExamplesFragment
 	}
 
 	@Override
-	protected boolean onViewClick(@NonNull View view, int id) {
-		switch (id) {
+	@OnClick(R.id.validate_input)
+	protected void onViewClick(@NonNull View view) {
+		switch (view.getId()) {
 			case R.id.validate_input:
 				mEditLayoutError.clearError();
 				mEditLayoutError.setError("Input is not valid");
-				return true;
 		}
-		return super.onViewClick(view, id);
 	}
 }

@@ -18,27 +18,16 @@
  */
 package universum.studios.android.samples.ui.ui.fragment.layout;
 
-import android.os.Bundle;
-import android.view.View;
-
-import universum.studios.android.support.fragment.annotation.ContentView;
 import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
-import universum.studios.android.ui.widget.HorizontalScrollViewWidget;
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
+import universum.studios.android.support.fragment.annotation.ContentView;
 
 /**
  * @author Martin Albedinsky
  */
 @ContentView(R.layout.fragment_layouts_horizontal_scroll_view)
-public final class HorizontalScrollViewFragment extends BaseExamplesFragment {
+public final class HorizontalScrollViewFragment extends BaseSamplesFragment {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "HorizontalScrollViewFragment";
-
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		final HorizontalScrollViewWidget scrollView = (HorizontalScrollViewWidget) view.findViewById(R.id.fragment_pullable_horizontal_scroll_view);
-		scrollView.getPullController().setOverScrollAnimationEnabled(true);
-	}
 }

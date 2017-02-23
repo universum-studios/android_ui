@@ -18,30 +18,29 @@
  */
 package universum.studios.android.samples.ui.ui.fragment;
 
-import android.support.annotation.NonNull;
-
+import universum.studios.android.samples.ui.ui.fragment.components.ButtonsFragment;
+import universum.studios.android.samples.ui.ui.fragment.components.ComponentsNavigationFragment;
+import universum.studios.android.samples.ui.ui.fragment.components.MenusFragment;
+import universum.studios.android.samples.ui.ui.fragment.components.ProgressAndActivityFragment;
+import universum.studios.android.samples.ui.ui.fragment.components.SlidersFragment;
+import universum.studios.android.samples.ui.ui.fragment.components.SwitchesFragment;
+import universum.studios.android.samples.ui.ui.fragment.components.TextFieldsFragment;
+import universum.studios.android.samples.ui.ui.fragment.components.collection.GridsFragment;
+import universum.studios.android.samples.ui.ui.fragment.components.collection.ListsFragment;
+import universum.studios.android.samples.ui.ui.fragment.components.picker.PickersFragment;
+import universum.studios.android.samples.ui.ui.fragment.layout.MetricsAndKeyLinesFragment;
+import universum.studios.android.samples.ui.ui.fragment.patterns.PatternsNavigationFragment;
+import universum.studios.android.samples.ui.ui.fragment.patterns.RefreshNavigationFragment;
+import universum.studios.android.samples.ui.ui.fragment.style.IconsFragment;
+import universum.studios.android.samples.ui.ui.fragment.style.StyleNavigationFragment;
+import universum.studios.android.samples.ui.ui.fragment.style.TypographyFragment;
 import universum.studios.android.support.fragment.annotation.FactoryFragment;
-import universum.studios.android.support.fragment.manage.FragmentTransactionOptions;
-import universum.studios.android.samples.ui.fragment.animation.TransitionsFragment;
-import universum.studios.android.samples.ui.fragment.animation.WindowTransitionsFragment;
-import universum.studios.android.samples.ui.fragment.components.ButtonsFragment;
-import universum.studios.android.samples.ui.fragment.components.MenusFragment;
-import universum.studios.android.samples.ui.fragment.components.ProgressAndActivityFragment;
-import universum.studios.android.samples.ui.fragment.components.SlidersFragment;
-import universum.studios.android.samples.ui.fragment.components.SwitchesFragment;
-import universum.studios.android.samples.ui.fragment.components.TextFieldsFragment;
-import universum.studios.android.samples.ui.fragment.components.collection.GridsFragment;
-import universum.studios.android.samples.ui.fragment.components.collection.ListsFragment;
-import universum.studios.android.samples.ui.fragment.components.picker.PickersFragment;
-import universum.studios.android.samples.ui.fragment.layout.MetricsAndKeyLinesFragment;
-import universum.studios.android.samples.ui.fragment.patterns.RefreshNavigationFragment;
-import universum.studios.android.samples.ui.fragment.style.IconsFragment;
-import universum.studios.android.samples.ui.fragment.style.TypographyFragment;
+import universum.studios.android.support.fragment.manage.BaseFragmentFactory;
 
 /**
  * @author Martin Albedinsky
  */
-public final class NavigationFragments extends BaseExamplesFragmentFactory {
+public final class NavigationFragments extends BaseFragmentFactory {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "NavigationFragments";
@@ -50,13 +49,8 @@ public final class NavigationFragments extends BaseExamplesFragmentFactory {
 	 * ANIMATION ===================================================================================
 	 */
 
-	@FactoryFragment(AnimationNavigationFragment.class)
 	public static final int ANIMATION = 0x10000000;
-
-	@FactoryFragment(TransitionsFragment.class)
 	public static final int ANIMATION_TRANSITIONS = 0x10000001;
-
-	@FactoryFragment(WindowTransitionsFragment.class)
 	public static final int ANIMATION_WINDOW_TRANSITIONS = 0x10000002;
 
 	/**
@@ -76,7 +70,6 @@ public final class NavigationFragments extends BaseExamplesFragmentFactory {
 	 * LAYOUT ======================================================================================
 	 */
 
-	@FactoryFragment(LayoutNavigationFragment.class)
 	public static final int LAYOUT = 0x30000000;
 
 	@FactoryFragment(MetricsAndKeyLinesFragment.class)
@@ -145,7 +138,6 @@ public final class NavigationFragments extends BaseExamplesFragmentFactory {
 	// todo
 	public static final int PATTERNS_ERRORS = 0x50000002;
 
-	// Used only for id purpose because this example is situated within a single Activity context.
 	public static final int PATTERNS_NAVIGATION_DRAWER = 0x50000005;
 
 	// Used only for id purpose because this example is situated within a single Activity context.
@@ -153,18 +145,4 @@ public final class NavigationFragments extends BaseExamplesFragmentFactory {
 
 	@FactoryFragment(RefreshNavigationFragment.class)
 	public static final int PATTERNS_SWIPE_TO_REFRESH = 0x5000000b;
-
-	@NonNull
-	@Override
-	protected FragmentTransactionOptions onConfigureTransactionOptions(@NonNull FragmentTransactionOptions options) {
-		switch (options.incomingFragmentId) {
-			case ANIMATION:
-			case STYLE:
-			case LAYOUT:
-			case COMPONENTS:
-			case PATTERNS:
-				return configureDefaultTransactionOptions(options);
-		}
-		return super.onConfigureTransactionOptions(options);
-	}
 }

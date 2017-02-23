@@ -18,17 +18,17 @@
  */
 package universum.studios.android.samples.ui.ui.fragment.components;
 
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 
 /**
  * @author Martin Albedinsky
  */
 @ContentView(R.layout.fragment_components_switches)
 @ActionBarOptions(title = R.string.components_navigation_switches)
-public final class SwitchesFragment extends BaseExamplesFragment {
+public final class SwitchesFragment extends BaseSamplesFragment {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "SwitchesFragment";

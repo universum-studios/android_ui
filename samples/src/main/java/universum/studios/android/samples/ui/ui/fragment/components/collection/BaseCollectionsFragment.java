@@ -18,8 +18,8 @@
  */
 package universum.studios.android.samples.ui.ui.fragment.components.collection;
 
+import universum.studios.android.samples.ui.ui.fragment.BaseSectionNavigationFragment;
 import universum.studios.android.support.fragment.manage.FragmentController;
-import universum.studios.android.samples.ui.fragment.BaseSectionNavigationFragment;
 
 /**
  * @author Martin Albedinsky
@@ -36,6 +36,6 @@ public abstract class BaseCollectionsFragment extends BaseSectionNavigationFragm
 
 	@Override
 	protected void onAttachFragmentsFactory(FragmentController fragmentController) {
-		fragmentController.setFragmentFactory(new CollectionFragments());
+		fragmentController.setFactory(new CollectionFragments());
 	}
 }

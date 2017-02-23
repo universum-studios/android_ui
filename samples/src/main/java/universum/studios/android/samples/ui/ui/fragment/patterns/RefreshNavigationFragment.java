@@ -20,13 +20,13 @@ package universum.studios.android.samples.ui.ui.fragment.patterns;
 
 import android.support.annotation.NonNull;
 
-import universum.studios.android.support.examples.model.ExListItem;
-import universum.studios.android.support.fragment.annotation.ActionBarOptions;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.ui.adapter.SamplesAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.adapter.SamplesAdapter;
+import universum.studios.android.support.fragment.annotation.ActionBarOptions;
+import universum.studios.android.support.samples.model.SampleItem;
 
 /**
  * @author Martin Albedinsky
@@ -38,35 +38,29 @@ public final class RefreshNavigationFragment extends BasePatternsFragment {
 	private static final String TAG = "RefreshNavigationFragment";
 
 	@Override
-	protected void onBindExamples(@NonNull SamplesAdapter adapter) {
-		final ExListItem.Builder builder = new ExListItem.Builder(getResources());
-		final List<ExListItem> items = new ArrayList<>();
+	protected void onBindSamples(@NonNull SamplesAdapter adapter) {
+		final SampleItem.Builder builder = new SampleItem.Builder(getResources());
+		final List<SampleItem> items = new ArrayList<>();
 		items.add(createItem(
+				builder,
 				PatternsFragments.SWIPE_TO_REFRESH_LIST,
-				R.string.patterns_navigation_swipe_to_refresh_list,
-				builder
+				R.string.patterns_navigation_swipe_to_refresh_list
 		));
 		items.add(createItem(
+				builder,
 				PatternsFragments.SWIPE_TO_REFRESH_GRID,
-				R.string.patterns_navigation_swipe_to_refresh_grid,
-				builder
+				R.string.patterns_navigation_swipe_to_refresh_grid
 		));
 		items.add(createItem(
+				builder,
 				PatternsFragments.SWIPE_TO_REFRESH_RECYCLER,
-				R.string.patterns_navigation_swipe_to_refresh_recycler,
-				builder
+				R.string.patterns_navigation_swipe_to_refresh_recycler
 		));
 		items.add(createItem(
+				builder,
 				PatternsFragments.SWIPE_TO_REFRESH_WEB,
-				R.string.patterns_navigation_swipe_to_refresh_web,
-				builder
+				R.string.patterns_navigation_swipe_to_refresh_web
 		));
-		// todo:
-		/*items.add(createItem(
-				PatternsFragments.SWIPE_TO_REFRESH_LAYOUT,
-				R.string.patterns_navigation_swipe_to_refresh_layout,
-				builder
-		));*/
 		adapter.changeItems(items);
 	}
 }

@@ -20,33 +20,33 @@
  */
 -->
 <universum.studios.android.ui.widget.FrameLayoutWidget xmlns:android="http://schemas.android.com/apk/res/android"
-													android:layout_width="match_parent"
-													android:layout_height="match_parent"
-													android:gravity="center_horizontal"
-													android:orientation="vertical">
+													   android:layout_width="match_parent"
+													   android:layout_height="match_parent"
+													   android:gravity="center_horizontal"
+													   android:orientation="vertical">
 
 	<universum.studios.android.ui.widget.CalendarView
 		android:id="@+id/calendar_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
-		android:background="#88111111"/>
+		android:background="#88111111" />
 
 	<LinearLayout
-		android:orientation="horizontal"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
 
 		<universum.studios.android.ui.widget.FlatButton
 			android:id="@+id/prev"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="prev"/>
+			android:text="prev" />
 
 		<universum.studios.android.ui.widget.FlatButton
 			android:id="@+id/next"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="next"/>
+			android:text="next" />
 	</LinearLayout>
 </universum.studios.android.ui.widget.FrameLayoutWidget>

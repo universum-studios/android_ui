@@ -20,17 +20,18 @@
  */
 -->
 <universum.studios.android.ui.widget.ScrollViewWidget xmlns:android="http://schemas.android.com/apk/res/android"
-														   xmlns:ui="http://schemas.android.com/apk/res-auto"
-														   android:layout_width="match_parent"
-														   android:layout_height="match_parent">
+													  xmlns:ui="http://schemas.android.com/apk/res-auto"
+													  android:layout_width="match_parent"
+													  android:layout_height="match_parent">
 
 	<LinearLayout
-		style="@style/Ex.Layout"
+		style="@style/Layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical">
 
-		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+		<TextView
+			style="@style/Widget.TextView.Section.Heading"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/style_typography_font_family" />
@@ -38,56 +39,57 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/style_typography_font_family_regular"
-			android:layout_marginBottom="?attr/uiSpacingTertiary"/>
+			android:layout_marginBottom="?attr/uiSpacingTertiary"
+			android:text="@string/style_typography_font_family_regular" />
 
 		<TextView
-			android:textAppearance="@style/Ui.TextAppearance.Widget.TextView"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_marginBottom="?attr/uiSpacingTertiary"
 			android:text="@string/style_typography_font_family_light"
-			android:layout_marginBottom="?attr/uiSpacingTertiary"/>
+			android:textAppearance="@style/Ui.TextAppearance.Widget.TextView" />
 
 		<TextView
-			android:textAppearance="@style/Ui.TextAppearance.Widget.TextView.Thin"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_marginBottom="?attr/uiSpacingTertiary"
 			android:text="@string/style_typography_font_family_thin"
-			android:layout_marginBottom="?attr/uiSpacingTertiary"/>
+			android:textAppearance="@style/Ui.TextAppearance.Widget.TextView.Thin" />
 
 		<TextView
-			android:textAppearance="@style/Ui.TextAppearance.Widget.TextView.Condensed"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_marginBottom="?attr/uiSpacingTertiary"
 			android:text="@string/style_typography_font_family_condensed"
-			android:layout_marginBottom="?attr/uiSpacingTertiary"/>
+			android:textAppearance="@style/Ui.TextAppearance.Widget.TextView.Condensed" />
 
 		<TextView
-			android:textAppearance="@style/Ui.TextAppearance.Widget.TextView.Medium"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/style_typography_font_family_medium"/>
+			android:text="@string/style_typography_font_family_medium"
+			android:textAppearance="@style/Ui.TextAppearance.Widget.TextView.Medium" />
 
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
 
-		<universum.studios.android.support.examples.widget.ExSectionHeadingView
+		<TextView
+			style="@style/Widget.TextView.Section.Heading"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/style_typography_custom_font" />
 
 		<universum.studios.android.ui.widget.TextViewWidget
-			android:textAppearance="@style/TextAppearance.Widget.TextView.Typography"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/style_typography_custom_font_text_view" />
-
-		<universum.studios.android.ui.widget.TextViewWidget
-			android:textAppearance="@style/TextAppearance.Widget.TextView.Typography"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/style_typography_custom_font_text_view"
+			android:textAppearance="@style/TextAppearance.Widget.TextView.Typography" />
+
+		<universum.studios.android.ui.widget.TextViewWidget
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/style_typography_custom_font_text_view"
+			android:textAppearance="@style/TextAppearance.Widget.TextView.Typography"
 			ui:uiFontPath="@string/config_font_belligerent" />
 
 		<android.support.v4.widget.Space
@@ -95,16 +97,16 @@
 			android:layout_height="?attr/uiSpacingSecondary" />
 
 		<universum.studios.android.ui.widget.EditTextWidget
-			android:textAppearance="@style/TextAppearance.Widget.EditText.Typography"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:hint="@string/style_typography_custom_font_edit_text" />
-
-		<universum.studios.android.ui.widget.EditTextWidget
-			android:textAppearance="@style/TextAppearance.Widget.EditText.Typography"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:hint="@string/style_typography_custom_font_edit_text"
+			android:textAppearance="@style/TextAppearance.Widget.EditText.Typography" />
+
+		<universum.studios.android.ui.widget.EditTextWidget
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/style_typography_custom_font_edit_text"
+			android:textAppearance="@style/TextAppearance.Widget.EditText.Typography"
 			ui:uiFontPath="1942/1942.ttf" />
 
 		<android.support.v4.widget.Space
@@ -112,16 +114,16 @@
 			android:layout_height="?attr/uiSpacingSecondary" />
 
 		<universum.studios.android.ui.widget.ButtonWidget
-			android:textAppearance="@style/TextAppearance.Widget.Button.Typography"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/style_typography_custom_font_button" />
-
-		<universum.studios.android.ui.widget.ButtonWidget
-			android:textAppearance="@style/TextAppearance.Widget.Button.Typography"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/style_typography_custom_font_button"
+			android:textAppearance="@style/TextAppearance.Widget.Button.Typography" />
+
+		<universum.studios.android.ui.widget.ButtonWidget
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/style_typography_custom_font_button"
+			android:textAppearance="@style/TextAppearance.Widget.Button.Typography"
 			ui:uiFontPath="1942/1942.ttf" />
 	</LinearLayout>
 </universum.studios.android.ui.widget.ScrollViewWidget>

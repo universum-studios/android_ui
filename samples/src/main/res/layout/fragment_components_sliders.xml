@@ -19,126 +19,125 @@
  * =================================================================================================
  */
 -->
-<universum.studios.android.ui.widget.ScrollViewWidget
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:ui="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<universum.studios.android.ui.widget.ScrollViewWidget xmlns:android="http://schemas.android.com/apk/res/android"
+													  xmlns:ui="http://schemas.android.com/apk/res-auto"
+													  android:layout_width="match_parent"
+													  android:layout_height="match_parent">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
 
-        <LinearLayout
-                style="@style/Ex.Layout"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+		<LinearLayout
+			style="@style/Layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
-            <TextView
-                    style="@style/Ex.Widget.TextView.Section.Heading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_sliders_continuous"/>
+			<TextView
+				style="@style/Widget.TextView.Section.Heading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_sliders_continuous" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                    android:id="@+id/fragment_components_seek_bar_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				android:id="@+id/fragment_components_seek_bar_1"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                    android:id="@+id/fragment_components_seek_bar_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:progress="50"/>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				android:id="@+id/fragment_components_seek_bar_2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:progress="50" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                    android:id="@+id/fragment_components_seek_bar_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:progress="50"
-                    ui:uiProgressTint="#f44336"
-                    ui:uiThumbTint="#f44336"/>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				android:id="@+id/fragment_components_seek_bar_3"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:progress="50"
+				ui:uiProgressTint="#f44336"
+				ui:uiThumbTint="#f44336" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"/>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:enabled="false" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:progress="50"/>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:enabled="false"
+				android:progress="50" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:progress="100"/>
-        </LinearLayout>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:enabled="false"
+				android:progress="100" />
+		</LinearLayout>
 
-        <LinearLayout
-                style="@style/Ex.Layout"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+		<LinearLayout
+			style="@style/Layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
-            <TextView
-                    style="@style/Ex.Widget.TextView.Section.Heading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/components_sliders_discrete"/>
+			<TextView
+				style="@style/Widget.TextView.Section.Heading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/components_sliders_discrete" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                    android:id="@+id/fragment_components_seek_bar_discrete_1"
-                    style="?attr/uiDiscreteSeekBarStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:progress="40"/>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				android:id="@+id/fragment_components_seek_bar_discrete_1"
+				style="?attr/uiDiscreteSeekBarStyle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:progress="40" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                    android:id="@+id/fragment_components_seek_bar_discrete_2"
-                    style="?attr/uiDiscreteSeekBarStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ui:uiDiscretePreviewEnabled="true"/>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				android:id="@+id/fragment_components_seek_bar_discrete_2"
+				style="?attr/uiDiscreteSeekBarStyle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				ui:uiDiscretePreviewEnabled="true" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                    android:id="@+id/fragment_components_seek_bar_discrete_3"
-                    style="?attr/uiDiscreteSeekBarStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ui:uiDiscreteIntervalRatio="0.1"
-                    ui:uiDiscreteIndicatorTint="#f44336"
-                    ui:uiProgressTint="#f44336"
-                    ui:uiThumbTint="#f44336"
-                    android:progress="85"/>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				android:id="@+id/fragment_components_seek_bar_discrete_3"
+				style="?attr/uiDiscreteSeekBarStyle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:progress="85"
+				ui:uiDiscreteIndicatorTint="#f44336"
+				ui:uiDiscreteIntervalRatio="0.1"
+				ui:uiProgressTint="#f44336"
+				ui:uiThumbTint="#f44336" />
 
-            <include layout="@layout/spacer_vertical"/>
+			<include layout="@layout/spacer_vertical" />
 
-            <universum.studios.android.ui.widget.SeekBarWidget
-                style="?attr/uiDiscreteSeekBarStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ui:uiDiscreteIntervalRatio="0.1"
-                    android:progress="50"
-                    android:enabled="false"/>
-        </LinearLayout>
-    </LinearLayout>
+			<universum.studios.android.ui.widget.SeekBarWidget
+				style="?attr/uiDiscreteSeekBarStyle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:enabled="false"
+				android:progress="50"
+				ui:uiDiscreteIntervalRatio="0.1" />
+		</LinearLayout>
+	</LinearLayout>
 </universum.studios.android.ui.widget.ScrollViewWidget>

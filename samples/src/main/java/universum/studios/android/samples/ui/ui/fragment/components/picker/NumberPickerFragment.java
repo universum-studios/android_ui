@@ -20,15 +20,16 @@ package universum.studios.android.samples.ui.ui.fragment.components.picker;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 import universum.studios.android.ui.widget.CircularNumberPicker;
-import universum.studios.android.util.Logger;
-import universum.studios.android.util.Toaster;
 
 /**
  * @author Martin Albedinsky
@@ -37,7 +38,7 @@ import universum.studios.android.util.Toaster;
 		title = R.string.components_navigation_pickers_number_picker
 )
 @ContentView(R.layout.fragment_components_pickers_number)
-public final class NumberPickerFragment extends BaseExamplesFragment
+public final class NumberPickerFragment extends BaseSamplesFragment
 		implements
 		CircularNumberPicker.OnNumberChangeListener,
 		CircularNumberPicker.OnNumberSelectionListener {
@@ -49,7 +50,7 @@ public final class NumberPickerFragment extends BaseExamplesFragment
 	};
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		final CircularNumberPicker numberPicker = (CircularNumberPicker) view.findViewById(R.id.picker);
 		numberPicker.setNumbers(NUMBERS);
@@ -59,11 +60,11 @@ public final class NumberPickerFragment extends BaseExamplesFragment
 
 	@Override
 	public void onNumberChanged(@NonNull CircularNumberPicker picker, int number) {
-		Logger.d(TAG, "Changed to: " + Integer.toString(number));
+		Log.d(TAG, "Changed to: " + Integer.toString(number));
 	}
 
 	@Override
 	public void onNumberSelected(@NonNull CircularNumberPicker picker, int number) {
-		Toaster.showToast(getActivity(), "Selected: " + Integer.toString(number));
+		Toast.makeText(getActivity(), "Selected: " + Integer.toString(number), Toast.LENGTH_SHORT).show();
 	}
 }

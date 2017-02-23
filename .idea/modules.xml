@@ -27,6 +27,7 @@
       <module fileurl="file://$PROJECT_DIR$/library-widget-core/library-widget-core.iml" filepath="$PROJECT_DIR$/library-widget-core/library-widget-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-edit/library-widget-edit.iml" filepath="$PROJECT_DIR$/library-widget-edit/library-widget-edit.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-fab/library-widget-fab.iml" filepath="$PROJECT_DIR$/library-widget-fab/library-widget-fab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-graphics/library-widget-graphics.iml" filepath="$PROJECT_DIR$/library-widget-graphics/library-widget-graphics.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-image/library-widget-image.iml" filepath="$PROJECT_DIR$/library-widget-image/library-widget-image.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-input-base/library-widget-input-base.iml" filepath="$PROJECT_DIR$/library-widget-input-base/library-widget-input-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-input-edit/library-widget-input-edit.iml" filepath="$PROJECT_DIR$/library-widget-input-edit/library-widget-input-edit.iml" />
@@ -41,6 +42,7 @@
       <module fileurl="file://$PROJECT_DIR$/library-widget-picker-number/library-widget-picker-number.iml" filepath="$PROJECT_DIR$/library-widget-picker-number/library-widget-picker-number.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-picker_group/library-widget-picker_group.iml" filepath="$PROJECT_DIR$/library-widget-picker_group/library-widget-picker_group.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-progress/library-widget-progress.iml" filepath="$PROJECT_DIR$/library-widget-progress/library-widget-progress.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-refresh/library-widget-refresh.iml" filepath="$PROJECT_DIR$/library-widget-refresh/library-widget-refresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-search/library-widget-search.iml" filepath="$PROJECT_DIR$/library-widget-search/library-widget-search.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-selection/library-widget-selection.iml" filepath="$PROJECT_DIR$/library-widget-selection/library-widget-selection.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-slider/library-widget-slider.iml" filepath="$PROJECT_DIR$/library-widget-slider/library-widget-slider.iml" />

@@ -19,54 +19,48 @@
  * =================================================================================================
  */
 -->
-<universum.studios.android.ui.widget.HorizontalScrollViewWidget
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:ui="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/fragment_pullable_horizontal_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        ui:uiPullEnabled="true"
-        ui:uiPullCollapseDelay="200">
+<universum.studios.android.ui.widget.HorizontalScrollViewWidget android:id="@+id/fragment_pullable_horizontal_scroll_view"
+																xmlns:android="http://schemas.android.com/apk/res/android"
+																android:layout_width="match_parent"
+																android:layout_height="match_parent">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
 
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="500dip">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="500dip"
+			android:orientation="horizontal">
 
-            <ImageView
-                    android:layout_width="60dip"
-                    android:layout_height="60dip"
-                    android:background="#000000"/>
+			<ImageView
+				android:layout_width="60dip"
+				android:layout_height="60dip"
+				android:background="#000000" />
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Some text"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Some text" />
 
-        </LinearLayout>
+		</LinearLayout>
 
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
 
-            <ImageView
-                    android:layout_width="60dip"
-                    android:layout_height="60dip"
-                    android:background="#000000"/>
+			<ImageView
+				android:layout_width="60dip"
+				android:layout_height="60dip"
+				android:background="#000000" />
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Some text"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Some text" />
+		</LinearLayout>
+	</LinearLayout>
 </universum.studios.android.ui.widget.HorizontalScrollViewWidget>

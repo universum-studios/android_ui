@@ -19,15 +19,12 @@
 package universum.studios.android.samples.ui.ui.fragment.patterns;
 
 import universum.studios.android.support.fragment.annotation.FactoryFragment;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragmentFactory;
+import universum.studios.android.support.fragment.manage.BaseFragmentFactory;
 
 /**
  * @author Martin Albedinsky
  */
-public final class PatternsFragments extends BaseExamplesFragmentFactory {
-
-	@SuppressWarnings("unused")
-	private static final String TAG = "PatternsFragments";
+public final class PatternsFragments extends BaseFragmentFactory {
 
 	/**
 	 * ERRORS ======================================================================================
@@ -61,7 +58,6 @@ public final class PatternsFragments extends BaseExamplesFragmentFactory {
 	@FactoryFragment(RefreshWebFragment.class)
 	public static final int SWIPE_TO_REFRESH_WEB = 0xb0000004;
 
-	@FactoryFragment(RefreshLayoutFragment.class)
 	public static final int SWIPE_TO_REFRESH_LAYOUT = 0xb0000005;
 
 	/**

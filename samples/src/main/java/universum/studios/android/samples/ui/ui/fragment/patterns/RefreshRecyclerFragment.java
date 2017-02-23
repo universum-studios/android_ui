@@ -21,21 +21,22 @@ package universum.studios.android.samples.ui.ui.fragment.patterns;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.Random;
+
+import universum.studios.android.samples.ui.R;
+import universum.studios.android.samples.ui.ui.adapter.CapitalsRecyclerAdapter;
+import universum.studios.android.samples.ui.ui.fragment.BaseSamplesFragment;
 import universum.studios.android.support.fragment.annotation.ActionBarOptions;
 import universum.studios.android.support.fragment.annotation.ContentView;
 import universum.studios.android.support.fragment.annotation.MenuOptions;
-import universum.studios.android.samples.ui.R;
-import universum.studios.android.samples.ui.ui.adapter.CapitalsRecyclerAdapter;
-import universum.studios.android.samples.ui.fragment.BaseExamplesFragment;
 import universum.studios.android.ui.widget.RecyclerViewWidget;
 import universum.studios.android.ui.widget.Refreshable;
-
-import java.util.Random;
 
 /**
  * @author Martin Albedinsky
@@ -43,7 +44,7 @@ import java.util.Random;
 @MenuOptions(R.menu.refresh)
 @ContentView(R.layout.fragment_patterns_refresh_recycler)
 @ActionBarOptions(title = R.string.patterns_navigation_swipe_to_refresh_list)
-public final class RefreshRecyclerFragment extends BaseExamplesFragment
+public final class RefreshRecyclerFragment extends BaseSamplesFragment
 		implements
 		Refreshable.OnRefreshListener {
 
@@ -62,7 +63,7 @@ public final class RefreshRecyclerFragment extends BaseExamplesFragment
 	private RecyclerViewWidget mRecyclerView;
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		final AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.app_bar_layout);
 		appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {

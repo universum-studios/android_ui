@@ -1,5 +1,5 @@
 // Gradle project settings. Specifies which modules to include into project.
-include ':library', ':samples'
+include ':library', ':samples', ':library-widget-graphics', ':library-widget-refresh'
 include ':library-core', ':library-base', ':library-util'
 include ':library-graphics_group', ':library-graphics-core', ':library-graphics-progress', ':library-graphics-refresh'
 include ':library-interpolator'
