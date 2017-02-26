@@ -54,8 +54,8 @@ android {
  * Library dependencies ============================================================================
  */
 repositories {
-    mavenLocal()
-	maven { url "http://dl.bintray.com/universum-studios/android" }
+    maven { url = '../artifacts/' }
+    maven { url "http://dl.bintray.com/universum-studios/android" }
 }
 
 dependencies {
@@ -68,12 +68,14 @@ dependencies {
     // todo: releaseCompile "universum.studios.android:ui-controller-base:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-refresh:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-base:${libraryVersion}@aar"
 
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
     debugCompile project(':library-controller-refresh')
     debugCompile project(':library-widget-core')
+    debugCompile project(':library-widget-base')
 }
 
 // Apply DEPLOY script.

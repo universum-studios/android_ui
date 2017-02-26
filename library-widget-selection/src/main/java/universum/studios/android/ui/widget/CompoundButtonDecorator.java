@@ -28,18 +28,19 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import universum.studios.android.font.FontWidget;
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
 
 /**
- * A {@link FontDecorator} implementation that is used to decorate {@link CompoundButtonDecorator}
+ * A {@link FontWidgetDecorator} implementation that is used to decorate {@link CompoundButtonDecorator}
  * like widgets.
  *
  * @param <W> A type of the compound button widget that will use this decorator.
  * @author Martin Albedinsky
  */
-abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> extends FontDecorator<W> {
+abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> extends FontWidgetDecorator<W> {
 
 	/**
 	 * Interface ===================================================================================
@@ -84,7 +85,7 @@ abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> ex
 	 *
 	 * @param widget         The compound button like widget for which to create new decorator.
 	 * @param styleableAttrs Set of styleable attributes specific for the widget.
-	 * @see FontDecorator#FontDecorator(View, int[])
+	 * @see FontWidgetDecorator#FontWidgetDecorator(View, int[])
 	 */
 	CompoundButtonDecorator(W widget, int[] styleableAttrs) {
 		super(widget, styleableAttrs);

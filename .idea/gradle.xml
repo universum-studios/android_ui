@@ -9,7 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/library" />
-            <option value="$PROJECT_DIR$/library-base" />
             <option value="$PROJECT_DIR$/library-controller-base" />
             <option value="$PROJECT_DIR$/library-controller-pull" />
             <option value="$PROJECT_DIR$/library-controller-refresh" />
@@ -21,6 +20,7 @@
             <option value="$PROJECT_DIR$/library-graphics_group" />
             <option value="$PROJECT_DIR$/library-interpolator" />
             <option value="$PROJECT_DIR$/library-util" />
+            <option value="$PROJECT_DIR$/library-widget-base" />
             <option value="$PROJECT_DIR$/library-widget-button" />
             <option value="$PROJECT_DIR$/library-widget-collection-core" />
             <option value="$PROJECT_DIR$/library-widget-collection-grid" />
@@ -52,7 +52,6 @@
             <option value="$PROJECT_DIR$/library-widget-selection" />
             <option value="$PROJECT_DIR$/library-widget-slider" />
             <option value="$PROJECT_DIR$/library-widget-text" />
-            <option value="$PROJECT_DIR$/library-widget-util" />
             <option value="$PROJECT_DIR$/library-widget-web" />
             <option value="$PROJECT_DIR$/library-widget_group" />
             <option value="$PROJECT_DIR$/samples" />

@@ -38,6 +38,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 
+import universum.studios.android.font.Font;
+import universum.studios.android.font.FontWidget;
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
@@ -445,7 +447,7 @@ public class ButtonWidget extends Button implements Widget, FontWidget {
 	public void setTextAppearance(@NonNull Context context, @StyleRes int resId) {
 		super.setTextAppearance(context, resId);
 		this.ensureDecorator();
-		mDecorator.applyTextAppearanceFont(resId);
+		mDecorator.setFontFromStyle(resId);
 	}
 
 	/**
@@ -489,7 +491,7 @@ public class ButtonWidget extends Button implements Widget, FontWidget {
 	private final class Decorator extends TextViewDecorator<ButtonWidget> {
 
 		/**
-		 * See {@link FontDecorator#FontDecorator(View, int[])}.
+		 * See {@link FontWidgetDecorator#FontWidgetDecorator(View, int[])}.
 		 */
 		Decorator(ButtonWidget widget) {
 			super(widget, R.styleable.Ui_Button);

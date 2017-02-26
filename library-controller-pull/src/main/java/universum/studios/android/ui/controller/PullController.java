@@ -38,15 +38,15 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import universum.studios.android.ui.R;
-import universum.studios.android.ui.UiConfig;
-import universum.studios.android.ui.widget.Pullable;
-import universum.studios.android.ui.widget.Scrollable;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.UiConfig;
+import universum.studios.android.ui.widget.Pullable;
+import universum.studios.android.ui.widget.Scrollable;
 
 /**
  * PullController can be used to support <b>pull</b> feature for the scrollable views, especially

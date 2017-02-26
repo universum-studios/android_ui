@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Ui.iml" filepath="$PROJECT_DIR$/Ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library-base/library-base.iml" filepath="$PROJECT_DIR$/library-base/library-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-controller-base/library-controller-base.iml" filepath="$PROJECT_DIR$/library-controller-base/library-controller-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-controller-pull/library-controller-pull.iml" filepath="$PROJECT_DIR$/library-controller-pull/library-controller-pull.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-controller-refresh/library-controller-refresh.iml" filepath="$PROJECT_DIR$/library-controller-refresh/library-controller-refresh.iml" />
@@ -16,6 +15,7 @@
       <module fileurl="file://$PROJECT_DIR$/library-graphics_group/library-graphics_group.iml" filepath="$PROJECT_DIR$/library-graphics_group/library-graphics_group.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-interpolator/library-interpolator.iml" filepath="$PROJECT_DIR$/library-interpolator/library-interpolator.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-util/library-util.iml" filepath="$PROJECT_DIR$/library-util/library-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-widget-base/library-widget-base.iml" filepath="$PROJECT_DIR$/library-widget-base/library-widget-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-button/library-widget-button.iml" filepath="$PROJECT_DIR$/library-widget-button/library-widget-button.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-collection-core/library-widget-collection-core.iml" filepath="$PROJECT_DIR$/library-widget-collection-core/library-widget-collection-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-collection-grid/library-widget-collection-grid.iml" filepath="$PROJECT_DIR$/library-widget-collection-grid/library-widget-collection-grid.iml" />
@@ -47,7 +47,6 @@
       <module fileurl="file://$PROJECT_DIR$/library-widget-selection/library-widget-selection.iml" filepath="$PROJECT_DIR$/library-widget-selection/library-widget-selection.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-slider/library-widget-slider.iml" filepath="$PROJECT_DIR$/library-widget-slider/library-widget-slider.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-text/library-widget-text.iml" filepath="$PROJECT_DIR$/library-widget-text/library-widget-text.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library-widget-util/library-widget-util.iml" filepath="$PROJECT_DIR$/library-widget-util/library-widget-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget-web/library-widget-web.iml" filepath="$PROJECT_DIR$/library-widget-web/library-widget-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-widget_group/library-widget_group.iml" filepath="$PROJECT_DIR$/library-widget_group/library-widget_group.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/samples.iml" filepath="$PROJECT_DIR$/samples/samples.iml" />

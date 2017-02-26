@@ -54,8 +54,7 @@ android {
  * Library dependencies ============================================================================
  */
 repositories {
-    mavenLocal()
-	maven { url "http://dl.bintray.com/universum-studios/android" }
+    maven { url = '../artifacts/' }
 }
 
 dependencies {

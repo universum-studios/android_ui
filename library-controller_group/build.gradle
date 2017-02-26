@@ -72,8 +72,7 @@ android {
  * Library dependencies ============================================================================
  */
 repositories {
-    mavenLocal()
-	maven { url "http://dl.bintray.com/universum-studios/android" }
+    maven { url = '../artifacts/' }
 }
 
 dependencies {
@@ -82,11 +81,16 @@ dependencies {
      */
     compile releaseDependencies.androidSupportAnnotations
     // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-graphics-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-graphics-progress:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-graphics-refresh:${libraryVersion}@aar"
 
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
     debugCompile project(':library-core')
+    debugCompile project(':library-graphics-refresh')
+    debugCompile project(':library-widget-core')
 }
 
 // Apply DEPLOY script.

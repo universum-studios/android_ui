@@ -48,6 +48,9 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import universum.studios.android.font.Font;
+import universum.studios.android.font.FontWidget;
+import universum.studios.android.font.util.FontApplier;
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
@@ -195,11 +198,6 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	private final MiddleCircleInfo MIDDLE_CIRCLE_INFO = new MiddleCircleInfo();
 
 	/**
-	 * Helper used to apply custom font to this view.
-	 */
-	private final FontApplier FONT_APPLIER = new FontApplier(this);
-
-	/**
 	 * Set of private flags of this dialog view.
 	 */
 	private int mPrivateFlags;
@@ -345,21 +343,17 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	@SuppressWarnings({"ConstantConditions", "ResourceType"})
 	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		this.ensureRect();
-		final Resources.Theme theme = context.getTheme();
 		if (!isInEditMode()) {
-			// Get font path presented within text appearance style.
-			if (theme != null) {
-				final TypedArray appearanceArray = theme.obtainStyledAttributes(attrs, new int[]{android.R.attr.textAppearance}, defStyleAttr, defStyleRes);
-				if (appearanceArray != null) {
-					final int appearance = appearanceArray.getResourceId(0, -1);
-					if (appearance != -1) {
-						FONT_APPLIER.applyFont(appearance);
-					}
-					appearanceArray.recycle();
-				}
+			final Resources.Theme theme = context.getTheme();
+			// Try to apply font presented within text appearance style.
+			final TypedArray appearanceAttributes = theme.obtainStyledAttributes(attrs, new int[]{android.R.attr.textAppearance}, defStyleAttr, defStyleRes);
+			final int appearance = appearanceAttributes.getResourceId(0, -1);
+			if (appearance != -1) {
+				FontApplier.applyFont(this, appearance);
 			}
-			// Get font path presented within xml attributes.
-			FONT_APPLIER.applyFont(attrs, defStyleAttr);
+			appearanceAttributes.recycle();
+			// Try to apply font presented within xml attributes.
+			FontApplier.applyFont(this, attrs, defStyleAttr, defStyleRes);
 		}
 
 		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_NumberPicker_Circular, defStyleAttr, defStyleRes);
@@ -721,14 +715,14 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	 */
 	@Override
 	public void setFont(@NonNull String fontPath) {
-		FONT_APPLIER.applyFont(fontPath);
+		FontApplier.applyFont(this, fontPath);
 	}
 
 	/**
 	 */
 	@Override
 	public void setFont(@Nullable Font font) {
-		FONT_APPLIER.applyFont(font);
+		FontApplier.applyFont(this, font);
 	}
 
 	/**

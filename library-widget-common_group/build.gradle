@@ -45,30 +45,36 @@ android {
 
     sourceSets {
         release.java.srcDirs = [
+                '../library-widget-core/src/main/java',
+                '../library-widget-base/src/main/java',
                 '../library-widget-button/src/main/java',
                 '../library-widget-collection-core/src/main/java',
                 '../library-widget-collection-recycler/src/main/java',
-                '../library-widget-core/src/main/java',
                 '../library-widget-edit/src/main/java',
                 '../library-widget-fab/src/main/java',
+                '../library-widget-graphics/src/main/java',
                 '../library-widget-image/src/main/java',
                 '../library-widget-layout-common/src/main/java',
                 '../library-widget-progress/src/main/java',
+                '../library-widget-refresh/src/main/java',
                 '../library-widget-selection/src/main/java',
                 '../library-widget-text/src/main/java',
                 '../library-widget-util/src/main/java'
         ]
         debug.java.srcDirs = release.java.srcDirs
         release.res.srcDirs = [
+                '../library-widget-core/src/main/res',
+                '../library-widget-base/src/main/res',
                 '../library-widget-button/src/main/res',
                 '../library-widget-collection-core/src/main/res',
                 '../library-widget-collection-recycler/src/main/res',
-                '../library-widget-core/src/main/res',
                 '../library-widget-edit/src/main/res',
                 '../library-widget-fab/src/main/res',
+                '../library-widget-graphics/src/main/res',
                 '../library-widget-image/src/main/res',
                 '../library-widget-layout-common/src/main/res',
                 '../library-widget-progress/src/main/res',
+                '../library-widget-refresh/src/main/res',
                 '../library-widget-selection/src/main/res',
                 '../library-widget-text/src/main/res',
                 '../library-widget-util/src/main/res'
@@ -90,8 +96,8 @@ android {
  * Library dependencies ============================================================================
  */
 repositories {
-    mavenLocal()
-	maven { url "http://dl.bintray.com/universum-studios/android" }
+    maven { url = '../artifacts/' }
+    maven { url "http://dl.bintray.com/universum-studios/android" }
 }
 
 dependencies {
@@ -102,6 +108,8 @@ dependencies {
     compile releaseDependencies.androidSupportAppCompatV7
     compile releaseDependencies.androidSupportVectorDrawable
     compile releaseDependencies.androidSupportRecyclerViewV7
+    compile releaseDependencies.androidUniversumFontCore
+    compile releaseDependencies.androidUniversumFontUtil
     // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-base:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-refresh:${libraryVersion}@aar"

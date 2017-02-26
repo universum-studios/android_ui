@@ -1,0 +1,84 @@
+/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+apply plugin: 'com.android.library'
+
+/**
+ * Library options =================================================================================
+ */
+android {
+    compileSdkVersion Integer.valueOf((String) project.property('android.compileSdkVersion'))
+    buildToolsVersion project.property('android.buildToolsVersion')
+
+    defaultConfig {
+        minSdkVersion project.property('library.minSdkVersion')
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+        debug {
+            minifyEnabled false
+            testCoverageEnabled true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+/**
+ * Library dependencies ============================================================================
+ */
+repositories {
+    maven { url = '../artifacts/' }
+    maven { url "http://dl.bintray.com/universum-studios/android" }
+}
+
+dependencies {
+    /*
+     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
+     */
+    compile releaseDependencies.androidSupportAnnotations
+    compile releaseDependencies.androidSupportAppCompatV7
+    compile releaseDependencies.androidSupportVectorDrawable
+    compile releaseDependencies.androidUniversumFontCore
+    compile releaseDependencies.androidUniversumFontUtil
+    compile releaseDependencies.androidUniversumGraphicsColorUtil
+    // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-graphics:${libraryVersion}@aar"
+
+    /*
+     * DEBUG DEPENDENCIES --------------------------------------------------------------------------
+     */
+    debugCompile project(':library-core')
+    debugCompile project(':library-widget-core')
+    debugCompile project(':library-widget-graphics')
+}
+
+// Apply DEPLOY script.
+apply from: '../deploy/deploy.gradle'

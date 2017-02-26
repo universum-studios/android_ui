@@ -25,6 +25,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.animation.Interpolator;
 
+import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.UiException;
 import universum.studios.android.ui.interpolator.ResistanceInterpolator;

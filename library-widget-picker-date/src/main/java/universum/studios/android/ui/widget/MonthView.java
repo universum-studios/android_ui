@@ -54,6 +54,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import universum.studios.android.font.Font;
+import universum.studios.android.font.FontWidget;
+import universum.studios.android.font.util.FontApplier;
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
@@ -239,11 +242,6 @@ public class MonthView extends ViewWidget implements FontWidget {
 	 * Rect representing the touchable area with day numbers.
 	 */
 	private final RectF TOUCHABLE_AREA = new RectF();
-
-	/**
-	 * Helper used to apply custom font to this view.
-	 */
-	private final FontApplier FONT_APPLIER = new FontApplier(this);
 
 	/**
 	 * Date instance used when updating date values of this month view.
@@ -480,19 +478,15 @@ public class MonthView extends ViewWidget implements FontWidget {
 	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		if (!isInEditMode()) {
 			final Resources.Theme theme = context.getTheme();
-			// Get font path presented within text appearance style.
-			if (theme != null) {
-				final TypedArray appearanceArray = theme.obtainStyledAttributes(attrs, new int[]{android.R.attr.textAppearance}, defStyleAttr, defStyleRes);
-				if (appearanceArray != null) {
-					final int appearance = appearanceArray.getResourceId(0, -1);
-					if (appearance != -1) {
-						FONT_APPLIER.applyFont(appearance);
-					}
-					appearanceArray.recycle();
-				}
+			// Try to apply font presented within text appearance style.
+			final TypedArray appearanceAttributes = theme.obtainStyledAttributes(attrs, new int[]{android.R.attr.textAppearance}, defStyleAttr, defStyleRes);
+			final int appearance = appearanceAttributes.getResourceId(0, -1);
+			if (appearance != -1) {
+				FontApplier.applyFont(this, appearance);
 			}
-			// Get font path presented within xml attributes.
-			FONT_APPLIER.applyFont(attrs, defStyleAttr);
+			appearanceAttributes.recycle();
+			// Try to apply font presented within xml attributes.
+			FontApplier.applyFont(this, attrs, defStyleAttr, defStyleRes);
 		}
 		// Default set up.
 		this.mLocale = Locale.getDefault();
@@ -1729,14 +1723,14 @@ public class MonthView extends ViewWidget implements FontWidget {
 	 */
 	@Override
 	public void setFont(@NonNull String fontPath) {
-		FONT_APPLIER.applyFont(fontPath);
+		FontApplier.applyFont(this, fontPath);
 	}
 
 	/**
 	 */
 	@Override
 	public void setFont(@Nullable Font font) {
-		FONT_APPLIER.applyFont(font);
+		FontApplier.applyFont(this, font);
 	}
 
 	/**

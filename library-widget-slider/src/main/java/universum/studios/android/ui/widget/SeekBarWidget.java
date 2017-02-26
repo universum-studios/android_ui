@@ -56,6 +56,8 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.SeekBar;
 
+import universum.studios.android.font.Font;
+import universum.studios.android.font.FontWidget;
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
@@ -2778,7 +2780,7 @@ public class SeekBarWidget extends SeekBar implements Widget, FontWidget {
 	/**
 	 * Decorator implementation for this widget.
 	 */
-	private final class Decorator extends FontDecorator<SeekBarWidget> {
+	private final class Decorator extends FontWidgetDecorator<SeekBarWidget> {
 
 		/**
 		 * See {@link WidgetDecorator#WidgetDecorator(View, int[])}.

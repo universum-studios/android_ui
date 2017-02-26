@@ -39,6 +39,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
+import universum.studios.android.font.Font;
+import universum.studios.android.font.FontWidget;
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
@@ -493,7 +495,7 @@ public class AutoCompleteTextViewWidget extends AutoCompleteTextView implements 
 	public void setTextAppearance(@NonNull Context context, @StyleRes int resId) {
 		super.setTextAppearance(context, resId);
 		this.ensureDecorator();
-		mDecorator.applyTextAppearanceFont(resId);
+		mDecorator.setFontFromStyle(resId);
 	}
 
 	/**

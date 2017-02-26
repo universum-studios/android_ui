@@ -34,6 +34,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import universum.studios.android.font.Font;
+import universum.studios.android.font.FontWidget;
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
@@ -394,7 +396,7 @@ public class CheckBoxWidget extends CheckBox implements Widget, FontWidget {
 	public void setTextAppearance(@NonNull Context context, @StyleRes int resId) {
 		super.setTextAppearance(context, resId);
 		this.ensureDecorator();
-		mDecorator.applyTextAppearanceFont(resId);
+		mDecorator.setFontFromStyle(resId);
 	}
 
 	/**

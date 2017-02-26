@@ -30,6 +30,7 @@ import android.os.Build;
 import android.view.View;
 import android.widget.EditText;
 
+import universum.studios.android.font.FontWidget;
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.util.ResourceUtils;
@@ -72,7 +73,7 @@ abstract class EditTextDecorator<W extends EditText & FontWidget> extends TextVi
 	 * {@link R.styleable#Ui_EditText} attributes.
 	 *
 	 * @param widget The compound button like widget for which to create new decorator.
-	 * @see FontDecorator#FontDecorator(View, int[])
+	 * @see FontWidgetDecorator#FontWidgetDecorator(View, int[])
 	 */
 	EditTextDecorator(W widget) {
 		super(widget, R.styleable.Ui_EditText);

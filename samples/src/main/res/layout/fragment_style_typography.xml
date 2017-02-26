@@ -90,7 +90,7 @@
 			android:layout_height="wrap_content"
 			android:text="@string/style_typography_custom_font_text_view"
 			android:textAppearance="@style/TextAppearance.Widget.TextView.Typography"
-			ui:uiFontPath="@string/config_font_belligerent" />
+			ui:uiFont="@string/config_font_belligerent" />
 
 		<android.support.v4.widget.Space
 			android:layout_width="1dip"
@@ -107,7 +107,7 @@
 			android:layout_height="wrap_content"
 			android:hint="@string/style_typography_custom_font_edit_text"
 			android:textAppearance="@style/TextAppearance.Widget.EditText.Typography"
-			ui:uiFontPath="1942/1942.ttf" />
+			ui:uiFont="1942/1942.ttf" />
 
 		<android.support.v4.widget.Space
 			android:layout_width="1dip"
@@ -124,6 +124,6 @@
 			android:layout_height="wrap_content"
 			android:text="@string/style_typography_custom_font_button"
 			android:textAppearance="@style/TextAppearance.Widget.Button.Typography"
-			ui:uiFontPath="1942/1942.ttf" />
+			ui:uiFont="1942/1942.ttf" />
 	</LinearLayout>
 </universum.studios.android.ui.widget.ScrollViewWidget>

@@ -54,8 +54,8 @@ android {
  * Library dependencies ============================================================================
  */
 repositories {
-    mavenLocal()
-	maven { url "http://dl.bintray.com/universum-studios/android" }
+    maven { url = '../artifacts/' }
+    maven { url "http://dl.bintray.com/universum-studios/android" }
 }
 
 dependencies {
@@ -63,14 +63,18 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile releaseDependencies.androidSupportAnnotations
+    compile releaseDependencies.androidUniversumFontCore
+    compile releaseDependencies.androidUniversumFontUtil
     // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-base:${libraryVersion}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-text:${libraryVersion}@aar"
 
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
     debugCompile project(':library-widget-core')
+    debugCompile project(':library-widget-base')
     debugCompile project(':library-widget-text')
 }
 
