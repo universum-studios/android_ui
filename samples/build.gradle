@@ -32,6 +32,7 @@ android {
         targetSdkVersion project.property('samples.targetSdkVersion')
         versionCode Integer.valueOf((String) project.property('samples.versionCode'))
         versionName project.property('samples.versionName')
+        vectorDrawables.useSupportLibrary = true
     }
 
     dataBinding {

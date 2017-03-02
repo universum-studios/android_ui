@@ -27,6 +27,8 @@ android {
 
     defaultConfig {
         minSdkVersion project.property('library.minSdkVersion')
+        // todo: this line should be added into each of modules which contains vector drawables
+        vectorDrawables.useSupportLibrary = true
         consumerProguardFiles 'proguard-rules.pro'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

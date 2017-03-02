@@ -470,6 +470,19 @@ public class SeekBarWidget extends SeekBar implements Widget, FontWidget {
 	/**
 	 */
 	@Override
+	public void setPressed(boolean pressed) {
+		final boolean isPressed = isPressed();
+		super.setPressed(pressed);
+		if (!isPressed && pressed) {
+			this.revealDiscreteComponents();
+		} else if (isPressed) {
+			this.concealDiscreteComponents();
+		}
+	}
+
+	/**
+	 */
+	@Override
 	public void setVisibility(int visibility) {
 		super.setVisibility(visibility);
 		if (mDiscreteIndicator != null) mDiscreteIndicator.setVisible(visibility == VISIBLE, false);

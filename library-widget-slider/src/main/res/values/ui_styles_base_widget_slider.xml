@@ -23,27 +23,16 @@
 
 	<!-- ### SLIDER ============================================================================ -->
 
-	<!-- Style for SeekBar widget. -->
-	<style name="Ui.Widget.SeekBar" parent="Ui.Base.Widget.SeekBar"/>
+	<!-- Platform based parent style for SeekBar widget. -->
+	<style name="Ui.Platform.Widget.SeekBar" parent="android:Widget.SeekBar"/>
 
-	<!-- Light style for SeekBar widget. -->
-	<style name="Ui.Widget.Light.SeekBar" parent="Ui.Widget.SeekBar"/>
-
-	<!-- Style for discrete SeekBar widget. -->
-	<style name="Ui.Widget.SeekBar.Discrete">
-		<item name="uiDiscrete">true</item>
-		<item name="uiDiscretePreviewEnabled">false</item>
-		<item name="uiDiscreteIntervalRatio">0.2</item>
-		<item name="uiDiscreteIntervalTickMarkColor">#FFDDDDDD</item>
-		<item name="uiDiscreteIntervalTickMarkRadius">2dp</item>
-		<item name="uiDiscreteIndicator">@drawable/ui_scrubber_discrete_indicator</item>
-		<item name="uiDiscreteIndicatorTextAppearance">@style/Ui.TextAppearance.Widget.SeekBar.DiscreteIndicator</item>
-		<item name="uiDiscreteIndicatorTextGravity">center_horizontal</item>
-		<item name="uiDiscreteIndicatorTextPaddingTop">10dp</item>
-	</style>
-
-	<!-- Light style for discrete SeekBar widget. -->
-	<style name="Ui.Widget.Light.SeekBar.Discrete" parent="Ui.Widget.SeekBar.Discrete">
-		<item name="uiDiscreteIntervalTickMarkColor">#FF111111</item>
+	<!-- Base style for SeekBar widget. -->
+	<style name="Ui.Base.Widget.SeekBar" parent="Ui.Platform.Widget.SeekBar">
+		<item name="android:progressDrawable">@drawable/ui_seek_bar_track</item>
+		<item name="android:indeterminateDrawable">@drawable/ui_seek_bar_track</item>
+		<item name="android:thumb">@drawable/ui_seek_bar_thumb</item>
+		<item name="android:minHeight">4dp</item>
+		<item name="android:maxHeight">4dp</item>
+		<item name="android:thumbOffset">16dp</item>
 	</style>
 </resources>
