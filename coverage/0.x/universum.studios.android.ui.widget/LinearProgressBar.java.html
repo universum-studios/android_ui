@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LinearProgressBar.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">LinearProgressBar.java</span></div><h1>LinearProgressBar.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.AttrRes;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
+import android.util.AttributeSet;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.graphics.drawable.LinearProgressDrawable;
+import universum.studios.android.ui.graphics.drawable.ProgressDrawable;
+
+/**
+ * A {@link BaseProgressBar} implementation with {@link LinearProgressDrawable} used to present a
+ * linear progress to a user. Like it is described in {@link BaseProgressBar BaseProgressBar's}
+ * class overview, this progress bar only implements necessary logic required for proper working,
+ * drawing and animating of its progress drawable.
+ * &lt;p&gt;
+ * &lt;b&gt;Note&lt;/b&gt;, that this progress bar is not a replacement for the Android's {@link android.widget.ProgressBar},
+ * but rather an implementation to provide the &lt;b&gt;material&lt;/b&gt; based progress graphics for pre
+ * {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions. This progress bar provides
+ * very similar API like the one from the Android SDK, only difference is that, it requires implementation
+ * of {@link LinearProgressDrawable} as its drawable. Appearance of the progress drawable can be
+ * changed via {@link #setProgressMode(int)}.
+ * &lt;p&gt;
+ * If you are building an application only for LOLLIPOP and above, feel free and use ProgressBar from
+ * the Android SDK instead.
+ *
+ * &lt;h3&gt;Progress modes&lt;/h3&gt;
+ * The mode which can be specified via {@link #setProgressMode(int)} changes appearance/type of the
+ * progress graphics (determinate|indeterminate|buffer|query indeterminate determinate).
+ * See {@link LinearProgressDrawable LinearProgressDrawable's} class overview for supported modes to
+ * decide which one of them best fits your needs.
+ *
+ * &lt;h3&gt;Tinting&lt;/h3&gt;
+ * Tinting is supported via Xml attributes listed below + {@link BaseProgressBar super's attributes}:
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link R.attr#uiSecondaryProgressTint uiSecondaryProgressTint}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiSecondaryProgressTintMode uiSecondaryProgressTintMode}&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * For custom tint attributes there are also provided theirs java methods like {@link #setSecondaryProgressTintList(ColorStateList)}
+ * or {@link #setSecondaryProgressTintMode(PorterDuff.Mode)}.
+ *
+ * &lt;h3&gt;XML attributes&lt;/h3&gt;
+ * See {@link BaseProgressBar},
+ * {@link R.styleable#Ui_ProgressBar_Linear LinearProgressBar Attributes}
+ *
+ * &lt;h3&gt;Default style attribute&lt;/h3&gt;
+ * {@link R.attr#uiProgressBarLinearStyle uiProgressBarLinearStyle}
+ *
+ * @author Martin Albedinsky
+ * @see CircularProgressBar
+ */
+public class LinearProgressBar extends BaseProgressBar&lt;LinearProgressDrawable&gt; {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;LinearProgressBar&quot;;
+
+	/**
+	 * Flag copied from {@link LinearProgressDrawable#MODE_DETERMINATE} for better access.
+	 */
+	public static final int MODE_DETERMINATE = LinearProgressDrawable.MODE_DETERMINATE;
+
+	/**
+	 * Flag copied from {@link LinearProgressDrawable#MODE_INDETERMINATE} for better access.
+	 */
+	public static final int MODE_INDETERMINATE = LinearProgressDrawable.MODE_INDETERMINATE;
+
+	/**
+	 * Flag copied from {@link LinearProgressDrawable#MODE_BUFFER} for better access.
+	 */
+	public static final int MODE_BUFFER = LinearProgressDrawable.MODE_BUFFER;
+
+	/**
+	 * Flag copied from {@link LinearProgressDrawable#MODE_QUERY_INDETERMINATE_DETERMINATE} for better
+	 * access.
+	 */
+	public static final int MODE_QUERY_INDETERMINATE_DETERMINATE = LinearProgressDrawable.MODE_QUERY_INDETERMINATE_DETERMINATE;
+
+	/**
+	 * Defines an annotation for determining set of allowed modes for LinearProgressBar.
+	 */
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({
+			MODE_INDETERMINATE,
+			MODE_DETERMINATE,
+			MODE_BUFFER,
+			MODE_QUERY_INDETERMINATE_DETERMINATE
+	})
+	public @interface ProgressMode {
+	}
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Secondary progress of this progress drawable set by {@link #setSecondaryProgress(int)}.
+	 */
+	private int mSecondaryProgress;
+
+	/**
+	 * Set of private flags specific for this widget.
+	 */
+<span class="nc" id="L152">	private int mPrivateFlags = PrivateFlags.PFLAG_ATTACHED_TO_WINDOW;</span>
+
+	/**
+	 * Data used when tinting components of this view.
+	 */
+	private Widget.TintInfo mTintInfo;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #LinearProgressBar(android.content.Context, android.util.AttributeSet)} without
+	 * attributes.
+	 */
+	public LinearProgressBar(@NonNull Context context) {
+<span class="nc" id="L168">		this(context, null);</span>
+<span class="nc" id="L169">	}</span>
+
+	/**
+	 * Same as {@link #LinearProgressBar(android.content.Context, android.util.AttributeSet, int)}
+	 * with {@link R.attr#uiProgressBarLinearStyle} as attribute for default style.
+	 */
+	public LinearProgressBar(@NonNull Context context, @Nullable AttributeSet attrs) {
+<span class="nc" id="L176">		this(context, attrs, R.attr.uiProgressBarLinearStyle);</span>
+<span class="nc" id="L177">	}</span>
+
+	/**
+	 * Same as {@link #LinearProgressBar(android.content.Context, android.util.AttributeSet, int, int)}
+	 * with {@code 0} as default style.
+	 */
+	public LinearProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+<span class="nc" id="L184">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L185">		this.init(context, attrs, defStyleAttr, 0);</span>
+<span class="nc" id="L186">	}</span>
+
+	/**
+	 * Creates a new instance of LinearProgressBar for the given &lt;var&gt;context&lt;/var&gt;.
+	 *
+	 * @param context      Context in which will be the new view presented.
+	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     this view within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the new view.
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public LinearProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+<span class="nc" id="L199">		super(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L200">		this.init(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L201">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Called from one of constructors of this view to perform its initialization.
+	 * &lt;p&gt;
+	 * Initialization is done via parsing of the specified &lt;var&gt;attrs&lt;/var&gt; set and obtaining for
+	 * this view specific data from it that can be used to configure this new view instance. The
+	 * specified &lt;var&gt;defStyleAttr&lt;/var&gt; and &lt;var&gt;defStyleRes&lt;/var&gt; are used to obtain default data
+	 * from the current theme provided by the specified &lt;var&gt;context&lt;/var&gt;.
+	 */
+	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L216">		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_ProgressBar_Linear, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L217">		this.processTintValues(context, attributes);</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">		for (int i = 0; i &lt; attributes.getIndexCount(); i++) {</span>
+<span class="nc" id="L219">			final int index = attributes.getIndex(i);</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">			if (index == R.styleable.Ui_ProgressBar_Linear_android_secondaryProgress) {</span>
+<span class="nc" id="L221">				setSecondaryProgress(attributes.getInt(index, mSecondaryProgress));</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_ProgressBar_Linear_uiLinearProgressMode) {</span>
+<span class="nc" id="L223">				changeMode(attributes.getInt(index, getProgressMode()));</span>
+			}
+		}
+<span class="nc" id="L226">		this.applySecondaryProgressTint();</span>
+<span class="nc" id="L227">	}</span>
+
+	/**
+	 */
+	@Override
+	void onAttachDrawable() {
+<span class="nc" id="L233">		changeMode(MODE_DETERMINATE);</span>
+<span class="nc" id="L234">		setDrawable(new LinearProgressDrawable());</span>
+<span class="nc" id="L235">	}</span>
+
+	/**
+	 * Called from the constructor to process tint values for this view.
+	 *
+	 * @param context    The context passed to constructor.
+	 * @param typedArray TypedArray obtained for styleable attributes specific for this view.
+	 */
+	@SuppressWarnings(&quot;All&quot;)
+	private void processTintValues(Context context, TypedArray typedArray) {
+<span class="nc" id="L245">		this.ensureTintInfo();</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">		if (typedArray.hasValue(R.styleable.Ui_ProgressBar_Linear_uiSecondaryProgressTint)) {</span>
+<span class="nc" id="L247">			mTintInfo.tintList = typedArray.getColorStateList(R.styleable.Ui_ProgressBar_Linear_uiSecondaryProgressTint);</span>
+		}
+<span class="nc" id="L249">		mTintInfo.tintMode = TintManager.parseTintMode(</span>
+<span class="nc" id="L250">				typedArray.getInt(R.styleable.Ui_ProgressBar_Linear_uiSecondaryProgressTintMode, 0),</span>
+				PorterDuff.Mode.SRC_IN
+		);
+		// If there is no tint mode specified within style/xml do not tint at all.
+<span class="nc bnc" id="L254" title="All 2 branches missed.">		if (mTintInfo.tintMode == null) {</span>
+<span class="nc" id="L255">			mTintInfo.tintList = null;</span>
+		}
+<span class="nc bnc" id="L257" title="All 2 branches missed.">		mTintInfo.hasTintList = mTintInfo.tintList != null;</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">		mTintInfo.hasTintMode = mTintInfo.tintMode != null;</span>
+<span class="nc" id="L259">	}</span>
+
+	/**
+	 * Ensures that the tint info object is initialized.
+	 */
+	private void ensureTintInfo() {
+<span class="nc bnc" id="L265" title="All 2 branches missed.">		if (mTintInfo == null) this.mTintInfo = new Widget.TintInfo();</span>
+<span class="nc" id="L266">	}</span>
+
+	/**
+	 */
+	@Override
+	public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+<span class="nc" id="L272">		super.onInitializeAccessibilityEvent(event);</span>
+<span class="nc" id="L273">		event.setClassName(LinearProgressBar.class.getName());</span>
+<span class="nc" id="L274">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+<span class="nc" id="L281">		super.onInitializeAccessibilityNodeInfo(info);</span>
+<span class="nc" id="L282">		info.setClassName(LinearProgressBar.class.getName());</span>
+<span class="nc" id="L283">	}</span>
+
+	/**
+	 * Applies a tint to the secondary progress graphics of the drawable, if specified. This call
+	 * does not modify the current tint mode, which is {@link android.graphics.PorterDuff.Mode#SRC_IN} by default.
+	 * &lt;p&gt;
+	 * Subsequent calls to {@link #setDrawable(ProgressDrawable)} will automatically mutate the
+	 * drawable and apply the specified tint and tint mode using
+	 * {@link LinearProgressDrawable#setSecondaryProgressTintList(android.content.res.ColorStateList)}.
+	 *
+	 * @param tint The tint to apply, may be {@code null} to clear the current tint.
+	 * @see R.attr#uiSecondaryProgressTint ui:uiSecondaryProgressTint
+	 * @see #getSecondaryProgressTintList()
+	 * @see LinearProgressDrawable#setSecondaryProgressTintList(android.content.res.ColorStateList)
+	 */
+	public void setSecondaryProgressTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L299">		this.ensureTintInfo();</span>
+<span class="nc" id="L300">		mTintInfo.tintList = tint;</span>
+<span class="nc" id="L301">		mTintInfo.hasTintList = true;</span>
+<span class="nc" id="L302">		this.applySecondaryProgressTint();</span>
+<span class="nc" id="L303">	}</span>
+
+	/**
+	 * Returns the tint applied to the secondary progress graphics of the progress drawable, if specified.
+	 *
+	 * @return The secondary progress graphics tint.
+	 * @see #setSecondaryProgressTintList(android.content.res.ColorStateList)
+	 */
+	@Nullable
+	public ColorStateList getSecondaryProgressTintList() {
+<span class="nc bnc" id="L313" title="All 2 branches missed.">		return mTintInfo != null ? mTintInfo.tintList : null;</span>
+	}
+
+	/**
+	 * Specifies the blending mode used to apply the tint specified by {@link #setSecondaryProgressTintList(android.content.res.ColorStateList)}}
+	 * to the secondary progress graphics of the progress drawable. The default mode is {@link android.graphics.PorterDuff.Mode#SRC_IN}.
+	 *
+	 * @param tintMode The blending mode used to apply the tint, may be {@code null} to clear the
+	 *                 current tint.
+	 * @see R.attr#uiSecondaryProgressTintMode ui:uiSecondaryProgressTintMode
+	 * @see #getSecondaryProgressTintMode()
+	 * @see LinearProgressDrawable#setSecondaryProgressTintMode(android.graphics.PorterDuff.Mode)
+	 */
+	public void setSecondaryProgressTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L327">		this.ensureTintInfo();</span>
+<span class="nc" id="L328">		mTintInfo.tintMode = tintMode;</span>
+<span class="nc" id="L329">		mTintInfo.hasTintMode = true;</span>
+<span class="nc" id="L330">		this.applySecondaryProgressTint();</span>
+<span class="nc" id="L331">	}</span>
+
+	/**
+	 * Returns the blending mode used to apply the tint to the secondary progress graphics of the
+	 * progress drawable, if specified.
+	 *
+	 * @return The secondary progress graphics blending mode used to apply the tint.
+	 * @see #setSecondaryProgressTintMode(android.graphics.PorterDuff.Mode)
+	 */
+	@Nullable
+	public PorterDuff.Mode getSecondaryProgressTintMode() {
+<span class="nc bnc" id="L342" title="All 2 branches missed.">		return mTintInfo != null ? mTintInfo.tintMode : null;</span>
+	}
+
+	/**
+	 * Applies current tint from {@link #mTintInfo} to the secondary progress graphics of the current
+	 * progress drawable.
+	 *
+	 * @return {@code True} if the tint has been applied or cleared, {@code false} otherwise.
+	 */
+	private boolean applySecondaryProgressTint() {
+<span class="nc bnc" id="L352" title="All 8 branches missed.">		if (mTintInfo == null ||</span>
+				(!mTintInfo.hasTintList &amp;&amp; !mTintInfo.hasTintMode) ||
+				mDrawable == null) {
+<span class="nc" id="L355">			return false;</span>
+		}
+<span class="nc" id="L357">		mDrawable.mutate();</span>
+<span class="nc bnc" id="L358" title="All 2 branches missed.">		if (mTintInfo.hasTintList) {</span>
+<span class="nc" id="L359">			mDrawable.setSecondaryProgressTintList(mTintInfo.tintList);</span>
+		}
+<span class="nc bnc" id="L361" title="All 2 branches missed.">		if (mTintInfo.hasTintMode) {</span>
+<span class="nc" id="L362">			mDrawable.setSecondaryProgressTintMode(mTintInfo.tintMode);</span>
+		}
+<span class="nc" id="L364">		return true;</span>
+	}
+
+	/**
+	 * @see R.attr#uiLinearProgressMode ui:uiLinearProgressMode
+	 */
+	@Override
+	public void setProgressMode(@ProgressMode int mode) {
+<span class="nc" id="L372">		super.setProgressMode(mode);</span>
+<span class="nc" id="L373">	}</span>
+
+	/**
+	 */
+	@Override
+	@ProgressMode
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	public int getProgressMode() {
+<span class="nc" id="L381">		return super.getProgressMode();</span>
+	}
+
+	/**
+	 * Sets the current value of secondary progress displayed by this progress bar. This is only
+	 * supported for the {@link #MODE_BUFFER} to specify buffer progress.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that it is allowed to call this method also from the background thread.
+	 *
+	 * @param secondaryProgress The desired secondary progress value. Should be from the range
+	 *                          {@code [0, getMax()]}.
+	 * @see android.R.attr#secondaryProgress android:secondaryProgress
+	 * @see #getSecondaryProgress()
+	 * @see #getMax()
+	 * @see #setProgressMode(int)
+	 */
+	public synchronized void setSecondaryProgress(int secondaryProgress) {
+<span class="nc bnc" id="L398" title="All 8 branches missed.">		if (mMode == MODE_BUFFER &amp;&amp; mSecondaryProgress != secondaryProgress &amp;&amp; secondaryProgress &gt;= 0 &amp;&amp; secondaryProgress &lt;= mMax) {</span>
+<span class="nc" id="L399">			refreshProgress(android.R.id.secondaryProgress, mSecondaryProgress = secondaryProgress);</span>
+		}
+<span class="nc" id="L401">	}</span>
+
+	/**
+	 * Returns the current value of secondary progress displayed by this progress bar.
+	 *
+	 * @return Current secondary progress value from the range {@code [0, getMax()]} or {@code 0} if
+	 * the current mode is not {@link #MODE_BUFFER}.
+	 * @see #setSecondaryProgress(int)
+	 */
+	public synchronized int getSecondaryProgress() {
+<span class="nc bnc" id="L411" title="All 2 branches missed.">		if (mDrawable != null) {</span>
+<span class="nc" id="L412">			this.mSecondaryProgress = mDrawable.getSecondaryProgress();</span>
+		}
+<span class="nc bnc" id="L414" title="All 2 branches missed.">		return mMode == MODE_BUFFER ? mSecondaryProgress : 0;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public synchronized void setMax(int max) {
+<span class="nc" id="L421">		super.setMax(max);</span>
+<span class="nc" id="L422">		refreshProgress(android.R.id.secondaryProgress, mSecondaryProgress);</span>
+<span class="nc" id="L423">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onAttachedToWindow() {
+<span class="nc" id="L429">		super.onAttachedToWindow();</span>
+<span class="nc bnc" id="L430" title="All 2 branches missed.">		switch (mMode) {</span>
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc" id="L432">				startIndeterminate();</span>
+				break;
+		}
+<span class="nc" id="L435">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onDetachedFromWindow() {
+<span class="nc" id="L441">		super.onDetachedFromWindow();</span>
+<span class="nc" id="L442">		this.updatePrivateFlags(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW, false);</span>
+<span class="nc" id="L443">	}</span>
+
+	/**
+	 */
+	@Override
+	void handleVisibilityChange(boolean visible) {
+<span class="nc" id="L449">		super.handleVisibilityChange(visible);</span>
+<span class="nc bnc" id="L450" title="All 2 branches missed.">		switch (mMode) {</span>
+			case MODE_BUFFER:
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc bnc" id="L453" title="All 2 branches missed.">				if (visible) {</span>
+<span class="nc" id="L454">					startIndeterminate();</span>
+				} else {
+<span class="nc" id="L456">					stopIndeterminateImmediate();</span>
+				}
+				break;
+		}
+<span class="nc" id="L460">	}</span>
+
+	/**
+	 */
+	@Override
+	void onModeChange(int mode) {
+<span class="nc" id="L466">		super.onModeChange(mode);</span>
+<span class="nc bnc" id="L467" title="All 2 branches missed.">		switch (mode) {</span>
+			case MODE_BUFFER:
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc" id="L470">				startIndeterminate();</span>
+				break;
+		}
+<span class="nc" id="L473">	}</span>
+
+	/**
+	 */
+	@Override
+	void onRestartMode(int mode) {
+<span class="nc bnc" id="L479" title="All 3 branches missed.">		switch (mode) {</span>
+			case MODE_BUFFER:
+<span class="nc" id="L481">				setSecondaryProgress(0);</span>
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc" id="L483">				setProgress(0);</span>
+<span class="nc" id="L484">				startIndeterminate();</span>
+<span class="nc" id="L485">				break;</span>
+			default:
+<span class="nc" id="L487">				super.onRestartMode(mode);</span>
+		}
+<span class="nc" id="L489">	}</span>
+
+	/**
+	 */
+	@Override
+	void onSetUpDrawable(@NonNull LinearProgressDrawable drawable) {
+<span class="nc" id="L495">		super.onSetUpDrawable(drawable);</span>
+<span class="nc" id="L496">		drawable.setSecondaryProgress(mSecondaryProgress);</span>
+<span class="nc" id="L497">		this.applySecondaryProgressTint();</span>
+<span class="nc" id="L498">	}</span>
+
+	/**
+	 */
+	@Override
+	synchronized void onRefreshProgress(int id, int progress, boolean notify) {
+<span class="nc" id="L504">		super.onRefreshProgress(id, progress, notify);</span>
+<span class="nc bnc" id="L505" title="All 2 branches missed.">		if (id == android.R.id.secondaryProgress) {</span>
+<span class="nc bnc" id="L506" title="All 2 branches missed.">			if (mDrawable != null) {</span>
+<span class="nc" id="L507">				mDrawable.setSecondaryProgress(progress);</span>
+<span class="nc bnc" id="L508" title="All 4 branches missed.">				if (mMode == MODE_BUFFER &amp;&amp; (mPrivateFlags &amp; PrivateFlags.PFLAG_ATTACHED_TO_WINDOW) != 0) {</span>
+<span class="nc bnc" id="L509" title="All 2 branches missed.">					if (mSecondaryProgress == mMax) {</span>
+<span class="nc" id="L510">						mDrawable.stop();</span>
+					}
+				}
+			} else {
+<span class="nc" id="L514">				invalidate();</span>
+			}
+		}
+<span class="nc" id="L517">	}</span>
+
+	/**
+	 */
+	@NonNull
+	@Override
+	protected Parcelable onSaveInstanceState() {
+<span class="nc" id="L524">		final SavedState savedState = new SavedState(super.onSaveInstanceState());</span>
+<span class="nc" id="L525">		savedState.secondaryProgress = mSecondaryProgress;</span>
+<span class="nc" id="L526">		return savedState;</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+<span class="nc bnc" id="L533" title="All 2 branches missed.">		if (!(state instanceof SavedState)) {</span>
+<span class="nc" id="L534">			super.onRestoreInstanceState(state);</span>
+<span class="nc" id="L535">			return;</span>
+		}
+<span class="nc" id="L537">		final SavedState savedState = (SavedState) state;</span>
+<span class="nc" id="L538">		super.onRestoreInstanceState(savedState.getSuperState());</span>
+<span class="nc" id="L539">		setSecondaryProgress(savedState.secondaryProgress);</span>
+<span class="nc" id="L540">	}</span>
+
+	/**
+	 * Updates the current private flags.
+	 *
+	 * @param flag Value of the desired flag to add/remove to/from the current private flags.
+	 * @param add  Boolean flag indicating whether to add or remove the specified &lt;var&gt;flag&lt;/var&gt;.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	private void updatePrivateFlags(int flag, boolean add) {
+<span class="nc bnc" id="L550" title="All 2 branches missed.">		if (add) this.mPrivateFlags |= flag;</span>
+<span class="nc" id="L551">		else this.mPrivateFlags &amp;= ~flag;</span>
+<span class="nc" id="L552">	}</span>
+
+	/**
+	 * Returns a boolean flag indicating whether the specified &lt;var&gt;flag&lt;/var&gt; is contained within
+	 * the current private flags or not.
+	 *
+	 * @param flag Value of the flag to check.
+	 * @return {@code True} if the requested flag is contained, {@code false} otherwise.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	private boolean hasPrivateFlag(int flag) {
+<span class="nc bnc" id="L563" title="All 2 branches missed.">		return (mPrivateFlags &amp; flag) != 0;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * A {@link WidgetSavedState} implementation used to ensure that the state of {@link LinearProgressBar}
+	 * is properly saved.
+	 *
+	 * @author Martin Albedinsky
+	 */
+	public static class SavedState extends WidgetSavedState {
+
+		/**
+		 * Creator used to create an instance or array of instances of SavedState from {@link android.os.Parcel}.
+		 */
+<span class="nc" id="L581">		public static final Creator&lt;SavedState&gt; CREATOR = new Creator&lt;SavedState&gt;() {</span>
+			/**
+			 */
+			@Override
+			public SavedState createFromParcel(@NonNull Parcel source) {
+<span class="nc" id="L586">				return new SavedState(source);</span>
+			}
+
+			/**
+			 */
+			@Override
+			public SavedState[] newArray(int size) {
+<span class="nc" id="L593">				return new SavedState[size];</span>
+			}
+		};
+
+		/**
+		 */
+		int secondaryProgress;
+
+		/**
+		 * Creates a new instance of SavedState with the given &lt;var&gt;superState&lt;/var&gt; to allow chaining
+		 * of saved states in {@link #onSaveInstanceState()} and also in {@link #onRestoreInstanceState(android.os.Parcelable)}.
+		 *
+		 * @param superState The super state obtained from {@code super.onSaveInstanceState()} within
+		 *                   {@code onSaveInstanceState()}.
+		 */
+		protected SavedState(@NonNull Parcelable superState) {
+<span class="nc" id="L609">			super(superState);</span>
+<span class="nc" id="L610">		}</span>
+
+		/**
+		 * Called from {@link #CREATOR} to create an instance of SavedState form the given parcel
+		 * &lt;var&gt;source&lt;/var&gt;.
+		 *
+		 * @param source Parcel with data for the new instance.
+		 */
+		protected SavedState(@NonNull Parcel source) {
+<span class="nc" id="L619">			super(source);</span>
+<span class="nc" id="L620">			this.secondaryProgress = source.readInt();</span>
+<span class="nc" id="L621">		}</span>
+
+		/**
+		 */
+		@Override
+		public void writeToParcel(@NonNull Parcel dest, int flags) {
+<span class="nc" id="L627">			super.writeToParcel(dest, flags);</span>
+<span class="nc" id="L628">			dest.writeInt(secondaryProgress);</span>
+<span class="nc" id="L629">		}</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

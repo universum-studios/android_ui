@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ActionTextButton.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">ActionTextButton.java</span></div><h1>ActionTextButton.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.os.Build;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
+import android.support.v4.view.MenuItemCompat;
+import android.util.AttributeSet;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.TextView;
+
+import universum.studios.android.ui.R;
+
+/**
+ * A {@link ActionButton} implementation that can be used as action button within an {@link ActionBar}'s
+ * menu to show only text without icon.
+ *
+ * &lt;h3&gt;XML attributes&lt;/h3&gt;
+ * See {@link ActionButton},
+ * {@link R.styleable#Ui_ActionTextButton ActionTextButton Attributes}
+ *
+ * &lt;h3&gt;Default style attribute&lt;/h3&gt;
+ * {@link R.attr#uiActionTextButtonStyle uiActionTextButtonStyle}
+ *
+ * @author Martin Albedinsky
+ */
+public class ActionTextButton extends ActionButton {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;ActionTextButton&quot;;
+
+	/**
+	 * Boolean flag indicating whether to use compatibility approach when working with menu items or
+	 * the native one.
+	 */
+<span class="nc bnc" id="L75" title="All 2 branches missed.">	private static final boolean COMPAT_MODE = Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.HONEYCOMB;</span>
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #ActionTextButton(android.content.Context, android.util.AttributeSet)} without
+	 * attributes.
+	 */
+	public ActionTextButton(@NonNull Context context) {
+<span class="nc" id="L94">		this(context, null);</span>
+<span class="nc" id="L95">	}</span>
+
+	/**
+	 * Same as {@link #ActionTextButton(android.content.Context, android.util.AttributeSet, int)}
+	 * with {@link R.attr#uiActionTextButtonStyle} as attribute for default style.
+	 */
+	public ActionTextButton(@NonNull Context context, @Nullable AttributeSet attrs) {
+<span class="nc" id="L102">		this(context, attrs, R.attr.uiActionTextButtonStyle);</span>
+<span class="nc" id="L103">	}</span>
+
+	/**
+	 * Same as {@link #ActionTextButton(android.content.Context, android.util.AttributeSet, int, int)}
+	 * with {@code 0} as default style.
+	 */
+	public ActionTextButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+<span class="nc" id="L110">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L111">		this.init(context, attrs, defStyleAttr, 0);</span>
+<span class="nc" id="L112">	}</span>
+
+	/**
+	 * Creates a new instance of ActionTextButton for the given &lt;var&gt;context&lt;/var&gt;.
+	 *
+	 * @param context      Context in which will be the new view presented.
+	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     this view within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the new view.
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public ActionTextButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+<span class="nc" id="L125">		super(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L126">		this.init(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L127">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Called from one of constructors of this view to perform its initialization.
+	 * &lt;p&gt;
+	 * Initialization is done via parsing of the specified &lt;var&gt;attrs&lt;/var&gt; set and obtaining for
+	 * this view specific data from it that can be used to configure this new view instance. The
+	 * specified &lt;var&gt;defStyleAttr&lt;/var&gt; and &lt;var&gt;defStyleRes&lt;/var&gt; are used to obtain default data
+	 * from the current theme provided by the specified &lt;var&gt;context&lt;/var&gt;.
+	 */
+	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+		/**
+		 * Process attributes.
+		 */
+<span class="nc" id="L145">		final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Ui_ActionTextButton, defStyleAttr, defStyleRes);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		if (typedArray != null) {</span>
+<span class="nc" id="L147">			final int n = typedArray.getIndexCount();</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">			for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L149">				final int index = typedArray.getIndex(i);</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">				if (index == R.styleable.Ui_ActionTextButton_android_text) {</span>
+<span class="nc" id="L151">					setText(typedArray.getText(index));</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">				} else if (index == R.styleable.Ui_ActionTextButton_android_paddingLeft) {</span>
+<span class="nc" id="L153">					setPadding(</span>
+<span class="nc" id="L154">							typedArray.getDimensionPixelSize(index, 0),</span>
+<span class="nc" id="L155">							getPaddingTop(),</span>
+<span class="nc" id="L156">							getPaddingRight(),</span>
+<span class="nc" id="L157">							getPaddingBottom()</span>
+					);
+<span class="nc bnc" id="L159" title="All 2 branches missed.">				} else if (index == R.styleable.Ui_ActionTextButton_android_paddingRight) {</span>
+<span class="nc" id="L160">					setPadding(</span>
+<span class="nc" id="L161">							getPaddingLeft(),</span>
+<span class="nc" id="L162">							getPaddingTop(),</span>
+<span class="nc" id="L163">							typedArray.getDimensionPixelSize(index, 0),</span>
+<span class="nc" id="L164">							getPaddingBottom()</span>
+					);
+				}
+			}
+<span class="nc" id="L168">			typedArray.recycle();</span>
+		}
+<span class="nc" id="L170">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+<span class="nc" id="L177">		super.onInitializeAccessibilityEvent(event);</span>
+<span class="nc" id="L178">		event.setClassName(ActionTextButton.class.getName());</span>
+<span class="nc" id="L179">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+<span class="nc" id="L186">		super.onInitializeAccessibilityNodeInfo(info);</span>
+<span class="nc" id="L187">		info.setClassName(ActionTextButton.class.getName());</span>
+<span class="nc" id="L188">	}</span>
+
+	/**
+	 * Same as {@link #setText(Menu, int, CharSequence)} for resource id.
+	 *
+	 * @param resId Resource id of the desired text to be set.
+	 * @see #configureMenuItem(ItemConfiguration, Context)
+	 */
+	public static void setText(@NonNull Menu menu, int itemId, @StringRes int resId) {
+<span class="nc" id="L197">		final View actionView = obtainActionView(menu, itemId);</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">		if (actionView instanceof TextView) ((TextView) actionView).setText(resId);</span>
+<span class="nc" id="L199">	}</span>
+
+	/**
+	 * Sets the specified &lt;var&gt;text&lt;/var&gt; for a view of an item with the specified &lt;var&gt;itemId&lt;/var&gt;.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that the specified text will be set to the item's view only if it is instance of
+	 * {@link TextView}.
+	 *
+	 * @param menu   Menu within which is the menu item presented (to be found).
+	 * @param itemId Id of the desired item on which to set the text.
+	 * @param text   The desired text to be set.
+	 * @see #setText(Menu, int, int)
+	 * @see #configureMenuItem(ItemConfiguration, Context)
+	 */
+	public static void setText(@NonNull Menu menu, int itemId, @Nullable CharSequence text) {
+<span class="nc" id="L214">		final View actionView = obtainActionView(menu, itemId);</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">		if (actionView instanceof TextView) ((TextView) actionView).setText(text);</span>
+<span class="nc" id="L216">	}</span>
+
+	/**
+	 * Sets up the specified &lt;var&gt;clickListener&lt;/var&gt; on a view of an item with the specified &lt;var&gt;itemId&lt;/var&gt;.
+	 *
+	 * @param menu          Menu within which is the menu item presented (to be found).
+	 * @param itemId        Id of the desired item on which view to set the click listener.
+	 * @param clickListener The desired click listener to be set.
+	 * @see #configureMenuItem(ItemConfiguration, Context)
+	 */
+	public static void setOnClickListener(@NonNull Menu menu, int itemId, @NonNull OnClickListener clickListener) {
+<span class="nc" id="L227">		final View actionView = obtainActionView(menu, itemId);</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">		if (actionView != null) actionView.setOnClickListener(clickListener);</span>
+<span class="nc" id="L229">	}</span>
+
+	/**
+	 * Obtains action view of an item with the specified &lt;var&gt;itemId&lt;/var&gt; from the given &lt;var&gt;menu&lt;/var&gt;.
+	 *
+	 * @param menu   The menu where is the item presented.
+	 * @param itemId Id of the menu item of which action view to obtain.
+	 * @return Obtained view or {@code null} if the item does not have action view or it is not
+	 * presented within the given menu.
+	 */
+	@SuppressLint(&quot;NewApi&quot;)
+	private static View obtainActionView(Menu menu, int itemId) {
+<span class="nc" id="L241">		final MenuItem menuItem = menu.findItem(itemId);</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">		if (menuItem == null) return null;</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">		return COMPAT_MODE ? MenuItemCompat.getActionView(menuItem) : menuItem.getActionView();</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

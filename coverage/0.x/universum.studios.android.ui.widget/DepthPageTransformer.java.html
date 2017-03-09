@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DepthPageTransformer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">DepthPageTransformer.java</span></div><h1>DepthPageTransformer.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.support.annotation.FloatRange;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+
+/**
+ * A {@link ViewPager.PageTransformer} implementation that can be used to transform pages in a way
+ * where one page is being translated from the start/end and the other one is being scaled up/down
+ * with alpha change that is in this case called &lt;b&gt;depth transformation&lt;/b&gt;.
+ * &lt;p&gt;
+ * Whether to apply depth transformation at the &lt;b&gt;start&lt;/b&gt; or &lt;b&gt;end&lt;/b&gt; can be specified via
+ * {@link #DepthPageTransformer(DepthOrigin)} constructor.
+ *
+ * @author Martin Albedinsky
+ */
+public class DepthPageTransformer implements ViewPager.PageTransformer {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;DepthPageTransformer&quot;;
+
+	/**
+	 * Default minimum scale factor for completely transformed pages.
+	 *
+	 * @see #setMinScaleFactor(float)
+	 */
+	public static final float MIN_SCALE_FACTOR = 0.75f;
+
+	/**
+	 * Default minimum alpha for completely transformed pages.
+	 *
+	 * @see #setMinAlpha(float)
+	 */
+	public static final float MIN_ALPHA = 0.0f;
+
+	/**
+	 * Represents origin on which to apply page depth transformation.
+	 *
+	 * @author Martin Albedinsky
+	 * @see DepthPageTransformer#DepthPageTransformer(DepthOrigin)
+	 */
+<span class="nc" id="L71">	public enum DepthOrigin {</span>
+		/**
+		 * Apply dept transformation on the start.
+		 */
+<span class="nc" id="L75">		START(false),</span>
+		/**
+		 * Apply depth transformation on the end.
+		 */
+<span class="nc" id="L79">		END(true);</span>
+
+		/**
+		 * Boolean flag indicating whether to draw pages in pager in reversed order or not.
+		 *
+		 * @see ViewPager#setPageTransformer(boolean, ViewPager.PageTransformer)
+		 */
+		public final boolean reverseDrawingOrder;
+
+		/**
+		 * Creates a new instance of DepthOrigin with the specified &lt;var&gt;reverseDrawing&lt;/var&gt; boolean
+		 * flag.
+		 *
+		 * @param reverseDrawing {@code True} to draw pages in pager in reversed order, {@code false}
+		 *                       otherwise.
+		 */
+<span class="nc" id="L95">		DepthOrigin(boolean reverseDrawing) {</span>
+<span class="nc" id="L96">			this.reverseDrawingOrder = reverseDrawing;</span>
+<span class="nc" id="L97">		}</span>
+	}
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Origin used to resolve where to apply depth transformation.
+	 */
+	private final DepthOrigin mOrigin;
+
+	/**
+	 * Minimum scale factor for the completely transformed page at the depth origin.
+	 */
+<span class="nc" id="L116">	private float mMinScaleFactor = MIN_SCALE_FACTOR;</span>
+
+	/**
+	 * Minimum alpha for the completely transformed page at the depth origin.
+	 */
+<span class="nc" id="L121">	private float mMinAlpha = MIN_ALPHA;</span>
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of DepthPageTransformer with {@link DepthOrigin#START} as &lt;var&gt;depthOrigin&lt;/var&gt;.
+	 */
+	public DepthPageTransformer() {
+<span class="nc" id="L131">		this(DepthOrigin.START);</span>
+<span class="nc" id="L132">	}</span>
+
+	/**
+	 * Creates a new instance of DepthPageTransformer with the specified &lt;var&gt;depthOrigin&lt;/var&gt;.
+	 *
+	 * @param depthOrigin The desired origin where to apply depth transformation.
+	 */
+<span class="nc" id="L139">	public DepthPageTransformer(DepthOrigin depthOrigin) {</span>
+<span class="nc" id="L140">		this.mOrigin = depthOrigin;</span>
+<span class="nc" id="L141">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 */
+	@Override
+	public void transformPage(View page, float position) {
+<span class="nc" id="L151">		final float factor = Math.abs(position);</span>
+<span class="nc" id="L152">		final int pageWidth = page.getWidth();</span>
+
+		/**
+		 * This page is way off-screen to the start.
+		 * [-Infinity,-1)
+		 */
+<span class="nc bnc" id="L158" title="All 2 branches missed.">		if (position &lt; -1) {</span>
+<span class="nc" id="L159">			ViewCompat.setAlpha(page, 0);</span>
+		}
+		/**
+		 * Moving page from/to the start.
+		 * [-1,0]
+		 */
+<span class="nc bnc" id="L165" title="All 2 branches missed.">		else if (position &lt;= 0) {</span>
+<span class="nc bnc" id="L166" title="All 3 branches missed.">			switch (mOrigin) {</span>
+				case START:
+					// Fade the page in/out.
+<span class="nc" id="L169">					ViewCompat.setAlpha(page, Math.max(1 - factor, mMinAlpha));</span>
+
+					// Counteract the default slide transition.
+<span class="nc" id="L172">					ViewCompat.setTranslationX(page, pageWidth * factor);</span>
+
+					// Scale the page down/up.
+<span class="nc" id="L175">					final float scaleFactor = mMinScaleFactor + ((1 - mMinScaleFactor) * (1 - factor));</span>
+<span class="nc" id="L176">					ViewCompat.setScaleX(page, scaleFactor);</span>
+<span class="nc" id="L177">					ViewCompat.setScaleY(page, scaleFactor);</span>
+<span class="nc" id="L178">					break;</span>
+				case END:
+					// Allow default slide transition.
+<span class="nc" id="L181">					ViewCompat.setAlpha(page, 1);</span>
+<span class="nc" id="L182">					ViewCompat.setTranslationX(page, 0);</span>
+<span class="nc" id="L183">					ViewCompat.setScaleX(page, 1);</span>
+<span class="nc" id="L184">					ViewCompat.setScaleY(page, 1);</span>
+<span class="nc" id="L185">					break;</span>
+			}
+		}
+		/**
+		 * Moving page from/to the end.
+		 * (0,1]
+		 */
+<span class="nc bnc" id="L192" title="All 2 branches missed.">		else if (position &lt;= 1) {</span>
+<span class="nc bnc" id="L193" title="All 3 branches missed.">			switch (mOrigin) {</span>
+				case START:
+					// Allow default slide transition.
+<span class="nc" id="L196">					ViewCompat.setAlpha(page, 1);</span>
+<span class="nc" id="L197">					ViewCompat.setTranslationX(page, 0);</span>
+<span class="nc" id="L198">					ViewCompat.setScaleX(page, 1);</span>
+<span class="nc" id="L199">					ViewCompat.setScaleY(page, 1);</span>
+<span class="nc" id="L200">					break;</span>
+				case END:
+					// Fade the page in/out.
+<span class="nc" id="L203">					ViewCompat.setAlpha(page, Math.max(1 - factor, mMinAlpha));</span>
+
+					// Counteract the default slide transition.
+<span class="nc" id="L206">					ViewCompat.setTranslationX(page, pageWidth * -factor);</span>
+
+					// Scale the page down/up.
+<span class="nc" id="L209">					final float scaleFactor = mMinScaleFactor + ((1 - mMinScaleFactor) * (1 - factor));</span>
+<span class="nc" id="L210">					ViewCompat.setScaleX(page, scaleFactor);</span>
+<span class="nc" id="L211">					ViewCompat.setScaleY(page, scaleFactor);</span>
+<span class="nc" id="L212">					break;</span>
+			}
+		}
+		/**
+		 * This page is way off-screen to the end.
+		 * (1,+Infinity]
+		 */
+		else {
+<span class="nc" id="L220">			ViewCompat.setAlpha(page, 0);</span>
+		}
+<span class="nc" id="L222">	}</span>
+
+	/**
+	 * Specifies a scale factor for completely transformed page at the depth origin.
+	 * &lt;p&gt;
+	 * This scale factor value is also used as base when calculating scale value for a relative
+	 * transformed position.
+	 *
+	 * @param scaleFactor The desired scale factor from the range {@code [0.0, 1.0]}. Value {@code 0.0}
+	 *                    would result in fully down-scaled page and value {@code 1.0} would result
+	 *                    in fully up-scaled page when completely transformed at the depth origin.
+	 * @see #getMinScaleFactor()
+	 */
+	public void setMinScaleFactor(@FloatRange(from = 0, to = 1) float scaleFactor) {
+<span class="nc" id="L236">		this.mMinScaleFactor = scaleFactor;</span>
+<span class="nc" id="L237">	}</span>
+
+	/**
+	 * Returns the minimum scale factor used for completely transformed page.
+	 *
+	 * @return Factor value from the range {@code [0.0, 1.0]}.
+	 * @see #setMinScaleFactor(float)
+	 */
+	@FloatRange(from = 0, to = 1)
+	public float getMinScaleFactor() {
+<span class="nc" id="L247">		return mMinScaleFactor;</span>
+	}
+
+	/**
+	 * Specifies an alpha value used for completely transformed page at the depth origin.
+	 * &lt;p&gt;
+	 * This alpha is also used as base when calculating alpha value for a relative transformed position.
+	 *
+	 * @param alpha The desired alpha from the range {@code [0.0, 1.0]}. Value {@code 0.0} would
+	 *              result in fully transparent page and value {@code 1.0} would result in fully
+	 *              opaque page when completely transformed at the depth origin.
+	 * @see #getMinAlpha()
+	 */
+	public void setMinAlpha(@FloatRange(from = 0, to = 1) float alpha) {
+<span class="nc" id="L261">		this.mMinAlpha = alpha;</span>
+<span class="nc" id="L262">	}</span>
+
+	/**
+	 * Returns the minimum alpha used for completely transformed page.
+	 *
+	 * @return Alpha value from the range {@code [0.0, 1.0]}.
+	 * @see #setMinAlpha(float)
+	 */
+	@FloatRange(from = 0, to = 1)
+	public float getMinAlpha() {
+<span class="nc" id="L272">		return mMinAlpha;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

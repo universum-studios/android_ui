@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CubicPageTransformer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">CubicPageTransformer.java</span></div><h1>CubicPageTransformer.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.support.annotation.FloatRange;
+import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+
+/**
+ * A {@link ViewPager.PageTransformer} implementation that can be used to transform pages like in
+ * 3D cube space horizontally.
+ * &lt;p&gt;
+ * Whether to transform pages with camera positioned &lt;b&gt;outside&lt;/b&gt; or &lt;b&gt;inside&lt;/b&gt; the 3D cube
+ * can be specified via {@link #CubicPageTransformer(CameraPosition)} constructor.
+ *
+ * @author Martin Albedinsky
+ */
+public class CubicPageTransformer implements ViewPager.PageTransformer {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;CubicPageTransformer&quot;;
+
+	/**
+	 * Default minimum alpha for completely transformed pages.
+	 *
+	 * @see #setMinAlpha(float)
+	 */
+	public static final float MIN_ALPHA = 0.6f;
+
+	/**
+	 * Represents position of an imaginary camera used to resolve how to rotate pages in 3D cubic space.
+	 *
+	 * @author Martin Albedinsky
+	 * @see CubicPageTransformer#CubicPageTransformer(CameraPosition)
+	 */
+<span class="nc" id="L64">	public enum CameraPosition {</span>
+		/**
+		 * Camera is positioned &lt;b&gt;outside&lt;/b&gt; of a 3D cube of rotating pages.
+		 */
+<span class="nc" id="L68">		OUT(</span>
+				90, -90,
+				0, 1
+		),
+		/**
+		 * Camera is positioned &lt;b&gt;inside&lt;/b&gt; of a 3D cube of rotating pages.
+		 */
+<span class="nc" id="L75">		IN(</span>
+				-90, 90,
+				0, 1
+		);
+
+		/**
+		 * Rotation degrees for the origin page position.
+		 * &lt;p&gt;
+		 * Used for a page being transformed from/to the end.
+		 */
+		public final float originDegrees;
+
+		/**
+		 * Rotation degrees for the destination page position.
+		 * &lt;p&gt;
+		 * Used for a page being transformed from/to the start.
+		 */
+		public final float destDegrees;
+
+		/**
+		 * Rotation pivot x factor for the origin page position.
+		 * &lt;p&gt;
+		 * Used for a page being transformed from/to the end.
+		 */
+		public final float originPivotXFactor;
+
+		/**
+		 * Rotation pivot x factor for the destination page position.
+		 * &lt;p&gt;
+		 * Used for a page being transformed from/to the start.
+		 */
+		public final float destPivotXFactor;
+
+		/**
+		 * Creates a new instance of CameraPosition with the specified ration degrees and rotation
+		 * pivots.
+		 *
+		 * @param originDeg   Rotation degrees for the origin position.
+		 * @param destDeg     Rotation degrees for the destination position.
+		 * @param originPivot Rotation pivot for the x origin position.
+		 * @param destPivot   Rotation pivot for the x destination position.
+		 */
+<span class="nc" id="L117">		CameraPosition(float originDeg, float destDeg, float originPivot, float destPivot) {</span>
+<span class="nc" id="L118">			this.originDegrees = originDeg;</span>
+<span class="nc" id="L119">			this.destDegrees = destDeg;</span>
+<span class="nc" id="L120">			this.originPivotXFactor = originPivot;</span>
+<span class="nc" id="L121">			this.destPivotXFactor = destPivot;</span>
+<span class="nc" id="L122">		}</span>
+	}
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Minimum alpha for the completely transformed page at the start/end.
+	 */
+<span class="nc" id="L136">	private float mMinAlpha = MIN_ALPHA;</span>
+
+	/**
+	 * Imaginary camera position used when rotating pages in 3D cubic space.
+	 */
+	private final CameraPosition mCameraPosition;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of CubicPageTransformer with {@link CameraPosition#OUT} as &lt;var&gt;cameraPosition&lt;/var&gt;.
+	 */
+	public CubicPageTransformer() {
+<span class="nc" id="L151">		this(CameraPosition.OUT);</span>
+<span class="nc" id="L152">	}</span>
+
+	/**
+	 * Creates a new instance of CubicPageTransformer with the specified &lt;var&gt;cameraPosition&lt;/var&gt;.
+	 *
+	 * @param cameraPosition The imaginary camera position used when rotating pages in 3D cubic space.
+	 */
+<span class="nc" id="L159">	public CubicPageTransformer(@NonNull CameraPosition cameraPosition) {</span>
+<span class="nc" id="L160">		this.mCameraPosition = cameraPosition;</span>
+<span class="nc" id="L161">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 */
+	@Override
+	public void transformPage(View page, float position) {
+<span class="nc" id="L171">		final float factor = Math.abs(position);</span>
+<span class="nc" id="L172">		final int pageWidth = page.getWidth();</span>
+<span class="nc" id="L173">		final int pageHeight = page.getHeight();</span>
+
+		/**
+		 * This page is way off-screen to the start.
+		 * [-Infinity,-1)
+		 */
+<span class="nc bnc" id="L179" title="All 2 branches missed.">		if (position &lt; -1) {</span>
+<span class="nc" id="L180">			ViewCompat.setAlpha(page, 0);</span>
+		}
+		/**
+		 * Moving page from/to the start.
+		 * [-1,0]
+		 */
+<span class="nc bnc" id="L186" title="All 2 branches missed.">		else if (position &lt;= 0) {</span>
+			// Fade in/out the page.
+<span class="nc" id="L188">			ViewCompat.setAlpha(page, Math.max(1 - factor, mMinAlpha));</span>
+
+			// Rotate the page along its y axis.
+<span class="nc" id="L191">			ViewCompat.setPivotX(page, pageWidth * mCameraPosition.destPivotXFactor);</span>
+<span class="nc" id="L192">			ViewCompat.setPivotX(page, pageHeight * 0.5f);</span>
+<span class="nc" id="L193">			ViewCompat.setRotationY(page, factor * mCameraPosition.destDegrees);</span>
+		}
+		/**
+		 * Moving page from/to the end.
+		 * (0,1]
+		 */
+<span class="nc bnc" id="L199" title="All 2 branches missed.">		else if (position &lt;= 1) {</span>
+			// Fade in/out the page.
+<span class="nc" id="L201">			ViewCompat.setAlpha(page, Math.max(1 - factor, mMinAlpha));</span>
+
+			// Rotate the page along its y axis.
+<span class="nc" id="L204">			ViewCompat.setPivotX(page, pageWidth * mCameraPosition.originPivotXFactor);</span>
+<span class="nc" id="L205">			ViewCompat.setPivotX(page, pageHeight * 0.5f);</span>
+<span class="nc" id="L206">			ViewCompat.setRotationY(page, factor * mCameraPosition.destDegrees);</span>
+		}
+		/**
+		 * This page is way off-screen to the end.
+		 * (1,+Infinity]
+		 */
+		else {
+<span class="nc" id="L213">			ViewCompat.setAlpha(page, 0);</span>
+		}
+<span class="nc" id="L215">	}</span>
+
+	/**
+	 * Specifies an alpha value used for completely transformed page at the start/end.
+	 * &lt;p&gt;
+	 * This alpha is also used as base when calculating alpha value for a relative transformed position.
+	 *
+	 * @param alpha The desired alpha from the range {@code [0.0, 1.0]}. Value {@code 0.0} would
+	 *              result in fully transparent page and value {@code 1.0} would result in fully
+	 *              opaque page when completely transformed at the start/end.
+	 * @see #getMinAlpha()
+	 */
+	public void setMinAlpha(@FloatRange(from = 0, to = 1) float alpha) {
+<span class="nc" id="L228">		this.mMinAlpha = alpha;</span>
+<span class="nc" id="L229">	}</span>
+
+	/**
+	 * Returns the minimum alpha used for completely transformed page.
+	 *
+	 * @return Alpha value from the range {@code [0.0, 1.0]}.
+	 * @see #setMinAlpha(float)
+	 */
+	@FloatRange(from = 0, to = 1)
+	public float getMinAlpha() {
+<span class="nc" id="L239">		return mMinAlpha;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

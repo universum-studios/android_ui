@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ScrollableWrapper.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">ScrollableWrapper.java</span></div><h1>ScrollableWrapper.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.AbsListView;
+import android.widget.Adapter;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
+
+/**
+ * A ScrollableWrapper can be used for purpose of checking whether a specific scrollable view is
+ * scrolled at its content's start or end at a time.
+ * &lt;p&gt;
+ * This wrapper is used for example by all widgets from the UI library that support &lt;b&gt;pull&lt;/b&gt; and
+ * thus also &lt;b&gt;refresh&lt;/b&gt; feature.
+ *
+ * &lt;h3&gt;Supported scrollable views&lt;/h3&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link AbsListView}&lt;/li&gt;
+ * &lt;li&gt;{@link RecyclerView}&lt;/li&gt;
+ * &lt;li&gt;{@link ScrollView}&lt;/li&gt;
+ * &lt;li&gt;{@link HorizontalScrollView}&lt;/li&gt;
+ * &lt;li&gt;{@link ViewPager}&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;b&gt;Note that any other view supplied to {@link #wrapScrollableView(View)} will be wrapped into
+ * simple wrapper implementation that always returns {@code true} from both {@link #isScrolledAtStart()}
+ * and {@link #isScrolledAtEnd()} methods.&lt;/b&gt;
+ *
+ * @author Martin Albedinsky
+ */
+public abstract class ScrollableWrapper&lt;V extends View&gt; {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;ScrollableWrapper&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Wrapped scrollable view.
+	 */
+	final V mScrollableView;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of ScrollableWrapper for the given &lt;var&gt;scrollableView&lt;/var&gt;.
+	 *
+	 * @param scrollableView The view that will be wrapped by this wrapper which will provide implementation
+	 *                       of {@link #isScrolledAtStart()} and {@link #isScrolledAtEnd()} for it.
+	 */
+<span class="nc" id="L93">	private ScrollableWrapper(V scrollableView) {</span>
+<span class="nc" id="L94">		this.mScrollableView = scrollableView;</span>
+<span class="nc" id="L95">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Wraps the given &lt;var&gt;scrollableView&lt;/var&gt; into scrollable wrapper implementation that best
+	 * suits to the type of the given view.
+	 *
+	 * @param scrollableView The scrollable view to be wrapped into scrollable wrapper.
+	 * @return New scrollable wrapper instance. See description of this class for supported wrappers.
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public static &lt;V extends View&gt; ScrollableWrapper&lt;V&gt; wrapScrollableView(@NonNull V scrollableView) {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">		if (scrollableView instanceof AbsListView) {</span>
+<span class="nc" id="L111">			return new AbsListViewWrapper((AbsListView) scrollableView);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">		} else if (scrollableView instanceof RecyclerView) {</span>
+<span class="nc" id="L113">			return new RecyclerViewWrapper((RecyclerView) scrollableView);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">		} else if (scrollableView instanceof ScrollView) {</span>
+<span class="nc" id="L115">			return new ScrollViewWrapper((ScrollView) scrollableView);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">		} else if (scrollableView instanceof HorizontalScrollView) {</span>
+<span class="nc" id="L117">			return new HorizontalScrollViewWrapper((HorizontalScrollView) scrollableView);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">		} else if (scrollableView instanceof ViewPager) {</span>
+<span class="nc" id="L119">			return new ViewPagerWrapper((ViewPager) scrollableView);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">		} else if (scrollableView instanceof WebView) {</span>
+<span class="nc" id="L121">			return new WebViewWrapper((WebView) scrollableView);</span>
+		}
+<span class="nc" id="L123">		return new ViewWrapper(scrollableView);</span>
+	}
+
+	/**
+	 * Checks whether a content of the wrapped scrollable view can be scrolled in any direction.
+	 *
+	 * @return {@code True} if the content can be scrolled, {@code false} otherwise.
+	 */
+	public boolean canScroll() {
+<span class="nc bnc" id="L132" title="All 4 branches missed.">		return !isScrolledAtStart() || !isScrolledAtEnd();</span>
+	}
+
+	/**
+	 * Checks whether a content of the wrapped scrollable view is at this time scrolled at its start.
+	 *
+	 * @return {@code True} if the content is scrolled at its start, {@code false} otherwise.
+	 * @see #isScrolledAtEnd()
+	 */
+	public abstract boolean isScrolledAtStart();
+
+	/**
+	 * Checks whether a content of the wrapped scrollable view is at this time scrolled at its end.
+	 *
+	 * @return {@code True} if the content is scrolled at its end, {@code false} otherwise.
+	 * @see #isScrolledAtStart()
+	 */
+	public abstract boolean isScrolledAtEnd();
+
+	/**
+	 * Returns the wrapped scrollable view.
+	 *
+	 * @return Scrollable view.
+	 */
+	@NonNull
+	public V getScrollableView() {
+<span class="nc" id="L158">		return mScrollableView;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * Implementation of {@link ScrollableWrapper} to wrap {@link View}.
+	 */
+	private static final class ViewWrapper&lt;V extends View&gt; extends ScrollableWrapper&lt;V&gt; {
+
+		/**
+		 * Creates a new instance of ViewWrapper to wrap the given &lt;var&gt;view&lt;/var&gt;.
+		 *
+		 * @param view The view to wrap.
+		 */
+		ViewWrapper(V view) {
+<span class="nc" id="L176">			super(view);</span>
+<span class="nc" id="L177">		}</span>
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtStart() {
+<span class="nc" id="L183">			return true;</span>
+		}
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtEnd() {
+<span class="nc" id="L190">			return true;</span>
+		}
+	}
+
+
+	/**
+	 * Implementation of {@link ScrollableWrapper} to wrap {@link AbsListView}.
+	 */
+	private static final class AbsListViewWrapper&lt;V extends AbsListView&gt; extends ScrollableWrapper&lt;V&gt; {
+
+		/**
+		 * Creates a new instance of AbsListViewWrapper to wrap the given &lt;var&gt;absListView&lt;/var&gt;.
+		 *
+		 * @param absListView The abstract list view to wrap.
+		 */
+		private AbsListViewWrapper(V absListView) {
+<span class="nc" id="L206">			super(absListView);</span>
+<span class="nc" id="L207">		}</span>
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtStart() {
+<span class="nc bnc" id="L213" title="All 2 branches missed.">			if (mScrollableView.getChildCount() == 0) {</span>
+<span class="nc" id="L214">				return true;</span>
+			}
+
+<span class="nc bnc" id="L217" title="All 2 branches missed.">			if (mScrollableView.getFirstVisiblePosition() == 0) {</span>
+<span class="nc" id="L218">				final View firstChild = mScrollableView.getChildAt(0);</span>
+<span class="nc bnc" id="L219" title="All 4 branches missed.">				return firstChild == null || firstChild.getTop() == mScrollableView.getPaddingTop();</span>
+			}
+<span class="nc" id="L221">			return false;</span>
+		}
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtEnd() {
+<span class="nc" id="L228">			final int childCount = mScrollableView.getChildCount();</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">			if (childCount == 0) {</span>
+<span class="nc" id="L230">				return true;</span>
+			}
+
+<span class="nc" id="L233">			final Adapter adapter = mScrollableView.getAdapter();</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">			final int adapterCount = adapter != null ? adapter.getCount() : 0;</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">			if (adapterCount == 0) {</span>
+<span class="nc" id="L236">				return true;</span>
+			}
+
+<span class="nc" id="L239">			final int lastVisiblePos = mScrollableView.getLastVisiblePosition();</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">			if (lastVisiblePos == (adapterCount - 1)) {</span>
+<span class="nc" id="L241">				final View lastChild = mScrollableView.getChildAt(childCount - 1);</span>
+<span class="nc bnc" id="L242" title="All 4 branches missed.">				return lastChild != null &amp;&amp; lastChild.getBottom() == mScrollableView.getHeight();</span>
+			}
+<span class="nc" id="L244">			return false;</span>
+		}
+	}
+
+	/**
+	 * Implementation of {@link ScrollableWrapper} to wrap {@link RecyclerView}.
+	 */
+	private static final class RecyclerViewWrapper&lt;V extends RecyclerView&gt; extends ScrollableWrapper&lt;V&gt; {
+
+		/**
+		 * Creates a new instance of RecyclerViewWrapper to wrap the given &lt;var&gt;recyclerView&lt;/var&gt;.
+		 *
+		 * @param recyclerView The recycler view to wrap.
+		 */
+		private RecyclerViewWrapper(V recyclerView) {
+<span class="nc" id="L259">			super(recyclerView);</span>
+<span class="nc" id="L260">		}</span>
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtStart() {
+<span class="nc bnc" id="L266" title="All 2 branches missed.">			return !ViewCompat.canScrollVertically(mScrollableView, -1);</span>
+		}
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtEnd() {
+<span class="nc bnc" id="L273" title="All 2 branches missed.">			return !ViewCompat.canScrollVertically(mScrollableView, 1);</span>
+		}
+	}
+
+	/**
+	 * Implementation of {@link ScrollableWrapper} to wrap {@link ScrollView}.
+	 */
+	private static final class ScrollViewWrapper&lt;V extends ScrollView&gt; extends ScrollableWrapper&lt;V&gt; {
+
+		/**
+		 * Creates a new instance of ScrollViewWrapper to wrap the given &lt;var&gt;scrollView&lt;/var&gt;.
+		 *
+		 * @param scrollView The scroll view to wrap.
+		 */
+		private ScrollViewWrapper(V scrollView) {
+<span class="nc" id="L288">			super(scrollView);</span>
+<span class="nc" id="L289">		}</span>
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtStart() {
+<span class="nc bnc" id="L295" title="All 2 branches missed.">			return mScrollableView.getScrollY() == 0;</span>
+		}
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtEnd() {
+<span class="nc" id="L302">			final View view = mScrollableView.getChildAt(0);</span>
+<span class="nc bnc" id="L303" title="All 4 branches missed.">			return view != null &amp;&amp; (view.getHeight() - mScrollableView.getHeight()) == mScrollableView.getScrollY();</span>
+		}
+	}
+
+	/**
+	 * Implementation of {@link ScrollableWrapper} to wrap {@link HorizontalScrollView}.
+	 */
+	private static final class HorizontalScrollViewWrapper&lt;V extends HorizontalScrollView&gt; extends ScrollableWrapper&lt;V&gt; {
+
+		/**
+		 * Creates a new instance of HorizontalScrollViewWrapper to wrap the given &lt;var&gt;scrollView&lt;/var&gt;.
+		 *
+		 * @param scrollView The horizontal scroll view to wrap.
+		 */
+		private HorizontalScrollViewWrapper(V scrollView) {
+<span class="nc" id="L318">			super(scrollView);</span>
+<span class="nc" id="L319">		}</span>
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtStart() {
+<span class="nc bnc" id="L325" title="All 2 branches missed.">			return mScrollableView.getScrollX() == 0;</span>
+		}
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtEnd() {
+<span class="nc" id="L332">			final View view = mScrollableView.getChildAt(0);</span>
+<span class="nc bnc" id="L333" title="All 4 branches missed.">			return view != null &amp;&amp; (view.getWidth() - mScrollableView.getWidth()) == mScrollableView.getScrollX();</span>
+		}
+	}
+
+	/**
+	 * Implementation of {@link ViewPagerWrapper} to wrap {@link ViewPager}.
+	 */
+	private static final class ViewPagerWrapper&lt;V extends ViewPager&gt; extends ScrollableWrapper&lt;V&gt; {
+
+		/**
+		 * Creates a new instance of ViewPagerWrapper to wrap the given &lt;var&gt;viewPager&lt;/var&gt;.
+		 *
+		 * @param viewPager The view pager to wrap.
+		 */
+		private ViewPagerWrapper(V viewPager) {
+<span class="nc" id="L348">			super(viewPager);</span>
+<span class="nc" id="L349">		}</span>
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtStart() {
+<span class="nc" id="L355">			final int pages = mScrollableView.getChildCount();</span>
+<span class="nc bnc" id="L356" title="All 4 branches missed.">			return pages == 0 || mScrollableView.getCurrentItem() == 0;</span>
+		}
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtEnd() {
+<span class="nc bnc" id="L363" title="All 2 branches missed.">			if (mScrollableView.getChildCount() == 0) {</span>
+<span class="nc" id="L364">				return true;</span>
+			}
+<span class="nc" id="L366">			final PagerAdapter adapter = mScrollableView.getAdapter();</span>
+<span class="nc bnc" id="L367" title="All 6 branches missed.">			return adapter == null || adapter.getCount() == 0 || mScrollableView.getCurrentItem() == (adapter.getCount() - 1);</span>
+		}
+	}
+
+	/**
+	 * Implementation of {@link ScrollableWrapper} to wrap {@link WebView}.
+	 */
+	private static final class WebViewWrapper&lt;V extends WebView&gt; extends ScrollableWrapper&lt;V&gt; {
+
+		/**
+		 * Creates a new instance of WebViewWrapper to wrap the given &lt;var&gt;webView&lt;/var&gt;.
+		 *
+		 * @param webView The web view to wrap.
+		 */
+		WebViewWrapper(V webView) {
+<span class="nc" id="L382">			super(webView);</span>
+<span class="nc" id="L383">		}</span>
+
+		/**
+		 */
+		@Override
+		public boolean isScrolledAtStart() {
+<span class="nc bnc" id="L389" title="All 2 branches missed.">			return mScrollableView.getScrollY() == 0;</span>
+		}
+
+		/**
+		 */
+		@Override
+		@SuppressWarnings({&quot;deprecation&quot;, &quot;NewApi&quot;})
+		public boolean isScrolledAtEnd() {
+<span class="nc bnc" id="L397" title="All 2 branches missed.">			final float verticalScale = Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB ?</span>
+<span class="nc" id="L398">					mScrollableView.getScaleY() :</span>
+<span class="nc" id="L399">					mScrollableView.getScale();</span>
+<span class="nc" id="L400">			final int scrollY = mScrollableView.getScrollY();</span>
+<span class="nc" id="L401">			final int height = mScrollableView.getHeight();</span>
+<span class="nc" id="L402">			final int contentHeight = (int) Math.floor(mScrollableView.getContentHeight() * verticalScale);</span>
+<span class="nc bnc" id="L403" title="All 2 branches missed.">			return scrollY &gt;= contentHeight - height;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

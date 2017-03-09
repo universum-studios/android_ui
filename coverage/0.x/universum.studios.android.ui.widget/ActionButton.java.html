@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ActionButton.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">ActionButton.java</span></div><h1>ActionButton.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
+import android.util.AttributeSet;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.UiConfig;
+import universum.studios.android.ui.graphics.drawable.TintDrawable;
+import universum.studios.android.ui.util.ResourceUtils;
+
+/**
+ * A {@link ButtonWidget} implementation that can be used as action button within an {@link ActionBar}'s
+ * menu to show custom action button or as utility class to configure menu items via
+ * {@link #configureMenuItem(ItemConfiguration, Context)} method.
+ *
+ * &lt;h3&gt;XML attributes&lt;/h3&gt;
+ * See {@link ButtonWidget}
+ *
+ * &lt;h3&gt;Default style attribute&lt;/h3&gt;
+ * {@link R.attr#actionButtonStyle actionButtonStyle}
+ *
+ * @author Martin Albedinsky
+ */
+public class ActionButton extends ButtonWidget {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;ActionButton&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #ActionButton(Context, AttributeSet)} without attributes.
+	 */
+	public ActionButton(@NonNull Context context) {
+<span class="nc" id="L92">		this(context, null);</span>
+<span class="nc" id="L93">	}</span>
+
+	/**
+	 * Same as {@link #ActionButton(Context, AttributeSet, int)} with {@link R.attr#actionButtonStyle}
+	 * as attribute for default style.
+	 */
+	public ActionButton(@NonNull Context context, @Nullable AttributeSet attrs) {
+<span class="nc" id="L100">		this(context, attrs, R.attr.actionButtonStyle);</span>
+<span class="nc" id="L101">	}</span>
+
+	/**
+	 * Same as {@link #ActionButton(Context, AttributeSet, int, int)} with {@code 0} as default style.
+	 */
+	public ActionButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+<span class="nc" id="L107">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L108">		this.init(context, attrs, defStyleAttr, 0);</span>
+<span class="nc" id="L109">	}</span>
+
+	/**
+	 * Creates a new instance of ActionButton for the given &lt;var&gt;context&lt;/var&gt;.
+	 *
+	 * @param context      Context in which will be the new view presented.
+	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     this view within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the new view.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public ActionButton(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+<span class="nc" id="L123">		super(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L124">		this.init(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L125">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Called from one of constructors of this view to perform its initialization.
+	 * &lt;p&gt;
+	 * Initialization is done via parsing of the specified &lt;var&gt;attrs&lt;/var&gt; set and obtaining for
+	 * this view specific data from it that can be used to configure this new view instance. The
+	 * specified &lt;var&gt;defStyleAttr&lt;/var&gt; and &lt;var&gt;defStyleRes&lt;/var&gt; are used to obtain default data
+	 * from the current theme provided by the specified &lt;var&gt;context&lt;/var&gt;.
+	 */
+	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+		// No initialization.
+<span class="nc" id="L141">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+<span class="nc" id="L148">		super.onInitializeAccessibilityEvent(event);</span>
+<span class="nc" id="L149">		event.setClassName(ActionButton.class.getName());</span>
+<span class="nc" id="L150">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+<span class="nc" id="L157">		super.onInitializeAccessibilityNodeInfo(info);</span>
+<span class="nc" id="L158">		info.setClassName(ActionButton.class.getName());</span>
+<span class="nc" id="L159">	}</span>
+
+	/**
+	 * Performs configuration for a {@link MenuItem} determined by the given &lt;var&gt;configuration&lt;/var&gt;.
+	 *
+	 * @param configuration The configuration object carrying all necessary data to perform menu item
+	 *                      configuration.
+	 * @param context       Context used to resolve current theme attributes.
+	 * @return {@code True} if configuration has been performed, {@code false} if not due to invalid
+	 * menu item id or menu specified for the given &lt;var&gt;configuration&lt;/var&gt; object.
+	 */
+	public static boolean configureMenuItem(@NonNull ItemConfiguration configuration, @NonNull Context context) {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		if (configuration.itemId == ItemConfiguration.NO_ID) {</span>
+<span class="nc" id="L172">			return false;</span>
+		}
+<span class="nc" id="L174">		final MenuItem menuItem = configuration.menu.findItem(configuration.itemId);</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">		if (menuItem == null) {</span>
+<span class="nc" id="L176">			return false;</span>
+		}
+<span class="nc" id="L178">		final Resources resources = context.getResources();</span>
+<span class="nc" id="L179">		final Resources.Theme theme = context.getTheme();</span>
+<span class="nc" id="L180">		Drawable icon = null;</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">		if (configuration.icon != null) {</span>
+<span class="nc" id="L182">			icon = configuration.icon;</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">		} else if (configuration.vectorIconResId != ItemConfiguration.NO_ID) {</span>
+<span class="nc" id="L184">			icon = ResourceUtils.getVectorDrawable(resources, configuration.vectorIconResId, theme);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">		} else if (configuration.iconResId != ItemConfiguration.NO_ID) {</span>
+<span class="nc" id="L186">			icon = ResourceUtils.getDrawable(resources, configuration.iconResId, theme);</span>
+		}
+<span class="nc bnc" id="L188" title="All 2 branches missed.">		if (icon != null) {</span>
+<span class="nc" id="L189">			icon = applyIconTint(icon, configuration);</span>
+<span class="nc" id="L190">			menuItem.setIcon(icon);</span>
+		}
+<span class="nc" id="L192">		return true;</span>
+	}
+
+	/**
+	 * Applies tint specified for the given &lt;var&gt;configuration&lt;/var&gt; object to the given &lt;var&gt;icon&lt;/var&gt;
+	 * drawable.
+	 *
+	 * @param icon          The icon drawable to which to apply the tint.
+	 * @param configuration Configuration object carrying tint list and tint mode used to apply tint
+	 *                      to the icon drawable.
+	 * @return Icon drawable with applied tint. For pre {@link Build.VERSION_CODES#LOLLIPOP LOLLIPOP}
+	 * the icon drawable will be wrapped in {@link TintDrawable} to support tinting feature.
+	 */
+	@SuppressLint(&quot;NewApi&quot;)
+	private static Drawable applyIconTint(Drawable icon, ItemConfiguration configuration) {
+<span class="nc bnc" id="L207" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">			if (configuration.iconTintListSpecified) {</span>
+<span class="nc" id="L209">				icon.setTintList(configuration.iconTintList);</span>
+			}
+<span class="nc bnc" id="L211" title="All 2 branches missed.">			if (configuration.iconTintModeSpecified) {</span>
+<span class="nc" id="L212">				icon.setTintMode(configuration.iconTintMode);</span>
+			}
+		} else {
+<span class="nc bnc" id="L215" title="All 2 branches missed.">			final TintDrawable tintIcon = icon instanceof TintDrawable ? (TintDrawable) icon : new TintDrawable(icon);</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">			if (configuration.iconTintListSpecified) {</span>
+<span class="nc" id="L217">				tintIcon.setTintList(configuration.iconTintList);</span>
+			}
+<span class="nc bnc" id="L219" title="All 2 branches missed.">			if (configuration.iconTintModeSpecified) {</span>
+<span class="nc" id="L220">				tintIcon.setTintMode(configuration.iconTintMode);</span>
+			}
+<span class="nc" id="L222">			icon = tintIcon;</span>
+		}
+<span class="nc" id="L224">		return icon;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * Simple configuration class used to configure items of a specific {@link Menu}. A new instance
+	 * of ItemConfiguration can be build via {@link ActionButton.ItemConfigurationBuilder}.
+	 * &lt;p&gt;
+	 * Current implementation supports only configuration related to menu item's &lt;b&gt;icon&lt;/b&gt; like
+	 * its resource id, vector resource id and also tint support.
+	 *
+	 * @author Martin Albedinsky
+	 */
+	public static final class ItemConfiguration {
+
+		/**
+		 * Constant used to identify that no resource id has been specified.
+		 */
+		static final int NO_ID = -1;
+
+		/**
+		 * Menu where to find item with {@link #itemId} that should be configured using this configuration.
+		 */
+		final Menu menu;
+
+		/**
+		 * Id of the icon to be configured using this configuration.
+		 */
+		final int itemId;
+
+		/**
+		 * Resource id of icon drawable.
+		 */
+		final int iconResId;
+
+		/**
+		 * Resource id of icon vector drawable.
+		 */
+		final int vectorIconResId;
+
+		/**
+		 * Icon drawable.
+		 */
+		final Drawable icon;
+
+		/**
+		 * Tint to be applied to the icon drawable.
+		 */
+		final ColorStateList iconTintList;
+
+		/**
+		 * Boolean flag indicating whether {@link #iconTintList} has been specified or not.
+		 */
+		final boolean iconTintListSpecified;
+
+		/**
+		 * Blending mode used to apply {@link #iconTintList} to the icon drawable.
+		 */
+		final PorterDuff.Mode iconTintMode;
+
+		/**
+		 * Boolean flag indicating whether {@link #iconTintMode} has been specified or not.
+		 */
+		final boolean iconTintModeSpecified;
+
+		/**
+		 * Creates a new instance of ItemConfiguration from the current data specified within the
+		 * given &lt;var&gt;builder&lt;/var&gt;.
+		 *
+		 * @param builder The builder of which data to use to create new configuration item.
+		 */
+<span class="nc" id="L298">		ItemConfiguration(ItemConfigurationBuilder builder) {</span>
+<span class="nc" id="L299">			this.menu = builder.menu;</span>
+<span class="nc" id="L300">			this.itemId = builder.itemId;</span>
+<span class="nc" id="L301">			this.iconResId = builder.iconResId;</span>
+<span class="nc" id="L302">			this.vectorIconResId = builder.vectorIconResId;</span>
+<span class="nc" id="L303">			this.icon = builder.icon;</span>
+<span class="nc" id="L304">			this.iconTintList = builder.iconTintList;</span>
+<span class="nc" id="L305">			this.iconTintListSpecified = builder.iconTintListSpecified;</span>
+<span class="nc" id="L306">			this.iconTintMode = builder.iconTintMode;</span>
+<span class="nc" id="L307">			this.iconTintModeSpecified = builder.iconTintModeSpecified;</span>
+<span class="nc" id="L308">		}</span>
+	}
+
+	/**
+	 * Builder that can be used to build a new instances of {@link ItemConfiguration}.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note, that none of values that can be supplied to this builder to build a new instance
+	 * of ItemConfiguration are required except the {@link Menu} that is supplied during builder's
+	 * initialization.&lt;/b&gt;
+	 *
+	 * @author Martin Albedinsky
+	 */
+	public static final class ItemConfigurationBuilder {
+
+		/**
+		 * See {@link ItemConfiguration#menu ItemConfiguration.menu}.
+		 */
+		final Menu menu;
+
+		/**
+		 * See {@link ItemConfiguration#itemId ItemConfiguration.itemId}.
+		 */
+<span class="nc" id="L330">		int itemId = ItemConfiguration.NO_ID;</span>
+
+		/**
+		 * See {@link ItemConfiguration#iconResId ItemConfiguration.iconResId}.
+		 */
+<span class="nc" id="L335">		int iconResId = ItemConfiguration.NO_ID;</span>
+
+		/**
+		 * See {@link ItemConfiguration#vectorIconResId ItemConfiguration.vectorIconResId}.
+		 */
+<span class="nc" id="L340">		int vectorIconResId = ItemConfiguration.NO_ID;</span>
+
+		/**
+		 * See {@link ItemConfiguration#icon ItemConfiguration.icon}.
+		 */
+		Drawable icon;
+
+		/**
+		 * See {@link ItemConfiguration#iconTintList ItemConfiguration.iconTintList}.
+		 */
+		ColorStateList iconTintList;
+
+		/**
+		 * See {@link ItemConfiguration#iconTintListSpecified ItemConfiguration.iconTintListSpecified}.
+		 */
+		boolean iconTintListSpecified;
+
+		/**
+		 * See {@link ItemConfiguration#iconTintMode ItemConfiguration.iconTintMode}.
+		 */
+		PorterDuff.Mode iconTintMode;
+
+		/**
+		 * See {@link ItemConfiguration#iconTintModeSpecified ItemConfiguration.iconTintModeSpecified}.
+		 */
+		boolean iconTintModeSpecified;
+
+		/**
+		 * Creates a new instance of ItemConfigurationBuilder with the given &lt;var&gt;menu&lt;/var&gt;.
+		 *
+		 * @param menu The menu of which items are to be configured.
+		 */
+<span class="nc" id="L372">		public ItemConfigurationBuilder(@NonNull Menu menu) {</span>
+<span class="nc" id="L373">			this.menu = menu;</span>
+<span class="nc" id="L374">		}</span>
+
+		/**
+		 * Resets this build to its initial state.
+		 *
+		 * @return This builder to allow methods chaining.
+		 */
+		public ItemConfigurationBuilder reset() {
+<span class="nc" id="L382">			this.itemId = ItemConfiguration.NO_ID;</span>
+<span class="nc" id="L383">			this.iconResId = ItemConfiguration.NO_ID;</span>
+<span class="nc" id="L384">			this.vectorIconResId = ItemConfiguration.NO_ID;</span>
+<span class="nc" id="L385">			this.icon = null;</span>
+<span class="nc" id="L386">			this.iconTintList = null;</span>
+<span class="nc" id="L387">			this.iconTintListSpecified = false;</span>
+<span class="nc" id="L388">			this.iconTintMode = null;</span>
+<span class="nc" id="L389">			this.iconTintModeSpecified = false;</span>
+<span class="nc" id="L390">			return this;</span>
+		}
+
+		/**
+		 * Specifies an id of the menu item to by configured by the new ItemConfiguration.
+		 *
+		 * @param id Id of the desired menu item that is presented in the {@link Menu} specified
+		 *           for this builder.
+		 * @return This builder to allow methods chaining.
+		 */
+		public ItemConfigurationBuilder itemId(@IdRes int id) {
+<span class="nc" id="L401">			this.itemId = id;</span>
+<span class="nc" id="L402">			return this;</span>
+		}
+
+		/**
+		 * Specifies an icon resource id for the menu item to be configured by the new ItemConfiguration.
+		 *
+		 * @param resId Resource id of the desired icon.
+		 * @return This builder to allow methods chaining.
+		 * @see #vectorIcon(int)
+		 * @see #icon(Drawable)
+		 */
+		public ItemConfigurationBuilder icon(@DrawableRes int resId) {
+<span class="nc" id="L414">			this.iconResId = resId;</span>
+<span class="nc" id="L415">			return this;</span>
+		}
+
+		/**
+		 * Specifies a vector icon resource id for the menu item to be configured by the new ItemConfiguration.
+		 * &lt;p&gt;
+		 * &lt;b&gt;Note&lt;/b&gt;, that if there are specified both &lt;b&gt;icon&lt;/b&gt; and &lt;b&gt;vector icon&lt;/b&gt; resources,
+		 * the vector resource has higher priority.
+		 *
+		 * @param resId Resource id of the desired vector icon.
+		 * @return This builder to allow methods chaining.
+		 * @see #icon(int)
+		 * @see #icon(Drawable)
+		 */
+		public ItemConfigurationBuilder vectorIcon(@DrawableRes int resId) {
+<span class="nc" id="L430">			this.vectorIconResId = resId;</span>
+<span class="nc" id="L431">			return this;</span>
+		}
+
+		/**
+		 * Specifies an icon drawable for the menu item to be configured by the new ItemConfiguration.
+		 * &lt;p&gt;
+		 * &lt;b&gt;Note&lt;/b&gt;, that if there are specified icon or vector icon resource ids, they will be
+		 * ignored if the &lt;var&gt;icon&lt;/var&gt; drawable is valid (non null).
+		 *
+		 * @param icon The desired icon drawable.
+		 * @return This builder to allow methods chaining.
+		 * @see #icon(int)
+		 * @see #vectorIcon(int)
+		 */
+		public ItemConfigurationBuilder icon(@Nullable Drawable icon) {
+<span class="nc" id="L446">			this.icon = icon;</span>
+<span class="nc" id="L447">			return this;</span>
+		}
+
+		/**
+		 * Same as {@link #iconTintList(ColorStateList)} where the color state list will be created
+		 * from the specified &lt;var&gt;tint&lt;/var&gt; color.
+		 *
+		 * @param tint The desired single tint color.
+		 * @return This builder to allow methods chaining.
+		 */
+		public ItemConfigurationBuilder iconTint(@ColorInt int tint) {
+<span class="nc" id="L458">			return iconTintList(ColorStateList.valueOf(tint));</span>
+		}
+
+
+		/**
+		 * Specifies a tint to be applied to the icon drawable specified via {@link #icon(Drawable)}
+		 * or one of icon resource id methods.
+		 *
+		 * @param tintList he desired tint to be applied.
+		 * @return This builder to allow methods chaining.
+		 */
+		public ItemConfigurationBuilder iconTintList(@Nullable ColorStateList tintList) {
+<span class="nc" id="L470">			this.iconTintList = tintList;</span>
+<span class="nc" id="L471">			this.iconTintListSpecified = true;</span>
+<span class="nc" id="L472">			return this;</span>
+		}
+
+		/**
+		 * Specifies a blending mode that should be used to apply tint specified via
+		 * {@link #iconTintList(ColorStateList)} to the icon drawable.
+		 *
+		 * @param tintMode The desired Porter duff mode.
+		 * @return This builder to allow methods chaining.
+		 */
+		public ItemConfigurationBuilder iconTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L483">			this.iconTintMode = tintMode;</span>
+<span class="nc" id="L484">			this.iconTintModeSpecified = true;</span>
+<span class="nc" id="L485">			return this;</span>
+		}
+
+		/**
+		 * Builds a new instance of ItemConfiguration from the current data of this builder.
+		 *
+		 * @return New ItemConfiguration instance.
+		 */
+		@NonNull
+		public ItemConfiguration build() {
+<span class="nc" id="L495">			return new ItemConfiguration(this);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

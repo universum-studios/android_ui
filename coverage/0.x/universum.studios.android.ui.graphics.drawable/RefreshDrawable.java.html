@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RefreshDrawable.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.graphics.drawable</a> &gt; <span class="el_source">RefreshDrawable.java</span></div><h1>RefreshDrawable.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.graphics.drawable;
+
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.Px;
+import android.view.View;
+
+/**
+ * This drawable wraps background drawable with {@link universum.studios.android.ui.graphics.drawable.CircularProgressDrawable}
+ * into the one drawable which can be used to show indicator for running refresh operation for some
+ * collection view like {@link android.widget.ListView} or {@link android.widget.GridView} at its
+ * top edge.
+ * &lt;p&gt;
+ * All necessary methods of the &lt;b&gt;CircularProgressDrawable&lt;/b&gt; are delegated by this RefreshDrawable
+ * class to support some customization of the progress drawable, like its thickness, radius, colors
+ * and more.
+ *
+ * @author Martin Albedinsky
+ */
+public class RefreshDrawable extends DrawableWrapper implements Animatable {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;RefreshDrawable&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Drawable used to draw circular progress.
+	 */
+	private final CircularProgressDrawable mDrawable;
+
+	/**
+	 * Background of this refresh drawable.
+	 */
+	private Drawable mBackground;
+
+	/**
+	 * Radius of the progress drawable.
+	 */
+	private int mProgressRadius;
+
+	/**
+	 * Dimension of this drawable.
+	 */
+	private int mWidth, mHeight;
+
+	/**
+	 * Flag indicating whether the rounded feature of progress drawable has been overridden by calling
+	 * {@link #setProgressRounded(boolean)} or not.
+	 */
+	private boolean mProgressRoundedOverride;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of RefreshDrawable to wrap {@link CircularProgressDrawable} and
+	 * background drawable into one drawable.
+	 */
+	public RefreshDrawable() {
+<span class="nc" id="L101">		super(new CircularProgressDrawable());</span>
+<span class="nc" id="L102">		this.mDrawable = (CircularProgressDrawable) super.getDrawable();</span>
+<span class="nc" id="L103">		mDrawable.setRounded(false);</span>
+<span class="nc" id="L104">		mDrawable.setRotateOnProgressChangeEnabled(false);</span>
+<span class="nc" id="L105">		mDrawable.setMode(CircularProgressDrawable.MODE_DETERMINATE);</span>
+<span class="nc" id="L106">		mDrawable.setArrowEnabled(true);</span>
+<span class="nc" id="L107">		mDrawable.setArrowVisible(true);</span>
+<span class="nc" id="L108">		mDrawable.setArrowScale(0f);</span>
+<span class="nc" id="L109">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Sets a boolean flag determining whether this drawable should draw its graphics in edit (preview)
+	 * mode or not.
+	 *
+	 * @param inEditMode {@code True} to draw graphics in edit mode, {@code false} otherwise.
+	 * @see #isInEditMode()
+	 * @see View#isInEditMode()
+	 */
+	public final void setInEditMode(boolean inEditMode) {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">		if (mDrawable.isInEditMode() != inEditMode) {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">			mDrawable.setMode(inEditMode ?</span>
+					CircularProgressDrawable.MODE_INDETERMINATE :
+					CircularProgressDrawable.MODE_DETERMINATE
+			);
+<span class="nc bnc" id="L129" title="All 2 branches missed.">			mDrawable.setArrowScale(inEditMode ? 1f : 0f);</span>
+<span class="nc" id="L130">			mDrawable.setInEditMode(inEditMode);</span>
+<span class="nc" id="L131">			invalidateSelf();</span>
+		}
+<span class="nc" id="L133">	}</span>
+
+	/**
+	 * Returns flag indicating whether this drawable draws its graphics in edit mode or not.
+	 *
+	 * @return {@code True} if graphics is drawn in edit (preview) mode, {@code false} otherwise.
+	 */
+	public final boolean isInEditMode() {
+<span class="nc" id="L141">		return mDrawable.isInEditMode();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void draw(Canvas canvas) {
+<span class="nc bnc" id="L148" title="All 2 branches missed.">		if (mBackground != null) {</span>
+<span class="nc" id="L149">			mBackground.draw(canvas);</span>
+		}
+<span class="nc" id="L151">		mDrawable.draw(canvas);</span>
+<span class="nc" id="L152">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#start()}.
+	 */
+	@Override
+	public void start() {
+<span class="nc" id="L159">		mDrawable.start();</span>
+<span class="nc" id="L160">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#stop()}.
+	 */
+	@Override
+	public void stop() {
+<span class="nc" id="L167">		mDrawable.stop();</span>
+<span class="nc" id="L168">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#stopImmediate()}.
+	 */
+	public void stopImmediate() {
+<span class="nc" id="L174">		mDrawable.stopImmediate();</span>
+<span class="nc" id="L175">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#isRunning()}.
+	 */
+	@Override
+	public boolean isRunning() {
+<span class="nc" id="L182">		return mDrawable.isRunning();</span>
+	}
+
+	/**
+	 * Returns this drawable instance.
+	 */
+	@NonNull
+	@Override
+	public Drawable getCurrent() {
+<span class="nc" id="L191">		return this;</span>
+	}
+
+	/**
+	 * &lt;b&gt;This is not supported operation.&lt;/b&gt;
+	 *
+	 * @throws UnsupportedOperationException
+	 */
+	@NonNull
+	@Override
+	public Drawable getDrawable() {
+<span class="nc" id="L202">		throw new UnsupportedOperationException(&quot;Cannot to access wrapped drawable.&quot;);</span>
+	}
+
+	/**
+	 * Sets the background for this refresh drawable.
+	 *
+	 * @param background The desired background.
+	 */
+	public void setBackground(@Nullable Drawable background) {
+<span class="nc" id="L211">		this.mBackground = background;</span>
+<span class="nc" id="L212">		this.handleDrawablesSizeChange();</span>
+<span class="nc" id="L213">		invalidateSelf();</span>
+<span class="nc" id="L214">	}</span>
+
+	/**
+	 * Handles update of the current background's or progress drawable's size.
+	 */
+	private void handleDrawablesSizeChange() {
+<span class="nc bnc" id="L220" title="All 2 branches missed.">		if (mBackground != null) {</span>
+<span class="nc" id="L221">			this.mWidth = Math.max(mBackground.getIntrinsicWidth(), mProgressRadius * 2);</span>
+<span class="nc" id="L222">			this.mHeight = Math.max(mBackground.getIntrinsicHeight(), mProgressRadius * 2);</span>
+		} else {
+<span class="nc" id="L224">			this.mWidth = mHeight = mProgressRadius * 2;</span>
+		}
+<span class="nc" id="L226">	}</span>
+
+	/**
+	 * Returns the background of this refresh drawable.
+	 *
+	 * @return Background drawable or {@code null} if this refresh drawable does not have background
+	 * set.
+	 */
+	@Nullable
+	public Drawable getBackground() {
+<span class="nc" id="L236">		return mBackground;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public int getIntrinsicWidth() {
+<span class="nc" id="L243">		return mWidth;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public int getIntrinsicHeight() {
+<span class="nc" id="L250">		return mHeight;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setAlpha(int alpha) {
+<span class="nc" id="L257">		super.setAlpha(alpha);</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">		if (mBackground != null) mBackground.setAlpha(alpha);</span>
+<span class="nc" id="L259">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setAlpha(int)}.
+	 */
+	public void setProgressAlpha(int alpha) {
+<span class="nc" id="L265">		mDrawable.setAlpha(alpha);</span>
+<span class="nc" id="L266">	}</span>
+
+	/**
+	 * Sets the radius of the progress arc.
+	 *
+	 * @param radius The desired radius.
+	 * @see #getProgressRadius()
+	 */
+	public void setProgressRadius(@Px int radius) {
+<span class="nc bnc" id="L275" title="All 2 branches missed.">		if (mProgressRadius != radius) {</span>
+<span class="nc" id="L276">			this.mProgressRadius = radius;</span>
+<span class="nc" id="L277">			this.handleDrawablesSizeChange();</span>
+		}
+<span class="nc" id="L279">	}</span>
+
+	/**
+	 * Returns radius of the progress arc.
+	 *
+	 * @return Progress arc's radius.
+	 * @see #setProgressRadius(int)
+	 */
+	@Px
+	public int getProgressRadius() {
+<span class="nc" id="L289">		return mProgressRadius;</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getAlpha()}.
+	 */
+	public int getProgressAlpha() {
+<span class="nc" id="L296">		return mDrawable.getAlpha();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setMode(int)}.
+	 *
+	 * @see #getProgressMode()
+	 */
+	public void setProgressMode(@CircularProgressDrawable.ProgressMode int mode) {
+<span class="nc bnc" id="L305" title="All 3 branches missed.">		switch (mode) {</span>
+			case CircularProgressDrawable.MODE_DETERMINATE:
+<span class="nc bnc" id="L307" title="All 2 branches missed.">				if (!mProgressRoundedOverride) {</span>
+<span class="nc" id="L308">					mDrawable.setRounded(false);</span>
+				}
+<span class="nc" id="L310">				stopImmediate();</span>
+<span class="nc" id="L311">				mDrawable.setMode(mode);</span>
+<span class="nc" id="L312">				break;</span>
+			case CircularProgressDrawable.MODE_INDETERMINATE:
+<span class="nc" id="L314">				mDrawable.setMode(mode);</span>
+<span class="nc bnc" id="L315" title="All 2 branches missed.">				if (!mProgressRoundedOverride) {</span>
+<span class="nc" id="L316">					mDrawable.setRounded(true);</span>
+				}
+<span class="nc" id="L318">				start();</span>
+				break;
+		}
+<span class="nc" id="L321">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getMode()}.
+	 *
+	 * @see #setProgressMode(int)
+	 */
+	@CircularProgressDrawable.ProgressMode
+	public int getProgressMode() {
+<span class="nc" id="L330">		return mDrawable.getMode();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setProgress(int)}.
+	 *
+	 * @see #getProgress()
+	 */
+	public void setProgress(int progress) {
+<span class="nc" id="L339">		mDrawable.setProgress(progress);</span>
+<span class="nc" id="L340">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getProgress()}.
+	 *
+	 * @see #setProgress(int)
+	 */
+	public int getProgress() {
+<span class="nc" id="L348">		return mDrawable.getProgress();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setRotation(float)}.
+	 *
+	 * @see #getProgressRotation()
+	 */
+	public void setProgressRotation(float rotation) {
+<span class="nc" id="L357">		mDrawable.setRotation(rotation);</span>
+<span class="nc" id="L358">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getRotation()}.
+	 *
+	 * @see #setProgressRotation(float)
+	 */
+	public float getProgressRotation() {
+<span class="nc" id="L366">		return mDrawable.getRotation();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setThickness(float)}.
+	 *
+	 * @see #getProgressThickness()
+	 */
+	public void setProgressThickness(float thickness) {
+<span class="nc" id="L375">		mDrawable.setThickness(thickness);</span>
+<span class="nc" id="L376">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getThickness()}.
+	 *
+	 * @see #setProgressThickness(float)
+	 */
+	public float getProgressThickness() {
+<span class="nc" id="L384">		return mDrawable.getThickness();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setColor(int)}.
+	 *
+	 * @see #getProgressColor()
+	 */
+	public void setProgressColor(@ColorInt int color) {
+<span class="nc" id="L393">		mDrawable.setColor(color);</span>
+<span class="nc" id="L394">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getColor()}.
+	 *
+	 * @see #setProgressColor(int)
+	 */
+	@ColorInt
+	public int getProgressColor() {
+<span class="nc" id="L403">		return mDrawable.getColor();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setColors(int[])}.
+	 *
+	 * @see #getProgressColors()
+	 */
+	public void setProgressColors(int[] colors) {
+<span class="nc" id="L412">		mDrawable.setColors(colors);</span>
+<span class="nc" id="L413">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getColors()}.
+	 *
+	 * @see #setProgressColors(int[])
+	 */
+	public int[] getProgressColors() {
+<span class="nc" id="L421">		return mDrawable.getColors();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setMultiColored(boolean)}.
+	 *
+	 * @see #isProgressMultiColored()
+	 */
+	public void setProgressMultiColored(boolean multiColored) {
+<span class="nc" id="L430">		mDrawable.setMultiColored(multiColored);</span>
+<span class="nc" id="L431">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#isMultiColored()}.
+	 *
+	 * @see #setProgressMultiColored(boolean)
+	 */
+	public boolean isProgressMultiColored() {
+<span class="nc" id="L439">		return mDrawable.isMultiColored();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setRounded(boolean)}.
+	 *
+	 * @see #isProgressRounded()
+	 */
+	public void setProgressRounded(boolean rounded) {
+<span class="nc" id="L448">		this.mProgressRoundedOverride = true;</span>
+<span class="nc" id="L449">		mDrawable.setRounded(rounded);</span>
+<span class="nc" id="L450">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#isRounded()}.
+	 *
+	 * @see #setProgressRounded(boolean)
+	 */
+	public boolean isProgressRounded() {
+<span class="nc" id="L458">		return mDrawable.isRounded();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setArrowVisible(boolean)}.
+	 *
+	 * @see #isProgressArrowVisible()
+	 */
+	public void setProgressArrowVisible(boolean visible) {
+<span class="nc" id="L467">		mDrawable.setArrowVisible(visible);</span>
+<span class="nc" id="L468">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#isArrowVisible()}.
+	 *
+	 * @see #setProgressArrowVisible(boolean)
+	 */
+	public boolean isProgressArrowVisible() {
+<span class="nc" id="L476">		return mDrawable.isArrowVisible();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setArrowScale(float)}.
+	 *
+	 * @see #getProgressArrowScale()
+	 */
+	public void setProgressArrowScale(float scale) {
+<span class="nc" id="L485">		mDrawable.setArrowScale(scale);</span>
+<span class="nc" id="L486">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getArrowScale()}.
+	 *
+	 * @see #setProgressArrowScale(float)
+	 */
+	public float getProgressArrowScale() {
+<span class="nc" id="L494">		return mDrawable.getArrowScale();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setIndeterminateSpeed(float)}.
+	 *
+	 * @see #getProgressIndeterminateSpeed()
+	 */
+	public void setProgressIndeterminateSpeed(float speed) {
+<span class="nc" id="L503">		mDrawable.setIndeterminateSpeed(speed);</span>
+<span class="nc" id="L504">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getIndeterminateSpeed()}.
+	 *
+	 * @see #setProgressIndeterminateSpeed(float)
+	 */
+	public float getProgressIndeterminateSpeed() {
+<span class="nc" id="L512">		return mDrawable.getIndeterminateSpeed();</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onBoundsChange(Rect bounds) {
+<span class="nc bnc" id="L519" title="All 2 branches missed.">		if (mBackground != null) {</span>
+<span class="nc" id="L520">			final int progressDiameter = mProgressRadius * 2;</span>
+<span class="nc" id="L521">			final int bgWidth = mBackground.getIntrinsicWidth();</span>
+<span class="nc" id="L522">			final int bgHeight = mBackground.getIntrinsicHeight();</span>
+<span class="nc bnc" id="L523" title="All 4 branches missed.">			if (bgWidth &gt; progressDiameter || bgHeight &gt; progressDiameter) {</span>
+<span class="nc" id="L524">				mBackground.setBounds(bounds);</span>
+<span class="nc" id="L525">				this.centerDrawableBounds(mDrawable, progressDiameter, progressDiameter, bounds);</span>
+			} else {
+<span class="nc" id="L527">				mDrawable.setBounds(bounds);</span>
+<span class="nc" id="L528">				this.centerDrawableBounds(mBackground, bgWidth, bgHeight, bounds);</span>
+			}
+<span class="nc" id="L530">			return;</span>
+		}
+<span class="nc" id="L532">		super.onBoundsChange(bounds);</span>
+<span class="nc" id="L533">	}</span>
+
+	/**
+	 * Centers bounds of the given &lt;var&gt;drawable&lt;/var&gt; for the given &lt;var&gt;bounds&lt;/var&gt;.
+	 *
+	 * @param drawable The drawable which to center for the given bounds.
+	 * @param width    Width of the specified drawable.
+	 * @param height   Height of the specified drawable.
+	 * @param bounds   The bounds within which to center the drawable.
+	 */
+	private void centerDrawableBounds(Drawable drawable, int width, int height, Rect bounds) {
+<span class="nc" id="L544">		final int deltaX = bounds.width() - width;</span>
+<span class="nc" id="L545">		final int deltaY = bounds.height() - height;</span>
+<span class="nc" id="L546">		final int left = bounds.left + deltaX / 2;</span>
+<span class="nc" id="L547">		final int top = bounds.top + deltaY / 2;</span>
+<span class="nc" id="L548">		drawable.setBounds(</span>
+				left,
+				top,
+				left + width,
+				top + height
+		);
+<span class="nc" id="L554">	}</span>
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

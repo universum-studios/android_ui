@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RadioButtonWidget.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">RadioButtonWidget.java</span></div><h1>RadioButtonWidget.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
+import android.util.AttributeSet;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+
+import universum.studios.android.font.Font;
+import universum.studios.android.font.FontWidget;
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.UiConfig;
+import universum.studios.android.ui.graphics.drawable.TintDrawable;
+
+/**
+ * Extended version of {@link android.widget.RadioButton} compound button. This updated RadioButton
+ * allows setting of custom font (from assets) and tinting for the Android versions below
+ * {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} and other useful features described below.
+ *
+ * &lt;h3&gt;Tinting&lt;/h3&gt;
+ * Tinting is supported via Xml attributes listed below:
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link R.attr#uiButtonTint uiButtonTint}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiButtonTintMode uiButtonTintMode}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiBackgroundTint uiBackgroundTint}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiBackgroundTintMode uiBackgroundTintMode}&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * &lt;b&gt;Note, that on {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} and above SDK versions
+ * can be also used Xml attributes listed above where in such case will be used the native tinting.&lt;/b&gt;
+ * &lt;p&gt;
+ * This widget also overrides all SDK methods used to tint its components like {@link #setButtonTintList(android.content.res.ColorStateList)}
+ * or {@link #setButtonTintMode(android.graphics.PorterDuff.Mode)}, so these can be used regardless
+ * the current version of SDK but invoking of these methods below {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP}
+ * can be done only directly upon instance of this widget otherwise {@link NoSuchMethodException}
+ * will be thrown.
+ *
+ * &lt;h3&gt;Custom font&lt;/h3&gt;
+ * Custom font (the path to it) can be specified basically at &lt;b&gt;4 places&lt;/b&gt; from where it can be
+ * by this font widget referenced. &lt;b&gt;Note&lt;/b&gt;, that your custom font must be placed within Android
+ * &lt;b&gt;assets&lt;/b&gt; folder within sub-folder named &lt;b&gt;&quot;font&quot;&lt;/b&gt;, this is requirement of this library,
+ * within this sub-folder you can specify your custom hierarchy to organize your fonts.
+ * &lt;p&gt;
+ * &lt;pre&gt;
+ *      1) Declare path to custom font in an Application theme:
+ *      &amp;lt;style name=&quot;Theme&quot; parent=&quot;android:Theme.Material&quot;&amp;gt;
+ *          &amp;lt;item name=&quot;uiFontPath&quot;&amp;gt;roboto/roboto_light.ttf&amp;lt;/item&amp;gt;
+ *      &amp;lt;/style&amp;gt;
+ *      - This font will be than applied to all widgets from this library.
+ *
+ *      --------------------------------------------------------------------------------------------
+ *
+ *      2) Declare path to custom font in a global TextAppearance style:
+ *      &amp;lt;style name=&quot;TextAppearance.Widget&quot; parent=&quot;android:TextAppearance.Material.Widget&quot;&amp;gt;
+ *          &amp;lt;item name=&quot;uiFontPath&quot;&amp;gt;roboto/roboto_light.ttf&amp;lt;/item&amp;gt;
+ *      &amp;lt;/style&amp;gt;
+ *      - This font will be than applied only to widgets from this library that has this text
+ *        appearance as theirs style or just reference to this text appearance within theirs style.
+ *
+ *      --------------------------------------------------------------------------------------------
+ *
+ *      3) Declare path to custom font in a specific widget's style:
+ *      &amp;lt;style name=&quot;Widget.CompoundButton.RadioButton&quot; parent=&quot;android:Widget.Material.CompoundButton.RadioButton&quot;&amp;gt;
+ *          &amp;lt;item name=&quot;uiFontPath&quot;&amp;gt;roboto/roboto_light.ttf&amp;lt;/item&amp;gt;
+ *      &amp;lt;/style&amp;gt;
+ *      - This font will be than applied only to widgets (RadioButtons) from this library that has
+ *        this style as theirs style set through theme global attribute
+ *        (like &amp;lt;item name=&quot;android:radioButtonStyle&quot;&amp;gt;@style/Widget.CompoundButton.RadioButton&amp;lt;/item&amp;gt;)
+ *        or set within Xml layout (like style=&quot;@style/Widget.CompoundButton.RadioButton&quot;).
+ *
+ *      --------------------------------------------------------------------------------------------
+ *
+ *      4) Declare path to custom font in an Xml layout:
+ *      &amp;lt;LinearLayout
+ *          xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+ *          xmlns:ui=&quot;http://schemas.android.com/apk/res-auto&quot;
+ *          android:layout_width=&quot;match_parent&quot;
+ *          android:layout_height=&quot;match_parent&quot;
+ *          android:orientation=&quot;vertical&quot;&amp;gt;
+ *
+ *          // ... Some views
+ *
+ *          &amp;lt;universum.studios.android.ui.widget.RadioButtonWidget
+ *              android:layout_width=&quot;wrap_content&quot;
+ *              android:layout_height=&quot;wrap_content&quot;
+ *              android:text=&quot;Text view with custom font.&quot;
+ *              ui:uiFontPath=&quot;roboto/roboto_light&quot;&amp;gt;
+ *
+ *          // ... Some other views
+ *
+ *      &amp;lt;/LinearLayout&amp;gt;
+ *      - This font will be than applied only to that particular widget.
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * &lt;b&gt;Note, that it is not necessary to specify also '.ttf' suffix for custom font paths, the library
+ * will add one if it is missing.&lt;/b&gt;
+ *
+ * &lt;h3&gt;XML attributes&lt;/h3&gt;
+ * See {@link RadioButton},
+ * {@link R.styleable#Ui_CompoundButton CompoundButton Attributes}
+ *
+ * &lt;h3&gt;Default style attribute&lt;/h3&gt;
+ * {@link android.R.attr#radioButtonStyle android:radioButtonStyle}
+ *
+ * @author Martin Albedinsky
+ *
+ * @see CheckBoxWidget
+ * @see SwitchWidget
+ * @see ToggleButtonWidget
+ */
+public class RadioButtonWidget extends RadioButton implements Widget, FontWidget {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;RadioButtonWidget&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Decorator used to extend API of this widget by functionality otherwise not supported or not
+	 * available due to current API level.
+	 */
+	private Decorator mDecorator;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #RadioButtonWidget(android.content.Context, android.util.AttributeSet)} without
+	 * attributes.
+	 */
+	public RadioButtonWidget(@NonNull Context context) {
+<span class="nc" id="L177">		this(context, null);</span>
+<span class="nc" id="L178">	}</span>
+
+	/**
+	 * Same as {@link #RadioButtonWidget(android.content.Context, android.util.AttributeSet, int)}
+	 * with {@link android.R.attr#radioButtonStyle} as attribute for default style.
+	 */
+	public RadioButtonWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
+<span class="nc" id="L185">		this(context, attrs, android.R.attr.radioButtonStyle);</span>
+<span class="nc" id="L186">	}</span>
+
+	/**
+	 * Same as {@link #RadioButtonWidget(android.content.Context, android.util.AttributeSet, int, int)}
+	 * with {@code 0} as default style.
+	 */
+	public RadioButtonWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+<span class="nc" id="L193">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L194">		this.init(context, attrs, defStyleAttr, 0);</span>
+<span class="nc" id="L195">	}</span>
+
+	/**
+	 * Creates a new instance of RadioButtonWidget for the given &lt;var&gt;context&lt;/var&gt;.
+	 *
+	 * @param context      Context in which will be the new view presented.
+	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     this view within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the new view.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public RadioButtonWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+<span class="nc" id="L209">		super(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L210">		this.init(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L211">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Called from one of constructors of this view to perform its initialization.
+	 * &lt;p&gt;
+	 * Initialization is done via parsing of the specified &lt;var&gt;attrs&lt;/var&gt; set and obtaining for
+	 * this view specific data from it that can be used to configure this new view instance. The
+	 * specified &lt;var&gt;defStyleAttr&lt;/var&gt; and &lt;var&gt;defStyleRes&lt;/var&gt; are used to obtain default data
+	 * from the current theme provided by the specified &lt;var&gt;context&lt;/var&gt;.
+	 */
+	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L226">		this.ensureDecorator();</span>
+<span class="nc" id="L227">		mDecorator.processAttributes(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L228">	}</span>
+
+	/**
+	 * Ensures that the decorator for this view is initialized.
+	 */
+	private void ensureDecorator() {
+<span class="nc bnc" id="L234" title="All 2 branches missed.">		if (mDecorator == null) this.mDecorator = new Decorator(this);</span>
+<span class="nc" id="L235">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+<span class="nc" id="L242">		super.onInitializeAccessibilityEvent(event);</span>
+<span class="nc" id="L243">		event.setClassName(RadioButtonWidget.class.getName());</span>
+<span class="nc" id="L244">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+<span class="nc" id="L251">		super.onInitializeAccessibilityNodeInfo(info);</span>
+<span class="nc" id="L252">		info.setClassName(RadioButtonWidget.class.getName());</span>
+<span class="nc" id="L253">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setButtonDrawable(Drawable d) {
+<span class="nc" id="L259">		this.ensureDecorator();</span>
+<span class="nc" id="L260">		mDecorator.setButtonDrawable(d);</span>
+<span class="nc" id="L261">	}</span>
+
+	/**
+	 * &lt;b&gt;Note, that on pre {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions
+	 * this method will return an instance of {@link TintDrawable TintDrawable} if tint has been applied
+	 * via {@link #setButtonTintList(ColorStateList)}.&lt;/b&gt;
+	 * &lt;p&gt;
+	 * The original wrapped drawable can be obtained via {@link TintDrawable#getDrawable()}.
+	 */
+	@Nullable
+	@Override
+	public Drawable getButtonDrawable() {
+<span class="nc" id="L273">		return super.getButtonDrawable();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setButtonTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L280">		this.ensureDecorator();</span>
+<span class="nc" id="L281">		mDecorator.setButtonTintList(tint);</span>
+<span class="nc" id="L282">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public ColorStateList getButtonTintList() {
+<span class="nc" id="L289">		this.ensureDecorator();</span>
+<span class="nc" id="L290">		return mDecorator.getButtonTintList();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setButtonTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L297">		this.ensureDecorator();</span>
+<span class="nc" id="L298">		mDecorator.setButtonTintMode(tintMode);</span>
+<span class="nc" id="L299">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public PorterDuff.Mode getButtonTintMode() {
+<span class="nc" id="L306">		this.ensureDecorator();</span>
+<span class="nc" id="L307">		return mDecorator.getButtonTintMode();</span>
+	}
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;deprecation&quot;)
+	public void setBackgroundDrawable(Drawable background) {
+<span class="nc" id="L315">		super.setBackgroundDrawable(background);</span>
+<span class="nc" id="L316">		this.ensureDecorator();</span>
+<span class="nc" id="L317">		mDecorator.applyBackgroundTint();</span>
+<span class="nc" id="L318">	}</span>
+
+	/**
+	 * &lt;b&gt;Note, that on pre {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions
+	 * this method will return an instance of {@link TintDrawable TintDrawable} if tint has been applied
+	 * via {@link #setBackgroundTintList(ColorStateList)}.&lt;/b&gt;
+	 * &lt;p&gt;
+	 * The original wrapped drawable can be obtained via {@link TintDrawable#getDrawable()}.
+	 */
+	@Override
+	public Drawable getBackground() {
+<span class="nc" id="L329">		return super.getBackground();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setBackgroundTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L336">		this.ensureDecorator();</span>
+<span class="nc" id="L337">		mDecorator.setBackgroundTintList(tint);</span>
+<span class="nc" id="L338">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public ColorStateList getBackgroundTintList() {
+<span class="nc" id="L345">		this.ensureDecorator();</span>
+<span class="nc" id="L346">		return mDecorator.getBackgroundTintList();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setBackgroundTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L353">		this.ensureDecorator();</span>
+<span class="nc" id="L354">		mDecorator.setBackgroundTintMode(tintMode);</span>
+<span class="nc" id="L355">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public PorterDuff.Mode getBackgroundTintMode() {
+<span class="nc" id="L362">		this.ensureDecorator();</span>
+<span class="nc" id="L363">		return mDecorator.getBackgroundTintMode();</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void drawableStateChanged() {
+<span class="nc" id="L370">		super.drawableStateChanged();</span>
+<span class="nc bnc" id="L371" title="All 2 branches missed.">		if (!UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L372">			this.ensureDecorator();</span>
+<span class="nc" id="L373">			mDecorator.applyButtonTint();</span>
+		}
+<span class="nc" id="L375">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setFont(@NonNull String fontPath) {
+<span class="nc" id="L381">		this.ensureDecorator();</span>
+<span class="nc" id="L382">		mDecorator.setFont(fontPath);</span>
+<span class="nc" id="L383">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setFont(@Nullable Font font) {
+<span class="nc" id="L389">		this.ensureDecorator();</span>
+<span class="nc" id="L390">		mDecorator.setFont(font);</span>
+<span class="nc" id="L391">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;deprecation&quot;)
+	public void setTextAppearance(@NonNull Context context, @StyleRes int resId) {
+<span class="nc" id="L398">		super.setTextAppearance(context, resId);</span>
+<span class="nc" id="L399">		this.ensureDecorator();</span>
+<span class="nc" id="L400">		mDecorator.setFontFromStyle(resId);</span>
+<span class="nc" id="L401">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+<span class="nc" id="L407">		super.onSizeChanged(w, h, oldw, oldh);</span>
+<span class="nc" id="L408">		this.ensureDecorator();</span>
+<span class="nc" id="L409">		mDecorator.onSizeChanged(w, h, oldw, oldh);</span>
+<span class="nc" id="L410">	}</span>
+
+	/**
+	 */
+	@NonNull
+	@Override
+	public WidgetSizeAnimator animateSize() {
+<span class="nc" id="L417">		this.ensureDecorator();</span>
+<span class="nc" id="L418">		return mDecorator.animateSize();</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * Decorator implementation for this widget.
+	 */
+	private final class Decorator extends CompoundButtonDecorator&lt;RadioButtonWidget&gt; {
+
+		/**
+		 * See {@link CompoundButtonDecorator#CompoundButtonDecorator(CompoundButton)}.
+		 */
+<span class="nc" id="L433">		Decorator(RadioButtonWidget widget) {</span>
+<span class="nc" id="L434">			super(widget);</span>
+<span class="nc" id="L435">		}</span>
+
+		/**
+		 */
+		@Override
+		void superSetButtonDrawable(Drawable button) {
+<span class="nc" id="L441">			RadioButtonWidget.super.setButtonDrawable(button);</span>
+<span class="nc" id="L442">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetButtonTintList(ColorStateList tint) {
+<span class="nc" id="L449">			RadioButtonWidget.super.setButtonTintList(tint);</span>
+<span class="nc" id="L450">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		ColorStateList superGetButtonTintList() {
+<span class="nc" id="L457">			return RadioButtonWidget.super.getButtonTintList();</span>
+		}
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetButtonTintMode(PorterDuff.Mode tintMode) {
+<span class="nc" id="L465">			RadioButtonWidget.super.setButtonTintMode(tintMode);</span>
+<span class="nc" id="L466">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		PorterDuff.Mode superGetButtonTintMode() {
+<span class="nc" id="L473">			return RadioButtonWidget.super.getButtonTintMode();</span>
+		}
+
+		/**
+		 */
+		@Override
+		@SuppressWarnings(&quot;deprecation&quot;)
+		void superSetBackgroundDrawable(Drawable drawable) {
+<span class="nc" id="L481">			RadioButtonWidget.super.setBackgroundDrawable(drawable);</span>
+<span class="nc" id="L482">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetBackgroundTintList(ColorStateList tint) {
+<span class="nc" id="L489">			RadioButtonWidget.super.setBackgroundTintList(tint);</span>
+<span class="nc" id="L490">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		ColorStateList superGetBackgroundTintList() {
+<span class="nc" id="L497">			return RadioButtonWidget.super.getBackgroundTintList();</span>
+		}
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetBackgroundTintMode(PorterDuff.Mode tintMode) {
+<span class="nc" id="L505">			RadioButtonWidget.super.setBackgroundTintMode(tintMode);</span>
+<span class="nc" id="L506">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		PorterDuff.Mode superGetBackgroundTintMode() {
+<span class="nc" id="L513">			return RadioButtonWidget.super.getBackgroundTintMode();</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

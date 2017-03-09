@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ViewWidget.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">ViewWidget.java</span></div><h1>ViewWidget.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.UiConfig;
+import universum.studios.android.ui.graphics.drawable.TintDrawable;
+
+/**
+ * Extended version of {@link android.view.View}. This updated View allows setting of custom font
+ * (from assets) and tinting for the Android versions below
+ * {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} and other useful features described below.
+ *
+ * &lt;h3&gt;Tinting&lt;/h3&gt;
+ * Tinting is supported via Xml attributes listed below:
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link R.attr#uiBackgroundTint uiBackgroundTint}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiBackgroundTintMode uiBackgroundTintMode}&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * &lt;b&gt;Note, that on {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} and above SDK versions
+ * can be also used Xml attributes listed above where in such case will be used the native tinting.&lt;/b&gt;
+ * &lt;p&gt;
+ * This widget also overrides all SDK methods used to tint its components like {@link #setBackgroundTintList(android.content.res.ColorStateList)}
+ * or {@link #setBackgroundTintMode(android.graphics.PorterDuff.Mode)}, so these can be used regardless
+ * the current version of SDK but invoking of these methods below {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP}
+ * can be done only directly upon instance of this widget otherwise {@link NoSuchMethodException}
+ * will be thrown.
+ *
+ * &lt;h3&gt;XML attributes&lt;/h3&gt;
+ * See {@link View},
+ * {@link R.styleable#Ui_View ViewWidget Attributes}
+ *
+ * &lt;h3&gt;Default style attribute&lt;/h3&gt;
+ * {@code 0}
+ *
+ * @author Martin Albedinsky
+ */
+public class ViewWidget extends View implements Widget {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Listener that receives callback about change in a view's scroll position.
+	 *
+	 * @author Martin Albedinsky
+	 */
+	public interface OnScrollChangeListener {
+
+		/**
+		 * Invoked whenever a change in scroll occurs for the given &lt;var&gt;view&lt;/var&gt;.
+		 *
+		 * @param view       The view within which has scroll change occurred.
+		 * @param scrollX    Current horizontal scroll position.
+		 * @param scrollY    Current vertical scroll position.
+		 * @param oldScrollX Old (before change) horizontal scroll position.
+		 * @param oldScrollY Old (before change) vertical scroll position.
+		 */
+		void onScrollChanged(@NonNull View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY);
+	}
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;ViewWidget&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Decorator used to extend API of this widget by functionality otherwise not supported or not
+	 * available due to current API level.
+	 */
+	private Decorator mDecorator;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #ViewWidget(android.content.Context, android.util.AttributeSet)} without attributes.
+	 */
+	public ViewWidget(@NonNull Context context) {
+<span class="nc" id="L127">		this(context, null);</span>
+<span class="nc" id="L128">	}</span>
+
+	/**
+	 * Same as {@link #ViewWidget(android.content.Context, android.util.AttributeSet, int)} with
+	 * {@code 0} as attribute for default style.
+	 */
+	public ViewWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
+<span class="nc" id="L135">		this(context, attrs, 0);</span>
+<span class="nc" id="L136">	}</span>
+
+	/**
+	 * Same as {@link #ViewWidget(android.content.Context, android.util.AttributeSet, int, int)} with
+	 * {@code 0} as default style.
+	 */
+	public ViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+<span class="nc" id="L143">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L144">		this.init(context, attrs, defStyleAttr, 0);</span>
+<span class="nc" id="L145">	}</span>
+
+	/**
+	 * Creates a new instance of ViewWidget for the given &lt;var&gt;context&lt;/var&gt;.
+	 *
+	 * @param context      Context in which will be this view presented.
+	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     this view within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the new view.
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public ViewWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+<span class="nc" id="L158">		super(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L159">		this.init(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L160">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Called from one of constructors of this view to perform its initialization.
+	 * &lt;p&gt;
+	 * Initialization is done via parsing of the specified &lt;var&gt;attrs&lt;/var&gt; set and obtaining for
+	 * this view specific data from it that can be used to configure this new view instance. The
+	 * specified &lt;var&gt;defStyleAttr&lt;/var&gt; and &lt;var&gt;defStyleRes&lt;/var&gt; are used to obtain default data
+	 * from the current theme provided by the specified &lt;var&gt;context&lt;/var&gt;.
+	 */
+	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L175">		this.ensureDecorator();</span>
+<span class="nc" id="L176">		mDecorator.processAttributes(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L177">	}</span>
+
+	/**
+	 * Ensures that the decorator for this view is initialized.
+	 */
+	private void ensureDecorator() {
+<span class="nc bnc" id="L183" title="All 2 branches missed.">		if (mDecorator == null) this.mDecorator = new Decorator(this);</span>
+<span class="nc" id="L184">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+<span class="nc" id="L191">		super.onInitializeAccessibilityEvent(event);</span>
+<span class="nc" id="L192">		event.setClassName(ViewWidget.class.getName());</span>
+<span class="nc" id="L193">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+<span class="nc" id="L200">		super.onInitializeAccessibilityNodeInfo(info);</span>
+<span class="nc" id="L201">		info.setClassName(ViewWidget.class.getName());</span>
+<span class="nc" id="L202">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;deprecation&quot;)
+	public void setBackgroundDrawable(Drawable background) {
+<span class="nc" id="L209">		super.setBackgroundDrawable(background);</span>
+<span class="nc" id="L210">		this.ensureDecorator();</span>
+<span class="nc" id="L211">		mDecorator.applyBackgroundTint();</span>
+<span class="nc" id="L212">	}</span>
+
+	/**
+	 * &lt;b&gt;Note, that on pre {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions
+	 * this method will return an instance of {@link TintDrawable TintDrawable} if tint has been applied
+	 * via {@link #setBackgroundTintList(ColorStateList)}.&lt;/b&gt;
+	 * &lt;p&gt;
+	 * The original wrapped drawable can be obtained via {@link TintDrawable#getDrawable()}.
+	 */
+	@Override
+	public Drawable getBackground() {
+<span class="nc" id="L223">		return super.getBackground();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setBackgroundTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L230">		this.ensureDecorator();</span>
+<span class="nc" id="L231">		mDecorator.setBackgroundTintList(tint);</span>
+<span class="nc" id="L232">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public ColorStateList getBackgroundTintList() {
+<span class="nc" id="L239">		this.ensureDecorator();</span>
+<span class="nc" id="L240">		return mDecorator.getBackgroundTintList();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setBackgroundTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L247">		this.ensureDecorator();</span>
+<span class="nc" id="L248">		mDecorator.setBackgroundTintMode(tintMode);</span>
+<span class="nc" id="L249">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public PorterDuff.Mode getBackgroundTintMode() {
+<span class="nc" id="L256">		this.ensureDecorator();</span>
+<span class="nc" id="L257">		return mDecorator.getBackgroundTintMode();</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onAttachedToWindow() {
+<span class="nc" id="L264">		super.onAttachedToWindow();</span>
+<span class="nc" id="L265">		this.ensureDecorator();</span>
+<span class="nc" id="L266">		mDecorator.onAttachedToWindow();</span>
+<span class="nc" id="L267">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean isAttachedToWindow() {
+<span class="nc" id="L273">		this.ensureDecorator();</span>
+<span class="nc bnc" id="L274" title="All 4 branches missed.">		return (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT &amp;&amp; super.isAttachedToWindow()) ||</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">				mDecorator.hasPrivateFlag(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW);</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+<span class="nc" id="L282">		super.onSizeChanged(w, h, oldw, oldh);</span>
+<span class="nc" id="L283">		this.ensureDecorator();</span>
+<span class="nc" id="L284">		mDecorator.onSizeChanged(w, h, oldw, oldh);</span>
+<span class="nc" id="L285">	}</span>
+
+	/**
+	 */
+	@NonNull
+	@Override
+	public WidgetSizeAnimator animateSize() {
+<span class="nc" id="L292">		this.ensureDecorator();</span>
+<span class="nc" id="L293">		return mDecorator.animateSize();</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onDetachedFromWindow() {
+<span class="nc" id="L300">		super.onDetachedFromWindow();</span>
+<span class="nc" id="L301">		this.ensureDecorator();</span>
+<span class="nc" id="L302">		mDecorator.onDetachedFromWindow();</span>
+<span class="nc" id="L303">	}</span>
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * Decorator implementation for this widget.
+	 */
+	private final class Decorator extends WidgetDecorator&lt;ViewWidget&gt; {
+
+		/**
+		 * See {@link WidgetDecorator#WidgetDecorator(View, int[])}.
+		 */
+<span class="nc" id="L317">		Decorator(ViewWidget widget) {</span>
+<span class="nc" id="L318">			super(widget, R.styleable.Ui_View);</span>
+<span class="nc" id="L319">		}</span>
+
+		/**
+		 */
+		@Override
+		@SuppressWarnings(&quot;ResourceType&quot;)
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
+<span class="nc bnc" id="L326" title="All 2 branches missed.">			if (UiConfig.MATERIALIZED) {</span>
+<span class="nc bnc" id="L327" title="All 2 branches missed.">				if (tintAttributes.hasValue(R.styleable.Ui_View_uiBackgroundTint)) {</span>
+<span class="nc" id="L328">					setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_View_uiBackgroundTint));</span>
+				}
+<span class="nc bnc" id="L330" title="All 2 branches missed.">				if (tintAttributes.hasValue(R.styleable.Ui_View_uiBackgroundTintMode)) {</span>
+<span class="nc" id="L331">					setBackgroundTintMode(TintManager.parseTintMode(</span>
+<span class="nc" id="L332">							tintAttributes.getInt(R.styleable.Ui_View_uiBackgroundTintMode, 0),</span>
+							PorterDuff.Mode.SRC_IN
+					));
+				}
+			} else {
+<span class="nc bnc" id="L337" title="All 2 branches missed.">				if (tintAttributes.hasValue(R.styleable.Ui_View_uiBackgroundTint)) {</span>
+<span class="nc" id="L338">					mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_View_uiBackgroundTint);</span>
+				}
+<span class="nc" id="L340">				mTintInfo.backgroundTintMode = TintManager.parseTintMode(</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">						tintAttributes.getInteger(R.styleable.Ui_View_uiBackgroundTintMode, 0),</span>
+						mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
+				);
+			}
+<span class="nc" id="L345">		}</span>
+
+		/**
+		 */
+		@Override
+		@SuppressWarnings(&quot;deprecation&quot;)
+		void superSetBackgroundDrawable(Drawable drawable) {
+<span class="nc" id="L352">			ViewWidget.super.setBackgroundDrawable(drawable);</span>
+<span class="nc" id="L353">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetBackgroundTintList(ColorStateList tint) {
+<span class="nc" id="L360">			ViewWidget.super.setBackgroundTintList(tint);</span>
+<span class="nc" id="L361">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		ColorStateList superGetBackgroundTintList() {
+<span class="nc" id="L368">			return ViewWidget.super.getBackgroundTintList();</span>
+		}
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetBackgroundTintMode(PorterDuff.Mode tintMode) {
+<span class="nc" id="L376">			ViewWidget.super.setBackgroundTintMode(tintMode);</span>
+<span class="nc" id="L377">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		PorterDuff.Mode superGetBackgroundTintMode() {
+<span class="nc" id="L384">			return ViewWidget.super.getBackgroundTintMode();</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LinearLayoutWidget.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">LinearLayoutWidget.java</span></div><h1>LinearLayoutWidget.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.LinearLayout;
+
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.graphics.drawable.TintDrawable;
+
+/**
+ * Extended version of {@link android.widget.LinearLayout}. This updated LinearLayout supports tinting
+ * for the Android versions below {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} and other
+ * useful features described below.
+ *
+ * &lt;h3&gt;Tinting&lt;/h3&gt;
+ * Tinting is supported via Xml attributes listed below:
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link R.attr#uiBackgroundTint uiBackgroundTint}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiBackgroundTintMode uiBackgroundTintMode}&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * &lt;b&gt;Note, that on {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} and above SDK versions
+ * can be also used Xml attributes listed above where in such case will be used the native tinting.&lt;/b&gt;
+ * &lt;p&gt;
+ * This widget group also overrides all SDK methods used to tint its components like {@link #setBackgroundTintList(android.content.res.ColorStateList)}
+ * or {@link #setBackgroundTintMode(android.graphics.PorterDuff.Mode)}, so these can be used regardless
+ * the current version of SDK but invoking of these methods below {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP}
+ * can be done only directly upon instance of this widget group otherwise {@link NoSuchMethodException}
+ * will be thrown.
+ *
+ * &lt;h3&gt;Sliding&lt;/h3&gt;
+ * This updated view group allows updating of its current position along &lt;b&gt;x&lt;/b&gt; and &lt;b&gt;y&lt;/b&gt; axis
+ * by changing &lt;b&gt;fraction&lt;/b&gt; of these properties depending on its current size using the new animation
+ * framework introduced in {@link android.os.Build.VERSION_CODES#HONEYCOMB HONEYCOMB} via
+ * {@link android.animation.ObjectAnimator ObjectAnimator}s API.
+ * &lt;p&gt;
+ * Changing of fraction of X or Y is supported via these two methods:
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link #setFractionX(float)}&lt;/li&gt;
+ * &lt;li&gt;{@link #setFractionY(float)}&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * For example if an instance of this view group class needs to be slided to the right by its whole
+ * width, an Xml file with ObjectAnimator would look like this:
+ * &lt;pre&gt;
+ *  &amp;lt;objectAnimator xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+ *                  android:propertyName=&quot;fractionX&quot;
+ *                  android:valueFrom=&quot;0.0&quot;
+ *                  android:valueTo=&quot;1.0&quot;
+ *                  android:duration=&quot;300&quot;/&amp;gt;
+ * &lt;/pre&gt;
+ * This can be especially useful for fragment transitions framework, where this view group would be
+ * used as a root for a view hierarchy of a specific fragment.
+ *
+ * &lt;h3&gt;XML attributes&lt;/h3&gt;
+ * See {@link LinearLayout},
+ * {@link R.styleable#Ui_ViewGroup ViewGroup Attributes}
+ *
+ * &lt;h3&gt;Default style attribute&lt;/h3&gt;
+ * {@code 0}
+ *
+ * @author Martin Albedinsky
+ * @see FrameLayoutWidget
+ * @see RelativeLayoutWidget
+ */
+public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;LinearLayoutWidget&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Decorator used to extend API of this widget group by functionality otherwise not supported or
+	 * not available due to current API level.
+	 */
+	WidgetGroupDecorator mDecorator;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #LinearLayoutWidget(android.content.Context, android.util.AttributeSet)} without
+	 * attributes.
+	 */
+	public LinearLayoutWidget(Context context) {
+<span class="nc" id="L133">		this(context, null);</span>
+<span class="nc" id="L134">	}</span>
+
+	/**
+	 * Same as {@link #LinearLayoutWidget(android.content.Context, android.util.AttributeSet, int)}
+	 * with {@code 0} as attribute for default style.
+	 */
+	public LinearLayoutWidget(Context context, AttributeSet attrs) {
+<span class="nc" id="L141">		super(context, attrs);</span>
+<span class="nc" id="L142">		this.init(context, attrs, 0, 0);</span>
+<span class="nc" id="L143">	}</span>
+
+	/**
+	 * Same as {@link #LinearLayoutWidget(android.content.Context, android.util.AttributeSet, int, int)}
+	 * with {@code 0} as default style.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public LinearLayoutWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+<span class="nc" id="L151">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L152">		this.init(context, attrs, defStyleAttr, 0);</span>
+<span class="nc" id="L153">	}</span>
+
+	/**
+	 * Creates a new instance of LinearLayoutWidget for the given &lt;var&gt;context&lt;/var&gt;.
+	 *
+	 * @param context      Context in which will be the new view presented.
+	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     this view within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the new view.
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public LinearLayoutWidget(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L166">		super(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L167">		this.init(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L168">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Called from one of constructors of this view to perform its initialization.
+	 * &lt;p&gt;
+	 * Initialization is done via parsing of the specified &lt;var&gt;attrs&lt;/var&gt; set and obtaining for
+	 * this view specific data from it that can be used to configure this new view instance. The
+	 * specified &lt;var&gt;defStyleAttr&lt;/var&gt; and &lt;var&gt;defStyleRes&lt;/var&gt; are used to obtain default data
+	 * from the current theme provided by the specified &lt;var&gt;context&lt;/var&gt;.
+	 */
+	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L183">		this.ensureDecorator();</span>
+<span class="nc" id="L184">		mDecorator.processAttributes(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L185">	}</span>
+
+	/**
+	 * Ensures that the decorator for this view is initialized.
+	 */
+	private void ensureDecorator() {
+<span class="nc bnc" id="L191" title="All 2 branches missed.">		if (mDecorator == null) this.mDecorator = new Decorator(this);</span>
+<span class="nc" id="L192">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+<span class="nc" id="L199">		super.onInitializeAccessibilityEvent(event);</span>
+<span class="nc" id="L200">		event.setClassName(LinearLayoutWidget.class.getName());</span>
+<span class="nc" id="L201">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+<span class="nc" id="L208">		super.onInitializeAccessibilityNodeInfo(info);</span>
+<span class="nc" id="L209">		info.setClassName(LinearLayoutWidget.class.getName());</span>
+<span class="nc" id="L210">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;deprecation&quot;)
+	public void setBackgroundDrawable(Drawable background) {
+<span class="nc" id="L217">		super.setBackgroundDrawable(background);</span>
+<span class="nc" id="L218">		this.ensureDecorator();</span>
+<span class="nc" id="L219">		mDecorator.applyBackgroundTint();</span>
+<span class="nc" id="L220">	}</span>
+
+	/**
+	 * &lt;b&gt;Note, that on pre {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions
+	 * this method will return an instance of {@link TintDrawable TintDrawable} if tint has been applied
+	 * via {@link #setBackgroundTintList(ColorStateList)}.&lt;/b&gt;
+	 * &lt;p&gt;
+	 * The original wrapped drawable can be obtained via {@link TintDrawable#getDrawable()}.
+	 */
+	@Override
+	public Drawable getBackground() {
+<span class="nc" id="L231">		return super.getBackground();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setBackgroundTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L238">		this.ensureDecorator();</span>
+<span class="nc" id="L239">		mDecorator.setBackgroundTintList(tint);</span>
+<span class="nc" id="L240">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public ColorStateList getBackgroundTintList() {
+<span class="nc" id="L247">		this.ensureDecorator();</span>
+<span class="nc" id="L248">		return mDecorator.getBackgroundTintList();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setBackgroundTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L255">		this.ensureDecorator();</span>
+<span class="nc" id="L256">		mDecorator.setBackgroundTintMode(tintMode);</span>
+<span class="nc" id="L257">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public PorterDuff.Mode getBackgroundTintMode() {
+<span class="nc" id="L264">		this.ensureDecorator();</span>
+<span class="nc" id="L265">		return mDecorator.getBackgroundTintMode();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setFractionX(float fraction) {
+<span class="nc" id="L272">		this.ensureDecorator();</span>
+<span class="nc" id="L273">		mDecorator.setFractionX(fraction);</span>
+<span class="nc" id="L274">	}</span>
+
+	/**
+	 */
+	@Override
+	public float getFractionX() {
+<span class="nc" id="L280">		this.ensureDecorator();</span>
+<span class="nc" id="L281">		return mDecorator.getFractionX();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setFractionY(float fraction) {
+<span class="nc" id="L288">		this.ensureDecorator();</span>
+<span class="nc" id="L289">		mDecorator.setFractionY(fraction);</span>
+<span class="nc" id="L290">	}</span>
+
+	/**
+	 */
+	@Override
+	public float getFractionY() {
+<span class="nc" id="L296">		this.ensureDecorator();</span>
+<span class="nc" id="L297">		return mDecorator.getFractionY();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setHideSoftKeyboardOnTouchEnabled(boolean enabled) {
+<span class="nc" id="L304">		this.ensureDecorator();</span>
+<span class="nc" id="L305">		mDecorator.setHideSoftKeyboardOnTouchEnabled(enabled);</span>
+<span class="nc" id="L306">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean isHideSoftKeyboardOnTouchEnabled() {
+<span class="nc" id="L312">		this.ensureDecorator();</span>
+<span class="nc" id="L313">		return mDecorator.isHideSoftKeyboardOnTouchEnabled();</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onAttachedToWindow() {
+<span class="nc" id="L320">		super.onAttachedToWindow();</span>
+<span class="nc" id="L321">		this.ensureDecorator();</span>
+<span class="nc" id="L322">		mDecorator.onAttachedToWindow();</span>
+<span class="nc" id="L323">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean isAttachedToWindow() {
+<span class="nc" id="L329">		this.ensureDecorator();</span>
+<span class="nc bnc" id="L330" title="All 4 branches missed.">		return (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT &amp;&amp; super.isAttachedToWindow()) ||</span>
+<span class="nc bnc" id="L331" title="All 2 branches missed.">				mDecorator.hasPrivateFlag(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW);</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+<span class="nc" id="L338">		super.onSizeChanged(w, h, oldw, oldh);</span>
+<span class="nc" id="L339">		this.ensureDecorator();</span>
+<span class="nc" id="L340">		mDecorator.onSizeChanged(w, h, oldw, oldh);</span>
+<span class="nc" id="L341">	}</span>
+
+	/**
+	 */
+	@NonNull
+	@Override
+	public WidgetSizeAnimator animateSize() {
+<span class="nc" id="L348">		this.ensureDecorator();</span>
+<span class="nc" id="L349">		return mDecorator.animateSize();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public boolean onTouchEvent(@NonNull MotionEvent event) {
+<span class="nc bnc" id="L356" title="All 2 branches missed.">		if (super.onTouchEvent(event)) {</span>
+<span class="nc" id="L357">			return true;</span>
+		}
+<span class="nc" id="L359">		this.ensureDecorator();</span>
+<span class="nc" id="L360">		mDecorator.hideSoftKeyboardOnTouch();</span>
+<span class="nc" id="L361">		return false;</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onDetachedFromWindow() {
+<span class="nc" id="L368">		super.onDetachedFromWindow();</span>
+<span class="nc" id="L369">		this.ensureDecorator();</span>
+<span class="nc" id="L370">		mDecorator.onDetachedFromWindow();</span>
+<span class="nc" id="L371">	}</span>
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * Decorator implementation for this widget group.
+	 */
+	private final class Decorator extends WidgetGroupDecorator&lt;LinearLayoutWidget&gt; {
+
+		/**
+		 * See {@link WidgetGroupDecorator#WidgetGroupDecorator(ViewGroup)}.
+		 */
+<span class="nc" id="L385">		Decorator(LinearLayoutWidget widgetGroup) {</span>
+<span class="nc" id="L386">			super(widgetGroup);</span>
+<span class="nc" id="L387">		}</span>
+
+		/**
+		 */
+		@Override
+		@SuppressWarnings(&quot;deprecation&quot;)
+		void superSetBackgroundDrawable(Drawable drawable) {
+<span class="nc" id="L394">			LinearLayoutWidget.super.setBackgroundDrawable(drawable);</span>
+<span class="nc" id="L395">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetBackgroundTintList(ColorStateList tint) {
+<span class="nc" id="L402">			LinearLayoutWidget.super.setBackgroundTintList(tint);</span>
+<span class="nc" id="L403">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		ColorStateList superGetBackgroundTintList() {
+<span class="nc" id="L410">			return LinearLayoutWidget.super.getBackgroundTintList();</span>
+		}
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetBackgroundTintMode(PorterDuff.Mode tintMode) {
+<span class="nc" id="L418">			LinearLayoutWidget.super.setBackgroundTintMode(tintMode);</span>
+<span class="nc" id="L419">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		PorterDuff.Mode superGetBackgroundTintMode() {
+<span class="nc" id="L426">			return LinearLayoutWidget.super.getBackgroundTintMode();</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

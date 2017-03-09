@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CircularProgressBar.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">CircularProgressBar.java</span></div><h1>CircularProgressBar.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.os.Build;
+import android.support.annotation.AttrRes;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
+import android.util.AttributeSet;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.graphics.drawable.CircularProgressDrawable;
+
+/**
+ * A {@link BaseProgressBar} implementation with {@link universum.studios.android.ui.graphics.drawable.CircularProgressDrawable}
+ * used to present a circular progress to a user. Like it is described in {@link BaseProgressBar BaseProgressBar's}
+ * class overview, this progress bar only implements necessary logic required for proper working,
+ * drawing and animating of its progress drawable.
+ * &lt;p&gt;
+ * &lt;b&gt;Note&lt;/b&gt;, that this progress bar is not a replacement for the Android's {@link android.widget.ProgressBar},
+ * but rather an implementation to provide the &lt;b&gt;material&lt;/b&gt; based progress graphics for pre
+ * {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions. This progress bar provides
+ * very similar API like the one from the Android SDK, only difference is that, it requires implementation
+ * of {@link universum.studios.android.ui.graphics.drawable.CircularProgressDrawable} as its
+ * drawable. Appearance of the progress drawable can be changed via {@link #setProgressMode(int)}.
+ * &lt;p&gt;
+ * If you are building an application only for LOLLIPOP and above, feel free and use ProgressBar from
+ * the Android SDK instead.
+ *
+ * &lt;h3&gt;Progress modes&lt;/h3&gt;
+ * The mode which can be specified via {@link #setProgressMode(int)} changes appearance/type of the
+ * progress graphics (determinate|indeterminate). See {@link universum.studios.android.ui.graphics.drawable.CircularProgressDrawable CircularProgressDrawable's}
+ * class overview for supported modes to decide which one of them best fits your needs.
+ *
+ * &lt;h3&gt;XML attributes&lt;/h3&gt;
+ * See {@link BaseProgressBar},
+ * {@link R.styleable#Ui_ProgressBar_Circular CircularProgressBar Attributes}
+ *
+ * &lt;h3&gt;Default style attribute&lt;/h3&gt;
+ * {@link R.attr#uiProgressBarCircularStyle uiProgressBarCircularStyle}
+ *
+ * @author Martin Albedinsky
+ * @see LinearProgressBar
+ */
+public class CircularProgressBar extends BaseProgressBar&lt;CircularProgressDrawable&gt; {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;CircularProgressBar&quot;;
+
+	/**
+	 * Flag copied from {@link universum.studios.android.ui.graphics.drawable.CircularProgressDrawable#MODE_DETERMINATE} for better access.
+	 */
+	public static final int MODE_DETERMINATE = CircularProgressDrawable.MODE_DETERMINATE;
+
+	/**
+	 * Flag copied from {@link universum.studios.android.ui.graphics.drawable.CircularProgressDrawable#MODE_INDETERMINATE} for better access.
+	 */
+	public static final int MODE_INDETERMINATE = CircularProgressDrawable.MODE_INDETERMINATE;
+
+	/**
+	 * Defines an annotation for determining set of allowed modes for CircularProgressBar.
+	 */
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({MODE_INDETERMINATE, MODE_DETERMINATE})
+	public @interface ProgressMode {
+	}
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #CircularProgressBar(android.content.Context, android.util.AttributeSet)}
+	 * without attributes.
+	 */
+	public CircularProgressBar(@NonNull Context context) {
+<span class="nc" id="L121">		this(context, null);</span>
+<span class="nc" id="L122">	}</span>
+
+	/**
+	 * Same as {@link #CircularProgressBar(android.content.Context, android.util.AttributeSet, int)}
+	 * with {@link R.attr#uiProgressBarCircularStyle} as attribute for default style.
+	 */
+	public CircularProgressBar(@NonNull Context context, @Nullable AttributeSet attrs) {
+<span class="nc" id="L129">		this(context, attrs, R.attr.uiProgressBarCircularStyle);</span>
+<span class="nc" id="L130">	}</span>
+
+	/**
+	 * Same as {@link #CircularProgressBar(android.content.Context, android.util.AttributeSet, int, int)}
+	 * with {@code 0} as default style.
+	 */
+	public CircularProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+<span class="nc" id="L137">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L138">		this.init(context, attrs, defStyleAttr, 0);</span>
+<span class="nc" id="L139">	}</span>
+
+	/**
+	 * Creates a new instance of CircularProgressBar for the given &lt;var&gt;context&lt;/var&gt;.
+	 *
+	 * @param context      Context in which will be the new view presented.
+	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     this view within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the new view.
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public CircularProgressBar(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+<span class="nc" id="L152">		super(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L153">		this.init(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L154">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Called from one of constructors of this view to perform its initialization.
+	 * &lt;p&gt;
+	 * Initialization is done via parsing of the specified &lt;var&gt;attrs&lt;/var&gt; set and obtaining for
+	 * this view specific data from it that can be used to configure this new view instance. The
+	 * specified &lt;var&gt;defStyleAttr&lt;/var&gt; and &lt;var&gt;defStyleRes&lt;/var&gt; are used to obtain default data
+	 * from the current theme provided by the specified &lt;var&gt;context&lt;/var&gt;.
+	 */
+	@SuppressWarnings(&quot;ConstantConditions&quot;)
+	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L170">		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_ProgressBar_Circular, defStyleAttr, defStyleRes);</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		for (int i = 0; i &lt; attributes.getIndexCount(); i++) {</span>
+<span class="nc" id="L172">			final int index = attributes.getIndex(i);</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">			if (index == R.styleable.Ui_ProgressBar_Circular_uiCircularProgressMode) {</span>
+<span class="nc" id="L174">				changeMode(attributes.getInt(index, getProgressMode()));</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_ProgressBar_Circular_uiProgressArrowEnabled) {</span>
+<span class="nc" id="L176">				mDrawable.setArrowEnabled(attributes.getBoolean(index, false));</span>
+			}
+		}
+<span class="nc" id="L179">		attributes.recycle();</span>
+<span class="nc" id="L180">	}</span>
+
+	/**
+	 */
+	@Override
+	void onAttachDrawable() {
+<span class="nc" id="L186">		changeMode(MODE_INDETERMINATE);</span>
+<span class="nc" id="L187">		setDrawable(new CircularProgressDrawable());</span>
+<span class="nc" id="L188">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+<span class="nc" id="L195">		super.onInitializeAccessibilityEvent(event);</span>
+<span class="nc" id="L196">		event.setClassName(CircularProgressBar.class.getName());</span>
+<span class="nc" id="L197">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+<span class="nc" id="L204">		super.onInitializeAccessibilityNodeInfo(info);</span>
+<span class="nc" id="L205">		info.setClassName(CircularProgressBar.class.getName());</span>
+<span class="nc" id="L206">	}</span>
+
+	/**
+	 * @see R.attr#uiCircularProgressMode ui:uiCircularProgressMode
+	 */
+	@Override
+	public void setProgressMode(@ProgressMode int mode) {
+<span class="nc" id="L213">		super.setProgressMode(mode);</span>
+<span class="nc" id="L214">	}</span>
+
+	/**
+	 */
+	@Override
+	@ProgressMode
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	public int getProgressMode() {
+<span class="nc" id="L222">		return super.getProgressMode();</span>
+	}
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#setRotation(float)}.
+	 */
+	public void setProgressRotation(float rotation) {
+<span class="nc bnc" id="L229" title="All 2 branches missed.">		if (mDrawable != null) mDrawable.setRotation(rotation);</span>
+<span class="nc" id="L230">	}</span>
+
+	/**
+	 * Delegate method for {@link CircularProgressDrawable#getRotation()}.
+	 *
+	 * @return Progress rotation or {@code 0} if the current progress drawable is {@code null}.
+	 */
+	public float getProgressRotation() {
+<span class="nc bnc" id="L238" title="All 2 branches missed.">		return mDrawable != null ? mDrawable.getRotation() : 0;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

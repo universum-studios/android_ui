@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TintManager.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">TintManager.java</span></div><h1>TintManager.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.Size;
+import android.util.TypedValue;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import universum.studios.android.graphics.Colors;
+import universum.studios.android.ui.R;
+
+/**
+ * Manager used to create tint lists for the most commonly used widgets.
+ *
+ * @author Martin Albedinsky
+ */
+<span class="nc" id="L47">public final class TintManager {</span>
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	private static final String TAG = &quot;TintManager&quot;;
+
+	/**
+	 * Alpha ratio for view's disabled state.
+	 */
+	public static final float ALPHA_RATIO_DISABLED = 0.1f;
+
+	/**
+	 * Alpha ratio for view's disabled state when tinted.
+	 */
+	public static final float ALPHA_RATIO_DISABLED_TINT = 0.25f;
+
+	/**
+	 * Default color for view's normal state.
+	 */
+<span class="nc" id="L76">	public static final int COLOR_NORMAL = Color.parseColor(&quot;#c1c1c1&quot;);</span>
+
+	/**
+	 * Default color for light view's normal state.
+	 */
+<span class="nc" id="L81">	public static final int COLOR_NORMAL_LIGHT = Color.parseColor(&quot;#6d6d6d&quot;);</span>
+
+	/**
+	 * Default color for view's disabled state.
+	 */
+<span class="nc" id="L86">	public static final int COLOR_DISABLED = Colors.withAlpha(COLOR_NORMAL, ALPHA_RATIO_DISABLED);</span>
+
+	/**
+	 * Default color for light view's disabled state.
+	 */
+<span class="nc" id="L91">	public static final int COLOR_DISABLED_LIGHT = Colors.withAlpha(COLOR_NORMAL_LIGHT, ALPHA_RATIO_DISABLED);</span>
+
+	/**
+	 * Default color for button's disabled state.
+	 */
+<span class="nc" id="L96">	public static final int COLOR_DISABLED_BUTTON = Color.parseColor(&quot;#555555&quot;);</span>
+
+	/**
+	 * Default color for view's error state.
+	 */
+<span class="nc" id="L101">	public static final int COLOR_ERROR = Color.parseColor(&quot;#f44336&quot;);</span>
+
+	/**
+	 * Defines an annotation for determining set of allowed tint modes for {@link #parseTintMode(int, android.graphics.PorterDuff.Mode)}.
+	 */
+<span class="nc" id="L106">	@Retention(RetentionPolicy.SOURCE)</span>
+	@IntDef({TINT_SRC_OVER, TINT_SRC_IN, TINT_SRC_ATOP, TINT_MULTIPLY, TINT_SCREEN, TINT_ADD})
+	public @interface TintMode {
+	}
+
+	/**
+	 * Flag for none tint mode.
+	 */
+	static final int TINT_NONE = -1;
+
+	/**
+	 * Flag for {@link android.graphics.PorterDuff.Mode#SRC_OVER SRC_OVER} tint mode.
+	 */
+	static final int TINT_SRC_OVER = 3;
+
+	/**
+	 * Flag for {@link android.graphics.PorterDuff.Mode#SRC_IN SRC_IN} tint mode.
+	 */
+	static final int TINT_SRC_IN = 5;
+
+	/**
+	 * Flag for {@link android.graphics.PorterDuff.Mode#SRC_ATOP SRC_ATOP} tint mode.
+	 */
+	static final int TINT_SRC_ATOP = 9;
+
+	/**
+	 * Flag for {@link android.graphics.PorterDuff.Mode#MULTIPLY MULTIPLY} tint mode.
+	 */
+	static final int TINT_MULTIPLY = 14;
+
+	/**
+	 * Flag for {@link android.graphics.PorterDuff.Mode#SCREEN SCREEN} tint mode.
+	 */
+	static final int TINT_SCREEN = 15;
+
+	/**
+	 * Flag for {@link android.graphics.PorterDuff.Mode#ADD ADD} tint mode.
+	 */
+	static final int TINT_ADD = 16;
+
+	/**
+	 * Index of color for &lt;b&gt;normal&lt;/b&gt; state that can be obtained from theme colors array requested
+	 * via {@link #obtainThemeColors(Context)}.
+	 */
+	private static final int THEME_COLOR_INDEX_NORMAL = 0;
+
+	/**
+	 * Index of color for &lt;b&gt;disabled&lt;/b&gt; state that can be obtained from theme colors array requested
+	 * via {@link #obtainThemeColors(Context)}.
+	 */
+	private static final int THEME_COLOR_INDEX_DISABLED = 1;
+
+	/**
+	 * Index of color for &lt;b&gt;error&lt;/b&gt; state that can be obtained from theme colors array requested
+	 * via {@link #obtainThemeColors(Context)}.
+	 */
+	private static final int THEME_COLOR_INDEX_ERROR = 2;
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Parses a {@link android.graphics.PorterDuff.Mode} from the specified &lt;var&gt;value&lt;/var&gt;.
+	 *
+	 * @param value       One of {@link #TINT_SRC_OVER}, {@link #TINT_SRC_IN}, {@link #TINT_SRC_ATOP},
+	 *                    {@link #TINT_MULTIPLY}, {@link #TINT_SCREEN}, {@link #TINT_ADD}.
+	 * @param defaultMode Default mode to return if the specified value flag has not been recognized.
+	 */
+	@Nullable
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public static PorterDuff.Mode parseTintMode(@TintMode int value, @Nullable PorterDuff.Mode defaultMode) {
+<span class="nc bnc" id="L178" title="All 8 branches missed.">		switch (value) {</span>
+			case TINT_NONE:
+<span class="nc" id="L180">				return null;</span>
+			case TINT_SRC_OVER:
+<span class="nc" id="L182">				return PorterDuff.Mode.SRC_OVER;</span>
+			case TINT_SRC_IN:
+<span class="nc" id="L184">				return PorterDuff.Mode.SRC_IN;</span>
+			case TINT_SRC_ATOP:
+<span class="nc" id="L186">				return PorterDuff.Mode.SRC_ATOP;</span>
+			case TINT_MULTIPLY:
+<span class="nc" id="L188">				return PorterDuff.Mode.MULTIPLY;</span>
+			case TINT_SCREEN:
+<span class="nc" id="L190">				return PorterDuff.Mode.SCREEN;</span>
+			case TINT_ADD:
+<span class="nc bnc" id="L192" title="All 2 branches missed.">				return Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB ? PorterDuff.Mode.ADD : defaultMode;</span>
+			default:
+<span class="nc" id="L194">				return defaultMode;</span>
+		}
+	}
+	/**
+	 * Creates a new instance of ColorStateList as tint list for background of EditText widget.
+	 *
+	 * @param context   Context used to resolve theme attributes that can be used to create the
+	 *                  requested tint list.
+	 * @param tintColor Color to be used as primary tint (accent) color.
+	 * @return New instance of ColorStateList specific for background of EditText widget.
+	 */
+	@Nullable
+	static ColorStateList createEditTextTintColors(@NonNull Context context, int tintColor) {
+<span class="nc" id="L207">		final int[] colors = obtainThemeColors(context);</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">		if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB) {</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">			return tintColor != Color.TRANSPARENT ? new ColorStateList(</span>
+					new int[][]{
+							// Enabled states ------------------------------------------------------
+							WidgetStateSet.ENABLED_ERROR,
+							WidgetStateSet.ENABLED_FOCUSED,
+							WidgetStateSet.ENABLED_ACTIVATED,
+							WidgetStateSet.ENABLED_PRESSED,
+							WidgetStateSet.ENABLED,
+							// Disabled states -----------------------------------------------------
+							WidgetStateSet.DISABLED
+					},
+					new int[]{
+							// Error state colors --------------------------------------------------
+							colors[THEME_COLOR_INDEX_ERROR],
+							// Enabled state colors ------------------------------------------------
+							tintColor,
+							tintColor,
+							tintColor,
+							colors[0],
+							// Disabled state colors -----------------------------------------------
+							colors[1]
+					}
+			) : null;
+		}
+<span class="nc bnc" id="L233" title="All 2 branches missed.">		return tintColor != Color.TRANSPARENT ? new ColorStateList(</span>
+				new int[][]{
+						// Enabled states ------------------------------------------------------
+						WidgetStateSet.ENABLED_ERROR,
+						WidgetStateSet.ENABLED_FOCUSED,
+						WidgetStateSet.ENABLED_PRESSED,
+						WidgetStateSet.ENABLED,
+						// Disabled states ---------------------------------------------------------
+						WidgetStateSet.DISABLED
+				},
+				new int[]{
+						// Error state colors ------------------------------------------------------
+						colors[THEME_COLOR_INDEX_ERROR],
+						// Enabled state colors ----------------------------------------------------
+						tintColor,
+						tintColor,
+						colors[THEME_COLOR_INDEX_NORMAL],
+						// Disabled state colors ---------------------------------------------------
+						colors[THEME_COLOR_INDEX_DISABLED]
+				}
+		) : null;
+	}
+
+	/**
+	 * Creates a new instance of ColorStateList as tint list for text of label widget.
+	 *
+	 * @param context   Context used to resolve theme attributes that can be used to create the
+	 *                  requested tint list.
+	 * @param tintColor Color to be used as primary tint (accent) color.
+	 * @return New instance of ColorStateList specific for text of label widget.
+	 */
+	@Nullable
+	static ColorStateList createLabelTintColors(@NonNull Context context, int tintColor) {
+<span class="nc" id="L266">		final int[] colors = obtainThemeColors(context);</span>
+<span class="nc" id="L267">		final int normalColor = colors[THEME_COLOR_INDEX_NORMAL];</span>
+<span class="nc" id="L268">		final int disabledColor = colors[THEME_COLOR_INDEX_DISABLED];</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">		if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB) {</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">			return tintColor != Color.TRANSPARENT ? new ColorStateList(</span>
+					new int[][]{
+							// Enabled states ------------------------------------------------------
+							WidgetStateSet.ENABLED_ACTIVATED,
+							WidgetStateSet.ENABLED,
+							// Disabled states -----------------------------------------------------
+							WidgetStateSet.DISABLED
+					},
+					new int[]{
+							// Enabled state colors ------------------------------------------------
+							tintColor,
+							normalColor,
+							// Disabled state colors -----------------------------------------------
+							disabledColor
+					}
+			) : null;
+		}
+<span class="nc bnc" id="L287" title="All 2 branches missed.">		return tintColor != Color.TRANSPARENT ? new ColorStateList(</span>
+				new int[][]{
+						// Enabled states ----------------------------------------------------------
+						WidgetStateSet.ENABLED_SELECTED,
+						WidgetStateSet.ENABLED,
+						// Disabled states =========================================================
+						WidgetStateSet.DISABLED
+				},
+				new int[]{
+						// Enabled state colors ----------------------------------------------------
+						tintColor,
+						normalColor,
+						// Disabled state colors ---------------------------------------------------
+						disabledColor
+				}
+		) : null;
+	}
+
+	/**
+	 * Creates a new instance of ColorStateList as tint list for background of Button widget.
+	 *
+	 * @param context   Context used to resolve theme attributes that can be used to create the
+	 *                  requested tint list.
+	 * @param tintColor Color to be used as primary tint (accent) color.
+	 * @return New instance of ColorStateList specific for background of Button widget.
+	 */
+	@Nullable
+	static ColorStateList createButtonBackgroundTintColors(@NonNull Context context, int tintColor) {
+<span class="nc" id="L315">		final int colorPressed = Colors.darker(tintColor, 0.1f);</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">		return tintColor != Color.TRANSPARENT ? new ColorStateList(</span>
+				new int[][]{
+						// Enabled states ----------------------------------------------------------
+						WidgetStateSet.ENABLED_PRESSED,
+						WidgetStateSet.ENABLED_FOCUSED,
+						WidgetStateSet.ENABLED,
+						// Disabled states ---------------------------------------------------------
+						WidgetStateSet.DISABLED
+				},
+				new int[]{
+						// Enabled state colors ----------------------------------------------------
+						colorPressed,
+						colorPressed,
+						tintColor,
+						// Disabled state colors ---------------------------------------------------
+						COLOR_DISABLED_BUTTON
+				}
+		) : null;
+	}
+
+	/**
+	 * Creates a new instance of ColorStateList as tint list for CompoundButton based widget.
+	 *
+	 * @param context   Context used to resolve theme attributes that can be used to create the
+	 *                  requested tint list.
+	 * @param tintColor Color to be used as primary tint (accent) color.
+	 * @return New instance of ColorStateList specific for CompoundButton based widget.
+	 */
+	@Nullable
+	static ColorStateList createCompoundButtonTintColors(@NonNull Context context, int tintColor) {
+<span class="nc" id="L346">		final int[] colors = obtainThemeColors(context);</span>
+<span class="nc" id="L347">		final int colorNormal = colors[THEME_COLOR_INDEX_NORMAL];</span>
+<span class="nc" id="L348">		final int colorDisabled = colors[THEME_COLOR_INDEX_DISABLED];</span>
+<span class="nc bnc" id="L349" title="All 2 branches missed.">		return tintColor != Color.TRANSPARENT ? new ColorStateList(</span>
+				new int[][]{
+						// Enabled states ----------------------------------------------------------
+						WidgetStateSet.ENABLED_CHECKED_PRESSED,
+						WidgetStateSet.ENABLED_CHECKED_FOCUSED,
+						WidgetStateSet.ENABLED_UNCHECKED_PRESSED,
+						WidgetStateSet.ENABLED_UNCHECKED_FOCUSED,
+						WidgetStateSet.ENABLED_CHECKED,
+						WidgetStateSet.ENABLED_UNCHECKED,
+						// Disabled states ---------------------------------------------------------
+						WidgetStateSet.DISABLED
+				},
+				new int[]{
+						// Enabled state colors ----------------------------------------------------
+						tintColor,
+						tintColor,
+						colorNormal,
+						colorNormal,
+						tintColor,
+						colorNormal,
+						// Disabled state colors ---------------------------------------------------
+						colorDisabled
+				}
+		) : null;
+	}
+
+	/**
+	 * Creates a new instance of ColorStateList as tint list for thumb of SeekBar widget.
+	 *
+	 * @param context   Context used to resolve theme attributes that can be used to create the
+	 *                  requested tint list.
+	 * @param tintColor Color to be used as primary tint (accent) color.
+	 * @return New instance of ColorStateList specific for thumb of SeekBar widget.
+	 */
+	@Nullable
+	static ColorStateList createSeekBarThumbTintColors(@NonNull Context context, int tintColor) {
+<span class="nc" id="L385">		final int[] colors = obtainThemeColors(context);</span>
+<span class="nc bnc" id="L386" title="All 2 branches missed.">		return tintColor != Color.TRANSPARENT ? new ColorStateList(</span>
+				new int[][]{
+						// Enabled states ----------------------------------------------------------
+						WidgetStateSet.ENABLED,
+						// Disabled states ---------------------------------------------------------
+						WidgetStateSet.DISABLED
+				},
+				new int[]{
+						// Enabled state colors ----------------------------------------------------
+						tintColor,
+						// Disabled state colors ---------------------------------------------------
+						colors[THEME_COLOR_INDEX_DISABLED]
+				}
+		) : null;
+	}
+
+	/**
+	 * Creates a new instance of ColorStateList as tint list for progress of SeekBar widget.
+	 *
+	 * @param context   Context used to resolve theme attributes that can be used to create the
+	 *                  requested tint list.
+	 * @param tintColor Color to be used as primary tint (accent) color.
+	 * @return New instance of ColorStateList specific for progress of SeekBar widget.
+	 */
+	@Nullable
+	static ColorStateList createSeekBarProgressTintColors(@NonNull Context context, int tintColor) {
+<span class="nc bnc" id="L412" title="All 2 branches missed.">		return tintColor != Color.TRANSPARENT ? ColorStateList.valueOf(tintColor) : null;</span>
+	}
+
+	/**
+	 * Creates a new instance of ColorStateList as tint list for progress background of SeekBar widget.
+	 *
+	 * @param context   Context used to resolve theme attributes that can be used to create the
+	 *                  requested tint list.
+	 * @param tintColor Color to be used as primary tint (accent) color.
+	 * @return New instance of ColorStateList specific for progress background of SeekBar widget.
+	 */
+	@Nullable
+	static ColorStateList createSeekBarProgressBackgroundTintColors(@NonNull Context context, int tintColor) {
+<span class="nc" id="L425">		final int[] colors = obtainThemeColors(context);</span>
+<span class="nc bnc" id="L426" title="All 2 branches missed.">		return tintColor != Color.TRANSPARENT ? new ColorStateList(</span>
+				new int[][]{
+						// Enabled states ----------------------------------------------------------
+						WidgetStateSet.ENABLED,
+						// Disabled states ---------------------------------------------------------
+						WidgetStateSet.DISABLED
+				},
+				new int[]{
+						// Enabled state colors ----------------------------------------------------
+						colors[THEME_COLOR_INDEX_NORMAL],
+						// Disabled state colors ---------------------------------------------------
+						colors[THEME_COLOR_INDEX_DISABLED]
+				}
+		) : null;
+	}
+
+	/**
+	 * Creates a new instance of ColorStateList as tint list for background of Spinner widget.
+	 *
+	 * @param context   Context used to resolve theme attributes that can be used to create the
+	 *                  requested tint list.
+	 * @param tintColor Color to be used as primary tint (accent) color.
+	 * @return New instance of ColorStateList specific for background of Spinner widget.
+	 */
+	@Nullable
+	static ColorStateList createSpinnerTintColors(@NonNull Context context, int tintColor) {
+<span class="nc" id="L452">		return createEditTextTintColors(context, tintColor);</span>
+	}
+
+	/**
+	 * Creates a new instance of ColorStateList as tint list for number selection indicator of
+	 * NumberPicker widget.
+	 *
+	 * @param context   Context used to resolve theme attributes that can be used to create the
+	 *                  requested tint list.
+	 * @param tintColor Color to be used as primary tint (accent) color.
+	 * @return New ColorStateList instance.
+	 */
+	@Nullable
+	static ColorStateList createNumberPickerIndicatorTintColors(@NonNull Context context, int tintColor) {
+<span class="nc" id="L466">		final int[] colors = obtainThemeColors(context);</span>
+<span class="nc bnc" id="L467" title="All 2 branches missed.">		return tintColor != Color.TRANSPARENT ? new ColorStateList(</span>
+				new int[][]{
+						// Enabled states ----------------------------------------------------------
+						WidgetStateSet.ENABLED_PRESSED,
+						WidgetStateSet.ENABLED,
+						// Disabled states ---------------------------------------------------------
+						WidgetStateSet.DISABLED
+				},
+				new int[]{
+						// Enabled state colors ----------------------------------------------------
+<span class="nc" id="L477">						Colors.darker(tintColor, 0.2f),</span>
+						tintColor,
+						// Disabled state colors ---------------------------------------------------
+						colors[THEME_COLOR_INDEX_DISABLED]
+				}
+		) : null;
+	}
+
+	/**
+	 * Obtains an array of colors from the current theme containing colors for control's normal,
+	 * disabled and error state.
+	 *
+	 * @param context Context used to access current theme and process also its attributes.
+	 * @return Array with following colors:
+	 * &lt;ul&gt;
+	 * &lt;li&gt;[{@link #THEME_COLOR_INDEX_NORMAL}] = {@link R.attr#colorControlNormal colorControlNormal}&lt;/li&gt;
+	 * &lt;li&gt;[{@link #THEME_COLOR_INDEX_DISABLED}] = colorControlNormal with alpha value of {@link android.R.attr#disabledAlpha android:disabledAlpha}&lt;/li&gt;
+	 * &lt;li&gt;[{@link #THEME_COLOR_INDEX_ERROR}] = {@link R.attr#uiColorErrorHighlight uiColorErrorHighlight}&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 */
+	@Size(3)
+	private static int[] obtainThemeColors(Context context) {
+<span class="nc" id="L499">		final TypedValue typedValue = new TypedValue();</span>
+<span class="nc" id="L500">		final Resources.Theme theme = context.getTheme();</span>
+<span class="nc bnc" id="L501" title="All 4 branches missed.">		final boolean isDarkTheme = !theme.resolveAttribute(R.attr.isLightTheme, typedValue, true) || typedValue.data == 0;</span>
+<span class="nc" id="L502">		final TypedArray typedArray = context.obtainStyledAttributes(null, R.styleable.Ui_Theme_Tint);</span>
+<span class="nc bnc" id="L503" title="All 2 branches missed.">		int colorNormal = isDarkTheme ? COLOR_NORMAL : COLOR_NORMAL_LIGHT;</span>
+<span class="nc bnc" id="L504" title="All 2 branches missed.">		int colorDisabled = isDarkTheme ? COLOR_DISABLED : COLOR_DISABLED_LIGHT;</span>
+<span class="nc" id="L505">		int colorError = COLOR_ERROR;</span>
+<span class="nc bnc" id="L506" title="All 2 branches missed.">		if (typedArray != null) {</span>
+<span class="nc" id="L507">			final int n = typedArray.getIndexCount();</span>
+<span class="nc bnc" id="L508" title="All 2 branches missed.">			for (int i = 0; i &lt; n; i++) {</span>
+<span class="nc" id="L509">				final int index = typedArray.getIndex(i);</span>
+<span class="nc bnc" id="L510" title="All 2 branches missed.">				if (index == R.styleable.Ui_Theme_Tint_colorControlNormal) {</span>
+<span class="nc" id="L511">					colorNormal = typedArray.getColor(index, colorNormal);</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">				} else if (index == R.styleable.Ui_Theme_Tint_android_disabledAlpha) {</span>
+<span class="nc" id="L513">					colorDisabled = Colors.withAlpha(colorNormal, typedArray.getFloat(index, ALPHA_RATIO_DISABLED));</span>
+<span class="nc bnc" id="L514" title="All 2 branches missed.">				} else if (index == R.styleable.Ui_Theme_Tint_uiColorErrorHighlight) {</span>
+<span class="nc" id="L515">					colorError = typedArray.getColor(index, colorError);</span>
+				}
+			}
+<span class="nc" id="L518">			typedArray.recycle();</span>
+		}
+<span class="nc" id="L520">		return new int[] {</span>
+				colorNormal,
+				colorDisabled,
+				colorError
+		};
+	}
+
+	/**
+	 * Applies tint to the specified &lt;var&gt;drawable&lt;/var&gt; using the specified &lt;var&gt;tintMode&lt;/var&gt;.
+	 *
+	 * @param drawable  The drawable to tint.
+	 * @param tintColor A color used as tint for the drawable.
+	 * @param tintMode  The blending mode used to apply tint to the drawable.
+	 * @return Same but &lt;b&gt;muted&lt;/b&gt; drawable with applied tint.
+	 */
+	@NonNull
+	static Drawable tintDrawable(@NonNull Drawable drawable, int tintColor, @NonNull PorterDuff.Mode tintMode) {
+<span class="nc" id="L537">		return tintRawDrawable(drawable.mutate(), tintColor, tintMode);</span>
+	}
+
+	/**
+	 * Applies tint to the specified &lt;var&gt;drawable&lt;/var&gt; using the specified &lt;var&gt;tintMode&lt;/var&gt;.
+	 *
+	 * @param drawable  The drawable to tint.
+	 * @param tintColor A color used as tint for the drawable.
+	 * @param tintMode  The blending mode used to apply tint to the drawable.
+	 * @return Same &lt;b&gt;not muted&lt;/b&gt; drawable with applied tint.
+	 */
+	@NonNull
+	static Drawable tintRawDrawable(@NonNull Drawable drawable, int tintColor, @NonNull PorterDuff.Mode tintMode) {
+<span class="nc" id="L550">		drawable.setColorFilter(tintColor, tintMode);</span>
+<span class="nc" id="L551">		return drawable;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

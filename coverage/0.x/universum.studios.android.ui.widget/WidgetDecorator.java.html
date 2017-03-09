@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>WidgetDecorator.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">WidgetDecorator.java</span></div><h1>WidgetDecorator.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.MotionEvent;
+import android.view.View;
+
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.UiConfig;
+import universum.studios.android.ui.graphics.drawable.TintDrawable;
+import universum.studios.android.ui.util.ResourceUtils;
+
+/**
+ * A WidgetDecorator is used within all widgets from the UI library that are derived directly from
+ * those within Android framework to support some of the features that has been added in newer
+ * versions of Android and are not available on the lower ones, like drawables tinting, but to also
+ * support some additional features of which implementation is same for such widgets regardless theirs
+ * type.
+ *
+ * @param &lt;W&gt; A type of the widget that will use this decorator.
+ * @author Martin Albedinsky
+ */
+abstract class WidgetDecorator&lt;W extends View&gt; implements Widget, ErrorWidget {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;WidgetDecorator&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Widget for which will this decorator provide logic otherwise not supported by the widget.
+	 */
+	final W mWidget;
+
+	/**
+	 * Set of private flags specific for the attached widget.
+	 */
+<span class="nc" id="L85">	int mPrivateFlags = PrivateFlags.PFLAG_ALLOWS_DEFAULT_SELECTION;</span>
+
+	/**
+	 * Data used when tinting components of this view.
+	 */
+	BackgroundTintInfo mTintInfo;
+
+	/**
+	 * Attached widget's dimension.
+	 */
+	int mWidth, mHeight;
+
+	/**
+	 * Animator used to animate size of the attached widget.
+	 */
+	private WidgetSizeAnimator mSizeAnimator;
+
+	/**
+	 * Set of attributes to be used to parse typed values for the attached widget whenever
+	 * {@link #processAttributes(Context, AttributeSet, int, int)} is called.
+	 */
+	private final int[] mStyleableAttrs;
+
+	/**
+	 * Error specified for the attached widget (if any).
+	 */
+	private CharSequence mError;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of WidgetDecorator for the given &lt;var&gt;widget&lt;/var&gt;.
+	 *
+	 * @param widget         The widget for which to create new decorator.
+	 * @param styleableAttrs Set of styleable attributes specific for the widget. These attributes
+	 *                       will be used to obtain an instance of {@link TypedArray} passed to
+	 *                       {@link #onProcessAttributes(Context, TypedArray)} whenever
+	 *                       {@link #processAttributes(Context, AttributeSet, int, int)} is called.
+	 */
+<span class="nc" id="L126">	WidgetDecorator(W widget, int[] styleableAttrs) {</span>
+<span class="nc" id="L127">		this.mWidget = widget;</span>
+<span class="nc" id="L128">		this.mStyleableAttrs = styleableAttrs;</span>
+<span class="nc" id="L129">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * This should be called from the attached widget during its initialization.
+	 *
+	 * @param context      The context that can be used to access resource values.
+	 * @param attrs        Set of attributes passed to the widget's constructor.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     the attached widget within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the attached widget.
+	 */
+	void processAttributes(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L145">		final TypedArray attributes = context.obtainStyledAttributes(attrs, mStyleableAttrs, defStyleAttr, defStyleRes);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		if (attributes != null) {</span>
+<span class="nc" id="L147">			onProcessAttributes(context, attributes);</span>
+<span class="nc" id="L148">			attributes.recycle();</span>
+		}
+<span class="nc" id="L150">	}</span>
+
+	/**
+	 * Invoked from {@link #processAttributes(Context, AttributeSet, int, int)} to process all values
+	 * from the given &lt;var&gt;attributes&lt;/var&gt; that are related to the attached widget.
+	 *
+	 * @param context    The context that can be used to access resource values.
+	 * @param attributes The typed array obtained for the styleable attributes supplied to this decorator
+	 *                   during its initialization.
+	 */
+	void onProcessAttributes(Context context, TypedArray attributes) {
+<span class="nc" id="L161">		processTintAttributes(context, attributes);</span>
+<span class="nc" id="L162">	}</span>
+
+	/**
+	 * Inflates an instance of VectorDrawableCompat from the given &lt;var&gt;resId&lt;/var&gt;.
+	 *
+	 * @param resId Resource id of the vector drawable to inflate.
+	 * @return Instance of inflated vector drawable or {@code null} if the drawable failed to be inflated.
+	 */
+	@Nullable
+	@SuppressLint(&quot;NewApi&quot;)
+	Drawable inflateVectorDrawable(@DrawableRes int resId) {
+<span class="nc" id="L173">		return ResourceUtils.getVectorDrawable(mWidget.getResources(), resId, mWidget.getContext().getTheme());</span>
+	}
+
+	/**
+	 * Invoked from {@link #onProcessAttributes(Context, TypedArray)} to process only values from
+	 * the given &lt;var&gt;tintArray&lt;/var&gt; related to tint.
+	 */
+	void processTintAttributes(Context context, TypedArray tintAttributes) {
+<span class="nc" id="L181">		this.ensureTintInfo();</span>
+<span class="nc" id="L182">		int tintColor = Color.TRANSPARENT;</span>
+<span class="nc" id="L183">		final Resources.Theme theme = context.getTheme();</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">		if (theme != null) {</span>
+<span class="nc" id="L185">			final TypedValue typedValue = new TypedValue();</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">			if (theme.resolveAttribute(R.attr.colorControlActivated, typedValue, true)) {</span>
+<span class="nc" id="L187">				tintColor = typedValue.data;</span>
+			}
+		}
+<span class="nc" id="L190">		onProcessTintAttributes(context, tintAttributes, tintColor);</span>
+<span class="nc" id="L191">		onTintAttributesProcessed();</span>
+<span class="nc" id="L192">		applyBackgroundTint();</span>
+<span class="nc" id="L193">	}</span>
+
+	/**
+	 * Invoked from {@link #processTintAttributes(Context, TypedArray)}.
+	 *
+	 * @param tintColor Color obtained from the current theme for {@link R.attr#colorControlActivated}
+	 *                  attribute.
+	 */
+	abstract void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor);
+
+	/**
+	 * Invoked after {@link #onProcessTintAttributes(Context, TypedArray, int)} has been completed.
+	 */
+	void onTintAttributesProcessed() {
+		// If there is no tint mode specified within style/xml do not tint at all.
+<span class="nc bnc" id="L208" title="All 2 branches missed.">		if (mTintInfo.tintMode == null) mTintInfo.tintList = null;</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">		mTintInfo.hasTintList = mTintInfo.tintList != null;</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">		mTintInfo.hasTintMode = mTintInfo.tintMode != null;</span>
+		// If there is no background tint mode specified within style/xml do not tint at all.
+<span class="nc bnc" id="L212" title="All 2 branches missed.">		if (mTintInfo.backgroundTintMode == null) mTintInfo.backgroundTintList = null;</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">		mTintInfo.hasBackgroundTintList = mTintInfo.backgroundTintList != null;</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">		mTintInfo.hasBackgroundTinMode = mTintInfo.backgroundTintMode != null;</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">		if (shouldInvalidateTintInfo(mTintInfo)) {</span>
+<span class="nc" id="L216">			this.mTintInfo = null;</span>
+		}
+<span class="nc" id="L218">	}</span>
+
+	/**
+	 * Called to check whether the given &lt;var&gt;tintInfo&lt;/var&gt; should be invalidated or not.
+	 *
+	 * @param tintInfo The tint info the check whether to invalidate.
+	 * @return {@code True} if the tint info does not contain any tint data so it can be safely invalidated,
+	 * {@code false} otherwise.
+	 */
+	boolean shouldInvalidateTintInfo(@NonNull BackgroundTintInfo tintInfo) {
+<span class="nc bnc" id="L228" title="All 8 branches missed.">		return !tintInfo.hasTintList &amp;&amp; !tintInfo.hasTintMode &amp;&amp; !tintInfo.hasBackgroundTintList &amp;&amp; !tintInfo.hasBackgroundTinMode;</span>
+	}
+
+	/**
+	 * Applies a tint to the background drawable. Does not modify the current tint mode, which is
+	 * {@link PorterDuff.Mode#SRC_IN} by default.
+	 *
+	 * @param tint The desired tint to be applied. May be {@code null} to clear the current tint.
+	 */
+	void setBackgroundTintList(@Nullable ColorStateList tint) {
+<span class="nc bnc" id="L238" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L239">			superSetBackgroundTintList(tint);</span>
+<span class="nc" id="L240">			return;</span>
+		}
+<span class="nc" id="L242">		this.ensureTintInfo();</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">		if (!mTintInfo.hasBackgroundTinMode) {</span>
+<span class="nc" id="L244">			mTintInfo.backgroundTintMode = PorterDuff.Mode.SRC_IN;</span>
+		}
+<span class="nc" id="L246">		mTintInfo.backgroundTintList = tint;</span>
+<span class="nc" id="L247">		mTintInfo.hasBackgroundTintList = true;</span>
+<span class="nc" id="L248">		this.applyBackgroundTint();</span>
+<span class="nc" id="L249">	}</span>
+
+	/**
+	 * Delegate method for super's {@link View#setBackgroundTintList(ColorStateList)}.
+	 */
+	abstract void superSetBackgroundTintList(ColorStateList tint);
+
+	/**
+	 * Returns the tint applied to the background drawable.
+	 *
+	 * @return Background drawable's tint or {@code null} if no tint is applied.
+	 */
+	ColorStateList getBackgroundTintList() {
+<span class="nc bnc" id="L262" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L263">			return superGetBackgroundTintList();</span>
+		}
+<span class="nc bnc" id="L265" title="All 2 branches missed.">		return mTintInfo != null ? mTintInfo.backgroundTintList : null;</span>
+	}
+
+	/**
+	 * Delegate method for super's {@link View#getBackgroundTintList()}.
+	 */
+	abstract ColorStateList superGetBackgroundTintList();
+
+	/**
+	 * Specifies a blending mode that should be used to apply tint specified via
+	 * {@link #setBackgroundTintList(ColorStateList)} to the background drawable.
+	 *
+	 * @param tintMode The desired Porter duff mode. May be {@code null} to clear the current tint.
+	 */
+	void setBackgroundTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc bnc" id="L280" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L281">			superSetBackgroundTintMode(tintMode);</span>
+<span class="nc" id="L282">			return;</span>
+		}
+<span class="nc" id="L284">		this.ensureTintInfo();</span>
+<span class="nc" id="L285">		mTintInfo.backgroundTintMode = tintMode;</span>
+<span class="nc" id="L286">		mTintInfo.hasBackgroundTinMode = true;</span>
+<span class="nc" id="L287">		this.applyBackgroundTint();</span>
+<span class="nc" id="L288">	}</span>
+
+	/**
+	 * Delegate method for super's {@link View#setBackgroundTintMode(PorterDuff.Mode)}.
+	 */
+	abstract void superSetBackgroundTintMode(PorterDuff.Mode tintMode);
+
+	/**
+	 * Returns the blending mode used to apply tint to the background drawable.
+	 *
+	 * @return One of Porter duff modes or {@code null} if no mode has been specified.
+	 */
+	PorterDuff.Mode getBackgroundTintMode() {
+<span class="nc bnc" id="L301" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L302">			return superGetBackgroundTintMode();</span>
+		}
+<span class="nc bnc" id="L304" title="All 2 branches missed.">		return mTintInfo != null ? mTintInfo.backgroundTintMode : null;</span>
+	}
+
+	/**
+	 * Delegate method for super's {@link View#getBackgroundTintMode()}.
+	 */
+	abstract PorterDuff.Mode superGetBackgroundTintMode();
+
+	/**
+	 * Applies current background tint from {@link #mTintInfo} to the background drawable.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that for post {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} this method
+	 * does nothing.
+	 */
+	@SuppressWarnings(&quot;deprecation&quot;)
+	void applyBackgroundTint() {
+<span class="nc" id="L320">		final Drawable drawable = mWidget.getBackground();</span>
+<span class="nc bnc" id="L321" title="All 10 branches missed.">		if (UiConfig.MATERIALIZED ||</span>
+				mTintInfo == null ||
+				(!mTintInfo.hasBackgroundTintList &amp;&amp; !mTintInfo.hasBackgroundTinMode) ||
+				drawable == null) {
+<span class="nc" id="L325">			return;</span>
+		}
+<span class="nc" id="L327">		final boolean isTintDrawable = drawable instanceof TintDrawable;</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">		final TintDrawable tintDrawable = isTintDrawable ? (TintDrawable) drawable : new TintDrawable(drawable);</span>
+<span class="nc bnc" id="L329" title="All 2 branches missed.">		if (mTintInfo.hasBackgroundTintList) {</span>
+<span class="nc" id="L330">			tintDrawable.setTintList(mTintInfo.backgroundTintList);</span>
+		}
+<span class="nc bnc" id="L332" title="All 2 branches missed.">		if (mTintInfo.hasBackgroundTinMode) {</span>
+<span class="nc" id="L333">			tintDrawable.setTintMode(mTintInfo.backgroundTintMode);</span>
+		}
+<span class="nc bnc" id="L335" title="All 2 branches missed.">		if (tintDrawable.isStateful()) {</span>
+<span class="nc" id="L336">			tintDrawable.setState(mWidget.getDrawableState());</span>
+		}
+<span class="nc bnc" id="L338" title="All 2 branches missed.">		if (isTintDrawable) {</span>
+<span class="nc" id="L339">			return;</span>
+		}
+<span class="nc" id="L341">		superSetBackgroundDrawable(tintDrawable);</span>
+<span class="nc" id="L342">		tintDrawable.attachCallback();</span>
+<span class="nc" id="L343">	}</span>
+
+	/**
+	 * Delegate method for super's {@link View#setBackgroundDrawable(Drawable)}.
+	 */
+	abstract void superSetBackgroundDrawable(Drawable drawable);
+
+	/**
+	 * Checks whether this decorator has some tint info specified or not.
+	 *
+	 * @return {@code True} if tint info is available, {@code false} otherwise.
+	 */
+	boolean hasTintInfo() {
+<span class="nc bnc" id="L356" title="All 2 branches missed.">		return mTintInfo != null;</span>
+	}
+
+	/**
+	 * Returns the current tint info object of this decorator. If there is no tint info create yet,
+	 * a new instance will be initialized.
+	 *
+	 * @return This decorator's tint info.
+	 */
+	@NonNull
+	BackgroundTintInfo getTintInfo() {
+<span class="nc" id="L367">		this.ensureTintInfo();</span>
+<span class="nc" id="L368">		return mTintInfo;</span>
+	}
+
+	/**
+	 * Ensures that the tint info object is initialized.
+	 */
+	void ensureTintInfo() {
+<span class="nc bnc" id="L375" title="All 2 branches missed.">		if (mTintInfo == null) this.mTintInfo = onCreateTintInfo();</span>
+<span class="nc" id="L376">	}</span>
+
+	/**
+	 * Called to create tint info object for this decorator.
+	 *
+	 * @return Tint info that will be used to store all tint related information.
+	 */
+	BackgroundTintInfo onCreateTintInfo() {
+<span class="nc" id="L384">		return new BackgroundTintInfo();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setError(@NonNull CharSequence error) {
+<span class="nc bnc" id="L391" title="All 2 branches missed.">		if (!TextUtils.equals(mError, error)) {</span>
+<span class="nc" id="L392">			this.mError = error;</span>
+<span class="nc" id="L393">			mWidget.refreshDrawableState();</span>
+<span class="nc" id="L394">			mWidget.invalidate();</span>
+		}
+<span class="nc" id="L396">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean hasError() {
+<span class="nc bnc" id="L402" title="All 2 branches missed.">		return mError != null;</span>
+	}
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public CharSequence getError() {
+<span class="nc" id="L410">		return mError;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void clearError() {
+<span class="nc bnc" id="L417" title="All 2 branches missed.">		if (mError != null) {</span>
+<span class="nc" id="L418">			this.mError = null;</span>
+<span class="nc" id="L419">			mWidget.refreshDrawableState();</span>
+<span class="nc" id="L420">			mWidget.invalidate();</span>
+		}
+<span class="nc" id="L422">	}</span>
+
+	/**
+	 * This should be called from the attached widget whenever its {@link View#onSizeChanged(int, int, int, int)}
+	 * method is invoked.
+	 */
+	protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+<span class="nc" id="L429">		this.mWidth = width;</span>
+<span class="nc" id="L430">		this.mHeight = height;</span>
+<span class="nc" id="L431">	}</span>
+
+	/**
+	 */
+	@NonNull
+	@Override
+	public WidgetSizeAnimator animateSize() {
+<span class="nc bnc" id="L438" title="All 2 branches missed.">		return (mSizeAnimator != null) ? mSizeAnimator : (mSizeAnimator = new WidgetSizeAnimator(mWidget));</span>
+	}
+
+	/**
+	 * This should be called from the attached widget whenever its {@link View#onAttachedToWindow()}
+	 * method is invoked.
+	 */
+	void onAttachedToWindow() {
+<span class="nc" id="L446">		this.updatePrivateFlags(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW, true);</span>
+<span class="nc" id="L447">	}</span>
+
+	/**
+	 * This should be called from the attached widget whenever its {@link View#onTouchEvent(MotionEvent)}
+	 * method is invoked.
+	 */
+	boolean onTouchEvent(MotionEvent event) {
+<span class="nc" id="L454">		return false;</span>
+	}
+
+	/**
+	 * This should be called from the attached widget whenever its {@link View#verifyDrawable(Drawable)}
+	 * method is invoked.
+	 */
+	boolean verifyDrawable(Drawable drawable) {
+<span class="nc" id="L462">		return false;</span>
+	}
+
+	/**
+	 * This should be called from the attached widget whenever its {@link View#draw(Canvas)} method
+	 * is invoked.
+	 */
+	void draw(Canvas canvas) {
+<span class="nc" id="L470">	}</span>
+
+	/**
+	 * This should be called from the attached widget whenever its {@link View#dispatchDraw(Canvas)}
+	 * method is invoked.
+	 */
+	void dispatchDraw(Canvas canvas) {
+<span class="nc" id="L477">	}</span>
+
+	/**
+	 * This should be called from the attached widget whenever its {@link View#onDetachedFromWindow()}
+	 * method is invoked.
+	 */
+	void onDetachedFromWindow() {
+<span class="nc" id="L484">		this.updatePrivateFlags(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW, false);</span>
+<span class="nc" id="L485">	}</span>
+
+	/**
+	 * Updates the current private flags.
+	 *
+	 * @param flag Value of the desired flag to add/remove to/from the current private flags.
+	 * @param add  Boolean flag indicating whether to add or remove the specified &lt;var&gt;flag&lt;/var&gt;.
+	 */
+	void updatePrivateFlags(int flag, boolean add) {
+<span class="nc bnc" id="L494" title="All 2 branches missed.">		if (add) this.mPrivateFlags |= flag;</span>
+<span class="nc" id="L495">		else this.mPrivateFlags &amp;= ~flag;</span>
+<span class="nc" id="L496">	}</span>
+
+	/**
+	 * Returns a boolean flag indicating whether the specified &lt;var&gt;flag&lt;/var&gt; is contained within
+	 * the current private flags or not.
+	 *
+	 * @param flag Value of the flag to check.
+	 * @return {@code True} if the requested flag is contained, {@code false} otherwise.
+	 */
+	boolean hasPrivateFlag(int flag) {
+<span class="nc bnc" id="L506" title="All 2 branches missed.">		return (mPrivateFlags &amp; flag) != 0;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

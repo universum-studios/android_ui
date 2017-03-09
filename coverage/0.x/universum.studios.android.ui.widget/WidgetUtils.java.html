@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>WidgetUtils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">WidgetUtils.java</span></div><h1>WidgetUtils.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
+/**
+ * Set of utils used by extended widgets from this library.
+ *
+ * @author Martin Albedinsky
+ */
+<span class="nc" id="L33">public final class WidgetUtils {</span>
+
+	/**
+	 * Shows the soft keyboard on the current window for the given &lt;var&gt;view&lt;/var&gt;.
+	 *
+	 * @param view The view for which to show keyboard. If the view does not have focus, it will be
+	 *             requested for it via {@link View#requestFocus()}.
+	 * @return {@code True} if keyboard has been shown successfully, {@code false} if the view does
+	 * not have focus and it did not took it when requested.
+	 * @see InputMethodManager#showSoftInput(View, int)
+	 * @see InputMethodManager#SHOW_FORCED
+	 */
+	public static boolean showSoftKeyboard(@NonNull View view) {
+<span class="nc bnc" id="L46" title="All 4 branches missed.">		if (!view.hasFocus() &amp;&amp; !view.requestFocus()) return false;</span>
+<span class="nc" id="L47">		final InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);</span>
+<span class="nc" id="L48">		return imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);</span>
+	}
+
+	/**
+	 * Hides the soft keyboard from the current window using token of the given &lt;var&gt;view&lt;/var&gt;.
+	 *
+	 * @param view The view for which to hide keyboard.
+	 * @return {@code True} if keyboard has been hidden successfully, {@code false} if the view does
+	 * not have focus.
+	 * @see InputMethodManager#hideSoftInputFromWindow(IBinder, int)
+	 * @see InputMethodManager#RESULT_UNCHANGED_SHOWN
+	 */
+	public static boolean hideSoftKeyboard(@NonNull View view) {
+<span class="nc bnc" id="L61" title="All 2 branches missed.">		if (!view.hasFocus()) return false;</span>
+<span class="nc" id="L62">		final InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);</span>
+<span class="nc" id="L63">		return imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);</span>
+	}
+
+	/**
+	 * Obtains a color from the specified &lt;var&gt;colorStateList&lt;/var&gt; for the specified &lt;var&gt;stateSet&lt;/var&gt;.
+	 *
+	 * @param colorStateList The colors state list from which to obtain the color.
+	 * @param stateSet       The state set used to resolved the color.
+	 * @return Resolved color for the state or the default one if the colors state list does not hold
+	 * color for the specified state.
+	 */
+	public static int resolveColorForState(@NonNull ColorStateList colorStateList, @NonNull int[] stateSet) {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">		return colorStateList.isStateful() ?</span>
+<span class="nc" id="L76">				colorStateList.getColorForState(stateSet, colorStateList.getDefaultColor()) :</span>
+<span class="nc" id="L77">				colorStateList.getDefaultColor();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

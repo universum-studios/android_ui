@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SwitchWidget.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">SwitchWidget.java</span></div><h1>SwitchWidget.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
+import android.support.v7.widget.SwitchCompat;
+import android.util.AttributeSet;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.CompoundButton;
+
+import universum.studios.android.font.Font;
+import universum.studios.android.font.FontWidget;
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.graphics.drawable.TintDrawable;
+
+/**
+ * Extended version of {@link android.support.v7.widget.SwitchCompat} compound button. This updated
+ * Switch allows setting of custom font (from assets) and tinting for the Android versions below
+ * {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} and other useful features described below.
+ *
+ * &lt;h3&gt;Tinting&lt;/h3&gt;
+ * Tinting is supported via Xml attributes listed below:
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link R.attr#uiThumbTint uiThumbTint}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiThumbTintMode uiThumbTintMode}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiTrackTint uiTrackTint}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiTrackTintMode uiTrackTintMode}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiBackgroundTint uiBackgroundTint}&lt;/li&gt;
+ * &lt;li&gt;{@link R.attr#uiBackgroundTintMode uiBackgroundTintMode}&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * &lt;b&gt;Note, that on {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} and above SDK versions
+ * can be also used Xml attributes listed above where in such case will be used the native tinting.&lt;/b&gt;
+ * &lt;p&gt;
+ * This widget also overrides all SDK methods used to tint its components like {@link #setThumbTintList(android.content.res.ColorStateList)}
+ * or {@link #setThumbTintMode(android.graphics.PorterDuff.Mode)}, so these can be used regardless
+ * the current version of SDK but invoking of these methods below {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP}
+ * can be done only directly upon instance of this widget otherwise {@link NoSuchMethodException}
+ * will be thrown.
+ *
+ * &lt;h3&gt;Custom font&lt;/h3&gt;
+ * Custom font (the path to it) can be specified basically at &lt;b&gt;4 places&lt;/b&gt; from where it can be
+ * by this font widget referenced. &lt;b&gt;Note&lt;/b&gt;, that your custom font must be placed within Android
+ * &lt;b&gt;assets&lt;/b&gt; folder within sub-folder named &lt;b&gt;&quot;font&quot;&lt;/b&gt;, this is requirement of this library,
+ * within this sub-folder you can specify your custom hierarchy to organize your fonts.
+ * &lt;p&gt;
+ * &lt;pre&gt;
+ *      1) Declare path to custom font in an Application theme:
+ *      &amp;lt;style name=&quot;Theme&quot; parent=&quot;android:Theme.Material&quot;&amp;gt;
+ *          &amp;lt;item name=&quot;uiFontPath&quot;&amp;gt;roboto/roboto_light.ttf&amp;lt;/item&amp;gt;
+ *      &amp;lt;/style&amp;gt;
+ *      - This font will be than applied to all widgets from this library.
+ *
+ *      --------------------------------------------------------------------------------------------
+ *
+ *      2) Declare path to custom font in a global TextAppearance style:
+ *      &amp;lt;style name=&quot;TextAppearance.Widget&quot; parent=&quot;android:TextAppearance.Material.Widget&quot;&amp;gt;
+ *          &amp;lt;item name=&quot;uiFontPath&quot;&amp;gt;roboto/roboto_light.ttf&amp;lt;/item&amp;gt;
+ *      &amp;lt;/style&amp;gt;
+ *      - This font will be than applied only to widgets from this library that has this text
+ *        appearance as theirs style or just reference to this text appearance within theirs style.
+ *
+ *      --------------------------------------------------------------------------------------------
+ *
+ *      3) Declare path to custom font in a specific widget's style:
+ *      &amp;lt;style name=&quot;Widget.CompoundButton.Switch&quot; parent=&quot;android:Widget.Material.CompoundButton.Switch&quot;&amp;gt;
+ *          &amp;lt;item name=&quot;uiFontPath&quot;&amp;gt;roboto/roboto_light.ttf&amp;lt;/item&amp;gt;
+ *      &amp;lt;/style&amp;gt;
+ *      - This font will be than applied only to widgets (Switches) from this library that has this
+ *        style as theirs style set through theme global attribute
+ *        (like &amp;lt;item name=&quot;switchStyle&quot;&amp;gt;@style/Widget.CompoundButton.Switch&amp;lt;/item&amp;gt;)
+ *        or set within Xml layout (like style=&quot;@style/Widget.CompoundButton.Switch&quot;).
+ *
+ *      --------------------------------------------------------------------------------------------
+ *
+ *      4) Declare path to custom font in an Xml layout:
+ *      &amp;lt;LinearLayout
+ *          xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+ *          xmlns:ui=&quot;http://schemas.android.com/apk/res-auto&quot;
+ *          android:layout_width=&quot;match_parent&quot;
+ *          android:layout_height=&quot;match_parent&quot;
+ *          android:orientation=&quot;vertical&quot;&amp;gt;
+ *
+ *          // ... Some views
+ *
+ *          &amp;lt;universum.studios.android.ui.widget.SwitchWidget
+ *              android:layout_width=&quot;wrap_content&quot;
+ *              android:layout_height=&quot;wrap_content&quot;
+ *              android:text=&quot;Text view with custom font.&quot;
+ *              ui:uiFontPath=&quot;roboto/roboto_light&quot;&amp;gt;
+ *
+ *          // ... Some other views
+ *
+ *      &amp;lt;/LinearLayout&amp;gt;
+ *      - This font will be than applied only to that particular widget.
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * &lt;b&gt;Note, that it is not necessary to specify also '.ttf' suffix for custom font paths, the library
+ * will add one if it is missing.&lt;/b&gt;
+ *
+ * &lt;h3&gt;XML attributes&lt;/h3&gt;
+ * See {@link SwitchCompat},
+ * {@link R.styleable#Ui_CompoundButton_Switch Switch Attributes}
+ *
+ * &lt;h3&gt;Default style attribute&lt;/h3&gt;
+ * {@link R.attr#switchStyle switchStyle}
+ *
+ * @author Martin Albedinsky
+ *
+ * @see RadioButtonWidget
+ * @see CheckBoxWidget
+ * @see ToggleButtonWidget
+ */
+public class SwitchWidget extends SwitchCompat implements Widget, FontWidget {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;SwitchWidget&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Decorator used to extend API of this widget by functionality otherwise not supported or not
+	 * available due to current API level.
+	 */
+	private Decorator mDecorator;
+
+	/**
+	 * Drawable representing the thumb of this switch view.
+	 */
+	private Drawable mThumb;
+
+	/**
+	 * Drawable representing the track of this switch view.
+	 */
+	private Drawable mTrack;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #SwitchWidget(android.content.Context, android.util.AttributeSet)} without
+	 * attributes.
+	 */
+	public SwitchWidget(@NonNull Context context) {
+<span class="nc" id="L190">		this(context, null);</span>
+<span class="nc" id="L191">	}</span>
+
+	/**
+	 * Same as {@link #SwitchWidget(android.content.Context, android.util.AttributeSet, int)} with
+	 * {@link R.attr#switchMinWidth} as attribute for default style.
+	 */
+	@SuppressLint(&quot;InlinedApi&quot;)
+	public SwitchWidget(@NonNull Context context, @Nullable AttributeSet attrs) {
+<span class="nc" id="L199">		this(context, attrs, R.attr.switchStyle);</span>
+<span class="nc" id="L200">	}</span>
+
+	/**
+	 * Same as {@link #SwitchWidget(android.content.Context, android.util.AttributeSet, int, int)}
+	 * with {@code 0} as default style.
+	 */
+	public SwitchWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+<span class="nc" id="L207">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L208">		this.init(context, attrs, defStyleAttr, 0);</span>
+<span class="nc" id="L209">	}</span>
+
+	/**
+	 * Creates a new instance of SwitchWidget for the given &lt;var&gt;context&lt;/var&gt;.
+	 *
+	 * @param context      Context in which will be the new view presented.
+	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     this view within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the new view.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public SwitchWidget(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+<span class="nc" id="L223">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L224">		this.init(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L225">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Called from one of constructors of this view to perform its initialization.
+	 * &lt;p&gt;
+	 * Initialization is done via parsing of the specified &lt;var&gt;attrs&lt;/var&gt; set and obtaining for
+	 * this view specific data from it that can be used to configure this new view instance. The
+	 * specified &lt;var&gt;defStyleAttr&lt;/var&gt; and &lt;var&gt;defStyleRes&lt;/var&gt; are used to obtain default data
+	 * from the current theme provided by the specified &lt;var&gt;context&lt;/var&gt;.
+	 */
+	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L240">		this.ensureDecorator();</span>
+<span class="nc" id="L241">		mDecorator.processAttributes(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L242">		this.mThumb = getThumbDrawable();</span>
+<span class="nc" id="L243">		this.mTrack = getTrackDrawable();</span>
+<span class="nc" id="L244">		this.applyTrackTint();</span>
+<span class="nc" id="L245">		this.applyThumbTint();</span>
+<span class="nc" id="L246">	}</span>
+
+	/**
+	 * Ensures that the decorator for this view is initialized.
+	 */
+	private void ensureDecorator() {
+<span class="nc bnc" id="L252" title="All 2 branches missed.">		if (mDecorator == null) this.mDecorator = new Decorator(this);</span>
+<span class="nc" id="L253">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+<span class="nc" id="L260">		super.onInitializeAccessibilityEvent(event);</span>
+<span class="nc" id="L261">		event.setClassName(SwitchWidget.class.getName());</span>
+<span class="nc" id="L262">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+<span class="nc" id="L269">		super.onInitializeAccessibilityNodeInfo(info);</span>
+<span class="nc" id="L270">		info.setClassName(SwitchWidget.class.getName());</span>
+<span class="nc" id="L271">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setThumbDrawable(Drawable thumb) {
+<span class="nc" id="L277">		super.setThumbDrawable(mThumb = thumb);</span>
+<span class="nc" id="L278">		this.applyThumbTint();</span>
+<span class="nc" id="L279">	}</span>
+
+	/**
+	 * &lt;b&gt;Note, that on pre {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions
+	 * this method will return an instance of {@link TintDrawable TintDrawable} if tint has been applied
+	 * via {@link #setThumbTintList(ColorStateList)}.&lt;/b&gt;
+	 * &lt;p&gt;
+	 * The original wrapped drawable can be obtained via {@link TintDrawable#getDrawable()}.
+	 */
+	@Override
+	public Drawable getThumbDrawable() {
+<span class="nc" id="L290">		return super.getThumbDrawable();</span>
+	}
+
+	/**
+	 * Applies current tint from {@link Decorator#mTintInfo} to the current thumb drawable.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	private void applyThumbTint() {
+<span class="nc" id="L298">		this.ensureDecorator();</span>
+<span class="nc bnc" id="L299" title="All 4 branches missed.">		if (mThumb == null || !mDecorator.hasTintInfo()) {</span>
+<span class="nc" id="L300">			return;</span>
+		}
+<span class="nc" id="L302">		final SwitchTintInfo tintInfo = mDecorator.getTintInfo();</span>
+<span class="nc bnc" id="L303" title="All 4 branches missed.">		if (!tintInfo.hasTintList &amp;&amp; !tintInfo.hasTintMode) {</span>
+<span class="nc" id="L304">			return;</span>
+		}
+<span class="nc" id="L306">		final boolean isTintDrawable = mThumb instanceof TintDrawable;</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">		final TintDrawable tintDrawable = isTintDrawable ? (TintDrawable) mThumb : new TintDrawable(mThumb);</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">		if (tintInfo.hasTintList) {</span>
+<span class="nc" id="L309">			tintDrawable.setTintList(tintInfo.tintList);</span>
+		}
+<span class="nc bnc" id="L311" title="All 2 branches missed.">		if (tintInfo.hasTintMode) {</span>
+<span class="nc" id="L312">			tintDrawable.setTintMode(tintInfo.tintMode);</span>
+		}
+<span class="nc bnc" id="L314" title="All 2 branches missed.">		if (tintDrawable.isStateful()) {</span>
+<span class="nc" id="L315">			tintDrawable.setState(getDrawableState());</span>
+		}
+<span class="nc bnc" id="L317" title="All 2 branches missed.">		if (isTintDrawable) {</span>
+<span class="nc" id="L318">			return;</span>
+		}
+<span class="nc" id="L320">		super.setThumbDrawable(mThumb = tintDrawable);</span>
+<span class="nc" id="L321">		tintDrawable.attachCallback();</span>
+<span class="nc" id="L322">	}</span>
+
+	/**
+	 * Applies a tint to the thumb drawable, if specified. This call does not modify the current
+	 * tint mode, which is {@link android.graphics.PorterDuff.Mode#SRC_IN} by default.
+	 * &lt;p&gt;
+	 * Subsequent calls to {@link #setThumbDrawable(Drawable)} will automatically mutate the drawable
+	 * and apply the specified tint and tint mode using {@link android.graphics.drawable.Drawable#setTintList(android.content.res.ColorStateList)}.
+	 *
+	 * @param tint The tint to apply, may be {@code null} to clear the current tint.
+	 * @see #getThumbTintList()
+	 * @see android.graphics.drawable.Drawable#setTintList(android.content.res.ColorStateList)
+	 */
+	public void setThumbTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L336">		this.ensureDecorator();</span>
+<span class="nc" id="L337">		final SwitchTintInfo tintInfo = mDecorator.getTintInfo();</span>
+<span class="nc" id="L338">		tintInfo.tintList = tint;</span>
+<span class="nc" id="L339">		tintInfo.hasTintList = true;</span>
+<span class="nc" id="L340">		this.applyThumbTint();</span>
+<span class="nc" id="L341">	}</span>
+
+	/**
+	 * Returns the tint applied to the thumb drawable, if specified.
+	 *
+	 * @return The thumb drawable tint.
+	 * @see #setTrackTintList(ColorStateList)
+	 */
+	@Nullable
+	public ColorStateList getThumbTintList() {
+<span class="nc" id="L351">		this.ensureDecorator();</span>
+<span class="nc bnc" id="L352" title="All 2 branches missed.">		return mDecorator.hasTintInfo() ? mDecorator.getTintInfo().tintList : null;</span>
+	}
+
+	/**
+	 * Specifies the blending mode used to apply the tint specified by {@link #setThumbTintList(ColorStateList)}}
+	 * to the thumb drawable. The default mode is {@link android.graphics.PorterDuff.Mode#SRC_IN}.
+	 *
+	 * @param tintMode The blending mode used to apply the tint, may be {@code null} to clear the
+	 *                 current tint.
+	 * @see #getThumbTintMode()
+	 * @see android.graphics.drawable.Drawable#setTintMode(android.graphics.PorterDuff.Mode)
+	 */
+	public void setThumbTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L365">		this.ensureDecorator();</span>
+<span class="nc" id="L366">		final SwitchTintInfo tintInfo = mDecorator.getTintInfo();</span>
+<span class="nc" id="L367">		tintInfo.tintMode = tintMode;</span>
+<span class="nc" id="L368">		tintInfo.hasTintMode = true;</span>
+<span class="nc" id="L369">		this.applyThumbTint();</span>
+<span class="nc" id="L370">	}</span>
+
+	/**
+	 * Returns the blending mode used to apply the tint to the thumb drawable, if specified.
+	 *
+	 * @return The thumb drawable blending mode used to apply the tint.
+	 * @see #setThumbTintMode(PorterDuff.Mode)
+	 */
+	@Nullable
+	public PorterDuff.Mode getThumbTintMode() {
+<span class="nc" id="L380">		this.ensureDecorator();</span>
+<span class="nc bnc" id="L381" title="All 2 branches missed.">		return mDecorator.hasTintInfo() ? mDecorator.getTintInfo().tintMode : null;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setTrackDrawable(Drawable track) {
+<span class="nc" id="L388">		super.setTrackDrawable(mTrack = track);</span>
+<span class="nc" id="L389">		this.applyTrackTint();</span>
+<span class="nc" id="L390">	}</span>
+
+	/**
+	 * &lt;b&gt;Note, that on pre {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions
+	 * this method will return an instance of {@link TintDrawable TintDrawable} if tint has been applied
+	 * via {@link #setTrackTintList(ColorStateList)}.&lt;/b&gt;
+	 * &lt;p&gt;
+	 * The original wrapped drawable can be obtained via {@link TintDrawable#getDrawable()}.
+	 */
+	@Override
+	public Drawable getTrackDrawable() {
+<span class="nc" id="L401">		return super.getTrackDrawable();</span>
+	}
+
+	/**
+	 * Applies current tint from {@link Decorator#mTintInfo} to the current track drawable.
+	 */
+	private void applyTrackTint() {
+<span class="nc" id="L408">		this.ensureDecorator();</span>
+<span class="nc bnc" id="L409" title="All 4 branches missed.">		if (mTrack == null || !mDecorator.hasTintInfo()) {</span>
+<span class="nc" id="L410">			return;</span>
+		}
+<span class="nc" id="L412">		final SwitchTintInfo tintInfo = mDecorator.getTintInfo();</span>
+<span class="nc bnc" id="L413" title="All 4 branches missed.">		if (!tintInfo.hasTrackTintList &amp;&amp; !tintInfo.hasTrackTintMode) {</span>
+<span class="nc" id="L414">			return;</span>
+		}
+<span class="nc" id="L416">		final boolean isTintDrawable = mTrack instanceof TintDrawable;</span>
+<span class="nc bnc" id="L417" title="All 2 branches missed.">		final TintDrawable tintDrawable = isTintDrawable ? (TintDrawable) mTrack : new TintDrawable(mTrack);</span>
+<span class="nc bnc" id="L418" title="All 2 branches missed.">		if (tintInfo.hasTrackTintList) {</span>
+<span class="nc" id="L419">			tintDrawable.setTintList(tintInfo.trackTintList);</span>
+		}
+<span class="nc bnc" id="L421" title="All 2 branches missed.">		if (tintInfo.hasTrackTintMode) {</span>
+<span class="nc" id="L422">			tintDrawable.setTintMode(tintInfo.trackTintMode);</span>
+		}
+<span class="nc bnc" id="L424" title="All 2 branches missed.">		if (tintDrawable.isStateful()) {</span>
+<span class="nc" id="L425">			tintDrawable.setState(getDrawableState());</span>
+		}
+<span class="nc bnc" id="L427" title="All 2 branches missed.">		if (isTintDrawable) {</span>
+<span class="nc" id="L428">			return;</span>
+		}
+<span class="nc" id="L430">		super.setTrackDrawable(mTrack = tintDrawable);</span>
+<span class="nc" id="L431">		tintDrawable.attachCallback();</span>
+<span class="nc" id="L432">	}</span>
+
+	/**
+	 * Applies a tint to the track drawable, if specified. This call does not modify the current
+	 * tint mode, which is {@link android.graphics.PorterDuff.Mode#SRC_IN} by default.
+	 * &lt;p&gt;
+	 * Subsequent calls to {@link #setTrackDrawable(Drawable)} will automatically mutate the drawable
+	 * and apply the specified tint and tint mode using {@link android.graphics.drawable.Drawable#setTintList(android.content.res.ColorStateList)}.
+	 *
+	 * @param tint The tint to apply, may be {@code null} to clear the current tint.
+	 * @see #getTrackTintList()
+	 * @see android.graphics.drawable.Drawable#setTintList(android.content.res.ColorStateList)
+	 */
+	public void setTrackTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L446">		this.ensureDecorator();</span>
+<span class="nc" id="L447">		final SwitchTintInfo tintInfo = mDecorator.getTintInfo();</span>
+<span class="nc" id="L448">		tintInfo.trackTintList = tint;</span>
+<span class="nc" id="L449">		tintInfo.hasTrackTintList = true;</span>
+<span class="nc" id="L450">		this.applyTrackTint();</span>
+<span class="nc" id="L451">	}</span>
+
+	/**
+	 * Returns the tint applied to the track drawable, if specified.
+	 *
+	 * @return The track drawable tint.
+	 * @see #setTrackTintList(ColorStateList)
+	 */
+	@Nullable
+	public ColorStateList getTrackTintList() {
+<span class="nc" id="L461">		this.ensureDecorator();</span>
+<span class="nc bnc" id="L462" title="All 2 branches missed.">		return mDecorator.hasTintInfo() ? mDecorator.getTintInfo().trackTintList : null;</span>
+	}
+
+	/**
+	 * Specifies the blending mode used to apply the tint specified by {@link #setTrackTintList(ColorStateList)}}
+	 * to the track drawable. The default mode is {@link android.graphics.PorterDuff.Mode#SRC_IN}.
+	 *
+	 * @param tintMode The blending mode used to apply the tint, may be {@code null} to clear the
+	 *                 current tint.
+	 * @see #getTrackTintMode()
+	 * @see android.graphics.drawable.Drawable#setTintMode(android.graphics.PorterDuff.Mode)
+	 */
+	public void setTrackTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L475">		this.ensureDecorator();</span>
+<span class="nc" id="L476">		final SwitchTintInfo tintInfo = mDecorator.getTintInfo();</span>
+<span class="nc" id="L477">		tintInfo.trackTintMode = tintMode;</span>
+<span class="nc" id="L478">		tintInfo.hasTrackTintList = true;</span>
+<span class="nc" id="L479">		this.applyTrackTint();</span>
+<span class="nc" id="L480">	}</span>
+
+	/**
+	 * Returns the blending mode used to apply the tint to the track drawable, if specified.
+	 *
+	 * @return The track drawable blending mode used to apply the tint.
+	 * @see #setTrackTintMode(PorterDuff.Mode)
+	 */
+	@Nullable
+	public PorterDuff.Mode getTrackTintMode() {
+<span class="nc" id="L490">		this.ensureDecorator();</span>
+<span class="nc bnc" id="L491" title="All 2 branches missed.">		return mDecorator.hasTintInfo() ? mDecorator.getTintInfo().trackTintMode : null;</span>
+	}
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;deprecation&quot;)
+	public void setBackgroundDrawable(Drawable background) {
+<span class="nc" id="L499">		super.setBackgroundDrawable(background);</span>
+<span class="nc" id="L500">		this.ensureDecorator();</span>
+<span class="nc" id="L501">		mDecorator.applyBackgroundTint();</span>
+<span class="nc" id="L502">	}</span>
+
+	/**
+	 * &lt;b&gt;Note, that on pre {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions
+	 * this method will return an instance of {@link TintDrawable TintDrawable} if tint has been applied
+	 * via {@link #setButtonTintList(ColorStateList)}.&lt;/b&gt;
+	 * &lt;p&gt;
+	 * The original wrapped drawable can be obtained via {@link TintDrawable#getDrawable()}.
+	 */
+	@Override
+	public Drawable getBackground() {
+<span class="nc" id="L513">		return super.getBackground();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setBackgroundTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L520">		this.ensureDecorator();</span>
+<span class="nc" id="L521">		mDecorator.setBackgroundTintList(tint);</span>
+<span class="nc" id="L522">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public ColorStateList getBackgroundTintList() {
+<span class="nc" id="L529">		this.ensureDecorator();</span>
+<span class="nc" id="L530">		return mDecorator.getBackgroundTintList();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setBackgroundTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L537">		this.ensureDecorator();</span>
+<span class="nc" id="L538">		mDecorator.setBackgroundTintMode(tintMode);</span>
+<span class="nc" id="L539">	}</span>
+
+	/**
+	 */
+	@Nullable
+	@Override
+	public PorterDuff.Mode getBackgroundTintMode() {
+<span class="nc" id="L546">		this.ensureDecorator();</span>
+<span class="nc" id="L547">		return mDecorator.getBackgroundTintMode();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setFont(@NonNull String fontPath) {
+<span class="nc" id="L554">		this.ensureDecorator();</span>
+<span class="nc" id="L555">		mDecorator.setFont(fontPath);</span>
+<span class="nc" id="L556">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setFont(@Nullable Font font) {
+<span class="nc" id="L562">		this.ensureDecorator();</span>
+<span class="nc" id="L563">		mDecorator.setFont(font);</span>
+<span class="nc" id="L564">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;deprecation&quot;)
+	public void setTextAppearance(@NonNull Context context, @StyleRes int resId) {
+<span class="nc" id="L571">		super.setTextAppearance(context, resId);</span>
+<span class="nc" id="L572">		this.ensureDecorator();</span>
+<span class="nc" id="L573">		mDecorator.setFontFromStyle(resId);</span>
+<span class="nc" id="L574">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+<span class="nc" id="L580">		super.onSizeChanged(w, h, oldw, oldh);</span>
+<span class="nc" id="L581">		this.ensureDecorator();</span>
+<span class="nc" id="L582">		mDecorator.onSizeChanged(w, h, oldw, oldh);</span>
+<span class="nc" id="L583">	}</span>
+
+	/**
+	 */
+	@NonNull
+	@Override
+	public WidgetSizeAnimator animateSize() {
+<span class="nc" id="L590">		this.ensureDecorator();</span>
+<span class="nc" id="L591">		return mDecorator.animateSize();</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * This class holds all data necessary to tint all components of this view.
+	 */
+<span class="nc" id="L601">	private static final class SwitchTintInfo extends BackgroundTintInfo {</span>
+
+		/**
+		 * Color state list used to tint a specific states of the &lt;b&gt;track&lt;/b&gt; drawable.
+		 */
+		ColorStateList trackTintList;
+
+		/**
+		 * Flag indicating whether the {@link #trackTintList} has been set or not.
+		 */
+		boolean hasTrackTintList;
+
+		/**
+		 * Blending mode used to apply tint to the &lt;b&gt;track&lt;/b&gt; drawable.
+		 */
+		PorterDuff.Mode trackTintMode;
+
+		/**
+		 * Flag indicating whether the {@link #trackTintMode} has been set or not.
+		 */
+		boolean hasTrackTintMode;
+	}
+
+	/**
+	 * Decorator implementation for this widget.
+	 */
+	private final class Decorator extends CompoundButtonDecorator&lt;SwitchWidget&gt; {
+
+		/**
+		 * See {@link CompoundButtonDecorator#CompoundButtonDecorator(CompoundButton)}.
+		 */
+<span class="nc" id="L632">		Decorator(SwitchWidget widget) {</span>
+<span class="nc" id="L633">			super(widget, R.styleable.Ui_CompoundButton_Switch);</span>
+<span class="nc" id="L634">		}</span>
+
+		/**
+		 */
+		@Override
+		BackgroundTintInfo onCreateTintInfo() {
+<span class="nc" id="L640">			return new SwitchTintInfo();</span>
+		}
+
+		/**
+		 */
+		@NonNull
+		@Override
+		SwitchTintInfo getTintInfo() {
+<span class="nc" id="L648">			return (SwitchTintInfo) super.getTintInfo();</span>
+		}
+
+		/**
+		 */
+		@Override
+		@SuppressWarnings(&quot;ResourceType&quot;)
+		void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
+<span class="nc" id="L656">			super.onProcessTintAttributes(context, tintAttributes, tintColor);</span>
+<span class="nc" id="L657">			final SwitchTintInfo tintInfo = getTintInfo();</span>
+<span class="nc bnc" id="L658" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_Switch_uiThumbTint)) {</span>
+<span class="nc" id="L659">				tintInfo.tintList = tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_Switch_uiThumbTint);</span>
+			}
+<span class="nc bnc" id="L661" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_Switch_uiTrackTint)) {</span>
+<span class="nc" id="L662">				tintInfo.trackTintList = tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_Switch_uiTrackTint);</span>
+			}
+<span class="nc bnc" id="L664" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_Switch_uiBackgroundTint)) {</span>
+<span class="nc" id="L665">				tintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_Switch_uiBackgroundTint);</span>
+			}
+<span class="nc" id="L667">			tintInfo.tintMode = TintManager.parseTintMode(</span>
+<span class="nc bnc" id="L668" title="All 2 branches missed.">					tintAttributes.getInteger(R.styleable.Ui_CompoundButton_Switch_uiThumbTintMode, 0),</span>
+					tintInfo.tintList != null ? PorterDuff.Mode.SRC_IN : null
+			);
+<span class="nc" id="L671">			tintInfo.trackTintMode = TintManager.parseTintMode(</span>
+<span class="nc bnc" id="L672" title="All 2 branches missed.">					tintAttributes.getInteger(R.styleable.Ui_CompoundButton_Switch_uiTrackTintMode, 0),</span>
+					tintInfo.trackTintList != null ? PorterDuff.Mode.SRC_IN : null
+			);
+<span class="nc" id="L675">			tintInfo.backgroundTintMode = TintManager.parseTintMode(</span>
+<span class="nc bnc" id="L676" title="All 2 branches missed.">					tintAttributes.getInt(R.styleable.Ui_CompoundButton_uiBackgroundTintMode, 0),</span>
+					tintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
+			);
+<span class="nc" id="L679">		}</span>
+
+		/**
+		 */
+		@Override
+		void onTintAttributesProcessed() {
+<span class="nc" id="L685">			final SwitchTintInfo tintInfo = getTintInfo();</span>
+			// If there is no tint mode specified within style/xml do not tint at all.
+<span class="nc bnc" id="L687" title="All 2 branches missed.">			if (tintInfo.trackTintMode == null) tintInfo.trackTintList = null;</span>
+<span class="nc bnc" id="L688" title="All 2 branches missed.">			tintInfo.hasTrackTintList = tintInfo.trackTintList != null;</span>
+<span class="nc bnc" id="L689" title="All 2 branches missed.">			tintInfo.hasTrackTintMode = tintInfo.trackTintMode != null;</span>
+<span class="nc" id="L690">			super.onTintAttributesProcessed();</span>
+<span class="nc" id="L691">		}</span>
+
+		/**
+		 */
+		@Override
+		boolean shouldInvalidateTintInfo(@NonNull BackgroundTintInfo tintInfo) {
+<span class="nc" id="L697">			final SwitchTintInfo info = (SwitchTintInfo) tintInfo;</span>
+<span class="nc bnc" id="L698" title="All 6 branches missed.">			return !info.hasTrackTintList &amp;&amp; !info.hasTrackTintMode &amp;&amp; super.shouldInvalidateTintInfo(tintInfo);</span>
+		}
+
+		/**
+		 */
+		@Override
+		void superSetButtonDrawable(Drawable button) {
+<span class="nc" id="L705">			SwitchWidget.super.setButtonDrawable(button);</span>
+<span class="nc" id="L706">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetButtonTintList(ColorStateList tint) {
+<span class="nc" id="L713">			SwitchWidget.super.setButtonTintList(tint);</span>
+<span class="nc" id="L714">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		ColorStateList superGetButtonTintList() {
+<span class="nc" id="L721">			return SwitchWidget.super.getButtonTintList();</span>
+		}
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetButtonTintMode(PorterDuff.Mode tintMode) {
+<span class="nc" id="L729">			SwitchWidget.super.setButtonTintMode(tintMode);</span>
+<span class="nc" id="L730">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		PorterDuff.Mode superGetButtonTintMode() {
+<span class="nc" id="L737">			return SwitchWidget.super.getButtonTintMode();</span>
+		}
+
+		/**
+		 */
+		@Override
+		@SuppressWarnings(&quot;deprecation&quot;)
+		void superSetBackgroundDrawable(Drawable drawable) {
+<span class="nc" id="L745">			SwitchWidget.super.setBackgroundDrawable(drawable);</span>
+<span class="nc" id="L746">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetBackgroundTintList(ColorStateList tint) {
+<span class="nc" id="L753">			SwitchWidget.super.setBackgroundTintList(tint);</span>
+<span class="nc" id="L754">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		ColorStateList superGetBackgroundTintList() {
+<span class="nc" id="L761">			return SwitchWidget.super.getBackgroundTintList();</span>
+		}
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		void superSetBackgroundTintMode(PorterDuff.Mode tintMode) {
+<span class="nc" id="L769">			SwitchWidget.super.setBackgroundTintMode(tintMode);</span>
+<span class="nc" id="L770">		}</span>
+
+		/**
+		 */
+		@Override
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		PorterDuff.Mode superGetBackgroundTintMode() {
+<span class="nc" id="L777">			return SwitchWidget.super.getBackgroundTintMode();</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

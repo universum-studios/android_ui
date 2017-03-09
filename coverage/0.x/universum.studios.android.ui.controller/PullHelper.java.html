@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PullHelper.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.controller</a> &gt; <span class="el_source">PullHelper.java</span></div><h1>PullHelper.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.controller;
+
+import android.content.res.Resources;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.View;
+import android.view.ViewGroup;
+
+import universum.studios.android.ui.widget.Scrollable;
+
+/**
+ * Helper class used to handle core pull logic for {@link BasePullController}
+ * that is used within scrollable views, mainly collections like {@link android.widget.ListView},
+ * to support pulling at start and at end of these views.
+ * &lt;p&gt;
+ * This class represents only base implementation with API required by BasePullController to properly
+ * pull a view to which is attached to. See {@link universum.studios.android.ui.controller.VerticalPullHelper}
+ * and {@link universum.studios.android.ui.controller.HorizontalPullHelper} for orientation based
+ * implementation details.
+ *
+ * @author Martin Albedinsky
+ */
+abstract class PullHelper {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;PullHelper&quot;;
+
+	/**
+	 * Flag for {@link #setPullMode(int)} to indicate that neither start or end pull are enabled.
+	 */
+	static final int NONE = 0x00000000;
+
+	/**
+	 * Flag for {@link #setPullMode(int)} to indicate that the pull at the start of a pullable view
+	 * is enabled.
+	 */
+	static final int START = 0x00000001;
+
+	/**
+	 * Flag for {@link #setPullMode(int)} to indicate that the pull at the end of a pullable view
+	 * is enabled.
+	 */
+	static final int END = 0x00000002;
+
+	/**
+	 * State determining that this helper is in idle state, so it is not offsetting the attached view.
+	 */
+	static final int STATE_IDLE = 0x00;
+
+	/**
+	 * State determining that this helper is offsetting the attached view at its start. Start is determined
+	 * by the attached view's orientation ({@link universum.studios.android.ui.widget.Pullable#getOrientation()}).
+	 */
+	static final int STATE_PULLING_AT_START = 0x01;
+
+	/**
+	 * State determining that this helper is offsetting the attached view at its end. End is determined
+	 * by the attached view's orientation ({@link universum.studios.android.ui.widget.Pullable#getOrientation()}).
+	 */
+	static final int STATE_PULLING_AT_END = 0x02;
+
+	/**
+	 * Flag indicating whether the pull at the start is visible or not. This determines whether this
+	 * helper should really offset the attached view at its start to show current pull.
+	 */
+	private static final int PFLAG_START_PULL_VISIBLE = 0x01;
+
+	/**
+	 * Flag indicating whether the pull at the end is visible or not. This determines whether this
+	 * helper should really offset the attached view at its end to show current pull.
+	 */
+	private static final int PFLAG_END_PULL_VISIBLE = 0x02;
+
+	/**
+	 * Minimum delta of pull required to be direction of pull changed ind DP units.
+	 */
+	private static final int MIN_DELTA_TO_CHANGE_PULL_DIRECTION = 3;
+
+	/**
+	 * Maximum delta of pull which will be handled by this helper in DP units.
+	 */
+	private static final int MAX_PULL_DELTA = 4;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * View with which has been this helper initialized.
+	 */
+	final View mView;
+
+	/**
+	 * Minimum delta of pull required to be direction of pull changed in pixels.
+	 */
+	final float mMinDeltaToChangePullDirection;
+
+	/**
+	 * Maximum delta of pull which will be handled by this helper in pixels. This means that this
+	 * helper will offset the attached view maximum by this value at the time.
+	 */
+	final float mMaxPullDelta;
+
+	/**
+	 * Current value of pull determined by offset of the attached view.
+	 */
+	int mPullOffset;
+
+	/**
+	 * Current state of this helper.
+	 */
+<span class="nc" id="L144">	int mState = STATE_IDLE;</span>
+
+	/**
+	 * Mode determining which pull (offset) should be really handled by this helper by offsetting
+	 * the attached view.
+	 */
+<span class="nc" id="L150">	int mMode = START | END;</span>
+
+	/**
+	 * Set of private flags specific for this helper.
+	 */
+<span class="nc" id="L155">	private int mPrivateFlags = PFLAG_START_PULL_VISIBLE | PFLAG_END_PULL_VISIBLE;</span>
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of PullHelper for the given &lt;var&gt;view&lt;/var&gt;.
+	 *
+	 * @param view The view of which offset will be managed by this helper.
+	 */
+<span class="nc" id="L166">	&lt;V extends View &amp; Scrollable&gt; PullHelper(V view) {</span>
+<span class="nc" id="L167">		this.mView = view;</span>
+<span class="nc" id="L168">		final Resources resources = view.getResources();</span>
+<span class="nc" id="L169">		final float density = resources.getDisplayMetrics().density;</span>
+<span class="nc" id="L170">		this.mMinDeltaToChangePullDirection = MIN_DELTA_TO_CHANGE_PULL_DIRECTION * density;</span>
+<span class="nc" id="L171">		this.mMaxPullDelta = MAX_PULL_DELTA * density;</span>
+<span class="nc" id="L172">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Returns the view with which has been this helper initialized.
+	 *
+	 * @return The attached view.
+	 */
+	final View accessView() {
+<span class="nc" id="L184">		return mView;</span>
+	}
+
+	/**
+	 * Sets the pull mode flags used to determine which pull to handle and which to not.
+	 *
+	 * @param mode The desired mode flags.
+	 */
+	final void setPullMode(int mode) {
+<span class="nc bnc" id="L193" title="All 2 branches missed.">		switch (mode) {</span>
+			case NONE:
+			case START:
+			case END:
+			case START | END:
+<span class="nc" id="L198">				this.mMode = mode;</span>
+		}
+<span class="nc" id="L200">	}</span>
+
+	/**
+	 * Returns the current pull mode flags.
+	 *
+	 * @return Mode flags set by {@link #setPullMode(int)} or ({@link #START} | {@link #END})
+	 * by default.
+	 */
+	final int getPullMode() {
+<span class="nc" id="L209">		return mMode;</span>
+	}
+
+	/**
+	 * Sets the visibility flags used to determine which pull to show and which to not.
+	 *
+	 * @param pull    The desired pull flags.
+	 * @param visible {@code True} to show pull for the given flags, {@code false} otherwise.
+	 */
+	final void setPullVisibility(int pull, boolean visible) {
+<span class="nc bnc" id="L219" title="All 4 branches missed.">		switch (pull) {</span>
+			case START:
+<span class="nc" id="L221">				this.updatePrivateFlags(PFLAG_START_PULL_VISIBLE, visible);</span>
+<span class="nc" id="L222">				break;</span>
+			case END:
+<span class="nc" id="L224">				this.updatePrivateFlags(PFLAG_END_PULL_VISIBLE, visible);</span>
+<span class="nc" id="L225">				break;</span>
+			case START | END:
+<span class="nc" id="L227">				this.updatePrivateFlags(PFLAG_START_PULL_VISIBLE, visible);</span>
+<span class="nc" id="L228">				this.updatePrivateFlags(PFLAG_END_PULL_VISIBLE, visible);</span>
+				break;
+		}
+<span class="nc" id="L231">	}</span>
+
+	/**
+	 * Returns a flag indicating whether the pull for the specified &lt;var&gt;pull&lt;/var&gt; flags is visible
+	 * (this helper is really offsetting the attached view) or not.
+	 *
+	 * @param pull The desired pull flags of which visibility to resolve.
+	 * @return {@code True} if pull for the specified flags is visible, {@code false} otherwise.
+	 */
+	final boolean isPullVisible(int pull) {
+<span class="nc bnc" id="L241" title="All 4 branches missed.">		switch (pull) {</span>
+			case START:
+<span class="nc" id="L243">				return hasPrivateFlag(PFLAG_START_PULL_VISIBLE);</span>
+			case END:
+<span class="nc" id="L245">				return hasPrivateFlag(PFLAG_END_PULL_VISIBLE);</span>
+			case START | END:
+<span class="nc bnc" id="L247" title="All 4 branches missed.">				return hasPrivateFlag(PFLAG_START_PULL_VISIBLE) &amp;&amp; hasPrivateFlag(PFLAG_END_PULL_VISIBLE);</span>
+		}
+<span class="nc" id="L249">		return false;</span>
+	}
+
+	/**
+	 * Offsets the attached view by the specified &lt;var&gt;offset&lt;/var&gt;.
+	 * &lt;p&gt;
+	 * Note, that orientation (vertical/horizontal) of offset will depends on this pull helper implementation.
+	 *
+	 * @param offset The desired offset for the attached view.
+	 */
+	final void setPullOffset(int offset) {
+<span class="nc bnc" id="L260" title="All 2 branches missed.">		if (mPullOffset != offset) {</span>
+<span class="nc" id="L261">			final int offDelta = offset - mPullOffset;</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">			if (offDelta != 0) {</span>
+<span class="nc" id="L263">				offsetViewBy(offDelta);</span>
+<span class="nc" id="L264">				this.mPullOffset = offset;</span>
+			}
+		}
+<span class="nc" id="L267">	}</span>
+
+	/**
+	 * Clears the current offset of the attached view.
+	 */
+	final void clearPullOffset() {
+<span class="nc" id="L273">		offsetViewBy(-mPullOffset);</span>
+<span class="nc" id="L274">		this.mPullOffset = 0;</span>
+<span class="nc" id="L275">	}</span>
+
+	/**
+	 * Called to offset the attached view by the specified offset.
+	 *
+	 * @param offset The offset by which to offset the attached view.
+	 */
+	abstract void offsetViewBy(int offset);
+
+	/**
+	 * Checks whether the attached view has some children or not.
+	 *
+	 * @return {@code True} if the view is a {@link android.view.ViewGroup} and has some children,
+	 * {@code false} otherwise.
+	 */
+	final boolean hasViewChildren() {
+<span class="nc bnc" id="L291" title="All 4 branches missed.">		return mView instanceof ViewGroup &amp;&amp; ((ViewGroup) mView).getChildCount() &gt; 0;</span>
+	}
+
+	/**
+	 * Checks whether the attached view is at its start (of scrollable content) or not.
+	 *
+	 * @return {@code True} if the view is at the start of scroll, {@code false} otherwise.
+	 */
+	final boolean isViewScrolledAtStart() {
+<span class="nc" id="L300">		return ((Scrollable) mView).isScrolledAtStart();</span>
+	}
+
+	/**
+	 * Checks whether the attached view is at its end (of scrollable content) or not.
+	 *
+	 * @return {@code True} if the view is at the end of scroll, {@code false} otherwise.
+	 */
+	final boolean isViewScrolledAtEnd() {
+<span class="nc" id="L309">		return ((Scrollable) mView).isScrolledAtEnd();</span>
+	}
+
+	/**
+	 * Changes state of this helper.
+	 *
+	 * @param state The state to be changed. One of {@link #STATE_IDLE}, {@link #STATE_PULLING_AT_START}
+	 *              or {@link #STATE_PULLING_AT_END}.
+	 */
+	final void changeState(int state) {
+<span class="nc" id="L319">		this.mState = state;</span>
+<span class="nc" id="L320">	}</span>
+
+	/**
+	 * Called to dispatch that a motion event upon the attached view has been initiated.
+	 *
+	 * @param event The initiated motion event.
+	 */
+	void dispatchPullInitiated(MotionEvent event) {
+<span class="nc bnc" id="L328" title="All 2 branches missed.">		changeState(isViewScrolledAtStart() ? STATE_PULLING_AT_START : STATE_PULLING_AT_END);</span>
+<span class="nc" id="L329">	}</span>
+
+	/**
+	 * Called to dispatch tat a motion event upon the attached view has been performed.
+	 *
+	 * @param event The motion event for performed pull.
+	 */
+	void dispatchPullPerformed(MotionEvent event) {
+<span class="nc" id="L337">	}</span>
+
+	/**
+	 * Called to dispatch release (UP/CANCEL) motion even upon the attached view.
+	 *
+	 * @param event The motion event action of {@link MotionEvent#ACTION_UP} or {@link MotionEvent#ACTION_CANCEL}.
+	 */
+	void dispatchPullReleased(MotionEvent event) {
+<span class="nc" id="L345">	}</span>
+
+	/**
+	 * Called after the pull of the attached view has been collapsed by running animation or just by a user.
+	 */
+	void dispatchPullCollapsed() {
+<span class="nc" id="L351">		clearPullOffset();</span>
+<span class="nc" id="L352">		changeState(STATE_IDLE);</span>
+<span class="nc" id="L353">	}</span>
+
+	/**
+	 * Returns the size of the attached view. This will be view's width or height depends on this
+	 * helper's implementation.
+	 *
+	 * @return View's size.
+	 */
+	abstract int getViewSize();
+
+	/**
+	 * Checks whether the specified &lt;var&gt;tracker&lt;/var&gt; contains velocity which is allowed depends
+	 * on the given &lt;var&gt;minVelocity&lt;/var&gt;.
+	 *
+	 * @param tracker     The tracker with velocity to check.
+	 * @param minVelocity The min velocity to which to check against.
+	 * @return {@code True} if velocity of the tracker can be processed, {@code false} otherwise.
+	 */
+	abstract boolean isAllowedVelocity(VelocityTracker tracker, float minVelocity);
+
+	/**
+	 * Called to check if pull should be started for the specified motion &lt;var&gt;event&lt;/var&gt;.
+	 *
+	 * @param event The motion event to check.
+	 * @return {@code True} if pull should be started, {@code false} otherwise.
+	 */
+	abstract boolean shouldStartPull(MotionEvent event);
+
+	/**
+	 * Called to check if pull should be canceled for the specified motion &lt;var&gt;event&lt;/var&gt;.
+	 *
+	 * @param event The motion event to check.
+	 * @return {@code True} if pull should be cancelled, {@code false} otherwise.
+	 */
+	abstract boolean shouldCancelPull(MotionEvent event);
+
+	/**
+	 * Called to compute pull offset for the specified motion &lt;var&gt;event&lt;/var&gt;.
+	 *
+	 * @param event The motion event to be used for pull computation.
+	 * @return Computed pull offset for the given motion event.
+	 */
+	abstract float computePullOffset(MotionEvent event);
+
+	/**
+	 * Called to check if pull should be expanded or not. This determines whether to offset the attached
+	 * view from its start/end or not.
+	 *
+	 * @param event The motion event to check.
+	 * @return {@code True} if pull should be still expanded, {@code false} otherwise.
+	 */
+	abstract boolean shouldExpandPull(MotionEvent event);
+
+	/**
+	 * Called to check if pull should be collapsed or not. This determines whether to offset the attached
+	 * view to its start/end or not.
+	 *
+	 * @param event The motion event to check.
+	 * @return {@code True} if pull should be still collapsed, {@code false} otherwise.
+	 */
+	abstract boolean shouldCollapsePull(MotionEvent event);
+
+	/**
+	 * Checks whether the specified motion &lt;var&gt;event&lt;/var&gt; has changed since the last one passed
+	 * to be processed by this helper or not.
+	 *
+	 * @param event The motion event to check.
+	 * @return {@code True} if the event contains data which are different from the last one specific
+	 * for this helper implementation,  {@code false} otherwise.
+	 */
+	abstract boolean hasTouchChanged(MotionEvent event);
+
+	/**
+	 * Called to compute over-scroll distance for the given scroll data.
+	 *
+	 * @param scrollX  Current scroll X of the attached view.
+	 * @param scrollY  Current scroll Y of the attached view.
+	 * @param clampedX {@code True} if &lt;var&gt;scrollX&lt;/var&gt; was clamped to an over-scroll boundary,
+	 *                 {@code false} otherwise.
+	 * @param clampedY {@code True} if &lt;var&gt;scrollY&lt;/var&gt; was clamped to an over-scroll boundary,
+	 *                 {@code false} otherwise.
+	 * @param tracker  Velocity tracker with data of the current touch's velocity.
+	 * @param units    Velocity units for the specified tracker.
+	 * @return Computed over-scroll distance or {@code 0} if no over-scroll has been captured.
+	 */
+	abstract float computeOverScroll(int scrollX, int scrollY, boolean clampedX, boolean clampedY, VelocityTracker tracker, int units);
+
+	/**
+	 * Updates the current private flags.
+	 *
+	 * @param flag Value of the desired flag to add/remove to/from the current private flags.
+	 * @param add  Boolean flag indicating whether to add or remove the specified &lt;var&gt;flag&lt;/var&gt;.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	private void updatePrivateFlags(int flag, boolean add) {
+<span class="nc bnc" id="L448" title="All 2 branches missed.">		if (add) this.mPrivateFlags |= flag;</span>
+<span class="nc" id="L449">		else this.mPrivateFlags &amp;= ~flag;</span>
+<span class="nc" id="L450">	}</span>
+
+	/**
+	 * Returns a boolean flag indicating whether the specified &lt;var&gt;flag&lt;/var&gt; is contained within
+	 * the current private flags or not.
+	 *
+	 * @param flag Value of the flag to check.
+	 * @return {@code True} if the requested flag is contained, {@code false} otherwise.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	private boolean hasPrivateFlag(int flag) {
+<span class="nc bnc" id="L461" title="All 2 branches missed.">		return (mPrivateFlags &amp; flag) != 0;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

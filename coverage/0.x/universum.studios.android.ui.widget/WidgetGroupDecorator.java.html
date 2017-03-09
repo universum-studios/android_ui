@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>WidgetGroupDecorator.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">WidgetGroupDecorator.java</span></div><h1>WidgetGroupDecorator.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
+import android.os.Build;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.UiConfig;
+
+/**
+ * A {@link WidgetDecorator} implementation to support additional features for {@link ViewGroup}
+ * based widgets, like pulling, refreshing and other features.
+ *
+ * @author Martin Albedinsky
+ */
+abstract class WidgetGroupDecorator&lt;G extends ViewGroup&gt; extends WidgetDecorator&lt;G&gt; implements WidgetGroup {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;WidgetGroupDecorator&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #WidgetGroupDecorator(ViewGroup, int[])} with default {@link R.styleable#Ui_ViewGroup}
+	 * as styleable attributes set.
+	 */
+	WidgetGroupDecorator(G widgetGroup) {
+<span class="nc" id="L71">		super(widgetGroup, R.styleable.Ui_ViewGroup);</span>
+<span class="nc" id="L72">	}</span>
+
+	/**
+	 * Creates a new instance of WidgetGroupDecorator for the given &lt;var&gt;widgetGroup&lt;/var&gt;.
+	 *
+	 * @param widgetGroup    The widget group for which to create new decorator.
+	 * @param styleableAttrs Set of styleable attributes specific for the widget group.
+	 * @see WidgetDecorator#WidgetDecorator(View, int[])
+	 */
+	WidgetGroupDecorator(G widgetGroup, int[] styleableAttrs) {
+<span class="nc" id="L82">		super(widgetGroup, styleableAttrs);</span>
+<span class="nc" id="L83">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 */
+	@Override
+	void onProcessAttributes(Context context, TypedArray attributes) {
+<span class="nc" id="L93">		super.onProcessAttributes(context, attributes);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">		if (attributes.hasValue(R.styleable.Ui_ViewGroup_uiHideSoftKeyboardOnTouch)) {</span>
+<span class="nc" id="L95">			setHideSoftKeyboardOnTouchEnabled(attributes.getBoolean(R.styleable.Ui_ViewGroup_uiHideSoftKeyboardOnTouch, false));</span>
+		}
+<span class="nc" id="L97">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
+<span class="nc bnc" id="L104" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_ViewGroup_uiBackgroundTint)) {</span>
+<span class="nc" id="L106">				setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_ViewGroup_uiBackgroundTint));</span>
+			}
+<span class="nc bnc" id="L108" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_ViewGroup_uiBackgroundTintMode)) {</span>
+<span class="nc" id="L109">				setBackgroundTintMode(TintManager.parseTintMode(</span>
+<span class="nc" id="L110">						tintAttributes.getInt(R.styleable.Ui_ViewGroup_uiBackgroundTintMode, 0),</span>
+						PorterDuff.Mode.SRC_IN
+				));
+			}
+		} else {
+<span class="nc bnc" id="L115" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_ViewGroup_uiBackgroundTint)) {</span>
+<span class="nc" id="L116">				mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_ViewGroup_uiBackgroundTint);</span>
+			}
+<span class="nc" id="L118">			mTintInfo.backgroundTintMode = TintManager.parseTintMode(</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">					tintAttributes.getInt(R.styleable.Ui_ViewGroup_uiBackgroundTintMode, 0),</span>
+					mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
+			);
+		}
+<span class="nc" id="L123">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setHideSoftKeyboardOnTouchEnabled(boolean enabled) {
+<span class="nc" id="L129">		this.updatePrivateFlags(PrivateFlags.PFLAG_HIDE_SOFT_KEYBOARD_ON_TOUCH, enabled);</span>
+<span class="nc" id="L130">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean isHideSoftKeyboardOnTouchEnabled() {
+<span class="nc" id="L136">		return hasPrivateFlag(PrivateFlags.PFLAG_HIDE_SOFT_KEYBOARD_ON_TOUCH);</span>
+	}
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public void setFractionX(float fraction) {
+<span class="nc bnc" id="L145" title="All 4 branches missed.">		if (SLIDEABLE) mWidget.setX(mWidth &gt; 0 ?</span>
+<span class="nc" id="L146">				(mWidget.getLeft() + (fraction * mWidth)) :</span>
+				OUT_OF_SCREEN);
+<span class="nc" id="L148">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public float getFractionX() {
+<span class="nc bnc" id="L155" title="All 4 branches missed.">		return (SLIDEABLE &amp;&amp; mWidth &gt; 0) ? (mWidget.getLeft() + (mWidget.getX() / mWidth)) : 0;</span>
+	}
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public void setFractionY(float fraction) {
+<span class="nc bnc" id="L164" title="All 4 branches missed.">		if (SLIDEABLE) mWidget.setY(mHeight &gt; 0 ?</span>
+<span class="nc" id="L165">				(mWidget.getTop() + (fraction * mHeight)) :</span>
+				OUT_OF_SCREEN);
+<span class="nc" id="L167">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public float getFractionY() {
+<span class="nc bnc" id="L174" title="All 4 branches missed.">		return (SLIDEABLE &amp;&amp; mHeight &gt; 0) ? (mWidget.getTop() + (mWidget.getY() / mHeight)) : 0;</span>
+	}
+
+	/**
+	 * Requests hiding of the soft keyboard for the attached group widget due to touch event if such
+	 * feature is enabled.
+	 *
+	 * @see #isHideSoftKeyboardOnTouchEnabled()
+	 * @see #setHideSoftKeyboardOnTouchEnabled(boolean)
+	 */
+	void hideSoftKeyboardOnTouch() {
+<span class="nc bnc" id="L185" title="All 2 branches missed.">		if (hasPrivateFlag(PrivateFlags.PFLAG_HIDE_SOFT_KEYBOARD_ON_TOUCH)) {</span>
+<span class="nc" id="L186">			WidgetUtils.hideSoftKeyboard(mWidget);</span>
+		}
+<span class="nc" id="L188">	}</span>
+
+	/**
+	 * This should be called from the attached widget group whenever its
+	 * {@link ViewGroup#onInterceptTouchEvent(MotionEvent)} is invoked.
+	 */
+	boolean onInterceptTouchEvent(MotionEvent event) {
+<span class="nc" id="L195">		return false;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

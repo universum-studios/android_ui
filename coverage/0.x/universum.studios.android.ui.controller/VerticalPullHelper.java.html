@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>VerticalPullHelper.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.controller</a> &gt; <span class="el_source">VerticalPullHelper.java</span></div><h1>VerticalPullHelper.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.controller;
+
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.View;
+
+import universum.studios.android.ui.widget.Orientation;
+import universum.studios.android.ui.widget.Scrollable;
+
+/**
+ * Implementation of {@link PullHelper} to support pulling of
+ * scrollable views that has {@link Orientation#VERTICAL} orientation like {@link android.widget.ListView}
+ * or {@link android.widget.GridView}.
+ * &lt;p&gt;
+ * The pull is performed on these views by offsetting theirs original top/bottom positions via
+ * {@link View#offsetTopAndBottom(int)} by deltas computed from the {@link android.view.MotionEvent}s
+ * passed to the VerticalPullHelper for the changes in {@link android.view.MotionEvent#getY()}.
+ *
+ * @author Martin Albedinsky
+ */
+final class VerticalPullHelper extends PullHelper {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;VerticalPullHelper&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Last touch Y coordinate used to compute delta against the new touch event.
+	 */
+<span class="nc" id="L65">	private float mTouchLastY = 0;</span>
+
+	/**
+	 * Flag indicating whether this helper is expanding pull of the pullable view or collapsing it.
+	 */
+	private boolean mExpandingPull;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of VerticalPullHelper to manage vertical pull offsetting of the given
+	 * &lt;var&gt;view&lt;/var&gt;.
+	 *
+	 * @param view The view of which pull to manage.
+	 */
+	&lt;V extends View &amp; Scrollable&gt; VerticalPullHelper(V view) {
+<span class="nc" id="L83">		super(view);</span>
+<span class="nc" id="L84">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 */
+	@Override
+	int getViewSize() {
+<span class="nc" id="L94">		return mView.getHeight();</span>
+	}
+
+	/**
+	 */
+	@Override
+	void offsetViewBy(int offset) {
+<span class="nc bnc" id="L101" title="All 3 branches missed.">		switch (mState) {</span>
+			case STATE_PULLING_AT_START:
+<span class="nc bnc" id="L103" title="All 2 branches missed.">				if (isPullVisible(START)) {</span>
+<span class="nc" id="L104">					mView.offsetTopAndBottom(offset);</span>
+				}
+				break;
+			case STATE_PULLING_AT_END:
+<span class="nc bnc" id="L108" title="All 2 branches missed.">				if (isPullVisible(END)) {</span>
+<span class="nc" id="L109">					mView.offsetTopAndBottom(offset);</span>
+				}
+				break;
+		}
+<span class="nc" id="L113">	}</span>
+
+	/**
+	 */
+	@Override
+	boolean isAllowedVelocity(VelocityTracker tracker, float minVelocity) {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">		return Math.abs(tracker.getYVelocity()) &gt;= minVelocity;</span>
+	}
+
+	/**
+	 */
+	@Override
+	void dispatchPullInitiated(MotionEvent event) {
+<span class="nc" id="L126">		super.dispatchPullInitiated(event);</span>
+<span class="nc bnc" id="L127" title="All 3 branches missed.">		switch (mState) {</span>
+			case STATE_PULLING_AT_START:
+<span class="nc bnc" id="L129" title="All 2 branches missed.">				this.mExpandingPull = mTouchLastY &lt; event.getY();</span>
+			case STATE_PULLING_AT_END:
+<span class="nc bnc" id="L131" title="All 2 branches missed.">				this.mExpandingPull = mTouchLastY &gt; event.getY();</span>
+		}
+<span class="nc" id="L133">		this.updateTouchLastY(event);</span>
+<span class="nc" id="L134">	}</span>
+
+	/**
+	 */
+	@Override
+	void dispatchPullPerformed(MotionEvent event) {
+<span class="nc" id="L140">		super.dispatchPullPerformed(event);</span>
+<span class="nc" id="L141">		this.updateTouchLastY(event);</span>
+<span class="nc" id="L142">	}</span>
+
+	/**
+	 * Updates a value of the last touch Y coordinate from the specified motion &lt;var&gt;event&lt;/var&gt;.
+	 *
+	 * @param event The motion event from which to obtain Y coordinate.
+	 */
+	private void updateTouchLastY(MotionEvent event) {
+<span class="nc" id="L150">		this.mTouchLastY = event.getY();</span>
+<span class="nc" id="L151">	}</span>
+
+	/**
+	 */
+	@Override
+	void dispatchPullCollapsed() {
+<span class="nc" id="L157">		super.dispatchPullCollapsed();</span>
+<span class="nc" id="L158">		this.mTouchLastY = 0;</span>
+<span class="nc" id="L159">	}</span>
+
+	/**
+	 */
+	@Override
+	boolean shouldStartPull(MotionEvent event) {
+<span class="nc bnc" id="L165" title="All 3 branches missed.">		switch (mState) {</span>
+			case STATE_PULLING_AT_START:
+<span class="nc bnc" id="L167" title="All 4 branches missed.">				return (mMode &amp; START) != 0 &amp;&amp; mTouchLastY &lt; event.getY();</span>
+			case STATE_PULLING_AT_END:
+<span class="nc bnc" id="L169" title="All 4 branches missed.">				return (mMode &amp; END) != 0 &amp;&amp; mTouchLastY &gt; event.getY();</span>
+		}
+<span class="nc" id="L171">		return false;</span>
+	}
+
+	/**
+	 */
+	@Override
+	float computePullOffset(MotionEvent event) {
+<span class="nc" id="L178">		final float delta = event.getY() - mTouchLastY;</span>
+<span class="nc" id="L179">		final float absDelta = Math.abs(delta);</span>
+
+		// Remove the shaking effect during slow pull.
+<span class="nc bnc" id="L182" title="All 3 branches missed.">		switch (mState) {</span>
+			case STATE_PULLING_AT_START:
+<span class="nc bnc" id="L184" title="All 12 branches missed.">				if ((mExpandingPull &amp;&amp; delta &lt; 0 &amp;&amp; absDelta &lt; mMinDeltaToChangePullDirection) ||</span>
+						(!mExpandingPull &amp;&amp; delta &gt; 0 &amp;&amp; absDelta &lt; mMinDeltaToChangePullDirection)) {
+<span class="nc bnc" id="L186" title="All 2 branches missed.">					this.mExpandingPull = mTouchLastY &lt; event.getY();</span>
+<span class="nc" id="L187">					return 0;</span>
+				}
+<span class="nc bnc" id="L189" title="All 2 branches missed.">				this.mExpandingPull = mTouchLastY &lt; event.getY();</span>
+<span class="nc" id="L190">				break;</span>
+			case STATE_PULLING_AT_END:
+<span class="nc bnc" id="L192" title="All 12 branches missed.">				if ((mExpandingPull &amp;&amp; delta &gt; 0 &amp;&amp; absDelta &lt; mMinDeltaToChangePullDirection) ||</span>
+						(!mExpandingPull &amp;&amp; delta &lt; 0 &amp;&amp; absDelta &lt; mMinDeltaToChangePullDirection)) {
+<span class="nc bnc" id="L194" title="All 2 branches missed.">					this.mExpandingPull = mTouchLastY &gt; event.getY();</span>
+<span class="nc" id="L195">					return 0;</span>
+				}
+<span class="nc bnc" id="L197" title="All 2 branches missed.">				this.mExpandingPull = mTouchLastY &gt; event.getY();</span>
+		}
+<span class="nc bnc" id="L199" title="All 2 branches missed.">		return Math.min(absDelta, mMaxPullDelta) * (delta &gt; 0 ? 1 : -1);</span>
+	}
+
+	/**
+	 */
+	@Override
+	boolean shouldExpandPull(MotionEvent event) {
+<span class="nc bnc" id="L206" title="All 3 branches missed.">		switch (mState) {</span>
+			case STATE_PULLING_AT_START:
+<span class="nc bnc" id="L208" title="All 2 branches missed.">				return event.getY() &gt; mTouchLastY;</span>
+			case STATE_PULLING_AT_END:
+<span class="nc bnc" id="L210" title="All 2 branches missed.">				return event.getY() &lt; mTouchLastY;</span>
+		}
+<span class="nc" id="L212">		return false;</span>
+	}
+
+	/**
+	 */
+	@Override
+	boolean shouldCollapsePull(MotionEvent event) {
+<span class="nc bnc" id="L219" title="All 3 branches missed.">		switch (mState) {</span>
+			case STATE_PULLING_AT_START:
+<span class="nc bnc" id="L221" title="All 2 branches missed.">				return event.getY() &lt; mTouchLastY;</span>
+			case STATE_PULLING_AT_END:
+<span class="nc bnc" id="L223" title="All 2 branches missed.">				return event.getY() &gt; mTouchLastY;</span>
+		}
+<span class="nc" id="L225">		return false;</span>
+	}
+
+	/**
+	 */
+	@Override
+	boolean shouldCancelPull(MotionEvent event) {
+<span class="nc bnc" id="L232" title="All 3 branches missed.">		switch (mState) {</span>
+			case STATE_PULLING_AT_START:
+<span class="nc bnc" id="L234" title="All 2 branches missed.">				return mTouchLastY &gt; event.getY();</span>
+			case STATE_PULLING_AT_END:
+<span class="nc bnc" id="L236" title="All 2 branches missed.">				return mTouchLastY &lt; event.getY();</span>
+		}
+<span class="nc" id="L238">		return true;</span>
+	}
+
+	/**
+	 */
+	@Override
+	boolean hasTouchChanged(MotionEvent event) {
+<span class="nc bnc" id="L245" title="All 2 branches missed.">		return event.getY() != mTouchLastY;</span>
+	}
+
+	/**
+	 */
+	@Override
+	float computeOverScroll(int scrollX, int scrollY, boolean clampedX, boolean clampedY, VelocityTracker tracker, int units) {
+<span class="nc bnc" id="L252" title="All 4 branches missed.">		if (scrollY != 0 &amp;&amp; clampedY) {</span>
+<span class="nc" id="L253">			return tracker.getYVelocity() / (units * 0.05f);</span>
+		}
+<span class="nc" id="L255">		return 0;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

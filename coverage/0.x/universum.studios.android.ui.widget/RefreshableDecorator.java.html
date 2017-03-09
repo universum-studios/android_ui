@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RefreshableDecorator.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">RefreshableDecorator.java</span></div><h1>RefreshableDecorator.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.ViewGroup;
+
+import universum.studios.android.ui.controller.RefreshController;
+
+/**
+ * A {@link WidgetGroupDecorator} implementation for {@link Refreshable} widget groups.
+ *
+ * @param &lt;W&gt; Type of the refreshable widget that will use this decorator.
+ * @author Martin Albedinsky
+ */
+abstract class RefreshableDecorator&lt;W extends ViewGroup &amp; Refreshable&gt; extends WidgetGroupDecorator&lt;W&gt; implements Refreshable {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;RefreshableDecorator&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Controller used to support refresh feature for attached widget group.
+	 */
+	private RefreshController&lt;W&gt; mRefreshController;
+
+	/**
+	 * Helper used to resolve whether the attached widget group is scrolled at its start or at its
+	 * end or neither.
+	 */
+	private ScrollableWrapper&lt;W&gt; mScrollableWrapper;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of RefreshableDecorator for the given &lt;var&gt;widgetGroup&lt;/var&gt;.
+	 *
+	 * @param widgetGroup    The refreshable widget group for which to create new decorator.
+	 * @param styleableAttrs Set of styleable attributes specific for the widget group.
+	 * @see WidgetGroupDecorator#WidgetGroupDecorator(ViewGroup, int[])
+	 */
+	RefreshableDecorator(W widgetGroup, int[] styleableAttrs) {
+<span class="nc" id="L84">		super(widgetGroup, styleableAttrs);</span>
+<span class="nc" id="L85">		this.updatePrivateFlags(PrivateFlags.PFLAG_REFRESH_GESTURE_ENABLED, true);</span>
+<span class="nc" id="L86">		this.updatePrivateFlags(PrivateFlags.PFLAG_DRAW_REFRESH_INDICATOR, true);</span>
+<span class="nc" id="L87">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 */
+	@Override
+	void processAttributes(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L97">		this.setUpRefreshController(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L98">		super.processAttributes(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L99">	}</span>
+
+	/**
+	 * Performs set up process of the refresh controller from the given &lt;var&gt;attrs&lt;/var&gt;.
+	 *
+	 * @param context      The context that can be used to access resource values.
+	 * @param attrs        Set of attributes passed to the widget group's constructor from which
+	 *                     to set up the refresh controller.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     the attached widget group within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the attached widget group.
+	 */
+	private void setUpRefreshController(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc" id="L112">		this.ensureRefreshController();</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">		if (!mRefreshController.setUpFromAttrs(context, attrs, defStyleAttr, defStyleRes)) {</span>
+<span class="nc" id="L114">			this.mRefreshController = null;</span>
+		}
+<span class="nc" id="L116">	}</span>
+
+	/**
+	 * Ensures that the refresh controller is initialized.
+	 */
+	private void ensureRefreshController() {
+<span class="nc bnc" id="L122" title="All 2 branches missed.">		if (mRefreshController == null) mRefreshController = new RefreshController&lt;&gt;(mWidget);</span>
+<span class="nc" id="L123">	}</span>
+
+	/**
+	 */
+	@Override
+	public int getOrientation() {
+		// Ignored.
+<span class="nc" id="L130">		return 0;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setRefreshEnabled(boolean enabled) {
+<span class="nc" id="L137">		this.updatePrivateFlags(PrivateFlags.PFLAG_REFRESH_ENABLED, enabled);</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">		if (enabled) {</span>
+<span class="nc" id="L139">			this.ensureRefreshController();</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">			if ((mPrivateFlags &amp; PrivateFlags.PFLAG_ATTACHED_TO_WINDOW) != 0) {</span>
+<span class="nc" id="L141">				mRefreshController.dispatchViewAttachedToWindow();</span>
+<span class="nc" id="L142">				mRefreshController.dispatchViewSizeChanged(mWidth, mHeight);</span>
+			}
+		}
+<span class="nc" id="L145">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean isRefreshEnabled() {
+<span class="nc" id="L151">		return hasPrivateFlag(PrivateFlags.PFLAG_REFRESH_ENABLED);</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setRefreshGestureEnabled(boolean enabled) {
+<span class="nc" id="L158">		this.updatePrivateFlags(PrivateFlags.PFLAG_REFRESH_GESTURE_ENABLED, enabled);</span>
+<span class="nc" id="L159">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean isRefreshGestureEnabled() {
+<span class="nc" id="L165">		return hasPrivateFlag(PrivateFlags.PFLAG_REFRESH_GESTURE_ENABLED);</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setRefreshing(boolean refreshing) {
+<span class="nc" id="L172">		this.ensureRefreshController();</span>
+<span class="nc" id="L173">		mRefreshController.setRefreshing(refreshing);</span>
+<span class="nc" id="L174">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean isRefreshing() {
+<span class="nc" id="L180">		this.ensureRefreshController();</span>
+<span class="nc" id="L181">		return mRefreshController.isRefreshing();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setRefreshIndicatorTransition(@IndicatorTransition int transition) {
+<span class="nc" id="L188">		this.ensureRefreshController();</span>
+<span class="nc" id="L189">		mRefreshController.setRefreshIndicatorTransition(transition);</span>
+<span class="nc" id="L190">	}</span>
+
+	/**
+	 */
+	@Override
+	@IndicatorTransition
+	public int getRefreshIndicatorTransition() {
+<span class="nc" id="L197">		this.ensureRefreshController();</span>
+<span class="nc" id="L198">		return mRefreshController.getRefreshIndicatorTransition();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setDrawRefreshIndicator(boolean draw) {
+<span class="nc" id="L205">		this.updatePrivateFlags(PrivateFlags.PFLAG_DRAW_REFRESH_INDICATOR, draw);</span>
+<span class="nc" id="L206">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean drawsRefreshIndicator() {
+<span class="nc" id="L212">		return hasPrivateFlag(PrivateFlags.PFLAG_DRAW_REFRESH_INDICATOR);</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setOnRefreshListener(@Nullable OnRefreshListener listener) {
+<span class="nc" id="L219">		this.ensureRefreshController();</span>
+<span class="nc" id="L220">		mRefreshController.setOnRefreshListener(listener);</span>
+<span class="nc" id="L221">	}</span>
+
+	/**
+	 * Returns a controller used to support the &lt;b&gt;refresh&lt;/b&gt; feature for the attached view.
+	 *
+	 * @return RefreshController of the refreshable view.
+	 */
+	@NonNull
+	RefreshController getRefreshController() {
+<span class="nc" id="L230">		this.ensureRefreshController();</span>
+<span class="nc" id="L231">		return mRefreshController;</span>
+	}
+
+	/**
+	 */
+	@Override
+	boolean onInterceptTouchEvent(MotionEvent event) {
+<span class="nc bnc" id="L238" title="All 4 branches missed.">		final boolean refreshGestureEnabled = hasPrivateFlag(PrivateFlags.PFLAG_REFRESH_ENABLED) &amp;&amp; hasPrivateFlag(PrivateFlags.PFLAG_REFRESH_GESTURE_ENABLED);</span>
+<span class="nc bnc" id="L239" title="All 6 branches missed.">		return (refreshGestureEnabled &amp;&amp; mRefreshController.shouldInterceptTouchEvent(event)) || super.onInterceptTouchEvent(event);</span>
+	}
+
+	/**
+	 */
+	@Override
+	boolean onTouchEvent(MotionEvent event) {
+<span class="nc bnc" id="L246" title="All 4 branches missed.">		final boolean refreshGestureEnabled = hasPrivateFlag(PrivateFlags.PFLAG_REFRESH_ENABLED) &amp;&amp; hasPrivateFlag(PrivateFlags.PFLAG_REFRESH_GESTURE_ENABLED);</span>
+<span class="nc bnc" id="L247" title="All 6 branches missed.">		return (refreshGestureEnabled &amp;&amp; mRefreshController.processTouchEvent(event)) || super.onTouchEvent(event);</span>
+	}
+
+	/**
+	 */
+	@Override
+	public boolean isScrolledAtStart() {
+<span class="nc" id="L254">		this.ensureScrollableWrapper();</span>
+<span class="nc" id="L255">		return mScrollableWrapper.isScrolledAtStart();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public boolean isScrolledAtEnd() {
+<span class="nc" id="L262">		this.ensureScrollableWrapper();</span>
+<span class="nc" id="L263">		return mScrollableWrapper.isScrolledAtEnd();</span>
+	}
+
+	/**
+	 * Ensures that the scrollable wrapper is initialized.
+	 */
+	private void ensureScrollableWrapper() {
+<span class="nc bnc" id="L270" title="All 2 branches missed.">		if (mScrollableWrapper == null) this.mScrollableWrapper = ScrollableWrapper.wrapScrollableView(mWidget);</span>
+<span class="nc" id="L271">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+<span class="nc" id="L277">		super.onSizeChanged(width, height, oldWidth, oldHeight);</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">		if (mRefreshController != null) mRefreshController.dispatchViewSizeChanged(width, height);</span>
+<span class="nc" id="L279">	}</span>
+
+	/**
+	 */
+	@Override
+	void onAttachedToWindow() {
+<span class="nc" id="L285">		super.onAttachedToWindow();</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">		if (mRefreshController != null) mRefreshController.dispatchViewAttachedToWindow();</span>
+<span class="nc" id="L287">	}</span>
+
+	/**
+	 */
+	@Override
+	boolean verifyDrawable(Drawable drawable) {
+<span class="nc bnc" id="L293" title="All 4 branches missed.">		return mRefreshController != null &amp;&amp; mRefreshController.verifyRefreshIndicatorDrawable(drawable);</span>
+	}
+
+	/**
+	 */
+	@Override
+	void draw(Canvas canvas) {
+<span class="nc" id="L300">		super.draw(canvas);</span>
+<span class="nc bnc" id="L301" title="All 4 branches missed.">		if (hasPrivateFlag(PrivateFlags.PFLAG_REFRESH_ENABLED) &amp;&amp; hasPrivateFlag(PrivateFlags.PFLAG_DRAW_REFRESH_INDICATOR)) {</span>
+			// Draw refresh indicator on the top of the attached widget group's content.
+<span class="nc" id="L303">			mRefreshController.drawRefreshIndicator(canvas);</span>
+		}
+<span class="nc" id="L305">	}</span>
+
+	/**
+	 */
+	@Override
+	void onDetachedFromWindow() {
+<span class="nc" id="L311">		super.onDetachedFromWindow();</span>
+<span class="nc bnc" id="L312" title="All 2 branches missed.">		if (mRefreshController != null) mRefreshController.dispatchViewDetachedFromWindow();</span>
+<span class="nc" id="L313">	}</span>
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

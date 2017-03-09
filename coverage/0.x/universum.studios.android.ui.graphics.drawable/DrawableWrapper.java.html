@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DrawableWrapper.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.graphics.drawable</a> &gt; <span class="el_source">DrawableWrapper.java</span></div><h1>DrawableWrapper.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.graphics.drawable;
+
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Outline;
+import android.graphics.PorterDuff;
+import android.graphics.Rect;
+import android.graphics.Region;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.AttributeSet;
+
+import universum.studios.android.ui.UiConfig;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+
+/**
+ * A {@link android.graphics.drawable.Drawable} implementation which can be used to wrap another instance of Drawable.
+ *
+ * @author Martin Albedinsky
+ */
+public class DrawableWrapper extends Drawable implements Drawable.Callback {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;DrawableWrapper&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Instance of wrapped drawable.
+	 */
+	Drawable mDrawable;
+
+	/**
+	 * Flat indicating whether this drawable is already mutated or not.
+	 */
+	private boolean mMutated;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of DrawableWrapper which wraps the given &lt;var&gt;drawable&lt;/var&gt;.
+	 *
+	 * @param drawable The drawable to wrap.
+	 */
+<span class="nc" id="L91">	public DrawableWrapper(@NonNull Drawable drawable) {</span>
+<span class="nc" id="L92">		this.mDrawable = drawable;</span>
+
+		/**
+		 * Copy current state of the wrapped drawable.
+		 */
+<span class="nc" id="L97">		setState(drawable.getState());</span>
+<span class="nc" id="L98">		setBounds(drawable.getBounds());</span>
+<span class="nc" id="L99">		setLevel(drawable.getLevel());</span>
+
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {</span>
+<span class="nc" id="L102">			setCallback(drawable.getCallback());</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">		} else if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) {</span>
+<span class="nc" id="L104">			setAlpha(drawable.getAlpha());</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">		} else if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {</span>
+<span class="nc" id="L106">			setColorFilter(drawable.getColorFilter());</span>
+		}
+<span class="nc" id="L108">		mDrawable.setCallback(this);</span>
+<span class="nc" id="L109">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 */
+	@Override
+	public void inflate(@NonNull Resources resources, @NonNull XmlPullParser parser, @NonNull AttributeSet attrs) throws XmlPullParserException, IOException {
+<span class="nc" id="L119">		mDrawable.inflate(resources, parser, attrs);</span>
+<span class="nc" id="L120">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressLint(&quot;NewApi&quot;)
+	public void inflate(@NonNull Resources resources, @NonNull XmlPullParser parser, @NonNull AttributeSet attrs, Resources.Theme theme) throws XmlPullParserException, IOException {
+<span class="nc bnc" id="L127" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) mDrawable.inflate(resources, parser, attrs, theme);</span>
+<span class="nc" id="L128">	}</span>
+
+	/**
+	 * Re-attaches this drawable wrapper as {@link android.graphics.drawable.Drawable.Callback} to
+	 * the wrapped drawable. This should be called in case when the callback of the wrapped drawable
+	 * has been since initialization removed by framework, this means that this parent actually has
+	 * been removed as callback.
+	 */
+	public void attachCallback() {
+<span class="nc" id="L137">		mDrawable.setCallback(this);</span>
+<span class="nc" id="L138">		invalidateSelf();</span>
+<span class="nc" id="L139">	}</span>
+
+	/**
+	 */
+	@Override
+	public Drawable mutate() {
+<span class="nc bnc" id="L145" title="All 4 branches missed.">		if (!mMutated &amp;&amp; super.mutate() == this) {</span>
+<span class="nc" id="L146">			this.mDrawable = mDrawable.mutate();</span>
+<span class="nc" id="L147">			this.mMutated = true;</span>
+		}
+<span class="nc" id="L149">		return this;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void draw(Canvas canvas) {
+<span class="nc" id="L156">		mDrawable.draw(canvas);</span>
+<span class="nc" id="L157">	}</span>
+
+	/**
+	 */
+	@Override
+	public void invalidateDrawable(Drawable who) {
+<span class="nc" id="L163">		invalidateSelf();</span>
+<span class="nc" id="L164">	}</span>
+
+	/**
+	 */
+	@Override
+	public void scheduleDrawable(Drawable who, Runnable what, long when) {
+<span class="nc" id="L170">		scheduleSelf(what, when);</span>
+<span class="nc" id="L171">	}</span>
+
+	/**
+	 */
+	@Override
+	public void unscheduleDrawable(Drawable who, Runnable what) {
+<span class="nc" id="L177">		unscheduleSelf(what);</span>
+<span class="nc" id="L178">	}</span>
+
+	/**
+	 * Returns the wrapped drawable of this tint drawable instance.
+	 *
+	 * @return Wrapped drawable.
+	 */
+	@NonNull
+	public Drawable getDrawable() {
+<span class="nc" id="L187">		return mDrawable;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setChangingConfigurations(int configs) {
+<span class="nc" id="L194">		mDrawable.setChangingConfigurations(configs);</span>
+<span class="nc" id="L195">	}</span>
+
+	/**
+	 */
+	@Override
+	public int getChangingConfigurations() {
+<span class="nc" id="L201">		return mDrawable.getChangingConfigurations();</span>
+	}
+
+	/**
+	 */
+	@Override
+	@Deprecated
+	@SuppressWarnings(&quot;deprecation&quot;)
+	public void setDither(boolean dither) {
+<span class="nc" id="L210">		mDrawable.setDither(dither);</span>
+<span class="nc" id="L211">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setFilterBitmap(boolean filter) {
+<span class="nc" id="L217">		mDrawable.setFilterBitmap(filter);</span>
+<span class="nc" id="L218">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setAlpha(int alpha) {
+<span class="nc" id="L224">		mDrawable.setAlpha(alpha);</span>
+<span class="nc" id="L225">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressLint(&quot;NewApi&quot;)
+	public int getAlpha() {
+<span class="nc bnc" id="L232" title="All 2 branches missed.">		return Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT ? mDrawable.getAlpha() : 0;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setColorFilter(ColorFilter cf) {
+<span class="nc" id="L239">		mDrawable.setColorFilter(cf);</span>
+<span class="nc" id="L240">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressLint(&quot;NewApi&quot;)
+	public ColorFilter getColorFilter() {
+<span class="nc bnc" id="L247" title="All 2 branches missed.">		return UiConfig.MATERIALIZED ? mDrawable.getColorFilter() : null;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public boolean isStateful() {
+<span class="nc" id="L254">		return mDrawable.isStateful();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void jumpToCurrentState() {
+<span class="nc" id="L261">		DrawableCompat.jumpToCurrentState(mDrawable);</span>
+<span class="nc" id="L262">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressLint(&quot;NewApi&quot;)
+	public Drawable getCurrent() {
+<span class="nc bnc" id="L269" title="All 4 branches missed.">		if (mDrawable instanceof InsetDrawable &amp;&amp; Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) {</span>
+<span class="nc" id="L270">			final Drawable innerDrawable = ((InsetDrawable) mDrawable).getDrawable();</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">			return innerDrawable != null ? innerDrawable.getCurrent() : null;</span>
+		}
+<span class="nc" id="L273">		return mDrawable.getCurrent();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public boolean setVisible(boolean visible, boolean restart) {
+<span class="nc bnc" id="L280" title="All 4 branches missed.">		return super.setVisible(visible, restart) || mDrawable.setVisible(visible, restart);</span>
+	}
+
+	/**
+	 */
+	@Override
+	public int getOpacity() {
+<span class="nc" id="L287">		return mDrawable.getOpacity();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public Region getTransparentRegion() {
+<span class="nc" id="L294">		return mDrawable.getTransparentRegion();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public int getIntrinsicWidth() {
+<span class="nc" id="L301">		return mDrawable.getIntrinsicWidth();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public int getIntrinsicHeight() {
+<span class="nc" id="L308">		return mDrawable.getIntrinsicHeight();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public int getMinimumWidth() {
+<span class="nc" id="L315">		return mDrawable.getMinimumWidth();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public int getMinimumHeight() {
+<span class="nc" id="L322">		return mDrawable.getMinimumHeight();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public boolean getPadding(@NonNull Rect padding) {
+<span class="nc" id="L329">		return mDrawable.getPadding(padding);</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setAutoMirrored(boolean mirrored) {
+<span class="nc" id="L336">		DrawableCompat.setAutoMirrored(mDrawable, mirrored);</span>
+<span class="nc" id="L337">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean isAutoMirrored() {
+<span class="nc" id="L343">		return DrawableCompat.isAutoMirrored(mDrawable);</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setTint(int tint) {
+<span class="nc" id="L350">		DrawableCompat.setTint(mDrawable, tint);</span>
+<span class="nc" id="L351">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setTintList(ColorStateList tint) {
+<span class="nc" id="L357">		DrawableCompat.setTintList(mDrawable, tint);</span>
+<span class="nc" id="L358">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setTintMode(@NonNull PorterDuff.Mode tintMode) {
+<span class="nc" id="L364">		DrawableCompat.setTintMode(mDrawable, tintMode);</span>
+<span class="nc" id="L365">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setHotspot(float x, float y) {
+<span class="nc" id="L371">		DrawableCompat.setHotspot(mDrawable, x, y);</span>
+<span class="nc" id="L372">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setHotspotBounds(int left, int top, int right, int bottom) {
+<span class="nc" id="L378">		DrawableCompat.setHotspotBounds(mDrawable, left, top, right, bottom);</span>
+<span class="nc" id="L379">	}</span>
+
+	/**
+	 */
+	@Override
+	public void getHotspotBounds(Rect outRect) {
+<span class="nc bnc" id="L385" title="All 2 branches missed.">		if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) mDrawable.getHotspotBounds(outRect);</span>
+<span class="nc" id="L386">	}</span>
+
+	/**
+	 */
+	@Override
+	protected boolean onStateChange(int[] stateSet) {
+<span class="nc" id="L392">		return mDrawable.setState(stateSet);</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onBoundsChange(Rect bounds) {
+<span class="nc" id="L399">		mDrawable.setBounds(bounds);</span>
+<span class="nc" id="L400">	}</span>
+
+	/**
+	 */
+	@Override
+	protected boolean onLevelChange(int level) {
+<span class="nc" id="L406">		return mDrawable.setLevel(level);</span>
+	}
+
+	/**
+	 */
+	@Override
+	public ConstantState getConstantState() {
+<span class="nc" id="L413">		return mDrawable.getConstantState();</span>
+	}
+
+	/**
+	 */
+	@Override
+	@SuppressLint(&quot;NewApi&quot;)
+	public void getOutline(@NonNull Outline outline) {
+<span class="nc bnc" id="L421" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) mDrawable.getOutline(outline);</span>
+<span class="nc" id="L422">	}</span>
+
+	/**
+	 */
+	@Override
+	@SuppressLint(&quot;NewApi&quot;)
+	public boolean canApplyTheme() {
+<span class="nc bnc" id="L429" title="All 4 branches missed.">		return UiConfig.MATERIALIZED &amp;&amp; mDrawable.canApplyTheme();</span>
+	}
+
+	/**
+	 */
+	@Override
+	@SuppressLint(&quot;NewApi&quot;)
+	public void applyTheme(@NonNull Resources.Theme theme) {
+<span class="nc bnc" id="L437" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) mDrawable.applyTheme(theme);</span>
+<span class="nc" id="L438">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean onLayoutDirectionChanged(int layoutDirection) {
+<span class="nc bnc" id="L444" title="All 4 branches missed.">		return Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M &amp;&amp; mDrawable.onLayoutDirectionChanged(layoutDirection);</span>
+	}
+
+	/**
+	 */
+	@Override
+	public boolean isFilterBitmap() {
+<span class="nc bnc" id="L451" title="All 4 branches missed.">		return Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M &amp;&amp; mDrawable.isFilterBitmap();</span>
+	}
+
+	/**
+	 */
+	@Override
+	@SuppressLint(&quot;NewApi&quot;)
+	public Rect getDirtyBounds() {
+<span class="nc bnc" id="L459" title="All 2 branches missed.">		return UiConfig.MATERIALIZED ? mDrawable.getDirtyBounds() : null;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

@@ -1,0 +1,1148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LinearProgressDrawable.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.graphics.drawable</a> &gt; <span class="el_source">LinearProgressDrawable.java</span></div><h1>LinearProgressDrawable.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.graphics.drawable;
+
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+/**
+ * A {@link ProgressDrawable} implementation which draws a progress or an indeterminate graphics as
+ * linear (rectangle) shape. Thickness (height) can be specified by {@link #setThickness(float)}.
+ * &lt;b&gt;Note&lt;/b&gt;, that as any drawable implementation also this drawable will draw its graphics into
+ * bounds set by {@link #setBounds(int, int, int, int)}, the thickness set to this drawable is for
+ * informational purpose for a {@link android.view.View} which hosts this drawable to determine how
+ * much space (height) is needed to draw graphics of this drawable. The required height can be obtained
+ * by {@link #getIntrinsicHeight()} and in case of width this drawable has no restrictions and will
+ * draw its graphics into width of the specified bounds, so it is up to the hosting View to determine
+ * its width.
+ * &lt;p&gt;
+ * A color of the progress can be specified by {@link #setColor(int)} or {@link #setColors(int[])}
+ * where the specified set of colors will be used only in case of &lt;b&gt;indeterminate&lt;/b&gt; mode. See
+ * description for {@link #MODE_INDETERMINATE} below for more info. This progress drawable can also
+ * draw its background of which color can be specified by {@link #setBackgroundColor(int)}. The
+ * background is drawn as a full progress rectangle with the specified thickness. By default is the
+ * background color set whenever {@link #setColor(int)} is called. See this method description for
+ * more info.
+ * &lt;p&gt;
+ * &lt;b&gt;Note&lt;/b&gt;, that this progress drawable handles also different layout directions that can be
+ * specified by {@link #setLayoutDirection(int)}.
+ * &lt;p&gt;
+ * Whether to draw the progress or indeterminate graphics can be specified by setting a mode by
+ * {@link #setMode(int)}. The supported modes for this progress drawable class are described below.
+ *
+ * &lt;h3&gt;Modes&lt;/h3&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;
+ * {@link #MODE_DETERMINATE}
+ * &lt;p&gt;
+ * A determinate mode should be used when an instance of LinearProgressDrawable should draw value of
+ * progress specified by {@link #setProgress(int)}. The specified progress will be transformed into
+ * rectangle with width relative {@code (getProgress() / getMax())} to the current bounds width.
+ * &lt;p&gt;
+ * &lt;b&gt;Note&lt;/b&gt;, that calls like {@link #start()}, {@link #stop()} are for this mode ignored.
+ * &lt;/li&gt;
+ * &lt;li&gt;
+ * {@link #MODE_INDETERMINATE}
+ * &lt;p&gt;
+ * An indeterminate mode should be used when an instance of LinearProgressDrawable should draw the
+ * indeterminate graphics. The indeterminate graphics drawing is implemented as infinite amount
+ * of consecutive loops, where each of these loops is consisted of progressive translation
+ * (along x axis) of two &quot;indeterminate blocks&quot; (rectangles). The first one is called &quot;leading block&quot;
+ * which is progressively expanding and the second one is called &quot;following block&quot; which is started
+ * to be drawn after the lading block is translated by a specific distance. The following block is
+ * drawn in width of the lading block and it is progressively collapsing and &quot;tries&quot; to catch up with
+ * the leading block. This is, for purpose of the LinearProgressDrawable, called described in class
+ * overview of {@link ProgressDrawable} &lt;b&gt;indeterminate animation session&lt;/b&gt;.
+ * &lt;p&gt;
+ * The animation session can be started by {@link #start()} and stopped by {@link #stop()} or
+ * {@link #stopImmediate()}. The difference between those two stop methods is that if requested to not
+ * stop immediately via {@code stop()}, the drawing of the indeterminate graphics will be stopped after
+ * the block that is following the heading block is fully translated out from the available drawing
+ * area otherwise it will look like the indeterminate blocks just &quot;vanished&quot;.
+ * &lt;p&gt;
+ * This mode supports multi-coloring feature which can be enabled by {@link #setMultiColored(boolean)}.
+ * If this feature is enabled, the set of colors specified by {@link #setColors(int[])} will be used
+ * to change color of the indeterminate blocks and background whenever the following block is fully
+ * translated out from the available drawing area. If the end of the colors array is reached, the next
+ * color will  be picked again from the beginning of the array and so on.
+ * &lt;p&gt;
+ * &lt;b&gt;Note&lt;/b&gt;, that calls like {@link #setProgress(int)} or {@link #setSecondaryProgress(int)} are
+ * for this mode ignored.
+ * &lt;/li&gt;
+ * &lt;li&gt;
+ * {@link #MODE_BUFFER}
+ * &lt;p&gt;
+ * A buffer mode should be used when an instance of LinearProgressDrawable should draw value of progress
+ * specified by {@link #setProgress(int)} with also value of secondary (buffer) progress specified by
+ * {@link #setSecondaryProgress(int)}. A color of the buffer progress can be specified by {@link #setSecondaryColor(int)},
+ * but by default this color is automatically set whenever {@link #setColor(int)} is called with
+ * the same logic as background color.
+ * &lt;p&gt;
+ * This mode also supports one indeterminate animation which can be started by {@link #start()} and
+ * stopped by {@link #stop()} or {@link #stopImmediate()} as described for {@link #MODE_INDETERMINATE}
+ * above. This will draw a set of circles (buffer marks) aligned along x axis in the drawing area not
+ * yet used by secondary progress graphics. The animation is indeterminate because, the circles are
+ * progressively translated against the rectangle drawn as the secondary progress and also scaled down
+ * and up in the predefined interval. For this animation purpose can be specified two parameters,
+ * duration by {@link #setBufferIndeterminateMarksScaleDuration(long)} and interval, which determines
+ * how often should be the scale up/down animation of the buffer marks run by
+ * {@link #setBufferIndeterminateMarksScaleInterval(long)}.
+ * &lt;p&gt;
+ * &lt;b&gt;Note&lt;/b&gt;, that this progress drawable does not handle any unnecessary logic for this mode purpose,
+ * like stopping of the indeterminate animation session after the secondary progress is at its maximum
+ * value specified by {@link #setMax(int)} when the indeterminate buffer marks do not need to be drawn,
+ * so this is upon the progress view which uses this drawable to draw its progress.
+ * &lt;/li&gt;
+ * &lt;li&gt;
+ * {@link #MODE_QUERY_INDETERMINATE_DETERMINATE}
+ * &lt;p&gt;
+ * A query-indeterminate and determinate mode should be used when an instance of LinearProgressDrawable
+ * should draw a reversed (in direction) indeterminate graphics like in {@link #MODE_INDETERMINATE},
+ * to indicate at the start that a progress view which hosts this progress drawable is preparing for
+ * progress updates, and than allow to draw the progress value specified by {@link #setProgress(int)}
+ * like in {@link #MODE_DETERMINATE}.
+ * &lt;p&gt;
+ * &lt;b&gt;Note&lt;/b&gt;, that this progress drawable does not handle any unnecessary logic for this mode purpose,
+ * like stopping of the indeterminate animation session after first progress has been, so this is
+ * upon to the progress view which uses this drawable to draw its progress.
+ * &lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * &lt;h3&gt;Tinting&lt;/h3&gt;
+ * This progress drawable implementation extends base tinting API extended from its parent via
+ * following setters:
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link #setSecondaryProgressTintList(android.content.res.ColorStateList)}&lt;/li&gt;
+ * &lt;li&gt;{@link #setSecondaryProgressTintMode(android.graphics.PorterDuff.Mode)}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author Martin Albedinsky
+ */
+public class LinearProgressDrawable extends ProgressDrawable {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;LinearProgressDrawable&quot;;
+
+	/**
+	 * Defines an annotation for determining set of allowed modes for LinearProgressDrawable.
+	 */
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({MODE_INDETERMINATE, MODE_DETERMINATE, MODE_BUFFER, MODE_QUERY_INDETERMINATE_DETERMINATE})
+	public @interface ProgressMode {
+	}
+
+	/**
+	 * Flag to request &lt;b&gt;DETERMINATE&lt;/b&gt; mode for LinearProgressDrawable which allows to set a
+	 * progress value by {@link #setProgress(int)}. See {@link LinearProgressDrawable class} overview
+	 * for more info.
+	 */
+	public static final int MODE_DETERMINATE = DETERMINATE;
+
+	/**
+	 * Flag to request &lt;b&gt;INDETERMINATE&lt;/b&gt; mode for LinearProgressDrawable which enables indeterminate
+	 * animation. See {@link LinearProgressDrawable class} overview for more info.
+	 */
+	public static final int MODE_INDETERMINATE = INDETERMINATE;
+
+	/**
+	 * Flag to request &lt;b&gt;BUFFER&lt;/b&gt; mode for LinearProgressDrawable which allows to set a progress
+	 * value by {@link #setProgress(int)} and a buffered value by {@link #setSecondaryProgress(int)}.
+	 * See {@link LinearProgressDrawable class} overview for more info.
+	 */
+	public static final int MODE_BUFFER = 0x03;
+
+	/**
+	 * Flag to request &lt;b&gt;QUERY INDETERMINATE and DETERMINATE&lt;/b&gt; mode for LinearProgressDrawable
+	 * which enables reversed indeterminate animation and allows to set a progress value by {@link #setProgress(int)}.
+	 * See {@link LinearProgressDrawable class} overview for more info.
+	 */
+	public static final int MODE_QUERY_INDETERMINATE_DETERMINATE = 0x04;
+
+	/**
+	 * Ratio used to compute size of update for indeterminate blocks. The block size is computed from
+	 * the current available bounds width.
+	 */
+	private static final float INDETERMINATE_BLOCK_UPDATE_RATIO = 0.0075f;
+
+	/**
+	 * Multiplier used to accelerate updating of the indeterminate blocks.
+	 */
+	private static final float INDETERMINATE_ACCELERATION_MULTIPLIER = 1.5f;
+
+	/**
+	 * Position (in consideration to width) that determines a boundary where the following indeterminate
+	 * block should start follow the leader indeterminate block.
+	 */
+	private static final float INDETERMINATE_FOLLOWING_POSITION = 0.65f;
+
+	/**
+	 * Duration used to delay next indeterminate session after the current one finishes.
+	 */
+	private static final long INDETERMINATE_SILENCE_DURATION = 300;
+
+	/**
+	 * Duration for indeterminate buffer marks translation.
+	 */
+	private static final long BUFFER_INDETERMINATE_MARK_TRANSLATION_UPDATE_DURATION = 80;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Task to update translation (along x axis) of the indeterminate buffer marks (circles).
+	 */
+<span class="nc" id="L240">	private final Runnable BUFFER_INDETERMINATE_MARKS_TRANSLATION_UPDATE = new Runnable() {</span>
+
+		/**
+		 */
+		@Override
+		public void run() {
+<span class="nc" id="L246">			final float maxTranslation = mProgressState.rawThickness * 2;</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">			if (mBufferIndeterminateMarksTranslation &lt;= -maxTranslation) {</span>
+<span class="nc" id="L248">				mBufferIndeterminateMarksTranslation += maxTranslation + mProgressState.rawThickness / 2;</span>
+			} else {
+				// Move origin by size of one circle mark per predefined duration.
+<span class="nc" id="L251">				final float update = mProgressState.rawThickness / (</span>
+						BUFFER_INDETERMINATE_MARK_TRANSLATION_UPDATE_DURATION / FRAME_UPDATE_INTERVAL
+<span class="nc" id="L253">				) * mProgressState.indeterminateSpeed;</span>
+<span class="nc" id="L254">				mBufferIndeterminateMarksTranslation -= update;</span>
+			}
+<span class="nc" id="L256">			invalidateSelf();</span>
+<span class="nc" id="L257">			scheduleSelf(this, computeFramesScheduleTime());</span>
+<span class="nc" id="L258">		}</span>
+	};
+
+	/**
+	 * Task to schedule {@link #BUFFER_INDETERMINATE_MARKS_SCALE_UPDATE} task from the beginning.
+	 */
+<span class="nc" id="L264">	private final Runnable BUFFER_INDETERMINATE_MARKS_SCALE = new Runnable() {</span>
+
+		/**
+		 */
+		@Override
+		public void run() {
+<span class="nc" id="L270">			BUFFER_INDETERMINATE_MARKS_SCALE_UPDATE.mode = BufferIndeterminateMarksScaleTask.MODE_SCALING_DOWN;</span>
+<span class="nc" id="L271">			scheduleSelf(BUFFER_INDETERMINATE_MARKS_SCALE_UPDATE, 0);</span>
+<span class="nc" id="L272">		}</span>
+	};
+
+	/**
+	 * Task to update scale of the indeterminate buffer marks.
+	 */
+<span class="nc" id="L278">	private final BufferIndeterminateMarksScaleTask BUFFER_INDETERMINATE_MARKS_SCALE_UPDATE = new BufferIndeterminateMarksScaleTask();</span>
+
+	/**
+	 * Current indeterminate buffer marks translation (along x axis).
+	 */
+	private float mBufferIndeterminateMarksTranslation;
+
+	/**
+	 * Update interval for the indeterminate buffer marks scale animation.
+	 * &lt;p&gt;
+	 * Default value: &lt;b&gt;5000 ms&lt;/b&gt;
+	 */
+<span class="nc" id="L290">	private long mBufferIndeterminateMarksScaleInterval = 1000 * 5;</span>
+
+	/**
+	 * Duration of the indeterminate buffer marks scale animation.
+	 * &lt;p&gt;
+	 * Default value: &lt;b&gt;500 ms&lt;/b&gt;
+	 */
+<span class="nc" id="L297">	private long mBufferIndeterminateMarksScaleDuration = 500;</span>
+
+	/**
+	 * Current scale of the indeterminate buffer marks.
+	 */
+<span class="nc" id="L302">	private float mBufferIndeterminateMarkScale = 1.0f;</span>
+
+	/**
+	 * Object holding current data for the indeterminate graphics.
+	 */
+	private IndeterminateInfo mIndeterminateInfo;
+
+	/**
+	 * Current secondary progress drawn by this drawable if it is in {@link #MODE_BUFFER}.
+	 */
+	private int mSecondaryProgress;
+
+	/**
+	 * Tint filter used to tint secondary progress graphics of this drawable.
+	 */
+	private PorterDuffColorFilter mSecondaryProgressTintFilter;
+
+	/**
+	 * Constant state of this drawable.
+	 */
+	private LinearState mProgressState;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of LinearProgressDrawable with default color and {@link #MODE_DETERMINATE}
+	 * as default mode.
+	 * &lt;p&gt;
+	 * Default color: &lt;b&gt;#03a9f4&lt;/b&gt;
+	 */
+	public LinearProgressDrawable() {
+<span class="nc" id="L335">		this(DEFAULT_COLOR);</span>
+<span class="nc" id="L336">	}</span>
+
+	/**
+	 * Creates a new instance of LinearProgressDrawable with the specified color and {@link #MODE_DETERMINATE}
+	 * as default mode.
+	 *
+	 * @param color The color used to draw progress or indeterminate graphics of the new drawable.
+	 */
+	public LinearProgressDrawable(int color) {
+<span class="nc" id="L345">		super(color);</span>
+<span class="nc" id="L346">		this.init();</span>
+<span class="nc" id="L347">	}</span>
+
+	/**
+	 * Creates a new instance of LinearProgressDrawable with the specified set of &lt;var&gt;colors&lt;/var&gt;
+	 * and {@link #MODE_DETERMINATE} as default mode.
+	 *
+	 * @param colors The set of colors used to draw indeterminate graphics of the new drawable when
+	 *               in &lt;b&gt;INDETERMINATE&lt;/b&gt; mode.
+	 */
+	public LinearProgressDrawable(@NonNull int[] colors) {
+<span class="nc" id="L357">		super(colors);</span>
+<span class="nc" id="L358">		this.init();</span>
+<span class="nc" id="L359">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Performs base initialization of this drawable.
+	 */
+	private void init() {
+<span class="nc" id="L369">		this.mMode = MODE_DETERMINATE;</span>
+<span class="nc" id="L370">		setThickness(15);</span>
+<span class="nc" id="L371">	}</span>
+
+	/**
+	 */
+	@Override
+	public void applyTheme(@NonNull Resources.Theme theme) {
+<span class="nc" id="L377">		super.applyTheme(theme);</span>
+		// Unfortunately this method cannot be properly implemented for drawable not directly within
+		// android.drawable package.
+		/*if (mProgressState == null || mProgressState.themeAttrs == null) {
+			return;
+		}*/
+<span class="nc" id="L383">	}</span>
+
+	/**
+	 * Sets the current progress value of this progress drawable which determines size of secondary
+	 * progress drawn by this drawable.
+	 * &lt;p&gt;
+	 * Does nothing if the current mode is not &lt;b&gt;BUFFER&lt;/b&gt;.
+	 *
+	 * @param secondaryProgress The desired secondary progress. Should be from the range {@code [0, getMax()]}.
+	 * @see #getSecondaryProgress()
+	 */
+	public void setSecondaryProgress(int secondaryProgress) {
+<span class="nc bnc" id="L395" title="All 8 branches missed.">		if (mMode == MODE_BUFFER &amp;&amp; mSecondaryProgress != secondaryProgress &amp;&amp; secondaryProgress &gt;= 0 &amp;&amp; secondaryProgress &lt;= mMax) {</span>
+<span class="nc" id="L396">			this.mSecondaryProgress = secondaryProgress;</span>
+<span class="nc" id="L397">			invalidateSelf();</span>
+		}
+<span class="nc" id="L399">	}</span>
+
+	/**
+	 * Returns the secondary progress value set to this progress drawable by {@link #setSecondaryProgress(int)}.
+	 *
+	 * @return Current secondary progress or {@code 0} if the current mode is not &lt;b&gt;BUFFER&lt;/b&gt;.
+	 */
+	public int getSecondaryProgress() {
+<span class="nc bnc" id="L407" title="All 2 branches missed.">		return mMode == MODE_BUFFER ? mSecondaryProgress : 0;</span>
+	}
+
+	/**
+	 * Sets the color used to draw graphics of this progress drawable.
+	 * &lt;p&gt;
+	 * For all modes supported by this progress drawable, excepts {@link #MODE_BUFFER}, this call
+	 * will use the specified color to automatically set also background color using
+	 * {@link #setBackgroundColor(int)} with modified alpha value for proper contrast between progress
+	 * and background graphics.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that this color is used only if the multicolored mode is disabled. See {@link #setMultiColored(boolean)}
+	 * for more info.
+	 *
+	 * @param color The desired color.
+	 * @see #getColor()
+	 */
+	@Override
+	public void setColor(int color) {
+<span class="nc" id="L426">		super.setColor(color);</span>
+<span class="nc" id="L427">		final int bgColor = Color.argb(</span>
+				BACKGROUND_COLOR_ALPHA,
+<span class="nc" id="L429">				Color.red(color),</span>
+<span class="nc" id="L430">				Color.green(color),</span>
+<span class="nc" id="L431">				Color.blue(color)</span>
+		);
+<span class="nc bnc" id="L433" title="All 2 branches missed.">		switch (mMode) {</span>
+			case MODE_BUFFER:
+<span class="nc" id="L435">				setSecondaryColor(bgColor);</span>
+<span class="nc" id="L436">				break;</span>
+			default:
+<span class="nc" id="L438">				setBackgroundColor(bgColor);</span>
+<span class="nc" id="L439">				setSecondaryColor(bgColor);</span>
+		}
+<span class="nc" id="L441">	}</span>
+
+	/**
+	 * Sets the color used to draw secondary graphics (secondary progress) of this progress drawable.
+	 *
+	 * @param secondaryColor The desired color.
+	 * @see #getSecondaryColor()
+	 */
+	public void setSecondaryColor(int secondaryColor) {
+<span class="nc bnc" id="L450" title="All 4 branches missed.">		if (mProgressState.secondaryRawColor != secondaryColor || mProgressState.secondaryDrawColor != secondaryColor) {</span>
+<span class="nc" id="L451">			mProgressState.secondaryRawColor = mProgressState.secondaryDrawColor = secondaryColor;</span>
+<span class="nc" id="L452">			invalidateSelf();</span>
+		}
+<span class="nc" id="L454">	}</span>
+
+	/**
+	 * Returns the color used to draw secondary graphics of this progress drawable.
+	 *
+	 * @return The current secondary color. This color can be modified whenever {@link #setAlpha(int)}
+	 * is called.
+	 * @see #setSecondaryColor(int)
+	 */
+	public int getSecondaryColor() {
+<span class="nc" id="L464">		return mProgressState.secondaryDrawColor;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setAlpha(int alpha) {
+<span class="nc" id="L471">		super.setAlpha(alpha);</span>
+<span class="nc" id="L472">		this.updateSecondaryDrawingColor((mProgressState.secondaryRawColor &gt;&gt;&gt; 24) * alpha &gt;&gt; 8);</span>
+<span class="nc" id="L473">	}</span>
+
+	/**
+	 * Sets a tint for the secondary progress graphics of this drawable.
+	 * &lt;p&gt;
+	 * Setting a color filter via {@link #setColorFilter(android.graphics.ColorFilter)} will override
+	 * the tint.
+	 *
+	 * @param tint Color state list to use for tinting of the secondary progress graphics. Can be
+	 *             {@code null} to clear the current secondary progress tint.
+	 */
+	public void setSecondaryProgressTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L485">		mProgressState.secondaryProgressTint = tint;</span>
+<span class="nc" id="L486">		this.mSecondaryProgressTintFilter = TintDrawable.createTintFilter(this, tint, mProgressState.secondaryProgressTintMode);</span>
+<span class="nc" id="L487">		invalidateSelf();</span>
+<span class="nc" id="L488">	}</span>
+
+	/**
+	 * Sets a tint blending mode for the secondary progress graphics of this drawable.
+	 * &lt;p&gt;
+	 * Setting a color filter via {@link #setColorFilter(android.graphics.ColorFilter)} will override
+	 * the tint.
+	 *
+	 * @param tintMode The desired Porter-Duff blending mode.
+	 */
+	public void setSecondaryProgressTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L499">		mProgressState.secondaryProgressTintMode = tintMode;</span>
+<span class="nc" id="L500">		this.mSecondaryProgressTintFilter = TintDrawable.createTintFilter(this, mProgressState.secondaryProgressTint, tintMode);</span>
+<span class="nc" id="L501">		invalidateSelf();</span>
+<span class="nc" id="L502">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setMode(@ProgressMode int mode) {
+<span class="nc" id="L508">		super.setMode(mode);</span>
+<span class="nc" id="L509">	}</span>
+
+	/**
+	 */
+	@Override
+	@ProgressMode
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	public int getMode() {
+<span class="nc" id="L517">		return super.getMode();</span>
+	}
+
+	/**
+	 * Returns size of the thickness of this progress drawable.
+	 */
+	@Override
+	public int getIntrinsicHeight() {
+<span class="nc" id="L525">		return Math.round(mProgressState.rawThickness);</span>
+	}
+
+	/**
+	 * Sets the interval for the indeterminate buffer marks scale animation. This interval determines
+	 * how often should be the scale animation run, more closely, how often should be the buffer marks
+	 * scaled up/down.
+	 * &lt;p&gt;
+	 * Default value: &lt;b&gt;5000 ms&lt;/b&gt;
+	 *
+	 * @param interval The desired interval in milliseconds.
+	 * @see #getBufferIndeterminateMarksScaleInterval()
+	 */
+	public void setBufferIndeterminateMarksScaleInterval(long interval) {
+<span class="nc" id="L539">		this.mBufferIndeterminateMarksScaleInterval = interval;</span>
+<span class="nc" id="L540">	}</span>
+
+	/**
+	 * Returns the interval determining how often is the indeterminate buffer marks scale animation
+	 * played.
+	 *
+	 * @return Animation interval in milliseconds.
+	 * @see #setBufferIndeterminateMarksScaleInterval(long)
+	 */
+	public long getBufferIndeterminateMarksScaleInterval() {
+<span class="nc" id="L550">		return mBufferIndeterminateMarksScaleInterval;</span>
+	}
+
+	/**
+	 * Sets the duration for the indeterminate buffer marks scale animation.
+	 * &lt;p&gt;
+	 * Default value: &lt;b&gt;500 ms&lt;/b&gt;
+	 *
+	 * @param duration The desired duration in milliseconds.
+	 * @see #getBufferIndeterminateMarksScaleDuration()
+	 */
+	public void setBufferIndeterminateMarksScaleDuration(long duration) {
+<span class="nc" id="L562">		this.mBufferIndeterminateMarksScaleDuration = duration;</span>
+<span class="nc" id="L563">	}</span>
+
+	/**
+	 * Returns the duration of the indeterminate buffer marks scale animation.
+	 *
+	 * @return Animation duration in milliseconds.
+	 * @see #setBufferIndeterminateMarksScaleDuration(long)
+	 */
+	public long getBufferIndeterminateMarksScaleDuration() {
+<span class="nc" id="L572">		return mBufferIndeterminateMarksScaleDuration;</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onDrawBackground(@NonNull Canvas canvas, @NonNull Paint paint, @Nullable ColorFilter colorFilter) {
+<span class="nc" id="L579">		paint.setStyle(Paint.Style.FILL);</span>
+<span class="nc" id="L580">		canvas.drawRect(</span>
+				mBounds.left,
+				mBounds.bottom - mProgressState.useThickness,
+				mBounds.right,
+				mBounds.bottom,
+				paint
+		);
+<span class="nc" id="L587">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onDraw(@NonNull Canvas canvas, @NonNull Paint paint, @Nullable ColorFilter colorFilter) {
+<span class="nc" id="L593">		int saveCount = 0;</span>
+<span class="nc bnc" id="L594" title="All 2 branches missed.">		if (mProgressState.direction != 0) {</span>
+<span class="nc" id="L595">			saveCount = canvas.save();</span>
+<span class="nc" id="L596">			canvas.rotate(180, mBounds.centerX(), mBounds.centerY());</span>
+		}
+
+<span class="nc bnc" id="L599" title="All 2 branches missed.">		if (hasPrivateFlag(PFLAG_IN_EDIT_MODE)) {</span>
+<span class="nc bnc" id="L600" title="All 5 branches missed.">			switch (mMode) {</span>
+				case MODE_DETERMINATE:
+<span class="nc" id="L602">					this.mProgress = 35;</span>
+<span class="nc" id="L603">					break;</span>
+				case MODE_INDETERMINATE:
+<span class="nc" id="L605">					final int availableWidth = mBounds.width();</span>
+<span class="nc" id="L606">					mIndeterminateInfo.leaderWidth = availableWidth / 5f;</span>
+<span class="nc" id="L607">					mIndeterminateInfo.leaderLeft = mBounds.right - mIndeterminateInfo.leaderWidth;</span>
+<span class="nc" id="L608">					mIndeterminateInfo.followerWidth = availableWidth / 3f;</span>
+<span class="nc" id="L609">					mIndeterminateInfo.followerRight = mBounds.left + mIndeterminateInfo.followerWidth;</span>
+<span class="nc" id="L610">					break;</span>
+				case MODE_BUFFER:
+<span class="nc" id="L612">					this.mProgress = 55;</span>
+<span class="nc" id="L613">					this.mSecondaryProgress = 80;</span>
+<span class="nc" id="L614">					break;</span>
+				case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc" id="L616">					this.mProgress = 15;</span>
+					break;
+			}
+		}
+
+<span class="nc" id="L621">		paint.setStyle(Paint.Style.FILL);</span>
+<span class="nc bnc" id="L622" title="All 5 branches missed.">		switch (mMode) {</span>
+			case MODE_DETERMINATE:
+<span class="nc" id="L624">				this.drawProgress(canvas, mProgress, mProgressTintFilter);</span>
+<span class="nc" id="L625">				break;</span>
+			case MODE_INDETERMINATE:
+<span class="nc" id="L627">				this.drawIndeterminate(canvas);</span>
+<span class="nc" id="L628">				break;</span>
+			case MODE_BUFFER:
+				// Draw secondary progress first, than primary progress.
+<span class="nc bnc" id="L631" title="All 2 branches missed.">				if ((mProgressState.secondaryDrawColor &gt;&gt;&gt; 24) != 0) {</span>
+<span class="nc" id="L632">					paint.setColor(mProgressState.secondaryDrawColor);</span>
+<span class="nc" id="L633">					this.drawProgress(canvas, mSecondaryProgress, mSecondaryProgressTintFilter);</span>
+
+					// Draw buffer thick marks.
+<span class="nc bnc" id="L636" title="All 4 branches missed.">					if (mSecondaryProgress &lt; mMax &amp;&amp; mBufferIndeterminateMarkScale &gt; 0) {</span>
+<span class="nc" id="L637">						final float secProgressRight = (mSecondaryProgress / mMax) * mBounds.right;</span>
+<span class="nc" id="L638">						final float markRadius = mProgressState.useThickness / 2;</span>
+<span class="nc" id="L639">						final float markSpacing = mProgressState.rawThickness;</span>
+<span class="nc" id="L640">						float centerX = secProgressRight + markSpacing + mBufferIndeterminateMarksTranslation;</span>
+<span class="nc" id="L641">						final float centerY = (mBounds.bottom - mProgressState.useThickness / 2);</span>
+<span class="nc bnc" id="L642" title="All 2 branches missed.">						while (centerX &lt; mBounds.right) {</span>
+<span class="nc" id="L643">							centerX += markRadius;</span>
+<span class="nc bnc" id="L644" title="All 2 branches missed.">							if ((centerX - markRadius) &lt; secProgressRight) {</span>
+<span class="nc" id="L645">								centerX += markSpacing * 2;</span>
+<span class="nc" id="L646">								continue;</span>
+							}
+<span class="nc" id="L648">							canvas.drawCircle(centerX, centerY, markRadius * mBufferIndeterminateMarkScale, paint);</span>
+<span class="nc" id="L649">							centerX += markSpacing * 2;</span>
+						}
+					}
+				}
+<span class="nc" id="L653">				paint.setColor(mProgressState.drawColor);</span>
+<span class="nc" id="L654">				this.drawProgress(canvas, mProgress, mProgressTintFilter);</span>
+<span class="nc" id="L655">				break;</span>
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc bnc" id="L657" title="All 4 branches missed.">				if (hasPrivateFlag(PFLAG_RUNNING) || hasPrivateFlag(PFLAG_FINISHING_INDETERMINATE)) {</span>
+<span class="nc" id="L658">					final int sc = canvas.save();</span>
+<span class="nc" id="L659">					canvas.rotate(180, mBounds.centerX(), mBounds.centerY());</span>
+<span class="nc" id="L660">					this.drawIndeterminate(canvas);</span>
+<span class="nc" id="L661">					canvas.restoreToCount(sc);</span>
+<span class="nc" id="L662">				} else {</span>
+<span class="nc" id="L663">					this.drawProgress(canvas, mProgress, mProgressTintFilter);</span>
+				}
+				break;
+		}
+<span class="nc bnc" id="L667" title="All 2 branches missed.">		if (mProgressState.direction != 0) {</span>
+<span class="nc" id="L668">			canvas.restoreToCount(saveCount);</span>
+		}
+<span class="nc" id="L670">	}</span>
+
+	/**
+	 * Draws a rect for the specified &lt;var&gt;progress&lt;/var&gt; value on the given &lt;var&gt;canvas&lt;/var&gt;.
+	 *
+	 * @param canvas      The canvas on which to draw the specified progress.
+	 * @param progress    The progress which to draw.
+	 * @param tintFilter  Current tint color filter for the specified progress.
+	 */
+	private void drawProgress(Canvas canvas, int progress, ColorFilter tintFilter) {
+<span class="nc" id="L680">		final ColorFilter colorFilter = PAINT.getColorFilter();</span>
+<span class="nc bnc" id="L681" title="All 4 branches missed.">		if (colorFilter == null &amp;&amp; tintFilter != null) {</span>
+<span class="nc" id="L682">			PAINT.setColorFilter(tintFilter);</span>
+		}
+<span class="nc" id="L684">		this.drawRect(canvas, mBounds.left, (progress / mMax) * mBounds.right);</span>
+<span class="nc" id="L685">		PAINT.setColorFilter(colorFilter);</span>
+<span class="nc" id="L686">	}</span>
+
+	/**
+	 * Draws indeterminate graphics on the given &lt;var&gt;canvas&lt;/var&gt; using the current {@link #mIndeterminateInfo}
+	 * data.
+	 *
+	 * @param canvas The canvas on which to draw indeterminate graphics.
+	 */
+	private void drawIndeterminate(Canvas canvas) {
+<span class="nc" id="L695">		final ColorFilter colorFilter = PAINT.getColorFilter();</span>
+<span class="nc bnc" id="L696" title="All 4 branches missed.">		if (colorFilter == null &amp;&amp; mIndeterminateTintFilter != null) {</span>
+<span class="nc" id="L697">			PAINT.setColorFilter(mIndeterminateTintFilter);</span>
+		}
+<span class="nc bnc" id="L699" title="All 2 branches missed.">		if (mIndeterminateInfo.leaderWidth &gt; 0) {</span>
+<span class="nc" id="L700">			this.drawRect(</span>
+					canvas,
+<span class="nc" id="L702">					Math.max(mIndeterminateInfo.leaderLeft, mBounds.left),</span>
+<span class="nc" id="L703">					Math.min(mIndeterminateInfo.leaderLeft + mIndeterminateInfo.leaderWidth, mBounds.right)</span>
+			);
+		}
+<span class="nc bnc" id="L706" title="All 2 branches missed.">		if (mIndeterminateInfo.followerWidth &gt; 0) {</span>
+<span class="nc" id="L707">			this.drawRect(</span>
+					canvas,
+<span class="nc" id="L709">					Math.max(mIndeterminateInfo.followerRight - mIndeterminateInfo.followerWidth, mBounds.left),</span>
+<span class="nc" id="L710">					Math.min(mIndeterminateInfo.followerRight, mBounds.right)</span>
+			);
+		}
+<span class="nc" id="L713">		PAINT.setColorFilter(colorFilter);</span>
+<span class="nc" id="L714">	}</span>
+
+	/**
+	 * Draws a rect with the specified &lt;var&gt;left&lt;/var&gt; and &lt;var&gt;right&lt;/var&gt; coordinate on the given
+	 * canvas. The current {@link ProgressDrawable.ProgressState#useThickness} will be used to specify how thick should
+	 * be the drawn rect.
+	 *
+	 * @param canvas The canvas on which to draw rect.
+	 * @param left   The left coordinate for the rect to be drawn.
+	 * @param right  The right coordinate for the rect to be drawn.
+	 */
+	private void drawRect(Canvas canvas, float left, float right) {
+<span class="nc" id="L726">		canvas.drawRect(left, mBounds.bottom - mProgressState.useThickness, right, mBounds.bottom, PAINT);</span>
+<span class="nc" id="L727">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onStart() {
+<span class="nc bnc" id="L733" title="All 4 branches missed.">		switch (mMode) {</span>
+			case MODE_INDETERMINATE:
+<span class="nc" id="L735">				scheduleSelf(UPDATE, 0);</span>
+<span class="nc" id="L736">				notifyStarted();</span>
+<span class="nc" id="L737">				break;</span>
+			case MODE_BUFFER:
+<span class="nc bnc" id="L739" title="All 2 branches missed.">				if (mSecondaryProgress &lt; mMax) {</span>
+<span class="nc" id="L740">					this.mBufferIndeterminateMarkScale = 1;</span>
+<span class="nc" id="L741">					this.scheduleBufferUpdates();</span>
+<span class="nc" id="L742">					notifyStarted();</span>
+				}
+				break;
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc bnc" id="L746" title="All 2 branches missed.">				if (mProgress == 0) {</span>
+<span class="nc" id="L747">					scheduleSelf(UPDATE, 0);</span>
+<span class="nc" id="L748">					notifyStarted();</span>
+				}
+				break;
+		}
+<span class="nc" id="L752">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onStop() {
+<span class="nc bnc" id="L758" title="All 2 branches missed.">		switch (mMode) {</span>
+			case MODE_INDETERMINATE:
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc" id="L761">				updatePrivateFlags(PFLAG_FINISHING_INDETERMINATE, true);</span>
+				break;
+		}
+<span class="nc" id="L764">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onStopImmediate() {
+<span class="nc bnc" id="L770" title="All 3 branches missed.">		switch (mMode) {</span>
+			case MODE_INDETERMINATE:
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc" id="L773">				unscheduleSelf(UPDATE);</span>
+<span class="nc" id="L774">				break;</span>
+			case MODE_BUFFER:
+<span class="nc" id="L776">				this.unscheduleBufferUpdates();</span>
+				break;
+		}
+<span class="nc" id="L779">		notifyStopped();</span>
+<span class="nc" id="L780">	}</span>
+
+	/**
+	 */
+	@Override
+	protected boolean onModeChange(int mode) {
+<span class="nc bnc" id="L786" title="All 3 branches missed.">		switch (mode) {</span>
+			case MODE_INDETERMINATE:
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc" id="L789">				this.ensureIndeterminateInfo(true);</span>
+<span class="nc" id="L790">				break;</span>
+			case MODE_BUFFER:
+<span class="nc" id="L792">				mProgressState.backgroundRawColor = mProgressState.backgroundDrawColor = 0;</span>
+			default:
+<span class="nc" id="L794">				this.mIndeterminateInfo = null;</span>
+		}
+<span class="nc" id="L796">		return false;</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected boolean onThicknessChange(float thickness) {
+<span class="nc" id="L803">		PAINT.setStrokeWidth(thickness);</span>
+<span class="nc" id="L804">		return true;</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected boolean onStateChange(int[] state) {
+<span class="nc" id="L811">		boolean appearanceChange = super.onStateChange(state);</span>
+<span class="nc bnc" id="L812" title="All 4 branches missed.">		if (mProgressState.secondaryProgressTint != null &amp;&amp; mProgressState.secondaryProgressTintMode != null) {</span>
+<span class="nc" id="L813">			this.mProgressTintFilter = TintDrawable.createTintFilter(</span>
+					this, mProgressState.secondaryProgressTint, mProgressState.secondaryProgressTintMode
+			);
+<span class="nc" id="L816">			appearanceChange = true;</span>
+		}
+<span class="nc" id="L818">		return appearanceChange;</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected boolean onProgressChange(int progress) {
+<span class="nc" id="L825">		return true;</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected boolean onExplodedChange(boolean exploded) {
+<span class="nc" id="L832">		return true;</span>
+	}
+
+	/**
+	 */
+	@Override
+	boolean onUpdate() {
+<span class="nc bnc" id="L839" title="All 2 branches missed.">		switch (mMode) {</span>
+			case MODE_INDETERMINATE:
+			case MODE_QUERY_INDETERMINATE_DETERMINATE:
+<span class="nc" id="L842">				float leaderLeft = mIndeterminateInfo.leaderLeft;</span>
+<span class="nc" id="L843">				float leaderWidth = mIndeterminateInfo.leaderWidth;</span>
+<span class="nc" id="L844">				float followerRight = mIndeterminateInfo.followerRight;</span>
+<span class="nc" id="L845">				float followerWidth = mIndeterminateInfo.followerWidth;</span>
+
+<span class="nc" id="L847">				final float update = (INDETERMINATE_BLOCK_UPDATE_RATIO * mBounds.width()) * mProgressState.indeterminateSpeed;</span>
+<span class="nc" id="L848">				final float acceleratedUpdate = update * (1 + mIndeterminateInterpolator.getInterpolation(</span>
+<span class="nc" id="L849">						leaderLeft / mBounds.width()</span>
+				));
+<span class="nc" id="L851">				final float multipliedAcceleratedUpdate = acceleratedUpdate * INDETERMINATE_ACCELERATION_MULTIPLIER;</span>
+
+<span class="nc bnc" id="L853" title="All 2 branches missed.">				if (leaderLeft &lt; mBounds.right * (INDETERMINATE_FOLLOWING_POSITION / 2)) {</span>
+<span class="nc" id="L854">					leaderWidth += update;</span>
+<span class="nc" id="L855">					leaderLeft += acceleratedUpdate;</span>
+				} else {
+<span class="nc bnc" id="L857" title="All 2 branches missed.">					if (leaderLeft + leaderWidth &lt; mBounds.right) {</span>
+<span class="nc" id="L858">						leaderWidth += acceleratedUpdate;</span>
+					}
+<span class="nc" id="L860">					leaderLeft += multipliedAcceleratedUpdate;</span>
+				}
+
+<span class="nc bnc" id="L863" title="All 2 branches missed.">				if (leaderLeft &gt;= mBounds.right * INDETERMINATE_FOLLOWING_POSITION) {</span>
+<span class="nc bnc" id="L864" title="All 4 branches missed.">					if (followerWidth &lt; leaderWidth &amp;&amp; (followerRight - followerWidth &lt;= mBounds.left)) {</span>
+<span class="nc" id="L865">						followerWidth += multipliedAcceleratedUpdate;</span>
+<span class="nc" id="L866">						followerRight += multipliedAcceleratedUpdate;</span>
+					} else {
+<span class="nc" id="L868">						followerWidth -= acceleratedUpdate;</span>
+<span class="nc" id="L869">						followerRight += multipliedAcceleratedUpdate * INDETERMINATE_ACCELERATION_MULTIPLIER;</span>
+					}
+				}
+
+<span class="nc" id="L873">				mIndeterminateInfo.leaderLeft = leaderLeft;</span>
+<span class="nc" id="L874">				mIndeterminateInfo.leaderWidth = leaderWidth;</span>
+<span class="nc" id="L875">				mIndeterminateInfo.followerRight = followerRight;</span>
+<span class="nc" id="L876">				mIndeterminateInfo.followerWidth = followerWidth;</span>
+
+<span class="nc bnc" id="L878" title="All 2 branches missed.">				if ((mIndeterminateInfo.followerRight - mIndeterminateInfo.followerWidth) &gt;= mBounds.right) {</span>
+<span class="nc" id="L879">					invalidateSelf();</span>
+<span class="nc" id="L880">					this.ensureIndeterminateInfo(true);</span>
+<span class="nc bnc" id="L881" title="All 2 branches missed.">					if ((mPrivateFlags &amp; PFLAG_FINISHING_INDETERMINATE) == 0) {</span>
+<span class="nc" id="L882">						changeNextColor();</span>
+<span class="nc" id="L883">						scheduleSelf(UPDATE, computeScheduleTime(INDETERMINATE_SILENCE_DURATION));</span>
+					} else {
+<span class="nc" id="L885">						updatePrivateFlags(PFLAG_FINISHING_INDETERMINATE, false);</span>
+<span class="nc" id="L886">						notifyStopped();</span>
+					}
+<span class="nc" id="L888">					return false;</span>
+				}
+				break;
+		}
+<span class="nc" id="L892">		return true;</span>
+	}
+
+	/**
+	 */
+	@Override
+	void updateStateFromTypedArray(TypedArray typedArray) {
+<span class="nc" id="L899">		super.updateStateFromTypedArray(typedArray);</span>
+		// Cannot be properly implemented.
+<span class="nc" id="L901">	}</span>
+
+	/**
+	 */
+	@Override
+	void ensureConstantState(ProgressState state) {
+<span class="nc bnc" id="L907" title="All 2 branches missed.">		if (mProgressState == null) {</span>
+<span class="nc" id="L908">			changeConstantState(mProgressState = new LinearState());</span>
+<span class="nc bnc" id="L909" title="All 2 branches missed.">		} else if (state instanceof LinearState) {</span>
+<span class="nc" id="L910">			changeConstantState(mProgressState = new LinearState((LinearState) state));</span>
+		}
+<span class="nc" id="L912">	}</span>
+
+	/**
+	 * Updates the current color used to draw secondary graphics of this progress drawable.
+	 *
+	 * @param alpha An alpha value to be updated for the current secondary color.
+	 */
+	private void updateSecondaryDrawingColor(int alpha) {
+<span class="nc" id="L920">		final int drawColor = (mProgressState.secondaryRawColor &lt;&lt; 8 &gt;&gt;&gt; 8) | (alpha &lt;&lt; 24);</span>
+<span class="nc bnc" id="L921" title="All 2 branches missed.">		if (mProgressState.secondaryDrawColor != drawColor) {</span>
+<span class="nc" id="L922">			mProgressState.secondaryDrawColor = drawColor;</span>
+<span class="nc" id="L923">			invalidateSelf();</span>
+		}
+<span class="nc" id="L925">	}</span>
+
+	/**
+	 * Schedules all updates essential for {@link #MODE_BUFFER} mode. These are {@link #BUFFER_INDETERMINATE_MARKS_TRANSLATION_UPDATE}
+	 * and {@link #BUFFER_INDETERMINATE_MARKS_SCALE}.
+	 */
+	private void scheduleBufferUpdates() {
+<span class="nc" id="L932">		scheduleSelf(BUFFER_INDETERMINATE_MARKS_TRANSLATION_UPDATE, 0);</span>
+<span class="nc" id="L933">		scheduleSelf(BUFFER_INDETERMINATE_MARKS_SCALE, computeScheduleTime(mBufferIndeterminateMarksScaleInterval));</span>
+<span class="nc" id="L934">	}</span>
+
+	/**
+	 * Un-schedules all updates essential for {@link #MODE_BUFFER} mode.
+	 *
+	 * @see #scheduleBufferUpdates()
+	 */
+	private void unscheduleBufferUpdates() {
+<span class="nc" id="L942">		unscheduleSelf(BUFFER_INDETERMINATE_MARKS_TRANSLATION_UPDATE);</span>
+<span class="nc" id="L943">		unscheduleSelf(BUFFER_INDETERMINATE_MARKS_SCALE);</span>
+<span class="nc" id="L944">		unscheduleSelf(BUFFER_INDETERMINATE_MARKS_SCALE_UPDATE);</span>
+<span class="nc" id="L945">	}</span>
+
+	/**
+	 * Ensures that the {@link #mIndeterminateInfo} is properly initialized.
+	 *
+	 * @param clear {@code True} to clear the current info, {@code false} otherwise.
+	 */
+	private void ensureIndeterminateInfo(boolean clear) {
+<span class="nc bnc" id="L953" title="All 2 branches missed.">		if (mIndeterminateInfo == null) {</span>
+<span class="nc" id="L954">			this.mIndeterminateInfo = new IndeterminateInfo();</span>
+<span class="nc bnc" id="L955" title="All 2 branches missed.">		} else if (clear) {</span>
+<span class="nc" id="L956">			mIndeterminateInfo.clear(mBounds);</span>
+		}
+<span class="nc" id="L958">	}</span>
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * Constant state implementation for this drawable class.
+	 */
+	static final class LinearState extends ProgressState {
+
+		/**
+		 * Raw color set by {@link #setColor(int)}.
+		 */
+		int secondaryRawColor;
+
+		/**
+		 * Color modified by {@link #setAlpha(int)} used to draw progress.
+		 */
+		int secondaryDrawColor;
+
+		/**
+		 * Color state list used to apply tint to the secondary progress graphics.
+		 */
+		ColorStateList secondaryProgressTint;
+
+		/**
+		 * Blending mode used to apply the secondary progress graphics tint.
+		 */
+<span class="nc" id="L987">		PorterDuff.Mode secondaryProgressTintMode = TintDrawable.DEFAULT_TINT_MODE;</span>
+
+		/**
+		 * Creates a new instance of empty LinearState.
+		 */
+<span class="nc" id="L992">		LinearState() {</span>
+<span class="nc" id="L993">		}</span>
+
+		/**
+		 * Creates a new instance of LinearState with parameters copied from the specified
+		 * &lt;var&gt;state&lt;/var&gt;.
+		 *
+		 * @param state The state from which to create the new one.
+		 */
+		LinearState(LinearState state) {
+<span class="nc" id="L1002">			super(state);</span>
+<span class="nc" id="L1003">			this.secondaryRawColor = state.secondaryRawColor;</span>
+<span class="nc" id="L1004">			this.secondaryDrawColor = state.secondaryDrawColor;</span>
+<span class="nc" id="L1005">			this.secondaryProgressTint = state.secondaryProgressTint;</span>
+<span class="nc" id="L1006">			this.secondaryProgressTintMode = state.secondaryProgressTintMode;</span>
+<span class="nc" id="L1007">		}</span>
+
+		/**
+		 */
+		@NonNull
+		@Override
+		public Drawable newDrawable() {
+<span class="nc" id="L1014">			return new LinearProgressDrawable(this, null, null);</span>
+		}
+
+		/**
+		 */
+		@NonNull
+		@Override
+		public Drawable newDrawable(Resources res) {
+<span class="nc" id="L1022">			return new LinearProgressDrawable(this, res, null);</span>
+		}
+
+		/**
+		 */
+		@NonNull
+		@Override
+		public Drawable newDrawable(Resources res, Resources.Theme theme) {
+<span class="nc" id="L1030">			return new LinearProgressDrawable(this, res, theme);</span>
+		}
+	}
+
+	/**
+	 * Creates a new instance of LinearProgressDrawable from the specified &lt;var&gt;state&lt;/var&gt;.
+	 *
+	 * @param state The state from which to create the new progress drawable instance.
+	 * @param res   An application resources.
+	 * @param theme A theme to be applied to the new progress drawable instance.
+	 */
+<span class="nc" id="L1041">	private LinearProgressDrawable(LinearState state, Resources res, Resources.Theme theme) {</span>
+<span class="nc bnc" id="L1042" title="All 4 branches missed.">		if (theme != null &amp;&amp; state.canApplyTheme()) {</span>
+<span class="nc" id="L1043">			changeConstantState(mProgressState = new LinearState(state));</span>
+<span class="nc" id="L1044">			applyTheme(theme);</span>
+		} else {
+<span class="nc" id="L1046">			changeConstantState(mProgressState = state);</span>
+		}
+<span class="nc" id="L1048">		this.mBackgroundTintFilter = TintDrawable.createTintFilter(this, state.backgroundTint, state.backgroundTintMode);</span>
+<span class="nc" id="L1049">		this.mProgressTintFilter = TintDrawable.createTintFilter(this, state.progressTint, state.progressTintMode);</span>
+<span class="nc" id="L1050">		this.mSecondaryProgressTintFilter = TintDrawable.createTintFilter(this, state.secondaryProgressTint, state.secondaryProgressTintMode);</span>
+<span class="nc" id="L1051">		this.mIndeterminateTintFilter = TintDrawable.createTintFilter(this, state.indeterminateTint, state.indeterminateTintMode);</span>
+<span class="nc" id="L1052">	}</span>
+
+	/**
+	 * This class holds all data necessary to draw indeterminate graphics.
+	 */
+<span class="nc" id="L1057">	private static final class IndeterminateInfo {</span>
+
+		/**
+		 * Current left coordinate of the leading indeterminate block.
+		 */
+		float leaderLeft;
+
+		/**
+		 * Current width of the leading indeterminate block.
+		 */
+		float leaderWidth;
+
+		/**
+		 * Current right coordinate of the following indeterminate block.
+		 */
+		float followerRight;
+
+		/**
+		 * Current width of the following indeterminate block.
+		 */
+		float followerWidth;
+
+		/**
+		 * Clears the current indeterminate data.
+		 *
+		 * @param bounds A bounds of progress drawable used to set up initial indeterminate data.
+		 */
+		void clear(Rect bounds) {
+<span class="nc" id="L1085">			leaderLeft = followerRight = bounds.left;</span>
+<span class="nc" id="L1086">			leaderWidth = followerWidth = 0;</span>
+<span class="nc" id="L1087">		}</span>
+	}
+
+	/**
+	 * Runnable task to run scale up/down animation of the indeterminate buffer marks.
+	 */
+<span class="nc" id="L1093">	private final class BufferIndeterminateMarksScaleTask implements Runnable {</span>
+
+		/**
+		 * Flag for idle mode.
+		 */
+		static final int MODE_IDLE = 0x00;
+
+		/**
+		 * Flag for scaling mode to indicate that the scale down animation is running.
+		 */
+		static final int MODE_SCALING_DOWN = 0x01;
+
+		/**
+		 * Flag fro scaling mode to indicate that the scale up animation is running.
+		 */
+		static final int MODE_SCALING_UP = 0x02;
+
+		/**
+		 * Current scaling mode which determines whether to scale up or scale down the buffer marks.
+		 */
+<span class="nc" id="L1113">		int mode = MODE_IDLE;</span>
+
+		/**
+		 */
+		@Override
+		public void run() {
+<span class="nc bnc" id="L1119" title="All 3 branches missed.">			switch (mode) {</span>
+				case MODE_SCALING_DOWN:
+<span class="nc bnc" id="L1121" title="All 2 branches missed.">					if (mBufferIndeterminateMarkScale &lt;= 0) {</span>
+<span class="nc" id="L1122">						mBufferIndeterminateMarkScale = 0;</span>
+<span class="nc" id="L1123">						this.mode = MODE_SCALING_UP;</span>
+<span class="nc" id="L1124">						scheduleSelf(this, computeScheduleTime(mBufferIndeterminateMarksScaleDuration));</span>
+					} else {
+<span class="nc" id="L1126">						mBufferIndeterminateMarkScale -= 1 / (float) (mBufferIndeterminateMarksScaleDuration / FRAME_UPDATE_INTERVAL);</span>
+<span class="nc" id="L1127">						scheduleSelf(this, computeFramesScheduleTime());</span>
+<span class="nc" id="L1128">						invalidateSelf();</span>
+					}
+<span class="nc" id="L1130">					break;</span>
+				case MODE_SCALING_UP:
+<span class="nc bnc" id="L1132" title="All 2 branches missed.">					if (mBufferIndeterminateMarkScale &gt;= 1) {</span>
+<span class="nc" id="L1133">						mBufferIndeterminateMarkScale = 1;</span>
+<span class="nc" id="L1134">						this.mode = MODE_IDLE;</span>
+<span class="nc" id="L1135">						scheduleSelf(BUFFER_INDETERMINATE_MARKS_SCALE, computeScheduleTime(mBufferIndeterminateMarksScaleInterval));</span>
+					} else {
+<span class="nc" id="L1137">						mBufferIndeterminateMarkScale += 1 / (float) (mBufferIndeterminateMarksScaleDuration / FRAME_UPDATE_INTERVAL);</span>
+<span class="nc" id="L1138">						scheduleSelf(this, computeFramesScheduleTime());</span>
+<span class="nc" id="L1139">						invalidateSelf();</span>
+					}
+<span class="nc" id="L1141">					break;</span>
+				default:
+<span class="nc" id="L1143">					unscheduleSelf(this);</span>
+			}
+<span class="nc" id="L1145">		}</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

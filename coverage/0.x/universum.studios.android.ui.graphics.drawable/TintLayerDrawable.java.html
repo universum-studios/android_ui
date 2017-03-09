@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TintLayerDrawable.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.graphics.drawable</a> &gt; <span class="el_source">TintLayerDrawable.java</span></div><h1>TintLayerDrawable.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.graphics.drawable;
+
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.SparseArray;
+
+/**
+ * A {@link TintDrawable} implementation used to support tinting of {@link android.graphics.drawable.LayerDrawable},
+ * the pre {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions.
+ *
+ * @author Martin Albedinsky
+ */
+public class TintLayerDrawable extends TintDrawable {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;TintLayerDrawable&quot;;
+
+	/**
+	 * Flag indicating whether this drawable should update its tint or not.
+	 * &lt;p&gt;
+	 * Note that this is used only for pre LOLLIPOP versions of android.
+	 */
+	private static final int PFLAG_INVALIDATE_TINT = 0x00000001 &lt;&lt; 16;
+
+	/**
+	 * Flag indicating whether this drawable should ignore calls to {@link #invalidateSelf()} or not.
+	 */
+	private static final int PFLAG_IGNORE_INVALIDATION = 0x00000001 &lt;&lt; 17;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Array with tint options for all layers of the wrapped LayerDrawable.
+	 */
+	private SparseArray&lt;DrawableLayerTint&gt; mDrawableLayerTints;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Creates a new instance of TintLayerDrawable to wrap the given &lt;var&gt;drawable&lt;/var&gt; to which
+	 * layers will be applied tint set to this drawable via {@link #setTint(int, int)} or
+	 * {@link #setTintList(ColorStateList, int)}.
+	 *
+	 * @param drawable LayerDrawable to wrap and apply tint to.
+	 * @see #setTintMode(PorterDuff.Mode, int)
+	 */
+	public TintLayerDrawable(@NonNull LayerDrawable drawable) {
+<span class="nc" id="L92">		super(drawable);</span>
+<span class="nc" id="L93">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 */
+	@Override
+	public void invalidateSelf() {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">		if ((mPrivateFlags &amp; PFLAG_IGNORE_INVALIDATION) == 0) {</span>
+<span class="nc" id="L104">			super.invalidateSelf();</span>
+		}
+<span class="nc" id="L106">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean isStateful() {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">		if (mDrawableLayerTints == null) {</span>
+<span class="nc" id="L113">			return super.isStateful();</span>
+		}
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">		for (int i = 0; i &lt; mDrawableLayerTints.size(); i++) {</span>
+<span class="nc" id="L117">			final ColorStateList tintList = mDrawableLayerTints.valueAt(i).tintList;</span>
+<span class="nc bnc" id="L118" title="All 4 branches missed.">			if (tintList != null &amp;&amp; tintList.isStateful()) {</span>
+<span class="nc" id="L119">				return true;</span>
+			}
+		}
+<span class="nc" id="L122">		return super.isStateful();</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setColorFilter(ColorFilter cf) {
+<span class="nc" id="L129">		updatePrivateFlags(PFLAG_INVALIDATE_TINT, true);</span>
+<span class="nc" id="L130">		super.setColorFilter(cf);</span>
+<span class="nc" id="L131">	}</span>
+
+	/**
+	 * Specifies a tint for one of the drawable layers of the wrapped layer drawable.
+	 * &lt;p&gt;
+	 * Setting a color filter via {@link #setColorFilter(ColorFilter)} overrides tint.
+	 *
+	 * @param tint    The desired color to be used for tinting of the drawable layer.
+	 * @param layerId Id of the drawable layer to which should be the specified tint applied.
+	 * @see #setTintMode(PorterDuff.Mode, int)
+	 */
+	public void setTint(int tint, int layerId) {
+<span class="nc" id="L143">		setTintList(ColorStateList.valueOf(tint), layerId);</span>
+<span class="nc" id="L144">	}</span>
+
+	/**
+	 * Specifies a tint list for one of the drawable layers of the wrapped layer drawable.
+	 * &lt;p&gt;
+	 * Setting a color filter via {@link #setColorFilter(ColorFilter)} overrides tint.
+	 *
+	 * @param tint    The desired colors list to be used for tinting of the drawable layer. Can be
+	 *                {@code null} to clear the current tint.
+	 * @param layerId Id of the drawable layer to which should be the specified tint applied.
+	 * @see #setTintMode(PorterDuff.Mode, int)
+	 */
+	public void setTintList(@Nullable ColorStateList tint, int layerId) {
+<span class="nc" id="L157">		this.ensureLayerTints();</span>
+
+<span class="nc" id="L159">		DrawableLayerTint layerTint = mDrawableLayerTints.get(layerId);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">		if (layerTint != null) {</span>
+<span class="nc" id="L161">			layerTint.tintList = tint;</span>
+<span class="nc" id="L162">			layerTint.currentTint = Color.TRANSPARENT;</span>
+<span class="nc" id="L163">			invalidateDrawableLayerTint(layerId);</span>
+<span class="nc" id="L164">			return;</span>
+		}
+
+<span class="nc" id="L167">		layerTint = new DrawableLayerTint();</span>
+<span class="nc" id="L168">		layerTint.tintList = tint;</span>
+<span class="nc" id="L169">		mDrawableLayerTints.put(layerId, layerTint);</span>
+<span class="nc" id="L170">		invalidateDrawableLayerTint(layerId);</span>
+<span class="nc" id="L171">	}</span>
+
+	/**
+	 * Specifies a tint blending mode for one of the drawable layers of the wrapped layer drawable.
+	 * &lt;p&gt;
+	 * Setting a color filter via {@link #setColorFilter(ColorFilter)} overrides tint.
+	 *
+	 * @param tintMode A Porter-Duff blending mode.
+	 * @param layerId  Id of the drawable layer which should be tinted using the specified tint mode.
+	 */
+	public void setTintMode(@Nullable PorterDuff.Mode tintMode, int layerId) {
+<span class="nc" id="L182">		this.ensureLayerTints();</span>
+
+<span class="nc" id="L184">		DrawableLayerTint layerTint = mDrawableLayerTints.get(layerId);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">		if (layerTint != null) {</span>
+<span class="nc" id="L186">			layerTint.tintMode = tintMode;</span>
+<span class="nc" id="L187">			layerTint.currentTint = Color.TRANSPARENT;</span>
+<span class="nc" id="L188">			invalidateDrawableLayerTint(layerId);</span>
+<span class="nc" id="L189">			return;</span>
+		}
+
+<span class="nc" id="L192">		layerTint = new DrawableLayerTint();</span>
+<span class="nc" id="L193">		layerTint.tintMode = tintMode;</span>
+<span class="nc" id="L194">		mDrawableLayerTints.put(layerId, layerTint);</span>
+<span class="nc" id="L195">		invalidateDrawableLayerTint(layerId);</span>
+<span class="nc" id="L196">	}</span>
+
+	/**
+	 * Ensures that the layer tints array is initialized.
+	 */
+	private void ensureLayerTints() {
+<span class="nc bnc" id="L202" title="All 2 branches missed.">		if (mDrawableLayerTints == null) this.mDrawableLayerTints = new SparseArray&lt;&gt;();</span>
+<span class="nc" id="L203">	}</span>
+
+	/**
+	 * Invalidates current tint of a drawable layer with the specified &lt;var&gt;layerId&lt;/var&gt;.
+	 *
+	 * @param layerId The id of layer of which tint should be invalidated according to the current
+	 *                state of this drawable.
+	 */
+	private void invalidateDrawableLayerTint(int layerId) {
+<span class="nc" id="L212">		updateDrawableLayerTint(layerId, getState());</span>
+<span class="nc" id="L213">		invalidateSelf();</span>
+<span class="nc" id="L214">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onBoundsChange(Rect bounds) {
+<span class="nc" id="L220">		updatePrivateFlags(PFLAG_INVALIDATE_TINT, true);</span>
+<span class="nc" id="L221">		super.onBoundsChange(bounds);</span>
+<span class="nc" id="L222">	}</span>
+
+	/**
+	 */
+	@Override
+	protected boolean onLevelChange(int level) {
+<span class="nc bnc" id="L228" title="All 4 branches missed.">		return this.updateProgressDrawableLevel(level) || super.onLevelChange(level);</span>
+	}
+
+	/**
+	 * If one the drawable layers of the wrapped drawable is {@link android.R.id#progress} this will
+	 * update its current level to the specified one.
+	 *
+	 * @param level The level to be set to the progress layer (if presented).
+	 * @return {@code True} if the given level has been set and it actually changed to the current
+	 * level of the progress layer, {@code false} otherwise.
+	 */
+	private boolean updateProgressDrawableLevel(int level) {
+<span class="nc" id="L240">		final Drawable progressDrawable = ((LayerDrawable) mDrawable).findDrawableByLayerId(android.R.id.progress);</span>
+<span class="nc bnc" id="L241" title="All 4 branches missed.">		return progressDrawable != null &amp;&amp; progressDrawable.setLevel(level);</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected boolean onStateChange(int[] stateSet) {
+<span class="nc" id="L248">		updatePrivateFlags(PFLAG_INVALIDATE_TINT, true);</span>
+<span class="nc bnc" id="L249" title="All 4 branches missed.">		boolean changed = mDrawable.isStateful() &amp;&amp; mDrawable.setState(stateSet);</span>
+<span class="nc bnc" id="L250" title="All 4 branches missed.">		return changed || updateDrawableLayerTints(stateSet);</span>
+	}
+
+	/**
+	 * Updates tint for all drawable layers of the wrapped drawable according to the specified
+	 * &lt;var&gt;stateSet&lt;/var&gt;.
+	 *
+	 * @param stateSet Current state set used to resolve which tint should be applied.
+	 * @return {@code True} if tint of at least one layer has been updated, {@code false} otherwise.
+	 */
+	private boolean updateDrawableLayerTints(int[] stateSet) {
+<span class="nc bnc" id="L261" title="All 2 branches missed.">		if (mDrawableLayerTints != null) {</span>
+<span class="nc" id="L262">			boolean updated = false;</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">			for (int i = 0; i &lt; mDrawableLayerTints.size(); i++) {</span>
+<span class="nc" id="L264">				updated |= updateDrawableLayerTint(mDrawableLayerTints.keyAt(i), stateSet);</span>
+			}
+<span class="nc" id="L266">			return updated;</span>
+		}
+<span class="nc" id="L268">		return false;</span>
+	}
+
+	/**
+	 * Updates tint of a layer with the specified &lt;var&gt;layerId&lt;/var&gt; of the wrapped drawable
+	 * depends on the specified &lt;var&gt;stateSet&lt;/var&gt;.
+	 *
+	 * @param layerId  Id of the desired layer of which tint to update.
+	 * @param stateSet State set to properly resolve tint color.
+	 * @return {@code True} if tint has ben updated, {@code false} otherwise.
+	 */
+	private boolean updateDrawableLayerTint(int layerId, int[] stateSet) {
+<span class="nc bnc" id="L280" title="All 2 branches missed.">		if ((mPrivateFlags &amp; PFLAG_HAS_COLOR_FILTER) == 0) {</span>
+<span class="nc" id="L281">			final Drawable drawable = ((LayerDrawable) mDrawable).findDrawableByLayerId(layerId);</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">			if (drawable == null) {</span>
+<span class="nc" id="L283">				return false;</span>
+			}
+
+<span class="nc bnc" id="L286" title="All 2 branches missed.">			final DrawableLayerTint layerTint = mDrawableLayerTints != null ? mDrawableLayerTints.get(layerId) : null;</span>
+<span class="nc bnc" id="L287" title="All 6 branches missed.">			if (layerTint != null &amp;&amp; layerTint.tintList != null &amp;&amp; layerTint.tintMode != null) {</span>
+<span class="nc" id="L288">				final int tintColor = layerTint.tintList.getColorForState(stateSet, layerTint.currentTint);</span>
+
+<span class="nc bnc" id="L290" title="All 4 branches missed.">				if (tintColor != layerTint.currentTint || (mPrivateFlags &amp; PFLAG_TINT_COLOR_CACHING_ENABLED) == 0) {</span>
+<span class="nc" id="L291">					drawable.setColorFilter(new PorterDuffColorFilter(tintColor, layerTint.tintMode));</span>
+<span class="nc" id="L292">					layerTint.currentTint = tintColor;</span>
+				}
+<span class="nc" id="L294">			} else {</span>
+<span class="nc" id="L295">				drawable.clearColorFilter();</span>
+			}
+<span class="nc" id="L297">			return true;</span>
+		}
+<span class="nc" id="L299">		return false;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * Holder for drawable layer tint options.
+	 */
+<span class="nc" id="L309">	private static final class DrawableLayerTint {</span>
+
+		/**
+		 * Set of tint colors used to tint graphics of a specific drawable layer.
+		 */
+		ColorStateList tintList;
+
+		/**
+		 * Blending mode used when applying tint to graphics of a specific drawable layer.
+		 */
+<span class="nc" id="L319">		PorterDuff.Mode tintMode = PorterDuff.Mode.SRC_IN;</span>
+
+		/**
+		 * Current tint color applied to graphics of a specific drawable layer.
+		 */
+<span class="nc" id="L324">		int currentTint = Color.TRANSPARENT;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>WidgetScroller.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">WidgetScroller.java</span></div><h1>WidgetScroller.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.os.Build;
+import android.view.animation.Interpolator;
+import android.widget.Scroller;
+
+/**
+ * Extended version of {@link android.widget.Scroller}. This updated Scroller allows setting of custom
+ * duration for the scroll used whenever {@link #startScroll(int, int, int, int, int)} is called
+ * upon an instance of WidgetScroller. The custom duration can be set by {@link #setScrollDuration(int)}.
+ * If you want to be used the default duration passed to {@code startScroll(...)} method, set the
+ * scroll duration to &lt;b&gt;negative&lt;/b&gt;.
+ *
+ * @author Martin Albedinsky
+ */
+final class WidgetScroller extends Scroller {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;WidgetScroller&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Duration used whenever {@link #startScroll(int, int, int, int, int)} is called. Must be
+	 * &lt;b&gt;none negative&lt;/b&gt; to be used.
+	 */
+<span class="nc" id="L63">	private int mScrollDuration = -1;</span>
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #WidgetScroller(android.content.Context, android.view.animation.Interpolator)}
+	 * without interpolator.
+	 */
+	WidgetScroller(Context context) {
+<span class="nc" id="L74">		this(context, null);</span>
+<span class="nc" id="L75">	}</span>
+
+	/**
+	 * Creates a new instance of WidgetScroller with the given &lt;var&gt;interpolator&lt;/var&gt;.
+	 *
+	 * @param interpolator Interpolator used to interpolate scroll.
+	 */
+	WidgetScroller(Context context, Interpolator interpolator) {
+<span class="nc" id="L83">		super(context, interpolator);</span>
+<span class="nc" id="L84">	}</span>
+
+	/**
+	 * Creates a new instance of WidgetScroller with the given &lt;var&gt;interpolator&lt;/var&gt;.
+	 *
+	 * @param interpolator Interpolator used to interpolate scroll.
+	 * @param flywheel     {@code True} to support &quot;progressive&quot; behaviour in fling, {@code false}
+	 *                     otherwise.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	WidgetScroller(Context context, Interpolator interpolator, boolean flywheel) {
+<span class="nc" id="L95">		super(context, interpolator, flywheel);</span>
+<span class="nc" id="L96">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 */
+	@Override
+	public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+<span class="nc bnc" id="L106" title="All 2 branches missed.">		super.startScroll(startX, startY, dx, dy, mScrollDuration &gt;= 0 ? mScrollDuration : duration);</span>
+<span class="nc" id="L107">	}</span>
+
+	/**
+	 * Sets the duration for scroll used whenever {@link #startScroll(int, int, int, int, int)} is
+	 * called upon this scroller.
+	 *
+	 * @param duration The desired duration for scroll in milliseconds. Pass here &lt;b&gt;negative&lt;/b&gt;
+	 *                 duration to use the default one.
+	 */
+	void setScrollDuration(int duration) {
+<span class="nc" id="L117">		this.mScrollDuration = duration;</span>
+<span class="nc" id="L118">	}</span>
+
+	/**
+	 * Returns the current duration used for the scroll provided by this scroller.
+	 *
+	 * @return Scroll duration in milliseconds.
+	 */
+	int getScrollDuration() {
+<span class="nc" id="L126">		return mScrollDuration;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

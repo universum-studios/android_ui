@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Slideable.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">Slideable.java</span></div><h1>Slideable.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.os.Build;
+
+/**
+ * Interface for &lt;b&gt;slideable&lt;/b&gt; views. Specifies API for transitioning view along its &lt;b&gt;X&lt;/b&gt; and
+ * &lt;b&gt;Y&lt;/b&gt; axis. Position of the slideable view is changed by updating its &lt;b&gt;left&lt;/b&gt; or &lt;b&gt;top&lt;/b&gt;
+ * position.
+ * &lt;p&gt;
+ * The slideable view can be moved along its X axis by {@link #setFractionX(float)} and along its Y
+ * axis by {@link #setFractionY(float)}. Both of these methods will accept fraction values from
+ * the range {@code [-1, 1]} where &lt;b&gt;-1&lt;/b&gt; means to move the view by &lt;b&gt;-100 %&lt;/b&gt; along the
+ * requested axis &quot;backward&quot; and &lt;b&gt;1&lt;/b&gt; means to move the view by &lt;b&gt;100 %&lt;/b&gt; along the requested
+ * axis &quot;forward&quot;.
+ *
+ * @author Martin Albedinsky
+ */
+public interface Slideable {
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Position used to situate a view out of the screen in case such a view does not have its size
+	 * initialized yet, so it is unable to compute fraction for X or Y coordinate.
+	 */
+	int OUT_OF_SCREEN = -9999;
+
+	/**
+	 * Flag indicating whether the widgets can use API allowing to modify &lt;b&gt;x&lt;/b&gt; and &lt;b&gt;y&lt;/b&gt; position
+	 * of a view introduced in {@link android.os.Build.VERSION_CODES#HONEYCOMB HONEYCOMB}.
+	 */
+<span class="nc bnc" id="L52" title="All 2 branches missed.">	boolean SLIDEABLE = Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB;</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Sets the fraction for X axis of this view. This fraction determines how this view should be
+	 * moved along its X axis depends on its current &lt;b&gt;width&lt;/b&gt;.
+	 * &lt;p&gt;
+	 * Setting this value for example to {@code 1} will move this view by &lt;b&gt;100 %&lt;/b&gt; of its width
+	 * to the right.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that setting this value out of the proper range can resolve into unpredictable
+	 * results.
+	 *
+	 * @param fraction The desired fraction from the range {@code [-1, 1]}.
+	 */
+	void setFractionX(float fraction);
+
+	/**
+	 * Returns the current fraction for the X axis of this view.
+	 *
+	 * @return Fraction for X axis.
+	 */
+	float getFractionX();
+
+	/**
+	 * Sets the fraction for Y axis of this view. This fraction determines how this view should be
+	 * moved along its Y axis depends on its current &lt;b&gt;height&lt;/b&gt;.
+	 * &lt;p&gt;
+	 * Setting this value for example to {@code -1} will move this view by &lt;b&gt;100 %&lt;/b&gt; of its height
+	 * to the top.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that setting this value out of the proper range can resolve into unpredictable
+	 * results.
+	 *
+	 * @param fraction The desired fraction from the range {@code [-1, 1]}.
+	 */
+	void setFractionY(float fraction);
+
+	/**
+	 * Returns the current fraction for the Y axis of this view.
+	 *
+	 * @return Fraction for Y axis.
+	 */
+	float getFractionY();
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

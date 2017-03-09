@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CompoundButtonDecorator.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">CompoundButtonDecorator.java</span></div><h1>CompoundButtonDecorator.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License 
+ * you may obtain at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * You can redistribute, modify or publish any part of the code written within this file but as it 
+ * is described in the License, the software distributed under the License is distributed on an 
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.CompoundButton;
+
+import universum.studios.android.font.FontWidget;
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.UiConfig;
+import universum.studios.android.ui.graphics.drawable.TintDrawable;
+
+/**
+ * A {@link FontWidgetDecorator} implementation that is used to decorate {@link CompoundButtonDecorator}
+ * like widgets.
+ *
+ * @param &lt;W&gt; A type of the compound button widget that will use this decorator.
+ * @author Martin Albedinsky
+ */
+abstract class CompoundButtonDecorator&lt;W extends CompoundButton &amp; FontWidget&gt; extends FontWidgetDecorator&lt;W&gt; {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;CompoundButtonDecorator&quot;;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Drawable representing the button of the attached widget.
+	 */
+	private Drawable mButton;
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #CompoundButtonDecorator(CompoundButton, int[])} with default
+	 * {@link R.styleable#Ui_CompoundButton_Switch} as styleable attributes set.
+	 */
+	CompoundButtonDecorator(W widget) {
+<span class="nc" id="L80">		super(widget, R.styleable.Ui_CompoundButton);</span>
+<span class="nc" id="L81">	}</span>
+
+	/**
+	 * Creates a new instance of CompoundButtonDecorator for the given &lt;var&gt;widget&lt;/var&gt;.
+	 *
+	 * @param widget         The compound button like widget for which to create new decorator.
+	 * @param styleableAttrs Set of styleable attributes specific for the widget.
+	 * @see FontWidgetDecorator#FontWidgetDecorator(View, int[])
+	 */
+	CompoundButtonDecorator(W widget, int[] styleableAttrs) {
+<span class="nc" id="L91">		super(widget, styleableAttrs);</span>
+<span class="nc" id="L92">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 */
+	@Override
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	void onProcessTintAttributes(Context context, TypedArray tintAttributes, int tintColor) {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiButtonTint)) {</span>
+<span class="nc" id="L105">				setButtonTintList(tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_uiButtonTint));</span>
+			}
+<span class="nc bnc" id="L107" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiBackgroundTint)) {</span>
+<span class="nc" id="L108">				setBackgroundTintList(tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_uiBackgroundTint));</span>
+			}
+<span class="nc bnc" id="L110" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiButtonTintMode)) {</span>
+<span class="nc" id="L111">				setButtonTintMode(TintManager.parseTintMode(</span>
+<span class="nc" id="L112">						tintAttributes.getInt(R.styleable.Ui_CompoundButton_uiButtonTintMode, 0),</span>
+						PorterDuff.Mode.SRC_IN
+				));
+			}
+<span class="nc bnc" id="L116" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiBackgroundTintMode)) {</span>
+<span class="nc" id="L117">				setBackgroundTintMode(TintManager.parseTintMode(</span>
+<span class="nc" id="L118">						tintAttributes.getInt(R.styleable.Ui_CompoundButton_uiBackgroundTintMode, 0),</span>
+						PorterDuff.Mode.SRC_IN
+				));
+			}
+		} else {
+<span class="nc" id="L123">			mTintInfo.tintList = TintManager.createCompoundButtonTintColors(getContext(), tintColor);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiButtonTint)) {</span>
+<span class="nc" id="L125">				mTintInfo.tintList = tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_uiButtonTint);</span>
+			}
+<span class="nc bnc" id="L127" title="All 2 branches missed.">			if (tintAttributes.hasValue(R.styleable.Ui_CompoundButton_uiBackgroundTint)) {</span>
+<span class="nc" id="L128">				mTintInfo.backgroundTintList = tintAttributes.getColorStateList(R.styleable.Ui_CompoundButton_uiBackgroundTint);</span>
+			}
+<span class="nc" id="L130">			mTintInfo.tintMode = TintManager.parseTintMode(</span>
+<span class="nc" id="L131">					tintAttributes.getInt(R.styleable.Ui_CompoundButton_uiButtonTintMode, 0),</span>
+					PorterDuff.Mode.SRC_IN
+			);
+<span class="nc" id="L134">			mTintInfo.backgroundTintMode = TintManager.parseTintMode(</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">					tintAttributes.getInt(R.styleable.Ui_CompoundButton_uiBackgroundTintMode, 0),</span>
+					mTintInfo.backgroundTintList != null ? PorterDuff.Mode.SRC_IN : null
+			);
+		}
+<span class="nc" id="L139">	}</span>
+
+	/**
+	 */
+	@Override
+	void processTintAttributes(Context context, TypedArray tintAttributes) {
+<span class="nc" id="L145">		super.processTintAttributes(context, tintAttributes);</span>
+<span class="nc" id="L146">		applyButtonTint();</span>
+<span class="nc" id="L147">	}</span>
+
+	/**
+	 * This should be called from the attached widget whenever its {@link CompoundButton#setButtonDrawable(Drawable)}
+	 * is invoked.
+	 */
+	void setButtonDrawable(Drawable d) {
+<span class="nc" id="L154">		superSetButtonDrawable(mButton = d);</span>
+<span class="nc" id="L155">		applyButtonTint();</span>
+<span class="nc" id="L156">	}</span>
+
+	/**
+	 * Applies current tint from {@link #mTintInfo} to the button.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that for post {@link Build.VERSION_CODES#LOLLIPOP LOLLIPOP} this method
+	 * does nothing.
+	 */
+	void applyButtonTint() {
+<span class="nc bnc" id="L165" title="All 10 branches missed.">		if (UiConfig.MATERIALIZED ||</span>
+				mTintInfo == null ||
+				(!mTintInfo.hasTintList &amp;&amp; !mTintInfo.hasTintMode) ||
+				mButton == null) {
+<span class="nc" id="L169">			return;</span>
+		}
+<span class="nc" id="L171">		final boolean isTintDrawable = mButton instanceof TintDrawable;</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">		final TintDrawable tintDrawable = isTintDrawable ? (TintDrawable) mButton : new TintDrawable(mButton);</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">		if (mTintInfo.hasTintList) {</span>
+<span class="nc" id="L174">			tintDrawable.setTintList(mTintInfo.tintList);</span>
+		}
+<span class="nc bnc" id="L176" title="All 2 branches missed.">		if (mTintInfo.hasTintMode) {</span>
+<span class="nc" id="L177">			tintDrawable.setTintMode(mTintInfo.tintMode);</span>
+		}
+<span class="nc bnc" id="L179" title="All 2 branches missed.">		if (tintDrawable.isStateful()) {</span>
+<span class="nc" id="L180">			tintDrawable.setState(mWidget.getDrawableState());</span>
+		}
+<span class="nc bnc" id="L182" title="All 2 branches missed.">		if (isTintDrawable) {</span>
+<span class="nc" id="L183">			return;</span>
+		}
+<span class="nc" id="L185">		superSetButtonDrawable(mButton = tintDrawable);</span>
+<span class="nc" id="L186">		tintDrawable.attachCallback();</span>
+<span class="nc" id="L187">	}</span>
+
+	/**
+	 * Delegate method for super's {@link CompoundButton#setButtonDrawable(Drawable)}.
+	 */
+	abstract void superSetButtonDrawable(Drawable button);
+
+	/**
+	 * Applies a tint to the button drawable. Does not modify the current tint
+	 * mode, which is {@link PorterDuff.Mode#SRC_IN} by default.
+	 *
+	 * @param tint The desired tint to be applied. May be {@code null} to clear the current tint.
+	 */
+	void setButtonTintList(@Nullable ColorStateList tint) {
+<span class="nc bnc" id="L201" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L202">			superSetButtonTintList(tint);</span>
+<span class="nc" id="L203">			return;</span>
+		}
+<span class="nc" id="L205">		this.ensureTintInfo();</span>
+<span class="nc" id="L206">		mTintInfo.tintList = tint;</span>
+<span class="nc" id="L207">		mTintInfo.hasTintList = true;</span>
+<span class="nc" id="L208">		this.applyButtonTint();</span>
+<span class="nc" id="L209">	}</span>
+
+	/**
+	 * Delegate method for super's {@link CompoundButton#setButtonTintList(ColorStateList)}.
+	 */
+	abstract void superSetButtonTintList(ColorStateList tint);
+
+	/**
+	 * Returns the tint applied to the button drawable.
+	 *
+	 * @return Button drawable's tint or {@code null} if no tint is applied.
+	 */
+	ColorStateList getButtonTintList() {
+<span class="nc bnc" id="L222" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L223">			return superGetButtonTintList();</span>
+		}
+<span class="nc bnc" id="L225" title="All 2 branches missed.">		return mTintInfo != null ? mTintInfo.tintList : null;</span>
+	}
+
+	/**
+	 * Delegate method for super's {@link CompoundButton#getButtonTintList()}.
+	 */
+	abstract ColorStateList superGetButtonTintList();
+
+	/**
+	 * Specifies a blending mode that should be used to apply tint specified via
+	 * {@link #setButtonTintList(ColorStateList)} to the button drawable.
+	 *
+	 * @param tintMode The desired Porter duff mode. May be {@code null} to clear the current
+	 *                 tint.
+	 */
+	void setButtonTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc bnc" id="L241" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L242">			superSetButtonTintMode(tintMode);</span>
+<span class="nc" id="L243">			return;</span>
+		}
+<span class="nc" id="L245">		ensureTintInfo();</span>
+<span class="nc" id="L246">		mTintInfo.tintMode = tintMode;</span>
+<span class="nc" id="L247">		mTintInfo.hasTintMode = true;</span>
+<span class="nc" id="L248">		this.applyButtonTint();</span>
+<span class="nc" id="L249">	}</span>
+
+	/**
+	 * Delegate method for super's {@link CompoundButton#setButtonTintMode(PorterDuff.Mode)}.
+	 */
+	abstract void superSetButtonTintMode(PorterDuff.Mode tintMode);
+
+	/**
+	 * Returns the blending mode used to apply tint to the button drawable.
+	 *
+	 * @return One of Porter duff modes or {@code null} if no mode has been specified.
+	 */
+	PorterDuff.Mode getButtonTintMode() {
+<span class="nc bnc" id="L262" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L263">			return superGetButtonTintMode();</span>
+		}
+<span class="nc bnc" id="L265" title="All 2 branches missed.">		return mTintInfo != null ? mTintInfo.tintMode : null;</span>
+	}
+
+	/**
+	 * Delegate method for super's {@link CompoundButton#getButtonTintMode()}.
+	 */
+	abstract PorterDuff.Mode superGetButtonTintMode();
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>

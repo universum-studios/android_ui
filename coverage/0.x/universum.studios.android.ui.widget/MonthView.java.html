@@ -1,0 +1,2449 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MonthView.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">universum.studios.android.ui.widget</a> &gt; <span class="el_source">MonthView.java</span></div><h1>MonthView.java</h1><pre class="source lang-java linenums">/*
+ * =================================================================================================
+ *                             Copyright (C) 2017 Universum Studios
+ * =================================================================================================
+ *         Licensed under the Apache License, Version 2.0 or later (further &quot;License&quot; only).
+ * -------------------------------------------------------------------------------------------------
+ * You may use this file only in compliance with the License. More details and copy of this License
+ * you may obtain at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You can redistribute, modify or publish any part of the code written within this file but as it
+ * is described in the License, the software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ * =================================================================================================
+ */
+package universum.studios.android.ui.widget;
+
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.Px;
+import android.support.annotation.StyleRes;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.MotionEvent;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import universum.studios.android.font.Font;
+import universum.studios.android.font.FontWidget;
+import universum.studios.android.font.util.FontApplier;
+import universum.studios.android.ui.R;
+import universum.studios.android.ui.UiConfig;
+import universum.studios.android.ui.graphics.drawable.TintDrawable;
+import universum.studios.android.ui.util.ResourceUtils;
+
+/**
+ * This view is used by {@link CalendarView} to display days data set for a specific month to
+ * allow to a user to pick its desired day for a specific month and year.
+ * &lt;p&gt;
+ * This view draws name of month and year number at the top as title text and set of day numbers below
+ * it in {@code 7} columns and {@code 6} rows so also the months with the largest days data set
+ * will fit into drawing area. The numbers &quot;table&quot; has also one header row containing first letters
+ * of days in week.
+ * &lt;p&gt;
+ * Month of which days should the MonthView present can be specified via {@link #setDate(java.util.Date)},
+ * where such a date should have number and year calendar fields specified. Initial selected
+ * day can be specified via {@link #setSelection(int)} and the current selected day can be obtained
+ * via {@link #getSelection()} or {@link #getSelectionDate()}. The later will return date that is
+ * represented by the current selected day for the specified month and year.
+ * &lt;p&gt;
+ * &lt;b&gt;Note&lt;/b&gt;, that this view saves its current state, so it can be later restored (in case of
+ * orientation change for example).
+ *
+ * &lt;h3&gt;Callbacks&lt;/h3&gt;
+ * Use {@link OnDaySelectionListener} to listen for callback about selected day. This listener can
+ * be registered via {@link #setOnDaySelectionListener(OnDaySelectionListener)} and its callback
+ * will be fired whenever a user touches and releases its desired day.
+ *
+ * &lt;h3&gt;XML attributes&lt;/h3&gt;
+ * See {@link ViewWidget},
+ * {@link R.styleable#Ui_MonthView MonthView Attributes}
+ *
+ * &lt;h3&gt;Default style attribute&lt;/h3&gt;
+ * {@link R.attr#uiMonthViewStyle uiMonthViewStyle}
+ *
+ * @author Martin Albedinsky
+ */
+public class MonthView extends ViewWidget implements FontWidget {
+
+	/**
+	 * Interface ===================================================================================
+	 */
+
+	/**
+	 * Listener that can receive a callback about selected day within {@link MonthView}.
+	 *
+	 * @author Martin Albedinsky
+	 */
+	public interface OnDaySelectionListener {
+
+		/**
+		 * Invoked whenever the specified &lt;var&gt;day&lt;/var&gt; has been selected within the given &lt;var&gt;monthView&lt;/var&gt;.
+		 *
+		 * @param monthView    The month view within which has been the day selected.
+		 * @param day          The selected day. Will be from the range {@code [1, 31]}.
+		 * @param dateInMillis A date in milliseconds that is currently selected within the given month view.
+		 */
+		void onDaySelected(@NonNull MonthView monthView, @IntRange(from = 1, to = 31) int day, long dateInMillis);
+	}
+
+	/**
+	 * Constants ===================================================================================
+	 */
+
+	/**
+	 * Log TAG.
+	 */
+	// private static final String TAG = &quot;MonthView&quot;;
+
+	/**
+	 * Flag indicating whether some number of day has been touched or not.
+	 */
+	private static final int PFLAG_DAY_TOUCHED = 0x00000001 &lt;&lt; 16;
+
+	/**
+	 * Static members ==============================================================================
+	 */
+
+	/**
+	 * Flag indicating whether the current Android version is pre {@link android.os.Build.VERSION_CODES#GINGERBREAD}
+	 * or not.
+	 */
+<span class="nc bnc" id="L142" title="All 2 branches missed.">	private static final boolean PRE_GINGERBREAD = Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.GINGERBREAD;</span>
+
+	/**
+	 * Copy of {@link java.util.Calendar#LONG} flag to provide support also for pre {@link android.os.Build.VERSION_CODES#GINGERBREAD GINGERBREAD}
+	 * Android version.
+	 */
+	@SuppressLint(&quot;InlinedApi&quot;)
+<span class="nc bnc" id="L149" title="All 2 branches missed.">	public static final int CALENDAR_STYLE_LONG = PRE_GINGERBREAD ? 2 : Calendar.LONG;</span>
+
+	/**
+	 * Copy of {@link java.util.Calendar#SHORT} flag to provide support also for pre {@link android.os.Build.VERSION_CODES#GINGERBREAD GINGERBREAD}
+	 * Android version.
+	 */
+	@SuppressLint(&quot;InlinedApi&quot;)
+<span class="nc bnc" id="L156" title="All 2 branches missed.">	public static final int CALENDAR_STYLE_SHORT = PRE_GINGERBREAD ? 2 : Calendar.SHORT;</span>
+
+	/**
+	 * Array of month names for pre {@link android.os.Build.VERSION_CODES#GINGERBREAD GINGERBREAD} Android version.
+	 */
+	private static final String[] PRE_GINGERBREAD_MONTH_NAMES;
+
+	static {
+<span class="nc bnc" id="L164" title="All 2 branches missed.">		if (PRE_GINGERBREAD) {</span>
+<span class="nc" id="L165">			PRE_GINGERBREAD_MONTH_NAMES = new String[]{</span>
+					&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;,
+					&quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;
+			};
+		} else {
+<span class="nc" id="L170">			PRE_GINGERBREAD_MONTH_NAMES = null;</span>
+		}
+	}
+
+	/**
+	 * Array of day names for pre {@link android.os.Build.VERSION_CODES#GINGERBREAD GINGERBREAD} Android version.
+	 */
+	private static final String[] PRE_GINGERBREAD_DAY_NAMES;
+
+	static {
+<span class="nc bnc" id="L180" title="All 2 branches missed.">		if (PRE_GINGERBREAD) {</span>
+<span class="nc" id="L181">			PRE_GINGERBREAD_DAY_NAMES = new String[]{</span>
+					&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;
+			};
+		} else {
+<span class="nc" id="L185">			PRE_GINGERBREAD_DAY_NAMES = null;</span>
+		}
+<span class="nc" id="L187">	}</span>
+
+	/**
+	 * Count of days in one week.
+	 */
+	private static final int DAYS_IN_WEEK = 7;
+
+	/**
+	 * Maximum rows in which can be drawn the day numbers.
+	 */
+	private static final int MAX_DAYS_ROWS = 6;
+
+	/**
+	 * Maximum day number for month.
+	 */
+	private static final int MAX_DAY_IN_MONTH = 31;
+
+	/**
+	 * Members =====================================================================================
+	 */
+
+	/**
+	 * Array with first letters of day names for the current locale specified for this month view
+	 * via {@link #setLocale(java.util.Locale)}.
+	 */
+<span class="nc" id="L212">	private final String[] DAY_LETTERS = {&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;};</span>
+
+	/**
+	 * Graphics info for title text.
+	 */
+<span class="nc" id="L217">	private final TextGraphicsInfo TITLE_TEXT_INFO = new TextGraphicsInfo();</span>
+
+	/**
+	 * Graphics info for day letters text.
+	 */
+<span class="nc" id="L222">	private final TextGraphicsInfo DAY_LETTER_TEXT_INFO = new TextGraphicsInfo();</span>
+
+	/**
+	 * Graphics info for day numbers text.
+	 */
+<span class="nc" id="L227">	private final TextGraphicsInfo DAY_NUMBER_TEXT_INFO = new TextGraphicsInfo();</span>
+
+	// Set up paints.
+	{
+<span class="nc" id="L231">		TITLE_TEXT_INFO.paint.setTextAlign(Paint.Align.CENTER);</span>
+<span class="nc" id="L232">		DAY_LETTER_TEXT_INFO.paint.setTextAlign(Paint.Align.CENTER);</span>
+<span class="nc" id="L233">		DAY_NUMBER_TEXT_INFO.paint.setTextAlign(Paint.Align.CENTER);</span>
+	}
+
+	/**
+	 * Rect used to capture text bounds when drawing text within this view.
+	 */
+<span class="nc" id="L239">	private final Rect TEXT_BOUNDS = new Rect();</span>
+
+	/**
+	 * Rect representing the touchable area with day numbers.
+	 */
+<span class="nc" id="L244">	private final RectF TOUCHABLE_AREA = new RectF();</span>
+
+	/**
+	 * Date instance used when updating date values of this month view.
+	 */
+<span class="nc" id="L249">	private final Date DATE = new Date(0);</span>
+
+	/**
+	 * Holder for colors used to draw day numbers graphics of this view.
+	 */
+<span class="nc" id="L254">	private final DayNumberColorsState DAY_NUMBERS_COLORS_STATE = new DayNumberColorsState();</span>
+
+	/**
+	 * Colors used to highlight current day among all month days.
+	 */
+<span class="nc" id="L259">	private ColorStateList mCurrentDayTextColors = ColorStateList.valueOf(Color.BLACK);</span>
+
+	/**
+	 * Current color used to highlight current day when drawing its number on canvas.
+	 */
+<span class="nc" id="L264">	private int mCurrentDayCurrentTextColor = mCurrentDayTextColors.getDefaultColor();</span>
+
+	/**
+	 * Set of private flags of this dialog view.
+	 */
+<span class="nc" id="L269">	private int mPrivateFlags = PrivateFlags.PFLAG_ALLOWS_DEFAULT_SELECTION;</span>
+
+	/**
+	 * Display name of the month of the date specified for this month view via {@link #setDate(java.util.Date)}.
+	 */
+<span class="nc" id="L274">	private String mMonthName = &quot;&quot;;</span>
+
+	/**
+	 * Value of the year of the date specified for this month view via {@link #setDate(java.util.Date)}.
+	 */
+	private int mYear;
+
+	/**
+	 * First day of week of the date specified via {@link #setDate(java.util.Date)} for the current
+	 * locale specified for this month view via {@link #setLocale(java.util.Locale)}.
+	 */
+<span class="nc" id="L285">	private int mFirstDayOfWeek = Calendar.SUNDAY;</span>
+
+	/**
+	 * Number of the current calendar day of month. Number should be from the range {@code [1, 31]}.
+	 * If {@code 0}, this month view does not present data for the current month.
+	 */
+	private int mCurrentDay;
+
+	/**
+	 * Number of a day that is at this time selected. Number should be from the range {@code [1, 31]}.
+	 * If {@code 0}, there is no selected day at this time.
+	 */
+	private int mSelectedDay;
+
+	/**
+	 * Number of a day that is at this time pressed. Number should be from the range {@code [1, 31]}.
+	 * If {@code 0}, there is no pressed day at this time.
+	 */
+	private int mPressedDay;
+
+	/**
+	 * Count of days for the month of date specified for this month view via {@link #setDate(java.util.Date)}.
+	 */
+	private int mDaysCount;
+
+	/**
+	 * Day ({@link java.util.Calendar#DAY_OF_WEEK}) used to resolve where to start drawing of day numbers.
+	 */
+	private int mStartDay;
+
+	/**
+	 * Size dimension of this view.
+	 */
+	private int mWidth;
+
+	/**
+	 * Vertical offset for the week day letters area.
+	 */
+	private int mDayLettersOffsetVertical;
+
+	/**
+	 * Vertical offset for the day numbers area.
+	 */
+	private int mDayNumbersOffsetVertical;
+
+	/**
+	 * Vertical spacing for the day numbers rows.
+	 */
+	private int mSpacingVertical;
+
+	/**
+	 * Horizontal spacing for the day numbers columns.
+	 */
+	private int mSpacingHorizontal;
+
+	/**
+	 * Locale instance used to obtain proper names for calendar fields.
+	 */
+	private Locale mLocale;
+
+	/**
+	 * Calendar instance used to access all necessary data for the date set to this month view.
+	 */
+	private Calendar mCalendar;
+
+	/**
+	 * Drawable used to draw the day selector indicating the current selected/pressed day.
+	 */
+	private Drawable mDaySelector;
+
+	/**
+	 * Resource id of the day selector's drawable.
+	 */
+	private int mDaySelectorRes;
+
+	/**
+	 * Radius for the day selector's drawable.
+	 */
+	private int mDaySelectorRadius;
+
+	/**
+	 * Listener callback fired whenever a specific day is selected.
+	 */
+	private OnDaySelectionListener mSelectionListener;
+
+	/**
+	 * Touch coordinate.
+	 */
+	private float mDragTouchX, mDragTouchY;
+
+	/**
+	 * Data used when tinting components of this view.
+	 */
+	private TintInfo mTintInfo;
+
+	/**
+	 * Day representation used in {@link #onDrawDayNumber(Canvas, Day, Paint)} to properly draw text
+	 * for a particular day number.
+	 */
+<span class="nc" id="L384">	private Day mDay = new Day();</span>
+
+	/**
+	 * Constructors ================================================================================
+	 */
+
+	/**
+	 * Same as {@link #MonthView(android.content.Context, android.util.AttributeSet)} without attributes.
+	 */
+	public MonthView(@NonNull Context context) {
+<span class="nc" id="L394">		this(context, null);</span>
+<span class="nc" id="L395">	}</span>
+
+	/**
+	 * Same as {@link #MonthView(android.content.Context, android.util.AttributeSet, int)} with
+	 * {@link R.attr#uiMonthViewStyle uiMonthViewStyle} as attribute for default style.
+	 */
+	public MonthView(@NonNull Context context, @Nullable AttributeSet attrs) {
+<span class="nc" id="L402">		this(context, attrs, R.attr.uiMonthViewStyle);</span>
+<span class="nc" id="L403">	}</span>
+
+	/**
+	 * Same as {@link #MonthView(android.content.Context, android.util.AttributeSet, int, int)} with
+	 * {@code 0} as default style.
+	 */
+	public MonthView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+<span class="nc" id="L410">		super(context, attrs, defStyleAttr);</span>
+<span class="nc" id="L411">		this.init(context, attrs, defStyleAttr, 0);</span>
+<span class="nc" id="L412">	}</span>
+
+	/**
+	 * Creates a new instance of MonthView for the given &lt;var&gt;context&lt;/var&gt;.
+	 *
+	 * @param context      Context in which will be the new view presented.
+	 * @param attrs        Set of Xml attributes used to configure the new instance of this view.
+	 * @param defStyleAttr An attribute which contains a reference to a default style resource for
+	 *                     this view within a theme of the given context.
+	 * @param defStyleRes  Resource id of the default style for the new view.
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public MonthView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+<span class="nc" id="L425">		super(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L426">		this.init(context, attrs, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L427">	}</span>
+
+	/**
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Obtains a name of a calendar field with the specified &lt;var&gt;field&lt;/var&gt; identifier from the
+	 * given &lt;var&gt;calendar&lt;/var&gt; for the specified &lt;var&gt;locale&lt;/var&gt;.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that for pre {@link android.os.Build.VERSION_CODES#GINGERBREAD GINGERBREAD} Android
+	 * version and field names listed below, this method will return only English name regardless
+	 * the specified &lt;var&gt;locale&lt;/var&gt;:
+	 * &lt;ul&gt;
+	 * &lt;li&gt;{@link Calendar#MONTH}&lt;/li&gt;
+	 * &lt;li&gt;{@link Calendar#DAY_OF_WEEK}&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 *
+	 * @param calendar The calendar from which to obtain the requested field's name.
+	 * @param field    The desired field identifier. See {@link Calendar} for field identifiers.
+	 * @param style    Style flag for the requested name. One of {@link #CALENDAR_STYLE_SHORT} or
+	 *                 {@link #CALENDAR_STYLE_LONG}.
+	 * @param locale   The locale for which to obtain the requested name. If there is no name available
+	 *                 for the requested locale, {@link UiConfig#DEFAULT_LOCALE} will be used instead.
+	 * @return Name of the requested calendar field.
+	 */
+	@NonNull
+	@SuppressLint(&quot;NewApi&quot;)
+	public static String resolveCalendarFieldName(@NonNull Calendar calendar, int field, int style, @NonNull Locale locale) {
+<span class="nc bnc" id="L456" title="All 2 branches missed.">		if (!PRE_GINGERBREAD) {</span>
+<span class="nc" id="L457">			final String name = calendar.getDisplayName(field, style, locale);</span>
+<span class="nc bnc" id="L458" title="All 2 branches missed.">			return name != null ? name : calendar.getDisplayName(field, style, UiConfig.DEFAULT_LOCALE);</span>
+		}
+<span class="nc bnc" id="L460" title="All 3 branches missed.">		switch (field) {</span>
+			case Calendar.MONTH:
+<span class="nc" id="L462">				return PRE_GINGERBREAD_MONTH_NAMES[calendar.get(field)];</span>
+			case Calendar.DAY_OF_WEEK:
+<span class="nc" id="L464">				return PRE_GINGERBREAD_DAY_NAMES[calendar.get(field) - 1];</span>
+		}
+<span class="nc" id="L466">		return &quot;&quot;;</span>
+	}
+
+	/**
+	 * Called from one of constructors of this view to perform its initialization.
+	 * &lt;p&gt;
+	 * Initialization is done via parsing of the specified &lt;var&gt;attrs&lt;/var&gt; set and obtaining for
+	 * this view specific data from it that can be used to configure this new view instance. The
+	 * specified &lt;var&gt;defStyleAttr&lt;/var&gt; and &lt;var&gt;defStyleRes&lt;/var&gt; are used to obtain default data
+	 * from the current theme provided by the specified &lt;var&gt;context&lt;/var&gt;.
+	 */
+	@SuppressWarnings(&quot;ConstantConditions&quot;)
+	private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+<span class="nc bnc" id="L479" title="All 2 branches missed.">		if (!isInEditMode()) {</span>
+<span class="nc" id="L480">			final Resources.Theme theme = context.getTheme();</span>
+			// Try to apply font presented within text appearance style.
+<span class="nc" id="L482">			final TypedArray appearanceAttributes = theme.obtainStyledAttributes(attrs, new int[]{android.R.attr.textAppearance}, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L483">			final int appearance = appearanceAttributes.getResourceId(0, -1);</span>
+<span class="nc bnc" id="L484" title="All 2 branches missed.">			if (appearance != -1) {</span>
+<span class="nc" id="L485">				FontApplier.applyFont(this, appearance);</span>
+			}
+<span class="nc" id="L487">			appearanceAttributes.recycle();</span>
+			// Try to apply font presented within xml attributes.
+<span class="nc" id="L489">			FontApplier.applyFont(this, attrs, defStyleAttr, defStyleRes);</span>
+		}
+		// Default set up.
+<span class="nc" id="L492">		this.mLocale = Locale.getDefault();</span>
+<span class="nc" id="L493">		this.handleLocaleChange();</span>
+
+<span class="nc" id="L495">		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_MonthView, defStyleAttr, defStyleRes);</span>
+<span class="nc" id="L496">		this.processTintValues(context, attributes);</span>
+<span class="nc bnc" id="L497" title="All 2 branches missed.">		for (int i = 0; i &lt; attributes.getIndexCount(); i++) {</span>
+<span class="nc" id="L498">			final int index = attributes.getIndex(i);</span>
+<span class="nc bnc" id="L499" title="All 2 branches missed.">			if (index == R.styleable.Ui_MonthView_android_horizontalSpacing) {</span>
+<span class="nc" id="L500">				this.mSpacingHorizontal = attributes.getDimensionPixelSize(index, mSpacingHorizontal);</span>
+<span class="nc bnc" id="L501" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_MonthView_android_verticalSpacing) {</span>
+<span class="nc" id="L502">				this.mSpacingVertical = attributes.getDimensionPixelSize(index, mSpacingVertical);</span>
+<span class="nc bnc" id="L503" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_MonthView_uiMonthDayLettersOffsetVertical) {</span>
+<span class="nc" id="L504">				this.mDayLettersOffsetVertical = attributes.getDimensionPixelSize(index, mDayLettersOffsetVertical);</span>
+<span class="nc bnc" id="L505" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_MonthView_uiMonthDayNumbersOffsetVertical) {</span>
+<span class="nc" id="L506">				this.mDayNumbersOffsetVertical = attributes.getDimensionPixelOffset(index, mDayNumbersOffsetVertical);</span>
+<span class="nc bnc" id="L507" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_MonthView_uiMonthTitleTextAppearance) {</span>
+<span class="nc" id="L508">				setTitleTextAppearance(attributes.getResourceId(index, 0));</span>
+<span class="nc bnc" id="L509" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_MonthView_uiMonthDayLetterTextAppearance) {</span>
+<span class="nc" id="L510">				setDayLetterTextAppearance(attributes.getResourceId(index, 0));</span>
+<span class="nc bnc" id="L511" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_MonthView_uiMonthDayNumberTextAppearance) {</span>
+<span class="nc" id="L512">				setDayNumberTextAppearance(attributes.getResourceId(index, 0));</span>
+<span class="nc bnc" id="L513" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_MonthView_uiMonthDaySelector) {</span>
+<span class="nc" id="L514">				setDaySelector(attributes.getResourceId(index, 0));</span>
+<span class="nc bnc" id="L515" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_MonthView_uiMonthDaySelectorRadius) {</span>
+<span class="nc" id="L516">				setDaySelectorRadius(attributes.getDimensionPixelSize(index, mDaySelectorRadius));</span>
+<span class="nc bnc" id="L517" title="All 2 branches missed.">			} else if (index == R.styleable.Ui_MonthView_uiMonthCurrentDayTextColor) {</span>
+<span class="nc" id="L518">				setCurrentDayTextColor(attributes.getColorStateList(index));</span>
+			}
+		}
+<span class="nc" id="L521">		attributes.recycle();</span>
+<span class="nc" id="L522">		this.applyDaySelectorTint();</span>
+<span class="nc" id="L523">	}</span>
+
+	/**
+	 * Called from the constructor to process tint values for this view.
+	 *
+	 * @param context    The context passed to constructor.
+	 * @param typedArray TypedArray obtained for styleable attributes specific for this view.
+	 */
+	@SuppressWarnings(&quot;All&quot;)
+	private void processTintValues(Context context, TypedArray typedArray) {
+<span class="nc" id="L533">		this.ensureTintInfo();</span>
+<span class="nc bnc" id="L534" title="All 2 branches missed.">		if (typedArray.hasValue(R.styleable.Ui_MonthView_uiIndicatorTint)) {</span>
+<span class="nc" id="L535">			mTintInfo.tintList = typedArray.getColorStateList(R.styleable.Ui_MonthView_uiIndicatorTint);</span>
+		}
+<span class="nc" id="L537">		mTintInfo.tintMode = TintManager.parseTintMode(</span>
+<span class="nc" id="L538">				typedArray.getInt(R.styleable.Ui_MonthView_uiIndicatorTintMode, 0),</span>
+				PorterDuff.Mode.SRC_IN
+		);
+		// If there is no tint mode specified within style/xml do not tint at all.
+<span class="nc bnc" id="L542" title="All 2 branches missed.">		if (mTintInfo.tintMode == null) mTintInfo.tintList = null;</span>
+<span class="nc bnc" id="L543" title="All 2 branches missed.">		mTintInfo.hasTintList = mTintInfo.tintList != null;</span>
+<span class="nc bnc" id="L544" title="All 2 branches missed.">		mTintInfo.hasTintMode = mTintInfo.tintMode != null;</span>
+<span class="nc" id="L545">	}</span>
+
+	/**
+	 * Ensures that the tint info object is initialized.
+	 */
+	private void ensureTintInfo() {
+<span class="nc bnc" id="L551" title="All 2 branches missed.">		if (mTintInfo == null) this.mTintInfo = new TintInfo();</span>
+<span class="nc" id="L552">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+<span class="nc" id="L559">		super.onInitializeAccessibilityEvent(event);</span>
+<span class="nc" id="L560">		event.setClassName(MonthView.class.getName());</span>
+<span class="nc" id="L561">	}</span>
+
+	/**
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+<span class="nc" id="L568">		super.onInitializeAccessibilityNodeInfo(info);</span>
+<span class="nc" id="L569">		info.setClassName(MonthView.class.getName());</span>
+<span class="nc" id="L570">	}</span>
+
+	/**
+	 * Registers a callback to be invoked whenever a specific day is selected within this month view.
+	 *
+	 * @param listener Listener callback. May be {@code null} to clear the current one.
+	 */
+	public void setOnDaySelectionListener(@Nullable OnDaySelectionListener listener) {
+<span class="nc" id="L578">		this.mSelectionListener = listener;</span>
+<span class="nc" id="L579">	}</span>
+
+	/**
+	 * Sets a locale used to obtain proper names of calendar fields to be presented within this view.
+	 *
+	 * @param locale The desired locale.
+	 * @see #getLocale()
+	 */
+	public void setLocale(@NonNull Locale locale) {
+<span class="nc bnc" id="L588" title="All 2 branches missed.">		if (!mLocale.equals(locale)) {</span>
+<span class="nc" id="L589">			this.mLocale = locale;</span>
+<span class="nc" id="L590">			this.handleLocaleChange();</span>
+		}
+<span class="nc" id="L592">	}</span>
+
+	/**
+	 * Handles change in the current locale. This will update day letters and will invoke
+	 * {@link #handleDateUpdate()} so all necessary date related data will be updated and properly
+	 * drawn in {@link #onDraw(Canvas)}.
+	 */
+	private void handleLocaleChange() {
+<span class="nc" id="L600">		this.ensureCalendar(mLocale, true);</span>
+<span class="nc" id="L601">		mCalendar.clear();</span>
+		// Update day name letters.
+<span class="nc" id="L603">		mCalendar.setFirstDayOfWeek(mFirstDayOfWeek);</span>
+<span class="nc bnc" id="L604" title="All 2 branches missed.">		for (int i = 0; i &lt; DAYS_IN_WEEK; i++) {</span>
+<span class="nc" id="L605">			mCalendar.set(Calendar.DAY_OF_WEEK, i + 1);</span>
+<span class="nc" id="L606">			final String letter = obtainCalendarFieldName(mCalendar, Calendar.DAY_OF_WEEK, CALENDAR_STYLE_SHORT, mLocale);</span>
+<span class="nc" id="L607">			DAY_LETTERS[i] = letter.substring(0, 1).toUpperCase();</span>
+		}
+<span class="nc" id="L609">		this.handleDateUpdate();</span>
+<span class="nc" id="L610">	}</span>
+
+	/**
+	 * Invoked to obtain a name of a calendar field with the specified &lt;var&gt;field&lt;/var&gt; identifier
+	 * from the given &lt;var&gt;calendar&lt;/var&gt; for the specified &lt;var&gt;locale&lt;/var&gt;.
+	 * &lt;p&gt;
+	 * This method is here primarily to support displaying of calendar field names in this view also
+	 * for pre {@link android.os.Build.VERSION_CODES#GINGERBREAD GINGERBREAD}.
+	 *
+	 * @param calendar The calendar from which to obtain the requested field's name.
+	 * @param field    The desired field identifier.
+	 * @param style    Style flag for the requested name. One of {@link #CALENDAR_STYLE_SHORT} or
+	 *                 {@link #CALENDAR_STYLE_LONG}.
+	 * @param locale   The locale for which to obtain the requested name.
+	 * @return Name of the requested calendar field.
+	 * @see #resolveCalendarFieldName(Calendar, int, int, Locale)
+	 */
+	@NonNull
+	protected String obtainCalendarFieldName(@NonNull Calendar calendar, int field, int style, @NonNull Locale locale) {
+<span class="nc" id="L629">		return resolveCalendarFieldName(calendar, field, style, locale);</span>
+	}
+
+	/**
+	 * Ensures that the calendar with the specified &lt;var&gt;locale&lt;/var&gt; is initialized.
+	 *
+	 * @param locale        The locale with which should be the calendar initialized.
+	 * @param localeChanged {@code True} if locale has been changed so the current calendar need to
+	 *                      be re-initialized {@code false} otherwise.
+	 */
+	private void ensureCalendar(Locale locale, boolean localeChanged) {
+<span class="nc bnc" id="L640" title="All 4 branches missed.">		if (mCalendar == null || localeChanged) this.mCalendar = Calendar.getInstance(locale);</span>
+<span class="nc" id="L641">	}</span>
+
+	/**
+	 * Returns the current locale used to obtain proper names of calendar fields.
+	 *
+	 * @return Calendar's locale.
+	 * @see #setLocale(Locale)
+	 */
+	@NonNull
+	public Locale getLocale() {
+<span class="nc" id="L651">		return mLocale;</span>
+	}
+
+	/**
+	 * Same as {@link #setDate(long)} for {@link Date} object.
+	 *
+	 * @param date The desired date to present by this month view.
+	 * @see #getDate()
+	 */
+	public void setDate(@NonNull Date date) {
+<span class="nc bnc" id="L661" title="All 2 branches missed.">		if (DATE.getTime() != date.getTime()) {</span>
+<span class="nc" id="L662">			DATE.setTime(date.getTime());</span>
+<span class="nc" id="L663">			this.handleDateUpdate();</span>
+		}
+<span class="nc" id="L665">	}</span>
+
+	/**
+	 * Specifies a date in milliseconds of which data should be presented by this month view.
+	 * &lt;p&gt;
+	 * This view will present name of month and year from the specified &lt;var&gt;date&lt;/var&gt; and full set
+	 * of days for the obtained month that will be displayed in 7 columns starting in the column of
+	 * the &lt;b&gt;first day of week&lt;/b&gt;.
+	 * &lt;p&gt;
+	 * A selected day that should be highlighted can be specified via {@link #setSelection(int)}.
+	 *
+	 * @param dateInMillis The desired date in milliseconds to present by this month view.
+	 * @see #getDateInMillis()
+	 */
+	public void setDate(long dateInMillis) {
+<span class="nc bnc" id="L680" title="All 2 branches missed.">		if (dateInMillis != DATE.getTime()) {</span>
+<span class="nc" id="L681">			DATE.setTime(dateInMillis);</span>
+<span class="nc" id="L682">			this.handleDateUpdate();</span>
+		}
+<span class="nc" id="L684">	}</span>
+
+	/**
+	 * Handles update in the date. This will update the current calendar and also month name, year
+	 * number, set of days and starting day and invokes {@link #invalidate()} so the changes performed
+	 * here will be immediately presented in the UI.
+	 */
+	private void handleDateUpdate() {
+<span class="nc" id="L692">		this.ensureCalendar(mLocale, false);</span>
+		// Obtain data for the date specified.
+<span class="nc" id="L694">		mCalendar.clear();</span>
+<span class="nc" id="L695">		mCalendar.setTime(DATE);</span>
+<span class="nc" id="L696">		this.mFirstDayOfWeek = mCalendar.getFirstDayOfWeek();</span>
+<span class="nc" id="L697">		this.mMonthName = obtainCalendarFieldName(mCalendar, Calendar.MONTH, CALENDAR_STYLE_LONG, mLocale);</span>
+<span class="nc" id="L698">		this.mMonthName = mMonthName.substring(0, 1).toUpperCase() + mMonthName.substring(1, mMonthName.length());</span>
+<span class="nc" id="L699">		this.mYear = mCalendar.get(Calendar.YEAR);</span>
+<span class="nc" id="L700">		this.mDaysCount = mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);</span>
+<span class="nc" id="L701">		this.mStartDay = mCalendar.get(Calendar.DAY_OF_WEEK);</span>
+<span class="nc" id="L702">		final int month = mCalendar.get(Calendar.MONTH);</span>
+		// Obtain data for the current day.
+<span class="nc" id="L704">		mCalendar.clear();</span>
+<span class="nc" id="L705">		mCalendar.setTimeInMillis(System.currentTimeMillis());</span>
+<span class="nc bnc" id="L706" title="All 4 branches missed.">		if (mYear == mCalendar.get(Calendar.YEAR) &amp;&amp; month == mCalendar.get(Calendar.MONTH)) {</span>
+<span class="nc" id="L707">			this.mCurrentDay = mCalendar.get(Calendar.DAY_OF_MONTH);</span>
+		} else {
+<span class="nc" id="L709">			this.mCurrentDay = 0;</span>
+		}
+<span class="nc" id="L711">		invalidate();</span>
+<span class="nc" id="L712">	}</span>
+
+	/**
+	 * Same as {@link #getDateInMillis()} for {@link Date} object.
+	 *
+	 * @return This month's view date.
+	 * @see #setDate(java.util.Date)
+	 */
+	@NonNull
+	public Date getDate() {
+<span class="nc" id="L722">		return new Date(getDateInMillis());</span>
+	}
+
+	/**
+	 * Returns the date of which month data are currently presented by this view.
+	 *
+	 * @return This month's view date in milliseconds.
+	 * @see #setDate(long)
+	 * @see #getDate()
+	 */
+	public long getDateInMillis() {
+<span class="nc" id="L733">		return DATE.getTime();</span>
+	}
+
+	/**
+	 * Specifies a number of day that should be selected (highlighted by selector specified via
+	 * {@link #setDaySelector(android.graphics.drawable.Drawable)}) for this month view.
+	 *
+	 * @param selection The desired day to be selected. May be {@code 0} to clear the current selection.
+	 * @see #getSelection()
+	 * @see #getSelectionDate()
+	 */
+	public void setSelection(@IntRange(from = 0, to = 31) int selection) {
+<span class="nc" id="L745">		this.updateSelection(selection);</span>
+<span class="nc" id="L746">	}</span>
+
+	/**
+	 * Updates the current selected day to the specified one.
+	 *
+	 * @param selection The current selected day within this month view.
+	 */
+	private void updateSelection(int selection) {
+<span class="nc bnc" id="L754" title="All 2 branches missed.">		if (mSelectedDay != selection) {</span>
+<span class="nc" id="L755">			this.mSelectedDay = Math.max(0, Math.min(selection, mDaysCount));</span>
+<span class="nc bnc" id="L756" title="All 2 branches missed.">			if (mSelectedDay != 0) {</span>
+<span class="nc" id="L757">				this.notifyDaySelected();</span>
+			}
+<span class="nc" id="L759">			invalidateDayNumbersArea();</span>
+		}
+<span class="nc" id="L761">	}</span>
+
+	/**
+	 * Notifies the current OnDaySelectionListener (if any) that a day has been selected.
+	 */
+	private void notifyDaySelected() {
+<span class="nc bnc" id="L767" title="All 2 branches missed.">		if (mSelectionListener != null) mSelectionListener.onDaySelected(this, mSelectedDay, getSelectionDateInMillis());</span>
+<span class="nc" id="L768">	}</span>
+
+	/**
+	 * Returns the current selected day within this month view.
+	 *
+	 * @return The selected day or {@code 0} if no day is currently selected.
+	 */
+	@IntRange(from = 0, to = 31)
+	public int getSelection() {
+<span class="nc" id="L777">		return mSelectedDay;</span>
+	}
+
+	/**
+	 * Returns a boolean flag indicating whether there is selected some day within this month view
+	 * or not.
+	 *
+	 * @return {@code True} if this month view has selected day, {@code false} otherwise.
+	 */
+	public boolean hasSelection() {
+<span class="nc bnc" id="L787" title="All 2 branches missed.">		return mSelectedDay != 0;</span>
+	}
+
+	/**
+	 * Same as {@link #getSelectionDateInMillis()} for {@link Date} object.
+	 *
+	 * @return Current selection date.
+	 */
+	@NonNull
+	public Date getSelectionDate() {
+<span class="nc" id="L797">		return new Date(getSelectionDateInMillis());</span>
+	}
+
+	/**
+	 * Returns the date containing data of date specified via {@link #setDate(java.util.Date)} and
+	 * the current selected day as {@link Calendar#DAY_OF_MONTH}.
+	 *
+	 * @return Current selection date in milliseconds.
+	 * @see #hasSelection()
+	 * @see #getSelection()
+	 * @see #getSelectionDate()
+	 */
+	public long getSelectionDateInMillis() {
+<span class="nc" id="L810">		this.ensureCalendar(mLocale, false);</span>
+<span class="nc" id="L811">		mCalendar.clear();</span>
+<span class="nc" id="L812">		mCalendar.setTime(DATE);</span>
+<span class="nc" id="L813">		mCalendar.set(Calendar.DAY_OF_MONTH, mSelectedDay);</span>
+<span class="nc" id="L814">		return mCalendar.getTimeInMillis();</span>
+	}
+
+	/**
+	 * Sets a vertical offset for week day letters. This offset can be used to control space between
+	 * title (month + year) and week day letters components.
+	 *
+	 * @param offset The desired offset in pixels.
+	 * @see R.attr#uiMonthDayLettersOffsetVertical ui:uiMonthDayLettersOffsetVertical
+	 * @see #getDayLettersOffsetVertical()
+	 * @see #setDayNumbersOffsetVertical(int)
+	 */
+	public void setDayLettersOffsetVertical(@Px int offset) {
+<span class="nc bnc" id="L827" title="All 2 branches missed.">		if (mDayLettersOffsetVertical != offset) {</span>
+<span class="nc" id="L828">			this.mDayLettersOffsetVertical = offset;</span>
+<span class="nc" id="L829">			requestLayout();</span>
+		}
+<span class="nc" id="L831">	}</span>
+
+	/**
+	 * Returns the current vertical offset for week day letters.
+	 *
+	 * @return Day letters vertical offset.
+	 * @see #setDayLettersOffsetVertical(int)
+	 */
+	@Px
+	public int getDayLettersOffsetVertical() {
+<span class="nc" id="L841">		return mDayLettersOffsetVertical;</span>
+	}
+
+	/**
+	 * Sets a vertical offset for day numbers table. This offset can be used to control space between
+	 * week day letters and day numbers components.
+	 *
+	 * @param offset The desired offset in pixels.
+	 * @see R.attr#uiMonthDayNumbersOffsetVertical ui:uiMonthDayNumbersOffsetVertical
+	 * @see #getDayNumbersOffsetVertical()
+	 * @see #setSpacing(int, int)
+	 * @see #setDayLettersOffsetVertical(int)
+	 */
+	public void setDayNumbersOffsetVertical(@Px int offset) {
+<span class="nc bnc" id="L855" title="All 2 branches missed.">		if (mDayNumbersOffsetVertical != offset) {</span>
+<span class="nc" id="L856">			this.mDayNumbersOffsetVertical = offset;</span>
+<span class="nc" id="L857">			requestLayout();</span>
+		}
+<span class="nc" id="L859">	}</span>
+
+	/**
+	 * Returns the current vertical offset for day numbers table.
+	 *
+	 * @return Day numbers vertical offset.
+	 * @see #setDayNumbersOffsetVertical(int)
+	 */
+	@Px
+	public int getDayNumbersOffsetVertical() {
+<span class="nc" id="L869">		return mDayNumbersOffsetVertical;</span>
+	}
+
+	/**
+	 * Sets a vertical and horizontal spacing used for day numbers table.
+	 *
+	 * @param horizontal The spacing in pixels applied to rows of day numbers table.
+	 * @param vertical   The spacing in pixels applied to columns of day numbers table.
+	 * @see android.R.attr#horizontalSpacing android:horizontalSpacing
+	 * @see android.R.attr#verticalSpacing android:verticalSpacing
+	 * @see #getSpacingHorizontal()
+	 * @see #getSpacingVertical()
+	 */
+	public void setSpacing(@Px int horizontal, @Px int vertical) {
+<span class="nc bnc" id="L883" title="All 4 branches missed.">		if (mSpacingHorizontal != horizontal || mSpacingVertical != vertical) {</span>
+<span class="nc" id="L884">			this.mSpacingHorizontal = horizontal;</span>
+<span class="nc" id="L885">			this.mSpacingVertical = vertical;</span>
+<span class="nc" id="L886">			requestLayout();</span>
+		}
+<span class="nc" id="L888">	}</span>
+
+	/**
+	 * Returns the horizontal spacing for day numbers table.
+	 *
+	 * @return Horizontal spacing in pixels.
+	 * @see #setSpacing(int, int)
+	 * @see #getSpacingVertical()
+	 */
+	@Px
+	public int getSpacingHorizontal() {
+<span class="nc" id="L899">		return mSpacingHorizontal;</span>
+	}
+
+	/**
+	 * Returns the vertical spacing for day numbers table.
+	 *
+	 * @return Vertical spacing in pixels.
+	 * @see #setSpacing(int, int)
+	 * @see #getSpacingHorizontal()
+	 */
+	@Px
+	public int getSpacingVertical() {
+<span class="nc" id="L911">		return mSpacingVertical;</span>
+	}
+
+	/**
+	 * Sets a text color, size, and style for the title text (month + year) from the specified
+	 * TextAppearance resource.
+	 *
+	 * @param resId Resource id of the desired TextAppearance style.
+	 * @see R.attr#uiMonthTitleTextAppearance ui:uiMonthTitleTextAppearance
+	 * @see #setTitleTextSize(int, float)
+	 * @see #setTitleTextColor(ColorStateList)
+	 * @see #setTitleTypeface(Typeface)
+	 */
+	public void setTitleTextAppearance(@StyleRes int resId) {
+<span class="nc bnc" id="L925" title="All 4 branches missed.">		if (TITLE_TEXT_INFO.fromTextAppearanceStyle(getContext(), resId) &amp;&amp; TITLE_TEXT_INFO.updatePaint(getDrawableState())) {</span>
+<span class="nc" id="L926">			this.invalidateTitleArea();</span>
+		}
+<span class="nc" id="L928">	}</span>
+
+	/**
+	 * Same as {@link #setTitleTextSize(int, float)} in {@link TypedValue#COMPLEX_UNIT_SP} and the
+	 * specified &lt;var&gt;size&lt;/var&gt;.
+	 *
+	 * @see #getTitleTextSize()
+	 */
+	public void setTitleTextSize(float size) {
+<span class="nc" id="L937">		setTitleTextSize(TypedValue.COMPLEX_UNIT_SP, size);</span>
+<span class="nc" id="L938">	}</span>
+
+	/**
+	 * Sets a size for the title text (month + year) to the given &lt;var&gt;unit&lt;/var&gt; and &lt;var&gt;size&lt;/var&gt;.
+	 *
+	 * @param unit The desired dimension unit. See {@link TypedValue} for possible units.
+	 * @param size The desired size in the specified unit.
+	 * @see #setTitleTextSize(float)
+	 * @see #getTitleTextSize()
+	 */
+	public void setTitleTextSize(int unit, float size) {
+<span class="nc" id="L949">		setTitleRawTextSize(TypedValue.applyDimension(</span>
+				unit,
+				size,
+<span class="nc" id="L952">				getResources().getDisplayMetrics()</span>
+		));
+<span class="nc" id="L954">	}</span>
+
+	/**
+	 * Sets the raw text size for the Paint used to draw title graphics.
+	 *
+	 * @param size The desired raw size in pixels.
+	 */
+	private void setTitleRawTextSize(float size) {
+<span class="nc bnc" id="L962" title="All 2 branches missed.">		if (TITLE_TEXT_INFO.updateTextSize(size)) {</span>
+<span class="nc" id="L963">			this.invalidateTitleArea();</span>
+		}
+<span class="nc" id="L965">	}</span>
+
+	/**
+	 * Returns the size of the title text.
+	 *
+	 * @return Size used when drawing title text graphics.
+	 * @see #setTitleTextSize(int, float)
+	 * @see #setTitleTextAppearance(int)
+	 */
+	public float getTitleTextSize() {
+<span class="nc" id="L975">		return TITLE_TEXT_INFO.paint.getTextSize();</span>
+	}
+
+	/**
+	 * Sets a single color for the title text (month + year).
+	 *
+	 * @param color The desired color.
+	 * @see #setTitleTextColor(ColorStateList)
+	 */
+	public void setTitleTextColor(@ColorInt int color) {
+<span class="nc" id="L985">		setTitleTextColor(ColorStateList.valueOf(color));</span>
+<span class="nc" id="L986">	}</span>
+
+	/**
+	 * Sets colors for the title text (month + year).
+	 *
+	 * @param colors The desired colors state list.
+	 * @see #setTitleTextColor(int)
+	 * @see #getTitleTextColors()
+	 * @see #getTitleCurrentTextColor()
+	 */
+	public void setTitleTextColor(@NonNull ColorStateList colors) {
+<span class="nc bnc" id="L997" title="All 2 branches missed.">		if (TITLE_TEXT_INFO.updateTextColor(colors, getDrawableState())) {</span>
+<span class="nc" id="L998">			this.invalidateTitleArea();</span>
+		}
+<span class="nc" id="L1000">	}</span>
+
+	/**
+	 * Returns the colors for the title text.
+	 *
+	 * @return List of colors used when drawing title text graphics.
+	 * @see #setTitleTextColor(android.content.res.ColorStateList)
+	 * @see #setTitleTextColor(int)
+	 * @see #getTitleCurrentTextColor()
+	 */
+	@Nullable
+	public ColorStateList getTitleTextColors() {
+<span class="nc" id="L1012">		return TITLE_TEXT_INFO.mAppearance.getTextColor();</span>
+	}
+
+	/**
+	 * Returns the current color used to draw the title text.
+	 *
+	 * @return Current title text color.
+	 * @see #getTitleTextColors()
+	 */
+	@ColorInt
+	public int getTitleCurrentTextColor() {
+<span class="nc" id="L1023">		return TITLE_TEXT_INFO.paint.getColor();</span>
+	}
+
+	/**
+	 * Sets a typeface and style in which the title text (month + year) should be displayed, and
+	 * turns on the fake bold and italic bits in the Paint if the Typeface that you provided does
+	 * not have all the bits in the style that you specified.
+	 *
+	 * @param typeface The desired typeface. May be {@code null} to create default one from the specified
+	 *                 &lt;var&gt;style&lt;/var&gt;.
+	 * @param style    One of {@link Typeface#NORMAL}, {@link Typeface#BOLD}, {@link Typeface#ITALIC}
+	 *                 or {@link Typeface#BOLD_ITALIC}.
+	 * @see #setTitleTypeface(Typeface)
+	 * @see #getTitleTypeface()
+	 * @see #getTitleTypefaceStyle()
+	 */
+	public void setTitleTypeface(@Nullable Typeface typeface, @TextAppearance.TextStyle int style) {
+<span class="nc bnc" id="L1040" title="All 2 branches missed.">		if (TITLE_TEXT_INFO.updateTypeface(typeface, style)) {</span>
+<span class="nc" id="L1041">			this.invalidateTitleArea();</span>
+		}
+<span class="nc" id="L1043">	}</span>
+
+	/**
+	 * Sets a typeface in which the title text (month + year) should be displayed.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that not all Typeface families actually have bold and italic variants, so you
+	 * may need to use {@link #setTitleTypeface(Typeface, int)} to get the appearance that you actually
+	 * want.
+	 *
+	 * @param typeface The desired typeface. May be {@code null} to use a default one.
+	 * @see #getTitleTypeface()
+	 * @see #getTitleTypefaceStyle()
+	 */
+	public void setTitleTypeface(@Nullable Typeface typeface) {
+<span class="nc bnc" id="L1057" title="All 2 branches missed.">		if (TITLE_TEXT_INFO.updateTypeface(typeface)) {</span>
+<span class="nc" id="L1058">			this.invalidateTitleArea();</span>
+		}
+<span class="nc" id="L1060">	}</span>
+
+	/**
+	 * Returns the typeface used to draw title text.
+	 *
+	 * @return Title text typeface.
+	 * @see #setTitleTypeface(Typeface, int)
+	 * @see #setTitleTypeface(Typeface)
+	 * @see #getTitleTypefaceStyle()
+	 * @see #setTitleTextAppearance(int)
+	 */
+	@Nullable
+	public Typeface getTitleTypeface() {
+<span class="nc" id="L1073">		return TITLE_TEXT_INFO.paint.getTypeface();</span>
+	}
+
+	/**
+	 * Returns the style of the typeface used to draw the title text.
+	 *
+	 * @return Typeface style.
+	 * @see #getTitleTypeface()
+	 * @see #setTitleTypeface(Typeface, int)
+	 */
+	@TextAppearance.TextStyle
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	public int getTitleTypefaceStyle() {
+<span class="nc" id="L1086">		final Typeface typeface = TITLE_TEXT_INFO.paint.getTypeface();</span>
+<span class="nc bnc" id="L1087" title="All 2 branches missed.">		return typeface != null ? typeface.getStyle() : Typeface.NORMAL;</span>
+	}
+
+	/**
+	 * Sets a text color, size, and style for the first letters of day names from the specified
+	 * TextAppearance resource.
+	 *
+	 * @param resId Resource id of the desired TextAppearance style.
+	 * @see R.attr#uiMonthDayLetterTextAppearance ui:uiMonthDayLetterTextAppearance
+	 * @see #setDayLetterTextSize(int, float)
+	 * @see #setDayLetterTextColor(ColorStateList)
+	 * @see #setDayLetterTypeface(Typeface)
+	 */
+	public void setDayLetterTextAppearance(@StyleRes int resId) {
+<span class="nc bnc" id="L1101" title="All 4 branches missed.">		if (DAY_LETTER_TEXT_INFO.fromTextAppearanceStyle(getContext(), resId) &amp;&amp; DAY_LETTER_TEXT_INFO.updatePaint(getDrawableState())) {</span>
+<span class="nc" id="L1102">			this.invalidateDayLettersArea();</span>
+		}
+<span class="nc" id="L1104">	}</span>
+
+	/**
+	 * Same as {@link #setDayLetterTextSize(int, float)} in {@link TypedValue#COMPLEX_UNIT_SP} and
+	 * the specified &lt;var&gt;size&lt;/var&gt;.
+	 *
+	 * @see #getDayLetterTextSize()
+	 */
+	public void setDayLetterTextSize(float size) {
+<span class="nc" id="L1113">		setDayLetterTextSize(TypedValue.COMPLEX_UNIT_SP, size);</span>
+<span class="nc" id="L1114">	}</span>
+
+	/**
+	 * Sets a size for the first letters of day names to the given &lt;var&gt;unit&lt;/var&gt; and &lt;var&gt;size&lt;/var&gt;.
+	 *
+	 * @param unit The desired dimension unit. See {@link TypedValue} for possible units.
+	 * @param size The desired size in the specified unit.
+	 * @see #setDayLetterTextSize(float)
+	 * @see #getDayLetterTextSize()
+	 */
+	public void setDayLetterTextSize(int unit, float size) {
+<span class="nc" id="L1125">		setDayLetterRawTextSize(TypedValue.applyDimension(</span>
+				unit,
+				size,
+<span class="nc" id="L1128">				getResources().getDisplayMetrics()</span>
+		));
+<span class="nc" id="L1130">	}</span>
+
+	/**
+	 * Sets the raw text size for the Paint used to draw first letters of day names graphics.
+	 *
+	 * @param size The desired raw size in pixels.
+	 */
+	private void setDayLetterRawTextSize(float size) {
+<span class="nc bnc" id="L1138" title="All 2 branches missed.">		if (DAY_LETTER_TEXT_INFO.updateTextSize(size)) {</span>
+<span class="nc" id="L1139">			this.invalidateDayLettersArea();</span>
+		}
+<span class="nc" id="L1141">	}</span>
+
+	/**
+	 * Returns the size of the first letters of day names.
+	 *
+	 * @return Size used when drawing day letters graphics.
+	 * @see #setDayLetterTextSize(int, float)
+	 * @see #setDayLetterTextAppearance(int)
+	 */
+	public float getDayLetterTextSize() {
+<span class="nc" id="L1151">		return DAY_LETTER_TEXT_INFO.paint.getTextSize();</span>
+	}
+
+	/**
+	 * Sets a single color for the first letters of day names.
+	 *
+	 * @param color The desired color.
+	 * @see #setDayLetterTextColor(ColorStateList)
+	 */
+	public void setDayLetterTextColor(@ColorInt int color) {
+<span class="nc" id="L1161">		setDayLetterTextColor(ColorStateList.valueOf(color));</span>
+<span class="nc" id="L1162">	}</span>
+
+	/**
+	 * Sets colors for the first letters of day names.
+	 *
+	 * @param colors The desired colors state list.
+	 * @see #setDayLetterTextColor(int)
+	 * @see #getDayLetterTextColors()
+	 * @see #getDayLetterCurrentTextColor()
+	 */
+	public void setDayLetterTextColor(@NonNull ColorStateList colors) {
+<span class="nc bnc" id="L1173" title="All 2 branches missed.">		if (DAY_LETTER_TEXT_INFO.updateTextColor(colors, getDrawableState())) {</span>
+<span class="nc" id="L1174">			this.invalidateDayLettersArea();</span>
+		}
+<span class="nc" id="L1176">	}</span>
+
+	/**
+	 * Returns the colors for the first letters of day names.
+	 *
+	 * @return List of colors used when drawing day letters graphics.
+	 * @see #setDayLetterTextColor(android.content.res.ColorStateList)
+	 * @see #setDayLetterTextColor(int)
+	 * @see #getDayLetterCurrentTextColor()
+	 */
+	@NonNull
+	public ColorStateList getDayLetterTextColors() {
+<span class="nc" id="L1188">		return DAY_LETTER_TEXT_INFO.mAppearance.getTextColor();</span>
+	}
+
+	/**
+	 * Returns the current color used to draw the first letters of day names.
+	 *
+	 * @return Current day letters color.
+	 * @see #getDayLetterTextColors()
+	 */
+	@ColorInt
+	public int getDayLetterCurrentTextColor() {
+<span class="nc" id="L1199">		return DAY_LETTER_TEXT_INFO.paint.getColor();</span>
+	}
+
+	/**
+	 * Sets a typeface and style in which the first letters of day names should be displayed, and
+	 * turns on the fake bold and italic bits in the Paint if the Typeface that you provided does
+	 * not have all the bits in the style that you specified.
+	 *
+	 * @param typeface The desired typeface. May be {@code null} to create default one from the specified
+	 *                 &lt;var&gt;style&lt;/var&gt;.
+	 * @param style    One of {@link Typeface#NORMAL}, {@link Typeface#BOLD}, {@link Typeface#ITALIC}
+	 *                 or {@link Typeface#BOLD_ITALIC}.
+	 * @see #setDayLetterTypeface(Typeface)
+	 * @see #getDayLetterTypeface()
+	 * @see #getDayLetterTypefaceStyle()
+	 */
+	public void setDayLetterTypeface(@Nullable Typeface typeface, @TextAppearance.TextStyle int style) {
+<span class="nc bnc" id="L1216" title="All 2 branches missed.">		if (DAY_LETTER_TEXT_INFO.updateTypeface(typeface, style)) {</span>
+<span class="nc" id="L1217">			this.invalidateDayLettersArea();</span>
+		}
+<span class="nc" id="L1219">	}</span>
+
+	/**
+	 * Sets a typeface in which the first letters of day names should be displayed.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that not all Typeface families actually have bold and italic variants, so you
+	 * may need to use {@link #setDayLetterTypeface(Typeface, int)} to get the appearance that you
+	 * actually want.
+	 *
+	 * @param typeface The desired typeface. May be {@code null} to use a default one.
+	 * @see #getDayLetterTypeface()
+	 * @see #getDayLetterTypefaceStyle()
+	 */
+	public void setDayLetterTypeface(@Nullable Typeface typeface) {
+<span class="nc bnc" id="L1233" title="All 2 branches missed.">		if (DAY_LETTER_TEXT_INFO.updateTypeface(typeface)) {</span>
+<span class="nc" id="L1234">			this.invalidateDayLettersArea();</span>
+		}
+<span class="nc" id="L1236">	}</span>
+
+	/**
+	 * Returns the typeface used to draw first letters of day names.
+	 *
+	 * @return Day letters typeface.
+	 * @see #setDayLetterTypeface(Typeface, int)
+	 * @see #setDayLetterTypeface(Typeface)
+	 * @see #getDayLetterTypefaceStyle()
+	 * @see #setDayLetterTextAppearance(int)
+	 */
+	@Nullable
+	public Typeface getDayLetterTypeface() {
+<span class="nc" id="L1249">		return DAY_LETTER_TEXT_INFO.paint.getTypeface();</span>
+	}
+
+	/**
+	 * Returns the style of the typeface used to draw the first letters of day names.
+	 *
+	 * @return Typeface style.
+	 * @see #getDayLetterTypeface()
+	 * @see #setDayLetterTypeface(Typeface, int)
+	 */
+	@TextAppearance.TextStyle
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	public int getDayLetterTypefaceStyle() {
+<span class="nc" id="L1262">		final Typeface typeface = DAY_LETTER_TEXT_INFO.paint.getTypeface();</span>
+<span class="nc bnc" id="L1263" title="All 2 branches missed.">		return typeface != null ? typeface.getStyle() : Typeface.NORMAL;</span>
+	}
+
+	/**
+	 * Sets a text color, size, and style for day numbers from the specified TextAppearance resource.
+	 *
+	 * @param resId Resource id of the desired TextAppearance style.
+	 * @see R.attr#uiMonthDayNumberTextAppearance ui:uiMonthDayNumberTextAppearance
+	 * @see #setDayNumberTextSize(int, float)
+	 * @see #setDayNumberTextColor(ColorStateList)
+	 * @see #setDayNumberTypeface(Typeface)
+	 */
+	public void setDayNumberTextAppearance(@StyleRes int resId) {
+<span class="nc bnc" id="L1276" title="All 4 branches missed.">		if (DAY_NUMBER_TEXT_INFO.fromTextAppearanceStyle(getContext(), resId) &amp;&amp; DAY_NUMBER_TEXT_INFO.updatePaint(getDrawableState())) {</span>
+<span class="nc" id="L1277">			this.updateDayNumberTextColors();</span>
+<span class="nc" id="L1278">			this.invalidateDayNumbersArea();</span>
+		}
+<span class="nc" id="L1280">	}</span>
+
+	/**
+	 * Same as {@link #setDayNumberTextSize(int, float)} in {@link TypedValue#COMPLEX_UNIT_SP} and
+	 * the specified &lt;var&gt;size&lt;/var&gt;.
+	 *
+	 * @see #getDayNumberTextSize()
+	 */
+	public void setDayNumberTextSize(float size) {
+<span class="nc" id="L1289">		setDayNumberTextSize(TypedValue.COMPLEX_UNIT_SP, size);</span>
+<span class="nc" id="L1290">	}</span>
+
+	/**
+	 * Sets a size for day numbers to the given &lt;var&gt;unit&lt;/var&gt; and &lt;var&gt;size&lt;/var&gt;.
+	 *
+	 * @param unit The desired dimension unit. See {@link TypedValue} for possible units.
+	 * @param size The desired size in the specified unit.
+	 * @see #setDayNumberTextSize(float)
+	 * @see #getDayNumberTextSize()
+	 */
+	public void setDayNumberTextSize(int unit, float size) {
+<span class="nc" id="L1301">		setDayNumberRawTextSize(TypedValue.applyDimension(</span>
+				unit,
+				size,
+<span class="nc" id="L1304">				getResources().getDisplayMetrics()</span>
+		));
+<span class="nc" id="L1306">	}</span>
+
+	/**
+	 * Sets the raw text size for the Paint used to draw day numbers graphics.
+	 *
+	 * @param size The desired raw size in pixels.
+	 */
+	private void setDayNumberRawTextSize(float size) {
+<span class="nc bnc" id="L1314" title="All 2 branches missed.">		if (DAY_LETTER_TEXT_INFO.updateTextSize(size)) {</span>
+<span class="nc" id="L1315">			this.invalidateDayLettersArea();</span>
+		}
+<span class="nc" id="L1317">	}</span>
+
+	/**
+	 * Returns the size of day numbers.
+	 *
+	 * @return Size used when drawing day numbers graphics.
+	 * @see #setDayNumberTextSize(int, float)
+	 * @see #setDayNumberTextAppearance(int)
+	 */
+	public float getDayNumberTextSize() {
+<span class="nc" id="L1327">		return DAY_LETTER_TEXT_INFO.paint.getTextSize();</span>
+	}
+
+	/**
+	 * Sets a single color for day numbers.
+	 *
+	 * @param color The desired color.
+	 * @see #setDayNumberTextColor(ColorStateList)
+	 */
+	public void setDayNumberTextColor(@ColorInt int color) {
+<span class="nc" id="L1337">		setDayNumberTextColor(ColorStateList.valueOf(color));</span>
+<span class="nc" id="L1338">	}</span>
+
+	/**
+	 * Sets colors for day numbers.
+	 *
+	 * @param colors The desired colors state list.
+	 * @see #setDayNumberTextColor(int)
+	 * @see #getDayNumberTextColors()
+	 * @see #getDayNumberCurrentTextColor()
+	 */
+	public void setDayNumberTextColor(@NonNull ColorStateList colors) {
+<span class="nc" id="L1349">		DAY_NUMBER_TEXT_INFO.updateTextColor(colors, null);</span>
+<span class="nc bnc" id="L1350" title="All 2 branches missed.">		if (updateDayNumberTextColors()) {</span>
+<span class="nc" id="L1351">			this.invalidateDayNumbersArea();</span>
+		}
+<span class="nc" id="L1353">	}</span>
+
+	/**
+	 * Updates colors for different states hold by {@link #DAY_NUMBERS_COLORS_STATE} from the current
+	 * {@link ColorStateList} specified via {@link #setDayNumberTextColor(ColorStateList)}.
+	 *
+	 * @return {@code True} if at least one color has been changed so invalidation of day numbers
+	 * area is needed, {@code false} otherwise.
+	 */
+	private boolean updateDayNumberTextColors() {
+<span class="nc" id="L1363">		final ColorStateList colors = DAY_NUMBER_TEXT_INFO.mAppearance.getTextColor();</span>
+<span class="nc" id="L1364">		int defColor = DayNumberColorsState.DEF_COLOR;</span>
+<span class="nc bnc" id="L1365" title="All 2 branches missed.">		if (colors.isStateful()) {</span>
+<span class="nc" id="L1366">			defColor = colors.getDefaultColor();</span>
+<span class="nc" id="L1367">			DAY_NUMBERS_COLORS_STATE.dayNumberColorNormal = colors.getColorForState(WidgetStateSet.ENABLED, defColor);</span>
+<span class="nc" id="L1368">			DAY_NUMBERS_COLORS_STATE.dayNumberColorPressed = colors.getColorForState(WidgetStateSet.ENABLED_PRESSED, defColor);</span>
+<span class="nc" id="L1369">			DAY_NUMBERS_COLORS_STATE.dayNumberColorSelected = colors.getColorForState(WidgetStateSet.ENABLED_SELECTED, defColor);</span>
+<span class="nc" id="L1370">			DAY_NUMBERS_COLORS_STATE.dayNumberColorDisabled = colors.getColorForState(WidgetStateSet.DISABLED, defColor);</span>
+		} else {
+<span class="nc" id="L1372">			DAY_NUMBERS_COLORS_STATE.dayNumberColorNormal = defColor;</span>
+<span class="nc" id="L1373">			DAY_NUMBERS_COLORS_STATE.dayNumberColorPressed = defColor;</span>
+<span class="nc" id="L1374">			DAY_NUMBERS_COLORS_STATE.dayNumberColorSelected = defColor;</span>
+<span class="nc" id="L1375">			DAY_NUMBERS_COLORS_STATE.dayNumberColorDisabled = defColor;</span>
+		}
+<span class="nc" id="L1377">		return true;</span>
+	}
+
+	/**
+	 * Returns the colors for day numbers.
+	 *
+	 * @return List of colors used when drawing day numbers graphics.
+	 * @see #setDayNumberTextColor(android.content.res.ColorStateList)
+	 * @see #setDayNumberTextColor(int)
+	 * @see #getDayNumberCurrentTextColor()
+	 */
+	@NonNull
+	public ColorStateList getDayNumberTextColors() {
+<span class="nc" id="L1390">		return DAY_NUMBER_TEXT_INFO.mAppearance.getTextColor();</span>
+	}
+
+	/**
+	 * Returns the current color used to draw day numbers.
+	 *
+	 * @return Current day numbers color.
+	 * @see #getDayNumberTextColors()
+	 */
+	@ColorInt
+	public int getDayNumberCurrentTextColor() {
+<span class="nc" id="L1401">		return DAY_NUMBER_TEXT_INFO.paint.getColor();</span>
+	}
+
+	/**
+	 * Sets a typeface and style in which day numbers should be displayed, and turns on the fake bold
+	 * and italic bits in the Paint if the Typeface that you provided does not have all the bits in
+	 * the style that you specified.
+	 *
+	 * @param typeface The desired typeface. May be {@code null} to create default one from the specified
+	 *                 &lt;var&gt;style&lt;/var&gt;.
+	 * @param style    One of {@link Typeface#NORMAL}, {@link Typeface#BOLD}, {@link Typeface#ITALIC}
+	 *                 or {@link Typeface#BOLD_ITALIC}.
+	 * @see #setDayNumberTypeface(Typeface)
+	 * @see #getDayNumberTypeface()
+	 * @see #getDayNumberTypefaceStyle()
+	 */
+	public void setDayNumberTypeface(@Nullable Typeface typeface, @TextAppearance.TextStyle int style) {
+<span class="nc bnc" id="L1418" title="All 2 branches missed.">		if (DAY_NUMBER_TEXT_INFO.updateTypeface(typeface, style)) {</span>
+<span class="nc" id="L1419">			this.invalidateDayNumbersArea();</span>
+		}
+<span class="nc" id="L1421">	}</span>
+
+	/**
+	 * Sets a typeface in which day numbers should be displayed.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note&lt;/b&gt;, that not all Typeface families actually have bold and italic variants, so you
+	 * may need to use {@link #setDayLetterTypeface(Typeface, int)} to get the appearance that you
+	 * actually want.
+	 *
+	 * @param typeface The desired typeface. May be {@code null} to use a default one.
+	 * @see #getDayNumberTypeface()
+	 * @see #getDayNumberTypefaceStyle()
+	 */
+	public void setDayNumberTypeface(@Nullable Typeface typeface) {
+<span class="nc bnc" id="L1435" title="All 2 branches missed.">		if (DAY_NUMBER_TEXT_INFO.updateTypeface(typeface)) {</span>
+<span class="nc" id="L1436">			this.invalidateDayNumbersArea();</span>
+		}
+<span class="nc" id="L1438">	}</span>
+
+	/**
+	 * Returns the typeface used to draw day numbers.
+	 *
+	 * @return Day numbers typeface.
+	 * @see #setDayNumberTypeface(Typeface, int)
+	 * @see #setDayNumberTypeface(Typeface)
+	 * @see #getDayNumberTypefaceStyle()
+	 * @see #setDayNumberTextAppearance(int)
+	 */
+	@Nullable
+	public Typeface getDayNumberTypeface() {
+<span class="nc" id="L1451">		return DAY_NUMBER_TEXT_INFO.paint.getTypeface();</span>
+	}
+
+	/**
+	 * Returns the style of the typeface used to draw day numbers.
+	 *
+	 * @return Typeface style.
+	 * @see #getDayNumberTypeface()
+	 * @see #setDayNumberTypeface(Typeface, int)
+	 */
+	@TextAppearance.TextStyle
+	@SuppressWarnings(&quot;ResourceType&quot;)
+	public int getDayNumberTypefaceStyle() {
+<span class="nc" id="L1464">		final Typeface typeface = DAY_NUMBER_TEXT_INFO.paint.getTypeface();</span>
+<span class="nc bnc" id="L1465" title="All 2 branches missed.">		return typeface != null ? typeface.getStyle() : Typeface.NORMAL;</span>
+	}
+
+
+	/**
+	 * Same as {@link #setDaySelector(Drawable)} for resource id.
+	 *
+	 * @param resId Resource id of the desired indicator's drawable. May be {@code 0} to clear the
+	 *              current selector.
+	 * @see #getDaySelector()
+	 */
+	@SuppressLint(&quot;NewApi&quot;)
+	public void setDaySelector(@DrawableRes int resId) {
+<span class="nc bnc" id="L1478" title="All 2 branches missed.">		if (resId == 0) {</span>
+<span class="nc" id="L1479">			setDaySelector(null);</span>
+<span class="nc bnc" id="L1480" title="All 2 branches missed.">		} else if (mDaySelectorRes != resId) {</span>
+<span class="nc" id="L1481">			setDaySelector(ResourceUtils.getDrawable(</span>
+<span class="nc" id="L1482">					getResources(),</span>
+					mDaySelectorRes = resId,
+<span class="nc" id="L1484">					getContext().getTheme())</span>
+			);
+		}
+<span class="nc" id="L1487">	}</span>
+
+	/**
+	 * Sets a drawable used to draw the selector highlighting the current selected day.
+	 *
+	 * @param selector The desired drawable for day selector. May be {@code null} to clear the current
+	 *                 one.
+	 * @see R.attr#uiMonthDaySelector ui:uiMonthDaySelector
+	 * @see #setDaySelectorTintList(ColorStateList)
+	 * @see #setDaySelectorTintMode(PorterDuff.Mode)
+	 * @see #getDaySelector()
+	 */
+	public void setDaySelector(@Nullable Drawable selector) {
+<span class="nc bnc" id="L1500" title="All 2 branches missed.">		if (mDaySelector != selector) {</span>
+			final boolean needUpdate;
+<span class="nc bnc" id="L1502" title="All 2 branches missed.">			if (mDaySelector != null) {</span>
+<span class="nc" id="L1503">				mDaySelector.setCallback(null);</span>
+<span class="nc" id="L1504">				unscheduleDrawable(mDaySelector);</span>
+<span class="nc" id="L1505">				needUpdate = true;</span>
+			} else {
+<span class="nc" id="L1507">				needUpdate = false;</span>
+			}
+<span class="nc bnc" id="L1509" title="All 2 branches missed.">			if (selector != null) {</span>
+<span class="nc" id="L1510">				selector.setCallback(this);</span>
+<span class="nc bnc" id="L1511" title="All 2 branches missed.">				selector.setVisible(getVisibility() == VISIBLE, false);</span>
+			} else {
+<span class="nc" id="L1513">				this.mDaySelectorRes = 0;</span>
+			}
+<span class="nc" id="L1515">			this.mDaySelector = selector;</span>
+<span class="nc" id="L1516">			this.applyDaySelectorTint();</span>
+<span class="nc bnc" id="L1517" title="All 2 branches missed.">			if (needUpdate) {</span>
+<span class="nc bnc" id="L1518" title="All 2 branches missed.">				if (mDaySelector.isStateful()) {</span>
+<span class="nc" id="L1519">					mDaySelector.setState(getDrawableState());</span>
+				}
+<span class="nc" id="L1521">				invalidate();</span>
+			}
+		}
+<span class="nc" id="L1524">	}</span>
+
+	/**
+	 * Returns the current day selector's drawable.
+	 * &lt;p&gt;
+	 * &lt;b&gt;Note, that on pre {@link android.os.Build.VERSION_CODES#LOLLIPOP LOLLIPOP} Android versions
+	 * this method will return an instance of {@link TintDrawable TintDrawable} if tint has been applied
+	 * via {@link #setDaySelectorTintList(ColorStateList)}.&lt;/b&gt;
+	 * &lt;p&gt;
+	 * The original wrapped indicator drawable can be obtained via {@link TintDrawable#getDrawable()}.
+	 *
+	 * @return Day selector's drawable.
+	 * @see #setDaySelector(Drawable)
+	 */
+	@Nullable
+	public Drawable getDaySelector() {
+<span class="nc" id="L1540">		return mDaySelector;</span>
+	}
+
+	/**
+	 * Applies a tint to the day selector, if specified. This call does not modify the current
+	 * tint mode, which is {@link android.graphics.PorterDuff.Mode#SRC_IN} by default.
+	 * &lt;p&gt;
+	 * Subsequent calls to {@link #setDaySelector(android.graphics.drawable.Drawable)} will
+	 * automatically mutate the drawable and apply the specified tint and tint mode using
+	 * {@link android.graphics.drawable.Drawable#setTintList(android.content.res.ColorStateList)}.
+	 *
+	 * @param tint The tint to apply, may be {@code null} to clear the current tint.
+	 * @see R.attr#uiIndicatorTint ui:uiIndicatorTint
+	 * @see #getDaySelectorTintList()
+	 * @see android.graphics.drawable.Drawable#setTintList(android.content.res.ColorStateList)
+	 */
+	public void setDaySelectorTintList(@Nullable ColorStateList tint) {
+<span class="nc" id="L1557">		this.ensureTintInfo();</span>
+<span class="nc" id="L1558">		mTintInfo.tintList = tint;</span>
+<span class="nc" id="L1559">		mTintInfo.hasTintList = true;</span>
+<span class="nc" id="L1560">		this.applyDaySelectorTint();</span>
+<span class="nc" id="L1561">	}</span>
+
+	/**
+	 * Returns the tint applied to the day selector's drawable, if specified.
+	 *
+	 * @return The day selector's drawable tint.
+	 * @see #setDaySelectorTintList(android.content.res.ColorStateList)
+	 */
+	@Nullable
+	public ColorStateList getDaySelectorTintList() {
+<span class="nc bnc" id="L1571" title="All 2 branches missed.">		return mTintInfo != null ? mTintInfo.tintList : null;</span>
+	}
+
+	/**
+	 * Specifies the blending mode used to apply the tint specified by {@link #setDaySelectorTintList(android.content.res.ColorStateList)}
+	 * to the discrete indicator. The default mode is {@link android.graphics.PorterDuff.Mode#SRC_IN}.
+	 *
+	 * @param tintMode The blending mode used to apply the tint, may be {@code null} to clear the
+	 *                 current tint.
+	 * @see R.attr#uiIndicatorTintMode ui:uiIndicatorTintMode
+	 * @see #getDaySelectorTintMode()
+	 * @see android.graphics.drawable.Drawable#setTintMode(android.graphics.PorterDuff.Mode)
+	 */
+	public void setDaySelectorTintMode(@Nullable PorterDuff.Mode tintMode) {
+<span class="nc" id="L1585">		this.ensureTintInfo();</span>
+<span class="nc" id="L1586">		mTintInfo.tintMode = tintMode;</span>
+<span class="nc" id="L1587">		mTintInfo.hasTintMode = true;</span>
+<span class="nc" id="L1588">		this.applyDaySelectorTint();</span>
+<span class="nc" id="L1589">	}</span>
+
+	/**
+	 * Returns the blending mode used to apply the tint to the day selector's drawable, if specified.
+	 *
+	 * @return The day selector's drawable blending mode used to apply the tint.
+	 * @see #setDaySelectorTintMode(android.graphics.PorterDuff.Mode)
+	 */
+	@Nullable
+	public PorterDuff.Mode getDaySelectorTintMode() {
+<span class="nc bnc" id="L1599" title="All 2 branches missed.">		return mTintInfo != null ? mTintInfo.tintMode : null;</span>
+	}
+
+	/**
+	 * Applies current tint from {@link #mTintInfo} to the current day selector's drawable.
+	 */
+	@SuppressWarnings(&quot;NewApi&quot;)
+	private void applyDaySelectorTint() {
+<span class="nc bnc" id="L1607" title="All 8 branches missed.">		if (mTintInfo == null ||</span>
+				(!mTintInfo.hasTintList &amp;&amp; !mTintInfo.hasTintMode) ||
+				mDaySelector == null) {
+<span class="nc" id="L1610">			return;</span>
+		}
+<span class="nc bnc" id="L1612" title="All 2 branches missed.">		if (UiConfig.MATERIALIZED) {</span>
+<span class="nc" id="L1613">			mDaySelector.mutate();</span>
+<span class="nc bnc" id="L1614" title="All 2 branches missed.">			if (mTintInfo.hasTintList) {</span>
+<span class="nc" id="L1615">				mDaySelector.setTintList(mTintInfo.tintList);</span>
+			}
+<span class="nc bnc" id="L1617" title="All 2 branches missed.">			if (mTintInfo.hasTintMode) {</span>
+<span class="nc" id="L1618">				mDaySelector.setTintMode(mTintInfo.tintMode);</span>
+			}
+<span class="nc" id="L1620">			return;</span>
+		}
+<span class="nc" id="L1622">		final boolean isTintDrawable = mDaySelector instanceof TintDrawable;</span>
+<span class="nc bnc" id="L1623" title="All 2 branches missed.">		final TintDrawable tintDrawable = isTintDrawable ? (TintDrawable) mDaySelector : new TintDrawable(mDaySelector);</span>
+<span class="nc bnc" id="L1624" title="All 2 branches missed.">		if (mTintInfo.hasTintList) {</span>
+<span class="nc" id="L1625">			tintDrawable.setTintList(mTintInfo.tintList);</span>
+		}
+<span class="nc bnc" id="L1627" title="All 2 branches missed.">		if (mTintInfo.hasTintMode) {</span>
+<span class="nc" id="L1628">			tintDrawable.setTintMode(mTintInfo.tintMode);</span>
+		}
+<span class="nc bnc" id="L1630" title="All 2 branches missed.">		if (tintDrawable.isStateful()) {</span>
+<span class="nc" id="L1631">			tintDrawable.setState(getDrawableState());</span>
+		}
+<span class="nc bnc" id="L1633" title="All 2 branches missed.">		if (isTintDrawable) {</span>
+<span class="nc" id="L1634">			return;</span>
+		}
+<span class="nc" id="L1636">		this.mDaySelector = tintDrawable;</span>
+<span class="nc" id="L1637">		mDaySelector.setCallback(this);</span>
+<span class="nc" id="L1638">	}</span>
+
+	/**
+	 * Sets a radius in which should be drawn the day selector's drawable specified via
+	 * {@link #setDaySelector(android.graphics.drawable.Drawable)}.
+	 *
+	 * @param radius The desired radius in pixels. May be {@code 0} to not draw the day selector.
+	 * @see R.attr#uiMonthDaySelectorRadius ui:uiMonthDaySelectorRadius
+	 * @see #getDaySelectorRadius()
+	 */
+	public void setDaySelectorRadius(@Px int radius) {
+<span class="nc bnc" id="L1649" title="All 4 branches missed.">		if (mDaySelectorRadius != radius &amp;&amp; radius &gt;= 0) {</span>
+<span class="nc" id="L1650">			this.mDaySelectorRadius = radius;</span>
+<span class="nc" id="L1651">			invalidate();</span>
+		}
+<span class="nc" id="L1653">	}</span>
+
+	/**
+	 * Returns the current radius of the day selector's drawable.
+	 *
+	 * @return Day selector's radius in pixels.
+	 * @see #setDaySelectorRadius(int)
+	 */
+	@Px
+	public int getDaySelectorRadius() {
+<span class="nc" id="L1663">		return mDaySelectorRadius;</span>
+	}
+
+	/**
+	 * Sets a single color for the current day's number text.
+	 *
+	 * @param color The desired color.
+	 * @see R.attr#uiMonthCurrentDayTextColor ui:uiMonthCurrentDayTextColor
+	 * @see #setCurrentDayTextColor(ColorStateList)
+	 */
+	public void setCurrentDayTextColor(@ColorInt int color) {
+<span class="nc" id="L1674">		setCurrentDayTextColor(ColorStateList.valueOf(color));</span>
+<span class="nc" id="L1675">	}</span>
+
+	/**
+	 * Sets colors for the current day's number text.
+	 *
+	 * @param colors The desired colors state list.
+	 * @see R.attr#uiMonthCurrentDayTextColor ui:uiMonthCurrentDayTextColor
+	 * @see #setCurrentDayTextColor(int)
+	 * @see #getCurrentDayTextColors()
+	 * @see #getCurrentDayCurrentTextColor()
+	 */
+	public void setCurrentDayTextColor(@NonNull ColorStateList colors) {
+<span class="nc" id="L1687">		this.mCurrentDayTextColors = colors;</span>
+<span class="nc" id="L1688">		int currentColor = mCurrentDayTextColors.getDefaultColor();</span>
+<span class="nc bnc" id="L1689" title="All 2 branches missed.">		if (mCurrentDayTextColors.isStateful()) {</span>
+<span class="nc" id="L1690">			currentColor = mCurrentDayTextColors.getColorForState(getDrawableState(), currentColor);</span>
+		}
+<span class="nc bnc" id="L1692" title="All 2 branches missed.">		if (currentColor != mCurrentDayCurrentTextColor) {</span>
+<span class="nc" id="L1693">			this.mCurrentDayCurrentTextColor = currentColor;</span>
+<span class="nc" id="L1694">			invalidateDayNumbersArea();</span>
+		}
+<span class="nc" id="L1696">	}</span>
+
+	/**
+	 * Returns the colors for the current day's number text.
+	 *
+	 * @return List of colors used when drawing current day's number graphics.
+	 * @see #setCurrentDayTextColor(ColorStateList)
+	 * @see #setCurrentDayTextColor(int)
+	 * @see #getCurrentDayCurrentTextColor() ()
+	 */
+	@NonNull
+	public ColorStateList getCurrentDayTextColors() {
+<span class="nc" id="L1708">		return mCurrentDayTextColors;</span>
+	}
+
+	/**
+	 * Returns the current color used to draw the current day's number.
+	 *
+	 * @return Current day's number text color.
+	 * @see #getTitleTextColors()
+	 */
+	@ColorInt
+	public int getCurrentDayCurrentTextColor() {
+<span class="nc" id="L1719">		return mCurrentDayCurrentTextColor;</span>
+	}
+
+	/**
+	 */
+	@Override
+	public void setFont(@NonNull String fontPath) {
+<span class="nc" id="L1726">		FontApplier.applyFont(this, fontPath);</span>
+<span class="nc" id="L1727">	}</span>
+
+	/**
+	 */
+	@Override
+	public void setFont(@Nullable Font font) {
+<span class="nc" id="L1733">		FontApplier.applyFont(this, font);</span>
+<span class="nc" id="L1734">	}</span>
+
+	/**
+	 * Sets a &lt;b&gt;global&lt;/b&gt; typeface and style in which all text of this view should be displayed,
+	 * and turns on the fake bold and italic bits in the Paint if the Typeface that you provided does
+	 * not have all the bits in the style that you specified.
+	 *
+	 * @param typeface The desired typeface. May be {@code null} to create default one from the specified
+	 *                 &lt;var&gt;style&lt;/var&gt;.
+	 * @param style    One of {@link android.graphics.Typeface#BOLD}, {@link android.graphics.Typeface#ITALIC}
+	 *                 or {@link android.graphics.Typeface#BOLD_ITALIC}.
+	 */
+	@Override
+	public void setTypeface(@Nullable Typeface typeface, int style) {
+<span class="nc bnc" id="L1748" title="All 2 branches missed.">		if (TITLE_TEXT_INFO.updateTypeface(typeface, style)) {</span>
+<span class="nc" id="L1749">			this.invalidateTitleArea();</span>
+		}
+<span class="nc bnc" id="L1751" title="All 2 branches missed.">		if (DAY_LETTER_TEXT_INFO.updateTypeface(typeface, style)) {</span>
+<span class="nc" id="L1752">			this.invalidateDayLettersArea();</span>
+		}
+<span class="nc bnc" id="L1754" title="All 2 branches missed.">		if (DAY_NUMBER_TEXT_INFO.updateTypeface(typeface, style)) {</span>
+<span class="nc" id="L1755">			this.invalidateDayNumbersArea();</span>
+		}
+<span class="nc" id="L1757">	}</span>
+
+	/**
+	 * Sets a &lt;b&gt;global&lt;/b&gt; typeface in which all text of this view should be displayed.
+	 *
+	 * @param typeface The desired typeface. May be {@code null} to use a default one.
+	 */
+	@Override
+	public void setTypeface(@Nullable Typeface typeface) {
+<span class="nc bnc" id="L1766" title="All 2 branches missed.">		if (TITLE_TEXT_INFO.updateTypeface(typeface)) {</span>
+<span class="nc" id="L1767">			this.invalidateTitleArea();</span>
+		}
+<span class="nc bnc" id="L1769" title="All 2 branches missed.">		if (DAY_LETTER_TEXT_INFO.updateTypeface(typeface)) {</span>
+<span class="nc" id="L1770">			this.invalidateDayLettersArea();</span>
+		}
+<span class="nc bnc" id="L1772" title="All 2 branches missed.">		if (DAY_NUMBER_TEXT_INFO.updateTypeface(typeface)) {</span>
+<span class="nc" id="L1773">			this.invalidateDayNumbersArea();</span>
+		}
+<span class="nc" id="L1775">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+<span class="nc" id="L1781">		final int paddingTop = getPaddingTop();</span>
+<span class="nc" id="L1782">		final int paddingBottom = getPaddingBottom();</span>
+<span class="nc" id="L1783">		final int paddingLeft = getPaddingLeft();</span>
+<span class="nc" id="L1784">		final int paddingRight = getPaddingRight();</span>
+		int width, height;
+<span class="nc" id="L1786">		width = height = 0;</span>
+		// Count for title text with its half height + half vertical spacing.
+<span class="nc" id="L1788">		height += (int) TITLE_TEXT_INFO.paint.getTextSize() + mDayLettersOffsetVertical;</span>
+		// Count for day name first letter text with single vertical spacing.
+<span class="nc" id="L1790">		DAY_LETTER_TEXT_INFO.paint.getTextBounds(DAY_LETTERS[0], 0, 1, TEXT_BOUNDS);</span>
+<span class="nc" id="L1791">		height += TEXT_BOUNDS.height() + mDayNumbersOffsetVertical;</span>
+<span class="nc" id="L1792">		TOUCHABLE_AREA.top = paddingTop + height - mDaySelectorRadius;</span>
+		// Compute width depending on the horizontal spacing + append height with space needed to
+		// draw max 6 rows of month days.
+<span class="nc" id="L1795">		DAY_NUMBER_TEXT_INFO.paint.getTextBounds(Integer.toString(MAX_DAY_IN_MONTH), 0, 1, TEXT_BOUNDS);</span>
+<span class="nc" id="L1796">		width += mSpacingHorizontal * (DAYS_IN_WEEK - 1) + TEXT_BOUNDS.width() * 2;</span>
+<span class="nc" id="L1797">		height += mSpacingVertical * (MAX_DAYS_ROWS - 1) + TEXT_BOUNDS.height();</span>
+<span class="nc" id="L1798">		TOUCHABLE_AREA.bottom = paddingTop + height + mDaySelectorRadius;</span>
+		// Take into count also padding.
+<span class="nc" id="L1800">		width += paddingLeft + paddingRight;</span>
+<span class="nc" id="L1801">		height += paddingTop + paddingBottom;</span>
+		// Update touchable area left, right values.
+<span class="nc" id="L1803">		TOUCHABLE_AREA.left = paddingLeft - mDaySelectorRadius;</span>
+<span class="nc" id="L1804">		TOUCHABLE_AREA.right = width - paddingRight + mDaySelectorRadius;</span>
+		// Take into count also suggested minimum width and height.
+<span class="nc" id="L1806">		setMeasuredDimension(</span>
+<span class="nc" id="L1807">				Math.max(width, getSuggestedMinimumWidth()),</span>
+<span class="nc" id="L1808">				Math.max(height, getSuggestedMinimumHeight())</span>
+		);
+<span class="nc" id="L1810">	}</span>
+
+	/**
+	 */
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+<span class="nc" id="L1816">		super.onSizeChanged(w, h, oldw, oldh);</span>
+<span class="nc" id="L1817">		this.mWidth = w;</span>
+<span class="nc" id="L1818">	}</span>
+
+	/**
+	 */
+	@Override
+	public boolean onTouchEvent(@NonNull MotionEvent event) {
+<span class="nc bnc" id="L1824" title="All 2 branches missed.">		if (!isEnabled()) {</span>
+<span class="nc" id="L1825">			return super.onTouchEvent(event);</span>
+		}
+<span class="nc" id="L1827">		boolean processed = false;</span>
+<span class="nc" id="L1828">		final float touchX = event.getX();</span>
+<span class="nc" id="L1829">		final float touchY = event.getY();</span>
+<span class="nc bnc" id="L1830" title="All 5 branches missed.">		switch (event.getAction() &amp; MotionEvent.ACTION_MASK) {</span>
+			case MotionEvent.ACTION_DOWN:
+<span class="nc bnc" id="L1832" title="All 2 branches missed.">				if (isDaysAreaTouched(touchX, touchY)) {</span>
+<span class="nc" id="L1833">					final int touchedDay = findTouchedDay(touchX, touchY);</span>
+<span class="nc bnc" id="L1834" title="All 4 branches missed.">					if (touchedDay &gt; 0 &amp;&amp; touchedDay &lt;= mDaysCount) {</span>
+<span class="nc" id="L1835">						this.updatePrivateFlags(PFLAG_DAY_TOUCHED, true);</span>
+<span class="nc" id="L1836">						this.mPressedDay = touchedDay;</span>
+<span class="nc" id="L1837">						invalidate();</span>
+<span class="nc" id="L1838">						processed = true;</span>
+					}
+<span class="nc" id="L1840">					this.mDragTouchX = touchX;</span>
+<span class="nc" id="L1841">					this.mDragTouchY = touchY;</span>
+<span class="nc" id="L1842">				}</span>
+				break;
+			case MotionEvent.ACTION_MOVE:
+<span class="nc bnc" id="L1845" title="All 6 branches missed.">				if (mPressedDay &gt; 0 &amp;&amp; (Math.abs(touchX - mDragTouchX) &gt; mDaySelectorRadius || (Math.abs(touchY - mDragTouchY) &gt; mDaySelectorRadius))) {</span>
+<span class="nc" id="L1846">					this.mDragTouchX = mDragTouchY = 0;</span>
+					// Cancel pressed state.
+<span class="nc" id="L1848">					this.updatePrivateFlags(PFLAG_DAY_TOUCHED, false);</span>
+<span class="nc" id="L1849">					this.mPressedDay = 0;</span>
+<span class="nc" id="L1850">					invalidate();</span>
+					// todo: allow selection via horizontal drag
+				}
+				break;
+			case MotionEvent.ACTION_UP:
+<span class="nc bnc" id="L1855" title="All 2 branches missed.">				if ((mPrivateFlags &amp; PFLAG_DAY_TOUCHED) != 0) {</span>
+<span class="nc" id="L1856">					this.updatePrivateFlags(PFLAG_DAY_TOUCHED, false);</span>
+<span class="nc" id="L1857">					this.updateSelection(mPressedDay);</span>
+<span class="nc" id="L1858">					this.mPressedDay = 0;</span>
+<span class="nc" id="L1859">					processed = true;</span>
+				}
+				break;
+			case MotionEvent.ACTION_CANCEL:
+<span class="nc" id="L1863">				this.updatePrivateFlags(PFLAG_DAY_TOUCHED, false);</span>
+<span class="nc" id="L1864">				this.mPressedDay = 0;</span>
+<span class="nc" id="L1865">				invalidate();</span>
+<span class="nc" id="L1866">				processed = true;</span>
+				break;
+		}
+<span class="nc bnc" id="L1869" title="All 4 branches missed.">		return super.onTouchEvent(event) || processed;</span>
+	}
+
+	/**
+	 * Checks whether the area with the current drawn days is touched by touch with the specified
+	 * coordinates or not.
+	 *
+	 * @param touchX X coordinate of the touch.
+	 * @param touchY Y coordinate of the touch.
+	 * @return {@code True} if days area has been touched, {@code false} otherwise.
+	 */
+	private boolean isDaysAreaTouched(float touchX, float touchY) {
+<span class="nc bnc" id="L1881" title="All 8 branches missed.">		return touchX &gt;= TOUCHABLE_AREA.left &amp;&amp; touchX &lt;= TOUCHABLE_AREA.right &amp;&amp;</span>
+				touchY &gt;= TOUCHABLE_AREA.top &amp;&amp; touchY &lt;= TOUCHABLE_AREA.bottom;
+	}
+
+	/**
+	 * Founds a day among the current set of drawn days that is in area of touch with the specified
+	 * coordinates.
+	 *
+	 * @param touchX X coordinate of the touch.
+	 * @param touchY Y coordinate of the touch.
+	 * @return Day number from the range {@code [1, 31]} or negative number if no day from the current
+	 * ones has been touched.
+	 */
+	private int findTouchedDay(float touchX, float touchY) {
+<span class="nc" id="L1895">		DAY_NUMBER_TEXT_INFO.paint.getTextBounds(Integer.toString(MAX_DAY_IN_MONTH), 0, 2, TEXT_BOUNDS);</span>
+		// Remove padding data from touch coordinates to obtain touch coordinates for area only with
+		// day numbers.
+<span class="nc" id="L1898">		touchX -= TOUCHABLE_AREA.left + mDaySelectorRadius;</span>
+<span class="nc" id="L1899">		touchY -= TOUCHABLE_AREA.top + mDaySelectorRadius;</span>
+<span class="nc" id="L1900">		final int column = Math.min(DAYS_IN_WEEK, Math.round(touchX / mSpacingHorizontal) + 1);</span>
+<span class="nc" id="L1901">		final int row = Math.min(MAX_DAYS_ROWS, Math.round(touchY / mSpacingVertical) + 1);</span>
+<span class="nc" id="L1902">		return (row * DAYS_IN_WEEK - (DAYS_IN_WEEK - column)) - (mStartDay - 1);</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void drawableStateChanged() {
+<span class="nc" id="L1909">		super.drawableStateChanged();</span>
+		// We do not update state of day selector here but it is updated within onDraw(...) due to
+		// proper states handling.
+<span class="nc bnc" id="L1912" title="All 6 branches missed.">		if (updateTextColors(getDrawableState()) || (mDaySelector != null &amp;&amp; mDaySelector.isStateful())) {</span>
+<span class="nc" id="L1913">			invalidate();</span>
+		}
+<span class="nc" id="L1915">	}</span>
+
+	/**
+	 * Updates the current text colors according to the current state of this view.
+	 *
+	 * @param stateSet Current drawable state for this view.
+	 * @return {@code True} whenever {@link #invalidate()} should be called due to changed colors,
+	 * {@code false} otherwise.
+	 */
+	private boolean updateTextColors(int[] stateSet) {
+<span class="nc" id="L1925">		boolean invalidate = TITLE_TEXT_INFO.updatePaintColor(stateSet);</span>
+<span class="nc" id="L1926">		invalidate |= DAY_LETTER_TEXT_INFO.updatePaintColor(stateSet);</span>
+		// We do not update day number paint color here, because it is updated in onDraw(...) method,
+		// due to handling of selected/pressed states properly.
+<span class="nc" id="L1929">		invalidate |= DAY_NUMBER_TEXT_INFO.mAppearance.getTextColor().isStateful();</span>
+<span class="nc" id="L1930">		final int currentDayColor = mCurrentDayTextColors.getColorForState(stateSet, mCurrentDayTextColors.getDefaultColor());</span>
+<span class="nc bnc" id="L1931" title="All 2 branches missed.">		if (currentDayColor != mCurrentDayCurrentTextColor) {</span>
+<span class="nc" id="L1932">			this.mCurrentDayCurrentTextColor = currentDayColor;</span>
+<span class="nc" id="L1933">			invalidate = true;</span>
+		}
+<span class="nc" id="L1935">		return invalidate;</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected boolean verifyDrawable(Drawable who) {
+<span class="nc bnc" id="L1942" title="All 4 branches missed.">		return who == mDaySelector || super.verifyDrawable(who);</span>
+	}
+
+	/**
+	 * Invalidates this view in area where the title text is presented using its current bounds.
+	 *
+	 * @see #invalidate(Rect)
+	 */
+	private void invalidateTitleArea() {
+<span class="nc bnc" id="L1951" title="All 2 branches missed.">		if (!TextUtils.isEmpty(mMonthName)) {</span>
+<span class="nc" id="L1952">			final int top = getPaddingTop();</span>
+<span class="nc" id="L1953">			final String title = mMonthName + &quot; &quot; + Integer.toString(mYear);</span>
+<span class="nc" id="L1954">			TITLE_TEXT_INFO.paint.getTextBounds(title, 0, title.length(), TEXT_BOUNDS);</span>
+<span class="nc" id="L1955">			invalidate(</span>
+<span class="nc" id="L1956">					getPaddingLeft(),</span>
+					top,
+<span class="nc" id="L1958">					getWidth() - getPaddingRight(),</span>
+<span class="nc" id="L1959">					top + TEXT_BOUNDS.height()</span>
+			);
+		}
+<span class="nc" id="L1962">	}</span>
+
+	/**
+	 * Invalidates this view in area where the first day letters are presented using theirs current
+	 * bounds.
+	 *
+	 * @see #invalidate(Rect)
+	 */
+	private void invalidateDayLettersArea() {
+<span class="nc bnc" id="L1971" title="All 4 branches missed.">		if (!TextUtils.isEmpty(mMonthName) &amp;&amp; !TextUtils.isEmpty(DAY_LETTERS[0])) {</span>
+<span class="nc" id="L1972">			TITLE_TEXT_INFO.paint.getTextBounds(mMonthName, 0, mMonthName.length(), TEXT_BOUNDS);</span>
+<span class="nc" id="L1973">			final int top = getPaddingTop() + TEXT_BOUNDS.height() + mDayLettersOffsetVertical;</span>
+<span class="nc" id="L1974">			DAY_LETTER_TEXT_INFO.paint.getTextBounds(DAY_LETTERS[0], 0, 1, TEXT_BOUNDS);</span>
+<span class="nc" id="L1975">			invalidate(</span>
+<span class="nc" id="L1976">					getPaddingLeft(),</span>
+					top,
+<span class="nc" id="L1978">					getWidth() - getPaddingRight(),</span>
+<span class="nc" id="L1979">					top + TEXT_BOUNDS.height()</span>
+			);
+		}
+<span class="nc" id="L1982">	}</span>
+
+	/**
+	 * Invalidates this view in area where the day numbers are presented using theirs current bounds.
+	 *
+	 * @see #invalidate(Rect)
+	 */
+	private void invalidateDayNumbersArea() {
+<span class="nc" id="L1990">		invalidate(</span>
+				(int) TOUCHABLE_AREA.left,
+				(int) TOUCHABLE_AREA.top,
+				(int) TOUCHABLE_AREA.right,
+				(int) TOUCHABLE_AREA.bottom
+		);
+<span class="nc" id="L1996">	}</span>
+
+	/**
+	 * @see #onDrawTitle(Canvas, float, Paint)
+	 * @see #onDrawWeekDayLetters(Canvas, float, Paint)
+	 * @see #onDrawDayNumbers(Canvas, float, Paint)
+	 */
+	@Override
+	protected void onDraw(Canvas canvas) {
+<span class="nc" id="L2005">		super.onDraw(canvas);</span>
+<span class="nc" id="L2006">		float top = getPaddingTop();</span>
+<span class="nc" id="L2007">		top = onDrawTitle(canvas, top, TITLE_TEXT_INFO.paint);</span>
+<span class="nc" id="L2008">		top = onDrawWeekDayLetters(canvas, top + mDayLettersOffsetVertical, DAY_LETTER_TEXT_INFO.paint);</span>
+<span class="nc" id="L2009">		onDrawDayNumbers(canvas, top + mDayNumbersOffsetVertical, DAY_NUMBER_TEXT_INFO.paint);</span>
+<span class="nc" id="L2010">	}</span>
+
+	/**
+	 * Invoked to draw title of this month view from the specified &lt;var&gt;top&lt;/var&gt; position.
+	 * &lt;p&gt;
+	 * Default implementation draws the name of month and current year number for the date specified
+	 * for this month view side by side (horizontally) on the specified &lt;var&gt;canvas&lt;/var&gt;.
+	 *
+	 * @param canvas The canvas on which to draw the title (month name + year number).
+	 * @param top    Top position from which to start the drawing. By default a value from
+	 *               {@link #getPaddingTop()} is used.
+	 * @param paint  Paint for title text ready to be used for drawing.
+	 * @return Updated top position from which following graphic components (week day letters, day numbers)
+	 * of this view will be drawn.
+	 * @see #onDrawWeekDayLetters(Canvas, float, Paint)
+	 * @see #onDrawDayNumbers(Canvas, float, Paint)
+	 */
+	protected float onDrawTitle(@NonNull Canvas canvas, float top, @NonNull Paint paint) {
+<span class="nc" id="L2028">		final CharSequence titleText = mMonthName + &quot; &quot; + Integer.toString(mYear);</span>
+<span class="nc" id="L2029">		top += (int) paint.getTextSize();</span>
+<span class="nc" id="L2030">		canvas.drawText(</span>
+				titleText,
+				0,
+<span class="nc" id="L2033">				titleText.length(),</span>
+				mWidth / 2,
+				top,
+				paint
+		);
+<span class="nc" id="L2038">		return top;</span>
+	}
+
+	/**
+	 * Invoked to draw first letters of days in week from the specified &lt;var&gt;top&lt;/var&gt; position.
+	 * &lt;p&gt;
+	 * Default implementation draws day letters in one row on the specified &lt;var&gt;canvas&lt;/var&gt;.
+	 *
+	 * @param canvas The canvas on which to draw day letters.
+	 * @param top    Top position from which to start the drawing. This is the position returned from
+	 *               {@link #onDrawTitle(Canvas, float, Paint)} method {@code +} {@link #getDayLettersOffsetVertical()}.
+	 * @param paint  Paint for day letters ready to be used for drawing.
+	 * @return Updated top position from which following graphic components (day numbers) of this view
+	 * will be drawn.
+	 * @see #onDrawDayNumbers(Canvas, float, Paint)
+	 */
+	protected float onDrawWeekDayLetters(@NonNull Canvas canvas, float top, @NonNull Paint paint) {
+		/**
+		 * We will draw 7 columns for each day in week.
+		 */
+<span class="nc" id="L2058">		int dayIndex = mFirstDayOfWeek - 1;</span>
+<span class="nc" id="L2059">		paint.getTextBounds(Integer.toString(MAX_DAY_IN_MONTH), 0, 2, TEXT_BOUNDS);</span>
+<span class="nc" id="L2060">		float left = getPaddingLeft() + TEXT_BOUNDS.width() / 2f;</span>
+<span class="nc" id="L2061">		top += (int) paint.getTextSize();</span>
+<span class="nc bnc" id="L2062" title="All 2 branches missed.">		for (int i = 0; i &lt; DAYS_IN_WEEK; i++) {</span>
+<span class="nc" id="L2063">			final String dayLetter = DAY_LETTERS[dayIndex];</span>
+<span class="nc" id="L2064">			canvas.drawText(dayLetter, 0, 1, left, top, paint);</span>
+<span class="nc" id="L2065">			left += mSpacingHorizontal;</span>
+<span class="nc bnc" id="L2066" title="All 2 branches missed.">			if (++dayIndex &gt;= DAYS_IN_WEEK) {</span>
+<span class="nc" id="L2067">				dayIndex = 0;</span>
+			}
+		}
+<span class="nc" id="L2070">		return top;</span>
+	}
+
+	/**
+	 * Invoked to draw day numbers.
+	 * &lt;p&gt;
+	 * Default implementation draws all days of the month for the date specified for this month view
+	 * on the specified &lt;var&gt;canvas&lt;/var&gt; in {@link #DAYS_IN_WEEK} columns and max {@link #MAX_DAYS_ROWS}
+	 * rows.
+	 *
+	 * @param canvas The canvas on which to draw day numbers.
+	 * @param top    Top position from which to start the drawing. This is the position returned from
+	 *               {@link #onDrawWeekDayLetters(Canvas, float, Paint)} method {@code +} {@link #getDayNumbersOffsetVertical()}.
+	 * @param paint  Paint for day numbers ready to be used for drawing.
+	 */
+	protected void onDrawDayNumbers(@NonNull Canvas canvas, float top, @NonNull Paint paint) {
+		/**
+		 * Draw days of month within grid 7x6 depending on the start day.
+		 */
+<span class="nc" id="L2089">		int day = 1;</span>
+<span class="nc" id="L2090">		int startCol = mStartDay;</span>
+<span class="nc" id="L2091">		paint.getTextBounds(Integer.toString(MAX_DAY_IN_MONTH), 0, 2, TEXT_BOUNDS);</span>
+<span class="nc" id="L2092">		final float textHeight = TEXT_BOUNDS.height();</span>
+<span class="nc" id="L2093">		final float textWidth = TEXT_BOUNDS.width();</span>
+<span class="nc" id="L2094">		final float leftOrigin = getPaddingLeft() + textWidth / 2f;</span>
+<span class="nc" id="L2095">		float left = leftOrigin + (startCol - 1) * mSpacingHorizontal;</span>
+<span class="nc bnc" id="L2096" title="All 2 branches missed.">		for (int row = 1; row &lt;= MAX_DAYS_ROWS; row++) {</span>
+<span class="nc bnc" id="L2097" title="All 2 branches missed.">			if (day &gt; mDaysCount) {</span>
+<span class="nc" id="L2098">				break;</span>
+			}
+<span class="nc bnc" id="L2100" title="All 2 branches missed.">			for (int col = startCol; col &lt;= DAYS_IN_WEEK; col++) {</span>
+<span class="nc bnc" id="L2101" title="All 2 branches missed.">				if (day &gt; mDaysCount) {</span>
+<span class="nc" id="L2102">					break;</span>
+				}
+<span class="nc bnc" id="L2104" title="All 2 branches missed.">				final boolean pressedDay = day == mPressedDay;</span>
+<span class="nc bnc" id="L2105" title="All 2 branches missed.">				final boolean selectedDay = day == mSelectedDay;</span>
+				// Draw selector for selected/pressed day.
+<span class="nc bnc" id="L2107" title="All 4 branches missed.">				if (selectedDay || pressedDay) {</span>
+<span class="nc" id="L2108">					drawDaySelector(canvas, left, top, day);</span>
+				}
+				// Draw day number text.
+<span class="nc" id="L2111">				mDay.number = day;</span>
+<span class="nc bnc" id="L2112" title="All 2 branches missed.">				mDay.current = day == mCurrentDay;</span>
+<span class="nc" id="L2113">				mDay.pressed = pressedDay;</span>
+<span class="nc" id="L2114">				mDay.selected = selectedDay;</span>
+<span class="nc" id="L2115">				mDay.bounds.set(</span>
+						left - textWidth / 2f,
+						top,
+						left + textWidth / 2f,
+						top + textHeight
+				);
+<span class="nc" id="L2121">				onDrawDayNumber(canvas, mDay, paint);</span>
+<span class="nc" id="L2122">				left += mSpacingHorizontal;</span>
+<span class="nc" id="L2123">				day++;</span>
+			}
+<span class="nc" id="L2125">			startCol = 1;</span>
+<span class="nc" id="L2126">			left = leftOrigin;</span>
+<span class="nc" id="L2127">			top += mSpacingVertical;</span>
+		}
+<span class="nc" id="L2129">	}</span>
+
+	/**
+	 * Draws the current day selector (if specified) on the specified &lt;var&gt;canvas&lt;/var&gt;.
+	 *
+	 * @param canvas The canvas on which to draw the selector.
+	 * @param left   Left position from which to start the drawing.
+	 * @param top    Top position from which to start the drawing.
+	 * @param day    Day fow which to draw the selector. Day is used to resolve whether to draw the
+	 *               selector in selected or pressed state.
+	 */
+	private void drawDaySelector(Canvas canvas, float left, float top, int day) {
+<span class="nc bnc" id="L2141" title="All 2 branches missed.">		if (mDaySelector != null) {</span>
+<span class="nc" id="L2142">			final int selectorCenterX = Math.round(left);</span>
+<span class="nc" id="L2143">			final int selectorCenterY = Math.round(top + TEXT_BOUNDS.height() / 2f);</span>
+<span class="nc" id="L2144">			mDaySelector.setBounds(</span>
+					selectorCenterX - mDaySelectorRadius,
+					selectorCenterY - mDaySelectorRadius,
+					selectorCenterX + mDaySelectorRadius,
+					selectorCenterY + mDaySelectorRadius
+			);
+<span class="nc bnc" id="L2150" title="All 2 branches missed.">			if (isEnabled()) {</span>
+<span class="nc bnc" id="L2151" title="All 2 branches missed.">				if (mSelectedDay == day) {</span>
+<span class="nc" id="L2152">					mDaySelector.setState(WidgetStateSet.ENABLED_SELECTED);</span>
+<span class="nc bnc" id="L2153" title="All 2 branches missed.">				} else if (mPressedDay == day) {</span>
+<span class="nc" id="L2154">					mDaySelector.setState(WidgetStateSet.ENABLED_PRESSED);</span>
+				}
+			} else {
+<span class="nc bnc" id="L2157" title="All 2 branches missed.">				mDaySelector.setState(mSelectedDay == day ?</span>
+						WidgetStateSet.DISABLED_SELECTED :
+						WidgetStateSet.DISABLED
+				);
+			}
+<span class="nc" id="L2162">			mDaySelector.draw(canvas);</span>
+		}
+<span class="nc" id="L2164">	}</span>
+
+	/**
+	 * Invoked from {@link #onDrawDayNumbers(Canvas, float, Paint)} for each day number of the current
+	 * month do draw a number text for the specified &lt;var&gt;day&lt;/var&gt;.
+	 *
+	 * @param canvas The canvas on which to draw day number text.
+	 * @param day    The day for which to draw the number text.
+	 * @param paint  Paint for day number ready (text size and typeface are already specified, but
+	 *               text color will be resolved depending on the given &lt;var&gt;day&lt;/var&gt; state) to be
+	 *               used for drawing.
+	 * @see Day#isPressed()
+	 * @see Day#isSelected()
+	 */
+	protected void onDrawDayNumber(@NonNull Canvas canvas, @NonNull Day day, @NonNull Paint paint) {
+<span class="nc" id="L2179">		int textColor = DAY_NUMBERS_COLORS_STATE.dayNumberColorNormal;</span>
+<span class="nc bnc" id="L2180" title="All 2 branches missed.">		if (isEnabled()) {</span>
+<span class="nc bnc" id="L2181" title="All 2 branches missed.">			if (day.selected) {</span>
+<span class="nc" id="L2182">				textColor = DAY_NUMBERS_COLORS_STATE.dayNumberColorSelected;</span>
+<span class="nc bnc" id="L2183" title="All 2 branches missed.">			} else if (day.pressed) {</span>
+<span class="nc" id="L2184">				textColor = DAY_NUMBERS_COLORS_STATE.dayNumberColorPressed;</span>
+<span class="nc bnc" id="L2185" title="All 2 branches missed.">			} else if (day.current) {</span>
+<span class="nc" id="L2186">				textColor = mCurrentDayCurrentTextColor;</span>
+			}
+		} else {
+<span class="nc bnc" id="L2189" title="All 2 branches missed.">			if (day.current) {</span>
+<span class="nc" id="L2190">				textColor = mCurrentDayCurrentTextColor;</span>
+			} else {
+<span class="nc" id="L2192">				textColor = DAY_NUMBERS_COLORS_STATE.dayNumberColorDisabled;</span>
+			}
+		}
+<span class="nc" id="L2195">		paint.setColor(textColor);</span>
+<span class="nc" id="L2196">		paint.setFakeBoldText(day.isCurrent());</span>
+<span class="nc" id="L2197">		canvas.drawText(Integer.toString(day.number), day.bounds.centerX(), day.bounds.bottom, paint);</span>
+<span class="nc" id="L2198">	}</span>
+
+	/**
+	 */
+	@Override
+	protected Parcelable onSaveInstanceState() {
+<span class="nc" id="L2204">		final SavedState savedState = new SavedState(super.onSaveInstanceState());</span>
+<span class="nc" id="L2205">		savedState.date = DATE.getTime();</span>
+<span class="nc" id="L2206">		savedState.selectedDay = mSelectedDay;</span>
+<span class="nc" id="L2207">		savedState.locale = mLocale;</span>
+<span class="nc" id="L2208">		return savedState;</span>
+	}
+
+	/**
+	 */
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+<span class="nc bnc" id="L2215" title="All 2 branches missed.">		if (!(state instanceof SavedState)) {</span>
+<span class="nc" id="L2216">			super.onRestoreInstanceState(state);</span>
+<span class="nc" id="L2217">			return;</span>
+		}
+<span class="nc" id="L2219">		final SavedState savedState = (SavedState) state;</span>
+<span class="nc" id="L2220">		super.onRestoreInstanceState(savedState.getSuperState());</span>
+<span class="nc" id="L2221">		DATE.setTime(savedState.date);</span>
+<span class="nc" id="L2222">		this.mSelectedDay = savedState.selectedDay;</span>
+<span class="nc" id="L2223">		this.mLocale = savedState.locale;</span>
+		// Locale change handling will update day name letters + will fire date change handling + invalidation.
+<span class="nc" id="L2225">		this.handleLocaleChange();</span>
+<span class="nc" id="L2226">	}</span>
+
+	/**
+	 * Updates the current private flags.
+	 *
+	 * @param flag Value of the desired flag to add/remove to/from the current private flags.
+	 * @param add  Boolean flag indicating whether to add or remove the specified &lt;var&gt;flag&lt;/var&gt;.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	private void updatePrivateFlags(int flag, boolean add) {
+<span class="nc bnc" id="L2236" title="All 2 branches missed.">		if (add) this.mPrivateFlags |= flag;</span>
+<span class="nc" id="L2237">		else this.mPrivateFlags &amp;= ~flag;</span>
+<span class="nc" id="L2238">	}</span>
+
+	/**
+	 * Returns a boolean flag indicating whether the specified &lt;var&gt;flag&lt;/var&gt; is contained within
+	 * the current private flags or not.
+	 *
+	 * @param flag Value of the flag to check.
+	 * @return {@code True} if the requested flag is contained, {@code false} otherwise.
+	 */
+	@SuppressWarnings(&quot;unused&quot;)
+	private boolean hasPrivateFlag(int flag) {
+<span class="nc bnc" id="L2249" title="All 2 branches missed.">		return (mPrivateFlags &amp; flag) != 0;</span>
+	}
+
+	/**
+	 * Inner classes ===============================================================================
+	 */
+
+	/**
+	 * A {@link WidgetSavedState} implementation used to ensure that the state of {@link MonthView}
+	 * is properly saved.
+	 *
+	 * @author Martin Albedinsky
+	 */
+	public static class SavedState extends WidgetSavedState {
+
+		/**
+		 * Creator used to create an instance or array of instances of SavedState from {@link android.os.Parcel}.
+		 */
+<span class="nc" id="L2267">		public static final Creator&lt;SavedState&gt; CREATOR = new Creator&lt;SavedState&gt;() {</span>
+			/**
+			 */
+			@Override
+			public SavedState createFromParcel(@NonNull Parcel source) {
+<span class="nc" id="L2272">				return new SavedState(source);</span>
+			}
+
+			/**
+			 */
+			@Override
+			public SavedState[] newArray(int size) {
+<span class="nc" id="L2279">				return new SavedState[size];</span>
+			}
+		};
+
+		/**
+		 */
+		long date;
+
+		/**
+		 */
+		int selectedDay;
+
+		/**
+		 */
+		Locale locale;
+
+		/**
+		 * Creates a new instance of SavedState with the given &lt;var&gt;superState&lt;/var&gt; to allow chaining
+		 * of saved states in {@link #onSaveInstanceState()} and also in {@link #onRestoreInstanceState(android.os.Parcelable)}.
+		 *
+		 * @param superState The super state obtained from {@code super.onSaveInstanceState()} within
+		 *                   {@code onSaveInstanceState()}.
+		 */
+		protected SavedState(@NonNull Parcelable superState) {
+<span class="nc" id="L2303">			super(superState);</span>
+<span class="nc" id="L2304">		}</span>
+
+		/**
+		 * Called from {@link #CREATOR} to create an instance of SavedState form the given parcel
+		 * &lt;var&gt;source&lt;/var&gt;.
+		 *
+		 * @param source Parcel with data for the new instance.
+		 */
+		protected SavedState(@NonNull Parcel source) {
+<span class="nc" id="L2313">			super(source);</span>
+<span class="nc" id="L2314">			this.date = source.readLong();</span>
+<span class="nc" id="L2315">			this.selectedDay = source.readInt();</span>
+<span class="nc" id="L2316">			this.locale = (Locale) source.readSerializable();</span>
+<span class="nc" id="L2317">		}</span>
+
+		/**
+		 */
+		@Override
+		public void writeToParcel(@NonNull Parcel dest, int flags) {
+<span class="nc" id="L2323">			super.writeToParcel(dest, flags);</span>
+<span class="nc" id="L2324">			dest.writeLong(date);</span>
+<span class="nc" id="L2325">			dest.writeInt(selectedDay);</span>
+<span class="nc" id="L2326">			dest.writeSerializable(locale);</span>
+<span class="nc" id="L2327">		}</span>
+	}
+
+	/**
+	 * Represents a single day to be drawn for via {@link #onDrawDayNumber(Canvas, Day, Paint)}.
+	 */
+<span class="nc" id="L2333">	protected static final class Day {</span>
+
+		/**
+		 * This day's number.
+		 */
+		int number;
+
+		/**
+		 * Boolean flag indicating whether this day is current or not.
+		 */
+		boolean current;
+
+		/**
+		 * Boolean flag indicating whether this day is pressed or not.
+		 */
+		boolean pressed;
+
+		/**
+		 * Boolean flag indicating whether this day is selected or not.
+		 */
+		boolean selected;
+
+		/**
+		 * Bounds of this day determining where to draw its number on a Canvas.
+		 */
+<span class="nc" id="L2358">		final RectF bounds = new RectF();</span>
+
+		/**
+		 * Returns the number of this day.
+		 *
+		 * @return This day's number (as month day from the range {@code [1, 31]}).
+		 */
+		@IntRange(from = 1, to = 31)
+		protected int getNumber() {
+<span class="nc" id="L2367">			return number;</span>
+		}
+
+		/**
+		 * Returns a boolean flag indicating whether this day is current or not.
+		 *
+		 * @return {@code True} if number of this day is same as current calendar day of month,
+		 * {@code false} otherwise.
+		 */
+		protected boolean isCurrent() {
+<span class="nc" id="L2377">			return current;</span>
+		}
+
+		/**
+		 * Returns a boolean flag indicating whether this day is pressed or not.
+		 *
+		 * @return {@code True} if area within {@link MonthView} for this day is at this time pressed
+		 * by a user, {@code false} otherwise.
+		 */
+		protected boolean isPressed() {
+<span class="nc" id="L2387">			return pressed;</span>
+		}
+
+		/**
+		 * Returns a boolean flag indicating whether this day is selected or not.
+		 *
+		 * @return {@code True} if number of this day has been selected (either programmatically via
+		 * {@link #setSelection(int)} or by a user via touch), {@code false} otherwise.
+		 */
+		protected boolean isSelected() {
+<span class="nc" id="L2397">			return selected;</span>
+		}
+
+		/**
+		 * Returns the bounds of this day's number that will be used to properly position its text
+		 * representation on a {@link Canvas} when drawing this day via {@link #onDrawDayNumber(Canvas, Day, Paint)}
+		 * method. These bounds can be used to draw graphics related to this day like event indicators
+		 * or a custom day selector.
+		 * &lt;p&gt;
+		 * &lt;b&gt;Note, that the {@link Rect#top} and {@link Rect#bottom} will be the exact positions
+		 * where the text will be drawn, but {@link Rect#left} and {@link Rect#right} positions will
+		 * be 'relative'/general for the text representation of number '31'.&lt;/b&gt;
+		 *
+		 * @return Number text bounds.
+		 */
+		@NonNull
+		protected RectF getBounds() {
+<span class="nc" id="L2414">			return bounds;</span>
+		}
+	}
+
+	/**
+	 * This class holds all colors used to draw day numbers graphics.
+	 */
+<span class="nc" id="L2421">	private static final class DayNumberColorsState {</span>
+
+		/**
+		 * Default color used for drawing graphics of this widget.
+		 */
+		static final int DEF_COLOR = Color.BLACK;
+
+		/**
+		 * Color used to draw day number text in normal (enabled) state.
+		 */
+<span class="nc" id="L2431">		int dayNumberColorNormal = DEF_COLOR;</span>
+
+		/**
+		 * Color used to draw day number text in pressed state.
+		 */
+<span class="nc" id="L2436">		int dayNumberColorPressed = DEF_COLOR;</span>
+
+		/**
+		 * Color used to draw day number text in selected state.
+		 */
+<span class="nc" id="L2441">		int dayNumberColorSelected = DEF_COLOR;</span>
+
+		/**
+		 * Color used to draw day number text in disabled state.
+		 */
+<span class="nc" id="L2446">		int dayNumberColorDisabled = DEF_COLOR;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.0</div></body></html>
