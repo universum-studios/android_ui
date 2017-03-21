@@ -22,12 +22,13 @@ apply plugin: 'com.android.library'
  * Library options =================================================================================
  */
 android {
-    compileSdkVersion Integer.valueOf((String) project.property('android.compileSdkVersion'))
-    buildToolsVersion project.property('android.buildToolsVersion')
+    compileSdkVersion config.build.compileSdkVersion
+    buildToolsVersion config.build.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion project.property('library.minSdkVersion')
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        minSdkVersion config.build.minSdkVersion
+        targetSdkVersion config.build.targetSdkVersion
+        testInstrumentationRunner config.test.instrumentationRunner
     }
 
     buildTypes {
@@ -54,21 +55,21 @@ android {
  * Library dependencies ============================================================================
  */
 repositories {
-    maven { url = '../artifacts/' }
-    maven { url "http://dl.bintray.com/universum-studios/android" }
+    maven { url repos.project.artifacts }
+    mavenLocal()
 }
 
 dependencies {
     /*
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
-    compile releaseDependencies.androidSupportAnnotations
-    // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-graphics-core:${libraryVersion}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-graphics-progress:${libraryVersion}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-graphics-refresh:${libraryVersion}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-controller-base:${libraryVersion}@aar"
+    compile deps.androidSupport.annotations
+    // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-graphics-core:${config.library.version}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-graphics-progress:${config.library.version}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-graphics-refresh:${config.library.version}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-controller-base:${config.library.version}@aar"
 
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
@@ -76,6 +77,11 @@ dependencies {
     debugCompile project(':library-graphics-refresh')
     debugCompile project(':library-widget-core')
     debugCompile project(':library-controller-base')
+
+    /*
+     * TEST DEPENDENCIES ---------------------------------------------------------------------------
+     */
+    androidTestCompile project(':test-core')
 }
 
 // Apply DEPLOY script.

@@ -34,6 +34,7 @@
 		<activity
 			android:name=".ui.MainActivity"
 			android:theme="@style/Theme.Navigation">
+
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />

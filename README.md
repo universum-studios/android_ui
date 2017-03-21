@@ -1,8 +1,12 @@
-Ui
+UI
 ===============
 
 [![Build Status](https://travis-ci.org/universum-studios/android_ui.svg?branch=master)](https://travis-ci.org/universum-studios/android_ui)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d3dcc71d3dbb49af9aa9384a45127850)](https://www.codacy.com/app/universum-studios/android_ui?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=universum-studios/android_ui&amp;utm_campaign=Badge_Grade)
+
+Extended UI components for the Android platform.
+
+For more information please visit the **[Wiki](https://github.com/universum-studios/android_ui/wiki)**.
 
 ## Download ##
 [![Download](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Aui/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Aui/_latestVersion)
@@ -12,6 +16,10 @@ Download the latest **[release](https://github.com/universum-studios/android_ui/
 ### Gradle ###
 
     compile "universum.studios.android:ui:${DESIRED_VERSION}@aar"
+
+## Modules ##
+
+This library may be also used via **separate modules**. For more information please see **[Modules](https://github.com/universum-studios/android_ui/blob/master/MODULES.md)**.
 
 ## Compatibility ##
 

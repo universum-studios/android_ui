@@ -1,0 +1,52 @@
+// Defines configuration used across the library project.
+def buildConfig = [
+        compileSdkVersion: 25,
+        minSdkVersion    : 9,
+        targetSdkVersion : 25,
+        buildToolsVersion: '25.0.2'
+]
+
+def testConfig = [
+        instrumentationRunner: 'android.support.test.runner.AndroidJUnitRunner'
+]
+
+def libraryConfig = [
+        version: '0.9.1'
+]
+
+def mavenConfig = [
+        localUrl                 : System.getenv('MAVEN_URL_LOCAL'),
+        groupId                  : 'universum.studios.android',
+        artifactId               : 'ui',
+        version                  : libraryConfig.version,
+        packaging                : 'pom',
+        projectName              : 'Android UI',
+        projectDescription       : 'Extended Ui components for the Android platform.',
+        projectUrl               : 'https://github.com/universum-studios/android_ui',
+        projectInceptionYear     : '2017',
+        projectIssueManagementUrl: 'https://github.com/universum-studios/android_ui/issues'
+]
+
+def bintrayConfig = [
+        publish                  : false,
+        packageName              : mavenConfig.groupId + ':' + mavenConfig.artifactId,
+        packageLabels            : ['android', 'ui', 'widget', 'layout'],
+        packageVersionName       : mavenConfig.version,
+        packageVersionDescription: 'Pre-release version patch.',
+        packageVersionTag        : mavenConfig.version
+]
+
+def codacyConfig = [
+        // This path must be relative to the codacy.gradle file placed in the /library directory.
+        tokensPath : '../../codacy.tokens',
+        projectName: 'android_ui'
+]
+
+ext.config = [
+        "build"  : buildConfig,
+        "test"   : testConfig,
+        "library": libraryConfig,
+        "maven"  : mavenConfig,
+        "bintray": bintrayConfig,
+        "codacy" : codacyConfig
+]

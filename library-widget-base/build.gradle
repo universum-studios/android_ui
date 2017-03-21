@@ -22,12 +22,13 @@ apply plugin: 'com.android.library'
  * Library options =================================================================================
  */
 android {
-    compileSdkVersion Integer.valueOf((String) project.property('android.compileSdkVersion'))
-    buildToolsVersion project.property('android.buildToolsVersion')
+    compileSdkVersion config.build.compileSdkVersion
+    buildToolsVersion config.build.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion project.property('library.minSdkVersion')
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        minSdkVersion config.build.minSdkVersion
+        targetSdkVersion config.build.targetSdkVersion
+        testInstrumentationRunner config.test.instrumentationRunner
     }
 
     buildTypes {
@@ -54,23 +55,24 @@ android {
  * Library dependencies ============================================================================
  */
 repositories {
-    maven { url = '../artifacts/' }
-    maven { url "http://dl.bintray.com/universum-studios/android" }
+    maven { url repos.project.artifacts }
+    mavenLocal()
+    maven { url repos.bintray.universumStudiosAndroid }
 }
 
 dependencies {
     /*
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
-    compile releaseDependencies.androidSupportAnnotations
-    compile releaseDependencies.androidSupportAppCompatV7
-    compile releaseDependencies.androidSupportVectorDrawable
-    compile releaseDependencies.androidUniversumFontCore
-    compile releaseDependencies.androidUniversumFontUtil
-    compile releaseDependencies.androidUniversumGraphicsColorUtil
-    // todo: releaseCompile "universum.studios.android:ui-core:${libraryVersion}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-core:${libraryVersion}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-graphics:${libraryVersion}@aar"
+    compile deps.androidSupport.annotations
+    compile deps.androidSupport.appCompatV7
+    compile deps.androidSupport.vectorDrawable
+    compile deps.universumStudios.fontCore
+    compile deps.universumStudios.fontUtil
+    compile deps.universumStudios.graphicsColorUtil
+    // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
+    // todo: releaseCompile "universum.studios.android:ui-widget-graphics:${config.library.version}@aar"
 
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
@@ -78,6 +80,11 @@ dependencies {
     debugCompile project(':library-core')
     debugCompile project(':library-widget-core')
     debugCompile project(':library-widget-graphics')
+
+    /*
+     * TEST DEPENDENCIES ---------------------------------------------------------------------------
+     */
+    androidTestCompile project(':test-core')
 }
 
 // Apply DEPLOY script.
