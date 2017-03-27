@@ -38,8 +38,10 @@ android {
         release {
             minifyEnabled false
         }
-        modules {
-            minifyEnabled false
+        if (!config.ci.travis) {
+            modules {
+                minifyEnabled false
+            }
         }
         debug {
             minifyEnabled false
