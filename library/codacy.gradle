@@ -34,7 +34,7 @@ task uploadCoverageToCodacy(type: JavaExec, dependsOn: 'createDebugCoverageRepor
     final String token
     final File tokensFile = file(config.codacy.tokensPath)
     if (tokensFile.exists()) {
-        def Properties tokens = new Properties();
+        def Properties tokens = new Properties()
         tokens.load(new FileInputStream(tokensFile))
         token = tokens[config.codacy.projectName]
     } else {

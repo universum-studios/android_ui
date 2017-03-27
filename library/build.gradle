@@ -129,6 +129,47 @@ android {
                 '../library-widget-web/src/main/res'
         ]
         debug.res.srcDirs = release.res.srcDirs
+        androidTest.java.srcDirs = [
+                '../library/src/androidTest/java',
+                '../library-controller-base/src/androidTest/java',
+                '../library-controller-pull/src/androidTest/java',
+                '../library-controller-refresh/src/androidTest/java',
+                '../library-core/src/androidTest/java',
+                '../library-graphics-core/src/androidTest/java',
+                '../library-graphics-progress/src/androidTest/java',
+                '../library-graphics-refresh/src/androidTest/java',
+                '../library-interpolator/src/androidTest/java',
+                '../library-util/src/androidTest/java',
+                '../library-widget-button/src/androidTest/java',
+                '../library-widget-collection-core/src/androidTest/java',
+                '../library-widget-collection-grid/src/androidTest/java',
+                '../library-widget-collection-list/src/androidTest/java',
+                '../library-widget-collection-pager/src/androidTest/java',
+                '../library-widget-collection-recycler/src/androidTest/java',
+                '../library-widget-core/src/androidTest/java',
+                '../library-widget-base/src/androidTest/java',
+                '../library-widget-edit/src/androidTest/java',
+                '../library-widget-fab/src/androidTest/java',
+                '../library-widget-graphics/src/androidTest/java',
+                '../library-widget-image/src/androidTest/java',
+                '../library-widget-input-base/src/androidTest/java',
+                '../library-widget-input-edit/src/androidTest/java',
+                '../library-widget-input-menu/src/androidTest/java',
+                '../library-widget-layout-common/src/androidTest/java',
+                '../library-widget-layout-core/src/androidTest/java',
+                '../library-widget-layout-scroll/src/androidTest/java',
+                '../library-widget-menu/src/androidTest/java',
+                '../library-widget-picker-date/src/androidTest/java',
+                '../library-widget-picker-number/src/androidTest/java',
+                '../library-widget-progress/src/androidTest/java',
+                '../library-widget-refresh/src/androidTest/java',
+                '../library-widget-search/src/androidTest/java',
+                '../library-widget-selection/src/androidTest/java',
+                '../library-widget-slider/src/androidTest/java',
+                '../library-widget-text/src/androidTest/java',
+                '../library-widget-web/src/androidTest/java'
+
+        ]
     }
 
     compileOptions {

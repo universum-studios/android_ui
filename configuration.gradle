@@ -21,7 +21,7 @@ def mavenConfig = [
         version                  : libraryConfig.version,
         packaging                : 'pom',
         projectName              : 'Android UI',
-        projectDescription       : 'Extended Ui components for the Android platform.',
+        projectDescription       : 'Extended UI components for the Android platform.',
         projectUrl               : 'https://github.com/universum-studios/android_ui',
         projectInceptionYear     : '2017',
         projectIssueManagementUrl: 'https://github.com/universum-studios/android_ui/issues'
@@ -42,11 +42,16 @@ def codacyConfig = [
         projectName: 'android_ui'
 ]
 
+def ciConfig = [
+        travis: Boolean.parseBoolean(System.getenv('TRAVIS'))
+]
+
 ext.config = [
         "build"  : buildConfig,
         "test"   : testConfig,
         "library": libraryConfig,
         "maven"  : mavenConfig,
         "bintray": bintrayConfig,
-        "codacy" : codacyConfig
+        "codacy" : codacyConfig,
+        "ci"     : ciConfig
 ]
