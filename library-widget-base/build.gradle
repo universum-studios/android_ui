@@ -68,7 +68,6 @@ dependencies {
     compile deps.androidSupport.appCompatV7
     compile deps.androidSupport.vectorDrawable
     compile deps.universumStudios.fontCore
-    compile deps.universumStudios.fontUtil
     compile deps.universumStudios.graphicsColorUtil
     // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"

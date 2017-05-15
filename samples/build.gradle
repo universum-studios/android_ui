@@ -75,6 +75,9 @@ repositories {
 }
 
 dependencies {
+    /*
+    * RELEASE DEPENDENCIES -------------------------------------------------------------------------
+    */
     compile project(':library')
     compile deps.androidSupport.design
     compile deps.androidSupport.vectorDrawable
@@ -84,4 +87,10 @@ dependencies {
     compile deps.universumStudios.supportSamples
     compile deps.universumStudios.supportFragments
     compile deps.universumStudios.widgetAdapters
+    releaseCompile deps.analytics.leakcanaryAndroidNoOp
+
+    /*
+    * DEVELOPMENT DEPENDENCIES ---------------------------------------------------------------------
+    */
+    debugCompile deps.analytics.leakcanaryAndroid
 }

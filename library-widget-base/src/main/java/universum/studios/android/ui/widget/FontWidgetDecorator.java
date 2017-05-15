@@ -29,8 +29,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import universum.studios.android.font.Font;
+import universum.studios.android.font.FontApplier;
 import universum.studios.android.font.FontWidget;
-import universum.studios.android.font.util.FontApplier;
 
 /**
  * A {@link WidgetDecorator} implementation that is used to decorate widgets of which text appearance
@@ -92,11 +92,11 @@ abstract class FontWidgetDecorator<W extends View & FontWidget> extends WidgetDe
 			final TypedArray appearanceAttributes = theme.obtainStyledAttributes(attrs, new int[]{android.R.attr.textAppearance}, defStyleAttr, defStyleRes);
 			final int appearance = appearanceAttributes.getResourceId(0, -1);
 			if (appearance != -1) {
-				FontApplier.applyFont(mWidget, appearance);
+				FontApplier.DEFAULT.applyFont(mWidget, appearance);
 			}
 			appearanceAttributes.recycle();
 			// Try to apply font presented within xml attributes.
-			FontApplier.applyFont(mWidget, attrs, defStyleAttr, defStyleRes);
+			FontApplier.DEFAULT.applyFont(mWidget, attrs, defStyleAttr, defStyleRes);
 		}
 	}
 
@@ -112,14 +112,14 @@ abstract class FontWidgetDecorator<W extends View & FontWidget> extends WidgetDe
 	 */
 	@Override
 	public void setFont(@NonNull String fontPath) {
-		FontApplier.applyFont(mWidget, fontPath);
+		FontApplier.DEFAULT.applyFont(mWidget, fontPath);
 	}
 
 	/**
 	 */
 	@Override
 	public void setFont(@Nullable Font font) {
-		FontApplier.applyFont(mWidget, font);
+		FontApplier.DEFAULT.applyFont(mWidget, font);
 	}
 
 	/**
@@ -144,7 +144,7 @@ abstract class FontWidgetDecorator<W extends View & FontWidget> extends WidgetDe
 	 *              font widget as typeface.
 	 */
 	void setFontFromStyle(@StyleRes int resId) {
-		FontApplier.applyFont(mWidget, resId);
+		FontApplier.DEFAULT.applyFont(mWidget, resId);
 	}
 
 	/**

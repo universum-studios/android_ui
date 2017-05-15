@@ -50,7 +50,7 @@ import java.text.NumberFormat;
 
 import universum.studios.android.font.Font;
 import universum.studios.android.font.FontWidget;
-import universum.studios.android.font.util.FontApplier;
+import universum.studios.android.font.FontApplier;
 import universum.studios.android.ui.R;
 import universum.studios.android.ui.UiConfig;
 import universum.studios.android.ui.graphics.drawable.TintDrawable;
@@ -349,11 +349,11 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 			final TypedArray appearanceAttributes = theme.obtainStyledAttributes(attrs, new int[]{android.R.attr.textAppearance}, defStyleAttr, defStyleRes);
 			final int appearance = appearanceAttributes.getResourceId(0, -1);
 			if (appearance != -1) {
-				FontApplier.applyFont(this, appearance);
+				FontApplier.DEFAULT.applyFont(this, appearance);
 			}
 			appearanceAttributes.recycle();
 			// Try to apply font presented within xml attributes.
-			FontApplier.applyFont(this, attrs, defStyleAttr, defStyleRes);
+			FontApplier.DEFAULT.applyFont(this, attrs, defStyleAttr, defStyleRes);
 		}
 
 		final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Ui_NumberPicker_Circular, defStyleAttr, defStyleRes);
@@ -715,14 +715,14 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	 */
 	@Override
 	public void setFont(@NonNull String fontPath) {
-		FontApplier.applyFont(this, fontPath);
+		FontApplier.DEFAULT.applyFont(this, fontPath);
 	}
 
 	/**
 	 */
 	@Override
 	public void setFont(@Nullable Font font) {
-		FontApplier.applyFont(this, font);
+		FontApplier.DEFAULT.applyFont(this, font);
 	}
 
 	/**

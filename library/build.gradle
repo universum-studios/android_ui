@@ -201,7 +201,6 @@ dependencies {
     compile deps.androidSupport.vectorDrawable
     compile deps.androidSupport.recyclerView
     compile deps.universumStudios.fontCore
-    compile deps.universumStudios.fontUtil
     compile deps.universumStudios.graphicsColorUtil
 
     /*

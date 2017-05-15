@@ -81,8 +81,6 @@ dependencies {
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
     compile deps.androidSupport.annotations
-    compile deps.universumStudios.fontCore
-    compile deps.universumStudios.fontUtil
     // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-base:${config.library.version}@aar"

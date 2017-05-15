@@ -928,8 +928,6 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 		drawable.setMax(mMax);
 		drawable.setMode(mMode);
 		drawable.setProgress(mProgress);
-		drawable.setAnimationCallback(this);
-		drawable.setExplodeAnimationCallback(this);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 			drawable.setLayoutDirection(getLayoutDirection());
 		}
@@ -1062,6 +1060,8 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		this.updatePrivateFlags(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW, true);
+		mDrawable.setAnimationCallback(this);
+		mDrawable.setExplodeAnimationCallback(this);
 		if (getVisibility() == VISIBLE) {
 			switch (mMode) {
 				case INDETERMINATE:
@@ -1076,6 +1076,8 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	@Override
 	protected void onDetachedFromWindow() {
 		stopIndeterminate();
+		mDrawable.setAnimationCallback(null);
+		mDrawable.setExplodeAnimationCallback(null);
 		this.updatePrivateFlags(PrivateFlags.PFLAG_ATTACHED_TO_WINDOW, false);
 		super.onDetachedFromWindow();
 	}

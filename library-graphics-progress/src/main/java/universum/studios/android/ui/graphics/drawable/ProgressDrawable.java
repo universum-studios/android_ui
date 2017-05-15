@@ -37,6 +37,7 @@ import android.os.SystemClock;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -156,7 +157,7 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
 	/**
 	 * Log TAG.
 	 */
-	// private static final String TAG = "BaseProgressDrawable";
+	private static final String TAG = "BaseProgressDrawable";
 
 	/**
 	 * Base flag for DETERMINATE mode.

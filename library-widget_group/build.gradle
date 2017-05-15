@@ -133,7 +133,6 @@ dependencies {
     compile deps.androidSupport.vectorDrawable
     compile deps.androidSupport.recyclerView
     compile deps.universumStudios.fontCore
-    compile deps.universumStudios.fontUtil
     // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-base:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-refresh:${config.library.version}@aar"
