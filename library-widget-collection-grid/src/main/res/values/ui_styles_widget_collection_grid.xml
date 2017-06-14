@@ -25,7 +25,6 @@
 
 	<!-- Style for GridView widget. -->
 	<style name="Ui.Widget.GridView" parent="Ui.Base.Widget.GridView">
-		<item name="android:numColumns">auto_fit</item>
 		<item name="android:listSelector">?attr/uiCollectionItemBackground</item>
 		<item name="uiRefreshDistance">144dp</item>
 		<item name="uiRefreshPosition">0.5</item>

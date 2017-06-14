@@ -1,6 +1,12 @@
 Change-Log
 ===============
 
+### [Release 0.9.3](https://github.com/universum-studios/android_ui/releases/tag/0.9.3) ###
+> 13.06.2017
+
+- Removed `<item name="android:numColumns">auto_fit</item>` from styles for **grid collections** as
+  it was causing new **AAPT 2** tool to fail when building project.
+
 ### [Release 0.9.2](https://github.com/universum-studios/android_ui/releases/tag/0.9.2) ###
 > 15.05.2017
 
