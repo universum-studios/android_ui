@@ -3,7 +3,7 @@ def buildConfig = [
         compileSdkVersion: 25,
         minSdkVersion    : 9,
         targetSdkVersion : 25,
-        buildToolsVersion: '25.0.2'
+        buildToolsVersion: '26.0.0'
 ]
 
 def testConfig = [
@@ -11,7 +11,7 @@ def testConfig = [
 ]
 
 def libraryConfig = [
-        version: '0.9.3'
+        version: '0.9.4'
 ]
 
 def mavenConfig = [

@@ -1040,8 +1040,10 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		int childTop = getPaddingTop();
 		// Layout label text view from the top|left.
+		// fixme: we should also provide getPaddingRight() value to this method
 		childTop = this.layoutChildWithMargins(mLabelView, getPaddingLeft(), childTop);
 		// Layout input view from the next-top|left.
+		// fixme: we should also provide getPaddingRight() value to this method
 		childTop = this.layoutChildWithMargins(mInputView, getPaddingLeft(), childTop);
 		// Layout note/error text view from the next-top|left.
 		this.layoutChildWithMargins(mNoteView, getPaddingLeft(), childTop);
