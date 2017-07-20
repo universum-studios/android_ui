@@ -1,6 +1,11 @@
 Change-Log
 ===============
 
+### [Release 0.9.4](https://github.com/universum-studios/android_ui/releases/tag/0.9.4) ###
+> 20.07.2017
+
+- Fixed [Issue #9](https://github.com/universum-studios/android_ui/issues/9).
+
 ### [Release 0.9.3](https://github.com/universum-studios/android_ui/releases/tag/0.9.3) ###
 > 14.06.2017
 
