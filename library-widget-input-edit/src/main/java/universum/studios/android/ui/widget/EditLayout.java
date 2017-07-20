@@ -447,14 +447,14 @@ public class EditLayout extends InputLayout {
 		}
 		if (mEditConfig.text != null) {
 			mEditText.setText(mEditConfig.text);
-			super.setLabel(mEditConfig.text);
+			super.setLabel(mEditConfig.hint);
 		}
 		if (mEditConfig.hint != null) {
 			mEditText.setHint(mEditConfig.hint);
 		}
 		if (mEditConfig.inputType != 0) {
 			// We try to preserve here the type face that is set to the edit text because calling
-			// EditText.setInputType(int) method changes it to MONOSPACE.
+			// EditText.setInputType(int) method resets it back to MONOSPACE.
 			final Typeface typeface = mEditText.getTypeface();
 			mEditText.setInputType(mEditConfig.inputType);
 			mEditText.setTypeface(typeface);
