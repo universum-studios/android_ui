@@ -1,9 +1,9 @@
 // Defines configuration used across the library project.
 def buildConfig = [
-        compileSdkVersion: 25,
-        minSdkVersion    : 9,
-        targetSdkVersion : 25,
-        buildToolsVersion: '26.0.0'
+        compileSdkVersion: 26,
+        minSdkVersion    : 14,
+        targetSdkVersion : 26,
+        buildToolsVersion: '25.0.3'
 ]
 
 def testConfig = [
@@ -11,7 +11,13 @@ def testConfig = [
 ]
 
 def libraryConfig = [
-        version: '0.9.4'
+        version: '0.9.5'
+]
+
+def githubConfig = [
+        owner      : 'universum-studios',
+        repository : 'android_ui',
+        accessToken: System.getenv('GITHUB_API_TOKEN')
 ]
 
 def mavenConfig = [
@@ -22,14 +28,14 @@ def mavenConfig = [
         packaging                : 'pom',
         projectName              : 'Android UI',
         projectDescription       : 'Extended UI components for the Android platform.',
-        projectUrl               : 'https://github.com/universum-studios/android_ui',
+        projectUrl               : "https://github.com/${githubConfig.owner}/${githubConfig.repository}",
         projectInceptionYear     : '2017',
-        projectIssueManagementUrl: 'https://github.com/universum-studios/android_ui/issues'
+        projectIssueManagementUrl: "https://github.com/${githubConfig.owner}/${githubConfig.repository}/issues"
 ]
 
 def bintrayConfig = [
         publish                  : false,
-        packageName              : mavenConfig.groupId + ':' + mavenConfig.artifactId,
+        packageName              : "${mavenConfig.groupId}:${mavenConfig.artifactId}",
         packageLabels            : ['android', 'ui', 'widget', 'layout'],
         packageVersionName       : mavenConfig.version,
         packageVersionDescription: 'Pre-release patch.',
@@ -37,9 +43,8 @@ def bintrayConfig = [
 ]
 
 def codacyConfig = [
-        // This path must be relative to the codacy.gradle file placed in the /library directory.
-        tokensPath : '../../codacy.tokens',
-        projectName: 'android_ui'
+        tokensPath : System.getenv('CODACY_PROJECT_TOKENS'),
+        projectName: "${githubConfig.repository}"
 ]
 
 def ciConfig = [
@@ -50,6 +55,7 @@ ext.config = [
         "build"  : buildConfig,
         "test"   : testConfig,
         "library": libraryConfig,
+        "github" : githubConfig,
         "maven"  : mavenConfig,
         "bintray": bintrayConfig,
         "codacy" : codacyConfig,

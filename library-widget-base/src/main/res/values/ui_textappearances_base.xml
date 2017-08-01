@@ -43,13 +43,13 @@
 	<!-- ### PARENT TEXT APPEARANCES =========================================================== -->
 
 	<!-- Platform based parent style for TextAppearance styles. -->
-	<style name="Ui.Platform.TextAppearance" parent="android:TextAppearance.Widget"/>
+	<style name="Ui.Platform.TextAppearance" parent="android:TextAppearance.Holo.Widget"/>
 
 	<!-- Base parent style for TextAppearance styles. -->
 	<style name="Ui.Base.TextAppearance" parent="Ui.Platform.TextAppearance"/>
 
 	<!-- Platform based parent style for widget's TextAppearance styles. -->
-	<style name="Ui.Platform.TextAppearance.Widget" parent="android:TextAppearance.Widget.TextView"/>
+	<style name="Ui.Platform.TextAppearance.Widget" parent="android:TextAppearance.Holo.Widget.TextView"/>
 
 	<!-- Base parent style for widget's TextAppearance styles. -->
 	<style name="Ui.Base.TextAppearance.Widget" parent="Ui.Platform.TextAppearance.Widget"/>

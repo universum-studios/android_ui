@@ -31,6 +31,7 @@ import universum.studios.android.samples.ui.ui.fragment.components.ComponentsNav
 import universum.studios.android.samples.ui.ui.fragment.patterns.PatternsNavigationFragment;
 import universum.studios.android.samples.ui.ui.fragment.style.StyleNavigationFragment;
 import universum.studios.android.support.fragment.BackPressWatcher;
+import universum.studios.android.support.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.support.fragment.manage.FragmentController;
 import universum.studios.android.support.fragment.manage.FragmentRequest;
 import universum.studios.android.support.fragment.manage.FragmentRequestInterceptor;
@@ -45,6 +46,10 @@ public final class MainActivity extends SamplesNavigationActivity implements Fra
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "MainActivity";
+
+	static {
+		FragmentAnnotations.setEnabled(true);
+	}
 
 	private FragmentController mFragmentController;
 

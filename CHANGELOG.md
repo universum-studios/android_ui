@@ -1,6 +1,11 @@
 Change-Log
 ===============
 
+### [Release 0.9.5](https://github.com/universum-studios/android_ui/releases/tag/0.9.5) ###
+> 01.08.2017
+
+- **Dropped support** for _Android_ versions **below** _API Level 14_.
+
 ### [Release 0.9.4](https://github.com/universum-studios/android_ui/releases/tag/0.9.4) ###
 > 20.07.2017
 

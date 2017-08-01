@@ -24,7 +24,7 @@
 	<!-- ### BUTTON ============================================================================ -->
 
 	<!-- Platform based parent style for Button widget. -->
-	<style name="Ui.Platform.Widget.Button" parent="android:Widget.Button"/>
+	<style name="Ui.Platform.Widget.Button" parent="android:Widget.Holo.Button"/>
 
 	<!-- Base style for Button widget. -->
 	<style name="Ui.Base.Widget.Button" parent="Ui.Platform.Widget.Button">

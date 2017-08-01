@@ -46,15 +46,15 @@ android {
 
     sourceSets {
         release.java.srcDirs = [
-                '../library-controller-base/src/main/java',
-                '../library-controller-pull/src/main/java',
-                '../library-controller-refresh/src/main/java'
+                "${rootProject.rootDir}/library-controller-base/src/main/java",
+                "${rootProject.rootDir}/library-controller-pull/src/main/java",
+                "${rootProject.rootDir}/library-controller-refresh/src/main/java"
         ]
         debug.java.srcDirs = release.java.srcDirs
         release.res.srcDirs = [
-                '../library-controller-base/src/main/res',
-                '../library-controller-pull/src/main/res',
-                '../library-controller-refresh/src/main/res'
+                "${rootProject.rootDir}/library-controller-base/src/main/res",
+                "${rootProject.rootDir}/library-controller-pull/src/main/res",
+                "${rootProject.rootDir}/library-controller-refresh/src/main/res"
         ]
         debug.res.srcDirs = release.res.srcDirs
     }
@@ -95,5 +95,4 @@ dependencies {
     debugCompile project(':library-widget-core')
 }
 
-// Apply DEPLOY script.
-apply from: '../deploy/deploy.gradle'
+ apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

@@ -22,20 +22,19 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import universum.studios.android.samples.ui.R;
-import universum.studios.android.widget.adapter.SimpleAdapter;
-import universum.studios.android.widget.adapter.ViewHolder;
+import universum.studios.android.widget.adapter.SimpleListAdapter;
+import universum.studios.android.widget.adapter.holder.ViewHolder;
 
 /**
  * @author Martin Albedinsky
  */
-public final class AppsGridAdapter extends SimpleAdapter<ApplicationInfo, AppsGridAdapter.Holder> {
+public final class AppsGridAdapter extends SimpleListAdapter<AppsGridAdapter, AppsGridAdapter.ItemHolder, ApplicationInfo> {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "AppsGridAdapter";
@@ -59,32 +58,26 @@ public final class AppsGridAdapter extends SimpleAdapter<ApplicationInfo, AppsGr
 
 	@NonNull
 	@Override
-	protected View onCreateView(@NonNull ViewGroup parent, int position) {
-		return inflate(R.layout.item_grid_app, parent);
-	}
-
-	@Nullable
-	@Override
-	protected Holder onCreateViewHolder(@NonNull View itemView, int position) {
-		return new Holder(itemView);
+	protected ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+		return new ItemHolder(inflateView(R.layout.item_grid_app, parent));
 	}
 
 	@Override
-	protected void onBindViewHolder(@NonNull Holder viewHolder, int position) {
+	protected void onBindViewHolder(@NonNull ItemHolder holder, int position) {
 		final ApplicationInfo info = getItem(position);
-		viewHolder.icon.setImageDrawable(info.loadIcon(mPackageManager));
-		viewHolder.name.setText(info.loadLabel(mPackageManager));
+		holder.icon.setImageDrawable(info.loadIcon(mPackageManager));
+		holder.name.setText(info.loadLabel(mPackageManager));
 	}
 
-	static final class Holder extends ViewHolder {
+	static final class ItemHolder extends ViewHolder {
 
 		ImageView icon;
 		TextView name;
 
-		Holder(@NonNull View view) {
+		ItemHolder(@NonNull View view) {
 			super(view);
-			this.icon = (ImageView) view.findViewById(R.id.item_grid_app_image_view_icon);
-			this.name = (TextView) view.findViewById(R.id.item_grid_app_text_view_name);
+			this.icon = view.findViewById(R.id.item_grid_app_image_view_icon);
+			this.name = view.findViewById(R.id.item_grid_app_text_view_name);
 		}
 	}
 }

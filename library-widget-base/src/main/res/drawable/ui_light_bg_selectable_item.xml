@@ -19,7 +19,9 @@
  * =================================================================================================
  */
 -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+          android:enterFadeDuration="@android:integer/config_shortAnimTime"
+          android:exitFadeDuration="@android:integer/config_mediumAnimTime">
 
     <item android:drawable="@drawable/ui_light_bg_selectable_item_selected" android:state_selected="true"/>
     <item android:drawable="@drawable/ui_light_bg_selectable_item_pressed" android:state_focused="true"/>

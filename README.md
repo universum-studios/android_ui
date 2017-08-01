@@ -23,7 +23,7 @@ This library may be also used via **separate modules**. For more information ple
 
 ## Compatibility ##
 
-Supported down to the **Android [API Level 9](http://developer.android.com/about/versions/android-2.3.html "See API highlights")**.
+Supported down to the **Android [API Level 14](http://developer.android.com/about/versions/android-4.0.html "See API highlights")**.
 
 ### Dependencies ###
 

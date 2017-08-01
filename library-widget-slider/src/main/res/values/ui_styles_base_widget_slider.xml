@@ -24,7 +24,7 @@
 	<!-- ### SLIDER ============================================================================ -->
 
 	<!-- Platform based parent style for SeekBar widget. -->
-	<style name="Ui.Platform.Widget.SeekBar" parent="android:Widget.SeekBar"/>
+	<style name="Ui.Platform.Widget.SeekBar" parent="android:Widget.Holo.SeekBar"/>
 
 	<!-- Base style for SeekBar widget. -->
 	<style name="Ui.Base.Widget.SeekBar" parent="Ui.Platform.Widget.SeekBar">
