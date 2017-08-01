@@ -10,7 +10,7 @@ For more information please visit the **[Wiki](https://github.com/universum-stud
 
 ## Under Development ##
 
-**Note, that this project is under outgoing development and its implementation may change
+**Note that this project is under outgoing development and its implementation may change
 over time and thus it is NOT RECOMMENDED to USE IT IN a PRODUCTION environment.**
 
 ## Download ##
