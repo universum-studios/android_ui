@@ -43,7 +43,7 @@
 	<!-- ### TEXT FIELD ======================================================================== -->
 
 	<!-- Platform based parent TextAppearance style for TextView widget. -->
-	<style name="Ui.Platform.TextAppearance.Widget.TextView" parent="android:TextAppearance.Widget.TextView"/>
+	<style name="Ui.Platform.TextAppearance.Widget.TextView" parent="android:TextAppearance.Holo.Widget.TextView"/>
 
 	<!-- Base TextAppearance style for TextView widget. -->
 	<style name="Ui.Base.TextAppearance.Widget.TextView" parent="Ui.Platform.TextAppearance.Widget.TextView"/>

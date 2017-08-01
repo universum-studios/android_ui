@@ -24,7 +24,7 @@
 	<!-- ### COLLECTION ======================================================================== -->
 
 	<!-- Platform based parent style for GridView widget. -->
-	<style name="Ui.Platform.Widget.GridView" parent="android:Widget.GridView"/>
+	<style name="Ui.Platform.Widget.GridView" parent="android:Widget.Holo.GridView"/>
 
 	<!-- Base style for GridView widget. -->
 	<style name="Ui.Base.Widget.GridView" parent="Ui.Platform.Widget.GridView"/>

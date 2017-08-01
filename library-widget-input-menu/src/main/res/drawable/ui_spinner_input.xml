@@ -20,14 +20,25 @@
  */
 -->
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-       android:insetLeft="@dimen/ui_widget_inset"
-       android:insetTop="@dimen/ui_widget_inset"
-       android:insetRight="@dimen/ui_widget_inset"
-       android:insetBottom="@dimen/ui_widget_inset">
+	   android:insetLeft="@dimen/ui_widget_inset"
+	   android:insetTop="@dimen/ui_widget_inset"
+	   android:insetRight="@dimen/ui_widget_inset"
+	   android:insetBottom="@dimen/ui_widget_inset">
 
-    <selector>
-        <item android:drawable="@drawable/ui_spinner_input_activated" android:state_pressed="true"/>
-        <item android:drawable="@drawable/ui_spinner_input_activated" android:state_focused="true"/>
-		<item android:drawable="@drawable/ui_spinner_input_normal"/>
-    </selector>
+	<selector>
+		<item android:drawable="@drawable/ui_spinner_input_activated" android:state_activated="true"/>
+		<item android:drawable="@drawable/ui_spinner_input_activated" android:state_pressed="true"/>
+		<item android:drawable="@drawable/ui_spinner_input_activated" android:state_focused="true"/>
+
+		<item>
+			<layer-list>
+				<item android:id="@android:id/background">
+					<nine-patch android:src="@drawable/ui_textfield_normal_alpha"/>
+				</item>
+				<item>
+					<nine-patch android:src="@drawable/ui_spinner_alpha"/>
+				</item>
+			</layer-list>
+		</item>
+	</selector>
 </inset>

@@ -43,7 +43,7 @@
 	<!-- ### TEXT FIELD ======================================================================== -->
 
 	<!-- Platform based parent TextAppearance style for EditText widget. -->
-	<style name="Ui.Platform.TextAppearance.Widget.EditText" parent="android:TextAppearance.Widget.EditText"/>
+	<style name="Ui.Platform.TextAppearance.Widget.EditText" parent="android:TextAppearance.Holo.Widget.EditText"/>
 
 	<!-- Base text appearance for EditText widget. -->
 	<style name="Ui.Base.TextAppearance.Widget.EditText" parent="Ui.Platform.TextAppearance.Widget.EditText"/>

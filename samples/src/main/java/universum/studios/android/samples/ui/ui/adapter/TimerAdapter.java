@@ -20,18 +20,18 @@ package universum.studios.android.samples.ui.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import universum.studios.android.samples.ui.R;
 import universum.studios.android.samples.ui.data.model.TimerItem;
 import universum.studios.android.widget.adapter.SimpleSpinnerAdapter;
+import universum.studios.android.widget.adapter.holder.ViewHolder;
 
 /**
  * @author Martin Albedinsky
  */
-public final class TimerAdapter extends SimpleSpinnerAdapter<TimerItem, View, TextView> {
+public final class TimerAdapter extends SimpleSpinnerAdapter<TimerAdapter, ViewHolder, ViewHolder, TimerItem> {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "TimerAdapter";
@@ -51,23 +51,27 @@ public final class TimerAdapter extends SimpleSpinnerAdapter<TimerItem, View, Te
 
 	@NonNull
 	@Override
-	protected View onCreateView(@NonNull ViewGroup parent, int position) {
-		return inflate(R.layout.view_spinner_timer, parent);
+	protected ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+		return new ViewHolder(inflateView(R.layout.view_spinner_timer, parent));
 	}
 
 	@NonNull
 	@Override
-	protected View onCreateDropDownView(@NonNull ViewGroup parent, int position) {
-		return inflate(R.layout.item_spinner_timer, parent);
+	protected ViewHolder onCreateDropDownViewHolder(@NonNull ViewGroup parent, int viewType) {
+		return new ViewHolder(inflateView(R.layout.item_spinner_timer, parent));
 	}
 
 	@Override
-	protected void onBindViewHolder(@NonNull View viewHolder, int position) {
-		super.onBindViewHolder(viewHolder.findViewById(R.id.view_spinner_timer_text_view), position);
+	protected void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+		updateView((TextView) holder.itemView.findViewById(R.id.view_spinner_timer_text_view), position);
 	}
 
 	@Override
-	protected void onUpdateViewHolder(@NonNull TextView viewHolder, @NonNull TimerItem item, int position) {
-		viewHolder.setText(String.format(mFormatMinutes, getItem(position).value / ONE_MINUTE));
+	protected void onBindDropDownViewHolder(@NonNull ViewHolder viewHolder, int position) {
+		updateView((TextView) viewHolder.itemView, position);
+	}
+
+	private void updateView(@NonNull TextView view, int position) {
+		view.setText(String.format(mFormatMinutes, getItem(position).value / ONE_MINUTE));
 	}
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
-# Execute Bintray deploy task (see master branch)
-# ./gradlew :library:bintrayUpload
+if [[ ${TRAVIS_BRANCH} =~ .*master.* ]]; then
+  ./gradlew deployToBintray deployToGitHub
+fi

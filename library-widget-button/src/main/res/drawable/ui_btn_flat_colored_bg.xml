@@ -25,7 +25,10 @@
        android:insetRight="@dimen/ui_button_inset_horizontal"
        android:insetBottom="@dimen/ui_button_inset_vertical">
 
-    <selector>
+    <selector
+            android:enterFadeDuration="@android:integer/config_shortAnimTime"
+            android:exitFadeDuration="@android:integer/config_mediumAnimTime">
+
         <item android:drawable="@drawable/ui_btn_colored_bg_normal" android:state_enabled="true" android:state_pressed="true"/>
         <item android:drawable="@drawable/ui_btn_colored_bg_normal" android:state_enabled="true" android:state_focused="true"/>
         <item android:drawable="@drawable/ui_shape_transparent"/>

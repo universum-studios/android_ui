@@ -46,15 +46,15 @@ android {
 
     sourceSets {
         release.java.srcDirs = [
-                '../library-widget-input-base/src/main/java',
-                '../library-widget-input-edit/src/main/java',
-                '../library-widget-input-menu/src/main/java'
+                "${rootProject.rootDir}/library-widget-input-base/src/main/java",
+                "${rootProject.rootDir}/library-widget-input-edit/src/main/java",
+                "${rootProject.rootDir}/library-widget-input-menu/src/main/java"
         ]
         debug.java.srcDirs = release.java.srcDirs
         release.res.srcDirs = [
-                '../library-widget-input-base/src/main/res',
-                '../library-widget-input-edit/src/main/res',
-                '../library-widget-input-menu/src/main/res'
+                "${rootProject.rootDir}/library-widget-input-base/src/main/res",
+                "${rootProject.rootDir}/library-widget-input-edit/src/main/res",
+                "${rootProject.rootDir}/library-widget-input-menu/src/main/res"
         ]
         debug.res.srcDirs = release.res.srcDirs
     }
@@ -106,5 +106,4 @@ dependencies {
     debugCompile project(':library-widget-layout-common')
 }
 
-// Apply DEPLOY script.
-apply from: '../deploy/deploy.gradle'
+ apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

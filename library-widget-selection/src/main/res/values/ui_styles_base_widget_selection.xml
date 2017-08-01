@@ -30,7 +30,7 @@
 	<style name="Ui.Base.Widget.CompoundButton" parent="Ui.Platform.Widget.CompoundButton"/>
 
 	<!-- Platform based parent style for CheckBox widget. -->
-	<style name="Ui.Platform.Widget.CompoundButton.CheckBox" parent="android:Widget.CompoundButton.CheckBox"/>
+	<style name="Ui.Platform.Widget.CompoundButton.CheckBox" parent="android:Widget.Holo.CompoundButton.CheckBox"/>
 
 	<!-- Base style for CheckBox widget. -->
 	<style name="Ui.Base.Widget.CompoundButton.CheckBox" parent="Ui.Platform.Widget.CompoundButton.CheckBox">
@@ -38,7 +38,7 @@
 	</style>
 
 	<!-- Platform based parent style for RadioButton widget. -->
-	<style name="Ui.Platform.Widget.CompoundButton.RadioButton" parent="android:Widget.CompoundButton.RadioButton"/>
+	<style name="Ui.Platform.Widget.CompoundButton.RadioButton" parent="android:Widget.Holo.CompoundButton.RadioButton"/>
 
 	<!-- Base style for RadioButton widget. -->
 	<style name="Ui.Base.Widget.CompoundButton.RadioButton" parent="Ui.Platform.Widget.CompoundButton.RadioButton">

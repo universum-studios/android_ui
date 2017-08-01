@@ -46,9 +46,9 @@ android {
 
     sourceSets {
         release.java.srcDirs = [
-                '../library-graphics-core/src/main/java',
-                '../library-graphics-progress/src/main/java',
-                '../library-graphics-refresh/src/main/java'
+                "${rootProject.rootDir}/library-graphics-core/src/main/java",
+                "${rootProject.rootDir}/library-graphics-progress/src/main/java",
+                "${rootProject.rootDir}/library-graphics-refresh/src/main/java"
         ]
         debug.java.srcDirs = release.java.srcDirs
     }
@@ -78,5 +78,4 @@ dependencies {
     compile deps.androidSupport.annotations
 }
 
-// Apply DEPLOY script.
-apply from: '../deploy/deploy.gradle'
+ apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
