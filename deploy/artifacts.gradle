@@ -51,7 +51,6 @@ task generateJavadoc(type: Javadoc) {
             "${android.sdkDirectory}\\extras\\android\\m2repository\\com\\android\\support\\support-vector-drawable\\${versions.androidSupport}\\support-vector-drawable-${versions.androidSupport}-sources.jar",
             "${android.sdkDirectory}\\extras\\android\\m2repository\\com\\android\\support\\recyclerview-v7\\${versions.androidSupport}\\recyclerview-v7-${versions.androidSupport}-sources.jar",
             "${config.maven.localUrl}\\universum\\studios\\android\\font-core\\${versions.universumStudiosFont}\\font-core-${versions.universumStudiosFont}-sources.jar",
-            "${config.maven.localUrl}\\universum\\studios\\android\\font-util\\${versions.universumStudiosFont}\\font-util-${versions.universumStudiosFont}-sources.jar",
             "${config.maven.localUrl}\\universum\\studios\\android\\graphics-color-util\\${versions.universumStudiosGraphics}\\graphics-color-util-${versions.universumStudiosGraphics}-sources.jar"
     )
     failOnError false

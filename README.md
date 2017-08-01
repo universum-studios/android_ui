@@ -8,6 +8,11 @@ Extended UI components for the Android platform.
 
 For more information please visit the **[Wiki](https://github.com/universum-studios/android_ui/wiki)**.
 
+## Under Development ##
+
+**Note, that this project is under outgoing development and its implementation may change
+over time and thus it is NOT RECOMMENDED to USE IT IN a PRODUCTION environment.**
+
 ## Download ##
 [![Download](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Aui/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Aui/_latestVersion)
 
@@ -28,7 +33,12 @@ Supported down to the **Android [API Level 14](http://developer.android.com/abou
 ### Dependencies ###
 
 - [`com.android.support:support-annotations`](https://developer.android.com/topic/libraries/support-library/packages.html#annotations)
-- TODO
+- [`com.android.support:support-v4`](https://developer.android.com/topic/libraries/support-library/packages.html#v4)
+- [`com.android.support:appcompat-v7`](https://developer.android.com/topic/libraries/support-library/packages.html#v7)
+- [`com.android.support:support-vector-drawable`](https://developer.android.com/topic/libraries/support-library/packages.html#vector-drawable)
+- [`com.android.support:recyclerview-v7`](https://developer.android.com/topic/libraries/support-library/packages.html#v7)
+- [`universum.studios.android:font-core`](https://github.com/universum-studios/android_font/blob/master/MODULES.md)
+- [`universum.studios.android:graphics-color-util`](https://github.com/universum-studios/android_graphics/blob/master/MODULES.md)
 
 ## License ##
 
