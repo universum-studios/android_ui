@@ -23,9 +23,9 @@
 
 	<!-- ### APPLICATION ======================================================================= -->
 
-	<string name="app_name">Ui</string>
+	<string name="app_name">UI</string>
 	<string name="app_intro">
-		Welcome to the Ui sample App.
+		Welcome to the UI sample App.
 	</string>
 
 	<!-- ## APPLICATION:Menu actions -->

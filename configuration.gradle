@@ -11,7 +11,7 @@ def testConfig = [
 ]
 
 def libraryConfig = [
-        version: '0.9.4'
+        version: '0.9.5'
 ]
 
 def githubConfig = [
@@ -24,7 +24,7 @@ def mavenConfig = [
         localUrl                 : System.getenv('MAVEN_URL_LOCAL'),
         groupId                  : 'universum.studios.android',
         artifactId               : 'ui',
-        version                  : /*libraryConfig.version*/'0.9.5',
+        version                  : libraryConfig.version,
         packaging                : 'pom',
         projectName              : 'Android UI',
         projectDescription       : 'Extended UI components for the Android platform.',
