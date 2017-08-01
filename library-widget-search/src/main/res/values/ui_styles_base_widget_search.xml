@@ -31,11 +31,19 @@
 
 	<!-- Base style for AutoCompleteTextView widget of SearchView. -->
 	<style name="Ui.Base.Widget.AutoCompleteTextView.Search" parent="Ui.Widget.AutoCompleteTextView">
+		<item name="android:textCursorDrawable">@drawable/ui_search_text_cursor</item>
+		<item name="android:textSelectHandle">@drawable/ui_search_text_select_handle_middle_alpha</item>
+		<item name="android:textSelectHandleLeft">@drawable/ui_search_text_select_handle_left_alpha</item>
+		<item name="android:textSelectHandleRight">@drawable/ui_search_text_select_handle_right_alpha</item>
 		<item name="android:layout_marginLeft">?attr/uiSpacingPrimary</item>
 	</style>
 
 	<!-- Base light style for AutoCompleteTextView widget of SearchView. -->
 	<style name="Ui.Base.Widget.Light.AutoCompleteTextView.Search" parent="Ui.Widget.Light.AutoCompleteTextView">
+		<item name="android:textCursorDrawable">@drawable/ui_light_search_text_cursor</item>
+		<item name="android:textSelectHandle">@drawable/ui_search_text_select_handle_middle_alpha</item>
+		<item name="android:textSelectHandleLeft">@drawable/ui_search_text_select_handle_left_alpha</item>
+		<item name="android:textSelectHandleRight">@drawable/ui_search_text_select_handle_right_alpha</item>
 		<item name="android:layout_marginLeft">?attr/uiSpacingPrimary</item>
 	</style>
 </resources>

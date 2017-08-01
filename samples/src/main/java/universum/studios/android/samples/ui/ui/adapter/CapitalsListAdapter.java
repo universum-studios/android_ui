@@ -20,7 +20,6 @@ package universum.studios.android.samples.ui.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,13 +29,13 @@ import java.util.List;
 
 import universum.studios.android.samples.ui.R;
 import universum.studios.android.samples.ui.data.model.CapitalItem;
-import universum.studios.android.widget.adapter.SimpleAdapter;
-import universum.studios.android.widget.adapter.ViewHolder;
+import universum.studios.android.widget.adapter.SimpleListAdapter;
+import universum.studios.android.widget.adapter.holder.ViewHolder;
 
 /**
  * @author Martin Albedinsky
  */
-public final class CapitalsListAdapter extends SimpleAdapter<CapitalItem, CapitalsListAdapter.Holder> {
+public final class CapitalsListAdapter extends SimpleListAdapter<CapitalsListAdapter, CapitalsListAdapter.ItemHolder, CapitalItem> {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "CapitalsListAdapter";
@@ -56,30 +55,24 @@ public final class CapitalsListAdapter extends SimpleAdapter<CapitalItem, Capita
 		changeItems(capitals);
 	}
 
-	@Nullable
-	@Override
-	protected Holder onCreateViewHolder(@NonNull View itemView, int position) {
-		return new Holder(itemView);
-	}
-
 	@NonNull
 	@Override
-	protected View onCreateView(@NonNull ViewGroup parent, int position) {
-		return inflate(R.layout.item_list_capital, parent);
+	protected ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+		return new ItemHolder(inflateView(R.layout.item_list_capital, parent));
 	}
 
 	@Override
-	protected void onBindViewHolder(@NonNull Holder viewHolder, int position) {
+	protected void onBindViewHolder(@NonNull ItemHolder viewHolder, int position) {
 		final CapitalItem item = getItem(position);
 		viewHolder.name.setText(item.name);
 		viewHolder.population.setText(item.population >= 0 ? Integer.toString(item.population) : "Unknown");
 	}
 
-	static final class Holder extends ViewHolder {
+	static final class ItemHolder extends ViewHolder {
 
 		TextView name, population;
 
-		Holder(@NonNull View view) {
+		ItemHolder(@NonNull View view) {
 			super(view);
 			this.name = (TextView) view.findViewById(R.id.item_list_capital_text_view_name);
 			this.population = (TextView) view.findViewById(R.id.item_list_capital_text_view_population);

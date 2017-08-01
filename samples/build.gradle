@@ -34,12 +34,8 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     if (project.hasProperty('signing.properties') && new File((String) project.property('signing.properties')).exists()) {
-        def Properties properties = new Properties();
+        final Properties properties = new Properties()
         properties.load(new FileInputStream(file(project.property('signing.properties'))))
 
         signingConfigs {
@@ -64,6 +60,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 /**
@@ -83,10 +83,11 @@ dependencies {
     compile deps.androidSupport.vectorDrawable
     compile deps.androidSupport.recyclerView
     compile deps.other.butterknife
-    annotationProcessor deps.apt.butterknife
+    annotationProcessor deps.other.butterknifeProcessor
     compile deps.universumStudios.supportSamples
     compile deps.universumStudios.supportFragments
     compile deps.universumStudios.widgetAdapters
+    compile deps.universumStudios.logger
     releaseCompile deps.analytics.leakcanaryAndroidNoOp
 
     /*

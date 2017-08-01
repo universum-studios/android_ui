@@ -24,13 +24,13 @@
 	<!-- ### COLLECTION ======================================================================== -->
 
 	<!-- Platform based parent style for ListView widget. -->
-	<style name="Ui.Platform.Widget.ListView" parent="android:Widget.ListView"/>
+	<style name="Ui.Platform.Widget.ListView" parent="android:Widget.Holo.ListView"/>
 
 	<!-- Base style for ListView widget. -->
 	<style name="Ui.Base.Widget.ListView" parent="Ui.Platform.Widget.ListView"/>
 
 	<!-- Platform based parent style for drop-down ListView widget. -->
-	<style name="Ui.Platform.Widget.ListView.DropDown" parent="android:Widget.ListView.DropDown"/>
+	<style name="Ui.Platform.Widget.ListView.DropDown" parent="android:Widget.Holo.ListView.DropDown"/>
 
 	<!-- Base style for drop down ListView widget. -->
 	<style name="Ui.Base.Widget.ListView.DropDown" parent="Ui.Platform.Widget.ListView.DropDown"/>

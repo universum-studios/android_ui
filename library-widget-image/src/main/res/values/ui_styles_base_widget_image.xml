@@ -24,7 +24,7 @@
     <!-- ### IMAGE ============================================================================= -->
 
     <!-- Platform based parent style for ImageButton widget. -->
-    <style name="Ui.Platform.Widget.ImageButton" parent="android:Widget.ImageButton"/>
+    <style name="Ui.Platform.Widget.ImageButton" parent="android:Widget.Holo.ImageButton"/>
 
     <!-- Base style for ImageButton widget. -->
     <style name="Ui.Base.Widget.ImageButton" parent="Ui.Platform.Widget.ImageButton"/>

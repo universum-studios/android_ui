@@ -21,13 +21,12 @@ package universum.studios.android.samples.ui.ui.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 
 /**
  * @author Martin Albedinsky
  */
-public final class CapitalsRecyclerAdapter extends RecyclerView.Adapter<CapitalsRecyclerAdapter.Holder> {
+public final class CapitalsRecyclerAdapter extends RecyclerView.Adapter<CapitalsRecyclerAdapter.ItemHolder> {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "CapitalsListAdapter";
@@ -44,22 +43,22 @@ public final class CapitalsRecyclerAdapter extends RecyclerView.Adapter<Capitals
 	}
 
 	@Override
-	public Holder onCreateViewHolder(ViewGroup viewGroup, int i) {
-		return new Holder(mListAdapter.onCreateView(viewGroup, i));
+	public ItemHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+		return new ItemHolder(mListAdapter.onCreateViewHolder(viewGroup, position));
 	}
 
 	@Override
-	public void onBindViewHolder(Holder holder, int i) {
-		mListAdapter.onBindViewHolder(holder.holder, i);
+	public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
+		mListAdapter.onBindViewHolder(holder.holder, position);
 	}
 
-	static final class Holder extends RecyclerView.ViewHolder {
+	static final class ItemHolder extends RecyclerView.ViewHolder {
 
-		final CapitalsListAdapter.Holder holder;
+		final CapitalsListAdapter.ItemHolder holder;
 
-		Holder(@NonNull View view) {
-			super(view);
-			this.holder = new CapitalsListAdapter.Holder(view);
+		ItemHolder(@NonNull CapitalsListAdapter.ItemHolder holder) {
+			super(holder.itemView);
+			this.holder = holder;
 		}
 	}
 

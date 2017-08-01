@@ -20,18 +20,18 @@ package universum.studios.android.samples.ui.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import universum.studios.android.samples.ui.R;
 import universum.studios.android.support.samples.model.SampleItem;
-import universum.studios.android.widget.adapter.SimpleAdapter;
+import universum.studios.android.widget.adapter.SimpleListAdapter;
+import universum.studios.android.widget.adapter.holder.ViewHolder;
 
 /**
  * @author Martin Albedinsky
  */
-public final class SamplesAdapter extends SimpleAdapter<SampleItem, TextView> {
+public final class SamplesAdapter extends SimpleListAdapter<SamplesAdapter, ViewHolder, SampleItem> {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "SamplesAdapter";
@@ -47,12 +47,12 @@ public final class SamplesAdapter extends SimpleAdapter<SampleItem, TextView> {
 
 	@NonNull
 	@Override
-	protected View onCreateView(@NonNull ViewGroup parent, int position) {
-		return inflate(R.layout.item_list_sample, parent);
+	protected ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+		return new ViewHolder(inflateView(R.layout.item_list_sample, parent));
 	}
 
 	@Override
-	protected void onBindViewHolder(@NonNull TextView view, int position) {
-		view.setText(getItem(position).getTitle());
+	protected void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+		((TextView) holder.itemView).setText(getItem(position).getTitle());
 	}
 }

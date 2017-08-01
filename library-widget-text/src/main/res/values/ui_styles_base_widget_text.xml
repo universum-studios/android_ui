@@ -24,7 +24,7 @@
 	<!-- ### TEXT FIELD ======================================================================== -->
 
 	<!-- Platform based parent style for TextView widget. -->
-	<style name="Ui.Platform.Widget.TextView" parent="android:Widget.TextView"/>
+	<style name="Ui.Platform.Widget.TextView" parent="android:Widget.Holo.TextView"/>
 
 	<!-- Base style for TextView widget. -->
 	<style name="Ui.Base.Widget.TextView" parent="Ui.Platform.Widget.TextView"/>

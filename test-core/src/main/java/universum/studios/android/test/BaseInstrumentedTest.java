@@ -1,6 +1,6 @@
 /*
  * =================================================================================================
- *                             Copyright (C) 2017 Martin Albedinsky
+ *                             Copyright (C) 2017 Universum Studios
  * =================================================================================================
  *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
  * -------------------------------------------------------------------------------------------------
@@ -18,8 +18,10 @@
  */
 package universum.studios.android.test;
 
+import android.app.Instrumentation;
 import android.content.Context;
 import android.support.annotation.CallSuper;
+import android.support.annotation.WorkerThread;
 import android.support.test.InstrumentationRegistry;
 
 import org.junit.After;
@@ -30,13 +32,13 @@ import org.junit.Before;
  *
  * @author Martin Albedinsky
  */
-public abstract class BaseTest {
+public abstract class BaseInstrumentedTest {
 
 	/**
 	 * Log TAG.
 	 */
 	@SuppressWarnings("unused")
-	private static final String TAG = "BaseTest";
+	private static final String TAG = "BaseInstrumentedTest";
 
 	/**
 	 * Target context obtained from the {@link InstrumentationRegistry}.
@@ -63,5 +65,13 @@ public abstract class BaseTest {
 	public void afterTest() throws Exception {
 		// Inheritance hierarchies may for example release here resources acquired in beforeTest() call.
 		this.mContext = null;
+	}
+
+	/**
+	 * Delegates to {@link Instrumentation#waitForIdleSync()}.
+	 */
+	@WorkerThread
+	protected static void waitForIdleSync() {
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 }

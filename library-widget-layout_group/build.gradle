@@ -46,13 +46,13 @@ android {
 
     sourceSets {
         release.java.srcDirs = [
-                '../library-widget-layout-common/src/main/java',
-                '../library-widget-layout-scroll/src/main/java'
+                "${rootProject.rootDir}/library-widget-layout-common/src/main/java",
+                "${rootProject.rootDir}/library-widget-layout-scroll/src/main/java"
         ]
         debug.java.srcDirs = release.java.srcDirs
         release.res.srcDirs = [
-                '../library-widget-layout-common/src/main/res',
-                '../library-widget-layout-scroll/src/main/res'
+                "${rootProject.rootDir}/library-widget-layout-common/src/main/res",
+                "${rootProject.rootDir}/library-widget-layout-scroll/src/main/res"
         ]
         debug.res.srcDirs = release.res.srcDirs
     }
@@ -92,5 +92,4 @@ dependencies {
     debugCompile project(':library-widget-base')
 }
 
-// Apply DEPLOY script.
-apply from: '../deploy/deploy.gradle'
+ apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
