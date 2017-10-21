@@ -1,7 +1,8 @@
 UI
 ===============
 
-[![Build Status](https://travis-ci.org/universum-studios/android_ui.svg?branch=master)](https://travis-ci.org/universum-studios/android_ui)
+[![CircleCI](https://circleci.com/gh/universum-studios/android_ui.svg?style=svg)](https://circleci.com/gh/universum-studios/android_ui)
+[![Codecov](https://codecov.io/gh/universum-studios/android_ui/branch/master/graph/badge.svg)](https://codecov.io/gh/universum-studios/android_ui)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d3dcc71d3dbb49af9aa9384a45127850)](https://www.codacy.com/app/universum-studios/android_ui?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=universum-studios/android_ui&amp;utm_campaign=Badge_Grade)
 
 Extended UI components for the Android platform.
