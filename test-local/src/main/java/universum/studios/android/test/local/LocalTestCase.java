@@ -16,36 +16,25 @@
  * See the License for the specific language governing permissions and limitations under the License.
  * =================================================================================================
  */
-package universum.studios.android.test;
+package universum.studios.android.test.local;
 
-import android.app.Instrumentation;
-import android.content.Context;
 import android.support.annotation.CallSuper;
-import android.support.annotation.WorkerThread;
-import android.support.test.InstrumentationRegistry;
 
 import org.junit.After;
 import org.junit.Before;
 
 /**
- * Class that may be used as base for <b>Android Instrumented Tests</b>.
+ * Class that may be used to group <b>suite of tests</b> to be executed on a local <i>JVM</i>.
  *
  * @author Martin Albedinsky
  */
-public abstract class BaseInstrumentedTest {
+public abstract class LocalTestCase {
 
 	/**
 	 * Log TAG.
 	 */
 	@SuppressWarnings("unused")
-	private static final String TAG = "BaseInstrumentedTest";
-
-	/**
-	 * Target context obtained from the {@link InstrumentationRegistry}.
-	 * <p>
-	 * It is always valid between calls to {@link #beforeTest()} and {@link #afterTest()}.
-	 */
-	protected Context mContext;
+	private static final String TAG = "LocalTestCase";
 
 	/**
 	 * Called before execution of each test method starts.
@@ -54,7 +43,6 @@ public abstract class BaseInstrumentedTest {
 	@CallSuper
 	public void beforeTest() throws Exception {
 		// Inheritance hierarchies may for example acquire here resources needed for each test.
-		this.mContext = InstrumentationRegistry.getTargetContext();
 	}
 
 	/**
@@ -64,14 +52,5 @@ public abstract class BaseInstrumentedTest {
 	@CallSuper
 	public void afterTest() throws Exception {
 		// Inheritance hierarchies may for example release here resources acquired in beforeTest() call.
-		this.mContext = null;
-	}
-
-	/**
-	 * Delegates to {@link Instrumentation#waitForIdleSync()}.
-	 */
-	@WorkerThread
-	protected static void waitForIdleSync() {
-		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 }

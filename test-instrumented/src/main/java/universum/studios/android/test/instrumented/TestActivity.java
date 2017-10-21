@@ -16,13 +16,13 @@
 * See the License for the specific language governing permissions and limitations under the License.
 * =================================================================================================
 */
-package universum.studios.android.test;
+package universum.studios.android.test.instrumented;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.test.rule.ActivityTestRule;
-import android.view.View;
+import android.widget.FrameLayout;
 
 /**
  * Simple activity that may be used in <b>Android Instrumented Tests</b> in order to set up
@@ -30,7 +30,7 @@ import android.view.View;
  *
  * @author Martin Albedinsky
  */
-public final class TestActivity extends Activity {
+public class TestActivity extends Activity {
 
 	/**
 	 * Log TAG.
@@ -39,10 +39,17 @@ public final class TestActivity extends Activity {
 	private static final String TAG = "TestActivity";
 
 	/**
+	 * Id of the TestActivity's content view.
+	 */
+	public static final int CONTENT_VIEW_ID = android.R.id.custom;
+
+	/**
 	 */
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(new View(this));
+		final FrameLayout contentView = new FrameLayout(this);
+		contentView.setId(CONTENT_VIEW_ID);
+		setContentView(contentView);
 	}
 }

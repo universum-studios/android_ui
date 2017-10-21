@@ -663,9 +663,11 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	public boolean onInterceptTouchEvent(MotionEvent event) {
 		this.ensureDecorator();
 		if (!mDecorator.hasPrivateFlag(PFLAG_PAGE_SWIPING_ENABLED)) {
+			// todo: send CANCEL event to the super
 			return false;
 		}
 		if (mDecorator.onInterceptTouchEvent(event)) {
+			// todo: send CANCEL event to the super
 			this.requestParentDisallowInterceptTouchEvent(true);
 			return true;
 		}

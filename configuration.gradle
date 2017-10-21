@@ -3,7 +3,7 @@ def buildConfig = [
         compileSdkVersion: 26,
         minSdkVersion    : 14,
         targetSdkVersion : 26,
-        buildToolsVersion: '25.0.3'
+        buildToolsVersion: '26.0.0'
 ]
 
 def testConfig = [
@@ -47,10 +47,6 @@ def codacyConfig = [
         projectName: "${githubConfig.repository}"
 ]
 
-def ciConfig = [
-        travis: Boolean.parseBoolean(System.getenv('TRAVIS'))
-]
-
 ext.config = [
         "build"  : buildConfig,
         "test"   : testConfig,
@@ -58,6 +54,5 @@ ext.config = [
         "github" : githubConfig,
         "maven"  : mavenConfig,
         "bintray": bintrayConfig,
-        "codacy" : codacyConfig,
-        "ci"     : ciConfig
+        "codacy" : codacyConfig
 ]
