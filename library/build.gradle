@@ -28,7 +28,7 @@ android {
     defaultConfig {
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
-        // todo: this line should be added into each of modules which contains vector drawables
+        // todo: this line should be added into each of modules that contain vector drawables
         vectorDrawables.useSupportLibrary = true
         consumerProguardFiles 'proguard-rules.pro'
         testInstrumentationRunner config.test.instrumentationRunner
@@ -38,10 +38,8 @@ android {
         release {
             minifyEnabled false
         }
-        if (!config.ci.travis) {
-            modules {
-                minifyEnabled false
-            }
+        modules {
+            minifyEnabled false
         }
         debug {
             minifyEnabled false
@@ -131,6 +129,47 @@ android {
                 "${rootProject.rootDir}/library-widget-web/src/main/res"
         ]
         debug.res.srcDirs = release.res.srcDirs
+        test.java.srcDirs = [
+                "${rootProject.rootDir}/library/src/test/java",
+                "${rootProject.rootDir}/library-controller-base/src/test/java",
+                "${rootProject.rootDir}/library-controller-pull/src/test/java",
+                "${rootProject.rootDir}/library-controller-refresh/src/test/java",
+                "${rootProject.rootDir}/library-core/src/test/java",
+                "${rootProject.rootDir}/library-graphics-core/src/test/java",
+                "${rootProject.rootDir}/library-graphics-progress/src/test/java",
+                "${rootProject.rootDir}/library-graphics-refresh/src/test/java",
+                "${rootProject.rootDir}/library-interpolator/src/test/java",
+                "${rootProject.rootDir}/library-util/src/test/java",
+                "${rootProject.rootDir}/library-widget-button/src/test/java",
+                "${rootProject.rootDir}/library-widget-collection-core/src/test/java",
+                "${rootProject.rootDir}/library-widget-collection-grid/src/test/java",
+                "${rootProject.rootDir}/library-widget-collection-list/src/test/java",
+                "${rootProject.rootDir}/library-widget-collection-pager/src/test/java",
+                "${rootProject.rootDir}/library-widget-collection-recycler/src/test/java",
+                "${rootProject.rootDir}/library-widget-core/src/test/java",
+                "${rootProject.rootDir}/library-widget-base/src/test/java",
+                "${rootProject.rootDir}/library-widget-edit/src/test/java",
+                "${rootProject.rootDir}/library-widget-fab/src/test/java",
+                "${rootProject.rootDir}/library-widget-graphics/src/test/java",
+                "${rootProject.rootDir}/library-widget-image/src/test/java",
+                "${rootProject.rootDir}/library-widget-input-base/src/test/java",
+                "${rootProject.rootDir}/library-widget-input-edit/src/test/java",
+                "${rootProject.rootDir}/library-widget-input-menu/src/test/java",
+                "${rootProject.rootDir}/library-widget-layout-common/src/test/java",
+                "${rootProject.rootDir}/library-widget-layout-core/src/test/java",
+                "${rootProject.rootDir}/library-widget-layout-scroll/src/test/java",
+                "${rootProject.rootDir}/library-widget-menu/src/test/java",
+                "${rootProject.rootDir}/library-widget-picker-date/src/test/java",
+                "${rootProject.rootDir}/library-widget-picker-number/src/test/java",
+                "${rootProject.rootDir}/library-widget-progress/src/test/java",
+                "${rootProject.rootDir}/library-widget-refresh/src/test/java",
+                "${rootProject.rootDir}/library-widget-search/src/test/java",
+                "${rootProject.rootDir}/library-widget-selection/src/test/java",
+                "${rootProject.rootDir}/library-widget-slider/src/test/java",
+                "${rootProject.rootDir}/library-widget-text/src/test/java",
+                "${rootProject.rootDir}/library-widget-web/src/test/java"
+
+        ]
         androidTest.java.srcDirs = [
                 "${rootProject.rootDir}/library/src/androidTest/java",
                 "${rootProject.rootDir}/library-controller-base/src/androidTest/java",
@@ -206,13 +245,15 @@ dependencies {
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
      */
-    androidTestCompile project(':test-core')
+    testCompile project(':test-local')
+    androidTestCompile project(':test-instrumented')
 }
 
 /**
  * Additional configuration ========================================================================
  */
 apply from: 'analysis/analysis.gradle'
+apply from: 'coverage/jacoco.gradle'
 apply from: 'coverage/codacy.gradle'
 apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
 apply from: 'github/github.gradle'

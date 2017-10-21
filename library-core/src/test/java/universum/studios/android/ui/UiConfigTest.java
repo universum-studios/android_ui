@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  * =================================================================================================
  */
-package universum.studios.android.ui; 
-import android.support.test.runner.AndroidJUnit4;
+package universum.studios.android.ui;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import universum.studios.android.test.local.LocalTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -28,13 +28,12 @@ import static org.hamcrest.Matchers.is;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class UiConfigTest   {
-    
+public final class UiConfigTest extends LocalTestCase {
+
 	@SuppressWarnings("unused")
 	private static final String TAG = "UiConfigTest";
 
-    @Test
+	@Test
 	public void testConfiguration() {
 		assertThat(UiConfig.DEBUG_LOG_ENABLED, is(false));
 	}

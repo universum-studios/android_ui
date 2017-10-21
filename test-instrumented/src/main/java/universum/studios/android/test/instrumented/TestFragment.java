@@ -16,33 +16,44 @@
 * See the License for the specific language governing permissions and limitations under the License.
 * =================================================================================================
 */
-package universum.studios.android.test;
+package universum.studios.android.test.instrumented;
 
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 /**
  * Simple fragment that may be used in <b>Android Instrumented Tests</b>.
  *
  * @author Martin Albedinsky
  */
-public final class TestFragment extends Fragment {
+@RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+public class TestFragment extends Fragment {
 
 	/**
 	 * Log TAG.
 	 */
 	@SuppressWarnings("unused")
-	private static final String TAG = "TestActivity";
+	private static final String TAG = "TestFragment";
+
+	/**
+	 * Id of the TestFragment's content view.
+	 */
+	public static final int CONTENT_VIEW_ID = android.R.id.custom;
 
 	/**
 	 */
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-		return new View(inflater.getContext());
+		final FrameLayout contentView = new FrameLayout(inflater.getContext());
+		contentView.setId(CONTENT_VIEW_ID);
+		return contentView;
 	}
 }

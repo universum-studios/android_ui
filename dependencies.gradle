@@ -1,13 +1,12 @@
 // Defines dependencies used across the library project.
 def versions = [
-        androidSupport                  : '26.0.0',
-        androidSupportTest              : '1.0',
-        androidSupportTestEspresso      : '3.0.0',
-        universumStudiosFont            : '1.1.2',
-        universumStudiosGraphics        : '1.0.1',
-        butterknife                     : '8.5.1',
-        junit                           : '4.12',
-        mockito                         : '2.7.20'
+        androidSupport            : '26.0.0',
+        androidSupportTest        : '1.0',
+        androidSupportTestEspresso: '3.0.0',
+        butterknife               : '8.5.1',
+        junit                     : '4.12',
+        mockito                   : '2.7.20',
+        robolectric               : '3.3.2'
 ]
 
 ext.versions = versions
@@ -22,15 +21,19 @@ def androidSupport = [
 ]
 
 def test = [
-        androidSupportAnnotations: androidSupport.annotations,
-        androidRunner            : "com.android.support.test:runner:${versions.androidSupportTest}",
-        androidRules             : "com.android.support.test:rules:${versions.androidSupportTest}",
-        androidEspressoCore      : "com.android.support.test.espresso:espresso-core:${versions.androidSupportTestEspresso}",
-        androidEspressoIntents   : "com.android.support.test.espresso:espresso-intents:${versions.androidSupportTestEspresso}",
-        androidEspressoContrib   : "com.android.support.test.espresso:espresso-contrib:${versions.androidSupportTestEspresso}",
-        junit                    : "junit:junit:${versions.junit}",
-        mockitoCore              : "org.mockito:mockito-core:${versions.mockito}",
-        mockitoAndroid           : "org.mockito:mockito-android:${versions.mockito}"
+        junit                      : "junit:junit:${versions.junit}",
+        mockitoCore                : "org.mockito:mockito-core:${versions.mockito}",
+        mockitoAndroid             : "org.mockito:mockito-android:${versions.mockito}",
+        robolectric                : "org.robolectric:robolectric:${versions.robolectric}",
+        robolectricMultidex        : "org.robolectric:shadows-multidex:${versions.robolectric}",
+        robolectricShadowsSupportV4: "org.robolectric:shadows-support-v4:${versions.robolectric}",
+        androidRunner              : "com.android.support.test:runner:${versions.androidSupportTest}",
+        androidRules               : "com.android.support.test:rules:${versions.androidSupportTest}",
+        androidEspressoCore        : "com.android.support.test.espresso:espresso-core:${versions.androidSupportTestEspresso}",
+        androidEspressoIntents     : "com.android.support.test.espresso:espresso-intents:${versions.androidSupportTestEspresso}",
+        androidEspressoContrib     : "com.android.support.test.espresso:espresso-contrib:${versions.androidSupportTestEspresso}",
+        androidSupportAnnotations  : androidSupport.annotations,
+        androidSupportV4           : androidSupport.v4
 ]
 
 def analytics = [
@@ -39,8 +42,8 @@ def analytics = [
 ]
 
 def universumStudios = [
-        fontCore         : "universum.studios.android:font-core:${versions.universumStudiosFont}@aar",
-        graphicsColorUtil: "universum.studios.android:graphics-color-util:${versions.universumStudiosGraphics}@aar",
+        fontCore         : 'universum.studios.android:font-core:1.1.2@aar',
+        graphicsColorUtil: 'universum.studios.android:graphics-color-util:1.0.1@aar',
         supportSamples   : 'universum.studios.android.support:support-samples:0.1.3@aar',
         supportFragments : 'universum.studios.android.support:support-fragments:1.2.0@aar',
         logger           : 'universum.studios.android:logger:1.0.0@aar',
