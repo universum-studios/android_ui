@@ -4,7 +4,7 @@ Change-Log
 ## Version 1.x ##
 
 ### [0.9.6](https://github.com/universum-studios/android_ui/releases/tag/0.9.6) ###
-> upcoming
+> 22.10.2017
 
 - Resolved [Issue #15](https://github.com/universum-studios/android_ui/issues/15).
 - Resolved [Issue #16](https://github.com/universum-studios/android_ui/issues/16).
