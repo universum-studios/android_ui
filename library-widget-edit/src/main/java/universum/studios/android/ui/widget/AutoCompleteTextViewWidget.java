@@ -269,7 +269,7 @@ public class AutoCompleteTextViewWidget extends AutoCompleteTextView implements 
 	/**
 	 */
 	@Override
-	public void setError(@NonNull CharSequence error) {
+	public void setError(@Nullable CharSequence error) {
 		this.ensureDecorator();
 		mDecorator.setError(error);
 	}

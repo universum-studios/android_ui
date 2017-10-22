@@ -265,7 +265,7 @@ public class EditTextWidget extends EditText implements Widget, FontWidget, Erro
 	/**
 	 */
 	@Override
-	public void setError(@NonNull CharSequence error) {
+	public void setError(@Nullable CharSequence error) {
 		this.ensureDecorator();
 		mDecorator.setError(error);
 	}
