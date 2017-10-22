@@ -37,11 +37,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 abstract class ImageDecorator<W extends ImageView> extends WidgetDecorator<W> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -50,15 +50,15 @@ abstract class ImageDecorator<W extends ImageView> extends WidgetDecorator<W> {
 	 */
 	// private static final String TAG = "ImageDecorator";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -73,7 +73,7 @@ abstract class ImageDecorator<W extends ImageView> extends WidgetDecorator<W> {
 		super(widget, styleableAttrs);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -206,7 +206,7 @@ abstract class ImageDecorator<W extends ImageView> extends WidgetDecorator<W> {
 	 */
 	abstract PorterDuff.Mode superGetImageTintMode();
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

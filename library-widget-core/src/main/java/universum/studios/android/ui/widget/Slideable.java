@@ -35,7 +35,7 @@ import android.os.Build;
  */
 public interface Slideable {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -51,7 +51,7 @@ public interface Slideable {
 	 */
 	boolean SLIDEABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 

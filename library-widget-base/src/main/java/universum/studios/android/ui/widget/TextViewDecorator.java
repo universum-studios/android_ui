@@ -41,11 +41,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 abstract class TextViewDecorator<W extends TextView & FontWidget> extends FontWidgetDecorator<W> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -62,15 +62,15 @@ abstract class TextViewDecorator<W extends TextView & FontWidget> extends FontWi
 			Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP &&
 			Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -85,7 +85,7 @@ abstract class TextViewDecorator<W extends TextView & FontWidget> extends FontWi
 		super(widget, styleableAttrs);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -303,7 +303,7 @@ abstract class TextViewDecorator<W extends TextView & FontWidget> extends FontWi
 	 */
 	abstract void superSetCompoundDrawablesRelative(Drawable start, Drawable top, Drawable end, Drawable bottom);
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

@@ -32,7 +32,7 @@ import universum.studios.android.ui.R;
 @SuppressWarnings("unused")
 public final class WidgetStateSet {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -311,7 +311,7 @@ public final class WidgetStateSet {
 			android.R.attr.state_focused
 	};
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -320,7 +320,7 @@ public final class WidgetStateSet {
 	private WidgetStateSet() {
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 

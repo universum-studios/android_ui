@@ -106,11 +106,11 @@ import universum.studios.android.ui.interpolator.ScrollerInterpolator;
  */
 public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -141,7 +141,7 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	 */
 	private static final String SCROLLER_FIELD_NAME = "mScroller";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -150,7 +150,7 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	 */
 	private static final Interpolator SCROLLER_INTERPOLATOR = new ScrollerInterpolator();
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -191,7 +191,7 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	 */
 	private Scroller mCustomScroller;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -233,7 +233,7 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -793,7 +793,7 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 		mDecorator.onDetachedFromWindow();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

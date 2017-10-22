@@ -55,11 +55,11 @@ import universum.studios.android.ui.R;
  */
 public class ActionTextButton extends ActionButton {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -74,15 +74,15 @@ public class ActionTextButton extends ActionButton {
 	 */
 	private static final boolean COMPAT_MODE = Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -126,7 +126,7 @@ public class ActionTextButton extends ActionButton {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -243,7 +243,7 @@ public class ActionTextButton extends ActionButton {
 		return COMPAT_MODE ? MenuItemCompat.getActionView(menuItem) : menuItem.getActionView();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

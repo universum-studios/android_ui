@@ -35,11 +35,11 @@ final class WidgetSizeAssistant {
 
 	// fixme: move some logic from here to WidgetSizeAnimator
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -58,11 +58,11 @@ final class WidgetSizeAssistant {
 	 */
 	private final boolean DEBUG_ENABLED = UiConfig.DEBUG_LOG_ENABLED;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -96,7 +96,7 @@ final class WidgetSizeAssistant {
 	 */
 	private boolean mAnimationRunning;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -152,7 +152,7 @@ final class WidgetSizeAssistant {
 		}
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -399,7 +399,7 @@ final class WidgetSizeAssistant {
 	 * Abstract methods ----------------------------------------------------------------------------
 	 */
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

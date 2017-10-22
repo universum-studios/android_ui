@@ -111,11 +111,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class WebViewWidget extends WebView implements WidgetGroup, Refreshable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -124,11 +124,11 @@ public class WebViewWidget extends WebView implements WidgetGroup, Refreshable {
 	 */
 	// private static final String TAG = "WebViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -138,7 +138,7 @@ public class WebViewWidget extends WebView implements WidgetGroup, Refreshable {
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -183,7 +183,7 @@ public class WebViewWidget extends WebView implements WidgetGroup, Refreshable {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -535,7 +535,7 @@ public class WebViewWidget extends WebView implements WidgetGroup, Refreshable {
 		mDecorator.onDetachedFromWindow();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

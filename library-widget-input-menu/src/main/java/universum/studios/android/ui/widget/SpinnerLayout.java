@@ -135,7 +135,7 @@ import universum.studios.android.ui.R;
  */
 public class SpinnerLayout extends InputLayout {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -169,7 +169,7 @@ public class SpinnerLayout extends InputLayout {
 		void onNothingSelected(@NonNull SpinnerLayout spinnerLayout, AdapterView<?> parent);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -184,11 +184,11 @@ public class SpinnerLayout extends InputLayout {
 	 */
 	private static final int PFLAG_ITEM_SELECTED_LISTENER_ATTACHED = 0x00000001;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -247,7 +247,7 @@ public class SpinnerLayout extends InputLayout {
 	 */
 	OnItemSelectedListener mItemSelectedListener;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -291,7 +291,7 @@ public class SpinnerLayout extends InputLayout {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -517,7 +517,7 @@ public class SpinnerLayout extends InputLayout {
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

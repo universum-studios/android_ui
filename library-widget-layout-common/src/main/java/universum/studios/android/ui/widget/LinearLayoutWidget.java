@@ -94,11 +94,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -107,11 +107,11 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 	 */
 	// private static final String TAG = "LinearLayoutWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -121,7 +121,7 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 	 */
 	WidgetGroupDecorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -167,7 +167,7 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -370,7 +370,7 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 		mDecorator.onDetachedFromWindow();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

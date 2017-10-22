@@ -45,7 +45,7 @@ public final class NavigationFragments extends BaseFragmentFactory {
 	@SuppressWarnings("unused")
 	private static final String TAG = "NavigationFragments";
 
-	/**
+	/*
 	 * ANIMATION ===================================================================================
 	 */
 
@@ -53,7 +53,7 @@ public final class NavigationFragments extends BaseFragmentFactory {
 	public static final int ANIMATION_TRANSITIONS = 0x10000001;
 	public static final int ANIMATION_WINDOW_TRANSITIONS = 0x10000002;
 
-	/**
+	/*
 	 * STYLE =======================================================================================
 	 */
 
@@ -66,7 +66,7 @@ public final class NavigationFragments extends BaseFragmentFactory {
 	@FactoryFragment(TypographyFragment.class)
 	public static final int STYLE_TYPOGRAPHY = 0x20000004;
 
-	/**
+	/*
 	 * LAYOUT ======================================================================================
 	 */
 
@@ -75,7 +75,7 @@ public final class NavigationFragments extends BaseFragmentFactory {
 	@FactoryFragment(MetricsAndKeyLinesFragment.class)
 	public static final int LAYOUT_METRICS_AND_KEYLINES = 0x30000001;
 
-	/**
+	/*
 	 * COMPONENTS ==================================================================================
 	 */
 
@@ -128,7 +128,7 @@ public final class NavigationFragments extends BaseFragmentFactory {
 
 	// public static final int COMPONENTS_TOOLTIPS = 0x40000014;
 
-	/**
+	/*
 	 * PATTERNS ====================================================================================
 	 */
 

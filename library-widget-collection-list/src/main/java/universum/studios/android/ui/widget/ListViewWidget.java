@@ -115,11 +115,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class ListViewWidget extends ListView implements WidgetGroup, Refreshable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -128,11 +128,11 @@ public class ListViewWidget extends ListView implements WidgetGroup, Refreshable
 	 */
 	// private static final String TAG = "ListViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -142,7 +142,7 @@ public class ListViewWidget extends ListView implements WidgetGroup, Refreshable
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -187,7 +187,7 @@ public class ListViewWidget extends ListView implements WidgetGroup, Refreshable
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -602,7 +602,7 @@ public class ListViewWidget extends ListView implements WidgetGroup, Refreshable
 		}
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

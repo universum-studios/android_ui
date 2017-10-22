@@ -43,11 +43,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 abstract class EditTextDecorator<W extends EditText & FontWidget> extends TextViewDecorator<W> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -56,15 +56,15 @@ abstract class EditTextDecorator<W extends EditText & FontWidget> extends TextVi
 	 */
 	// private static final String TAG = "EditTextDecorator";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -79,7 +79,7 @@ abstract class EditTextDecorator<W extends EditText & FontWidget> extends TextVi
 		super(widget, R.styleable.Ui_EditText);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -268,7 +268,7 @@ abstract class EditTextDecorator<W extends EditText & FontWidget> extends TextVi
 		);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

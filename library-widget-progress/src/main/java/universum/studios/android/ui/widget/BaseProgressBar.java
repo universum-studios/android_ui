@@ -100,7 +100,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 		ProgressDrawable.AnimationCallback,
 		ProgressDrawable.ExplodeAnimationCallback {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -159,7 +159,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 		void onImploded(@NonNull BaseProgressBar progressBar, @NonNull ProgressDrawable drawable);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -194,7 +194,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	 */
 	private static final int PFLAG_STOP_INDETERMINATE_AFTER_IMPLOSION = 0x00010000;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -203,7 +203,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	 */
 	private static final Object LOCK = new Object();
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -267,7 +267,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 	 */
 	private AccessibilityEventSender mAccessibilityEventSender;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -311,7 +311,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -1367,7 +1367,7 @@ public abstract class BaseProgressBar<D extends ProgressDrawable> extends ViewWi
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

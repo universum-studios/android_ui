@@ -106,11 +106,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class ScrollViewWidget extends ScrollView implements WidgetGroup, Scrollable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -119,11 +119,11 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Scrolla
 	 */
 	// private static final String TAG = "ScrollViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -138,7 +138,7 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Scrolla
 	 */
 	private List<ViewWidget.OnScrollChangeListener> mScrollChangeListeners;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -183,7 +183,7 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Scrolla
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -420,7 +420,7 @@ public class ScrollViewWidget extends ScrollView implements WidgetGroup, Scrolla
 		return mDecorator.scrollableWrapper.isScrolledAtEnd();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

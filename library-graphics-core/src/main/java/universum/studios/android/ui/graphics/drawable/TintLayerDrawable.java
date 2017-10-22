@@ -38,11 +38,11 @@ import android.util.SparseArray;
  */
 public class TintLayerDrawable extends TintDrawable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -63,11 +63,11 @@ public class TintLayerDrawable extends TintDrawable {
 	 */
 	private static final int PFLAG_IGNORE_INVALIDATION = 0x00000001 << 17;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -76,7 +76,7 @@ public class TintLayerDrawable extends TintDrawable {
 	 */
 	private SparseArray<DrawableLayerTint> mDrawableLayerTints;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -92,7 +92,7 @@ public class TintLayerDrawable extends TintDrawable {
 		super(drawable);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -299,7 +299,7 @@ public class TintLayerDrawable extends TintDrawable {
 		return false;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

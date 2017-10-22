@@ -95,11 +95,11 @@ import universum.studios.android.ui.widget.Scrollable;
  */
 public class RefreshController<V extends View & Refreshable> extends BasePullController<V> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -164,11 +164,11 @@ public class RefreshController<V extends View & Refreshable> extends BasePullCon
 	 */
 	private static final int PFLAG_RUNNING_SCHEDULED_ANIMATION = 0x00000020;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -286,7 +286,7 @@ public class RefreshController<V extends View & Refreshable> extends BasePullCon
 	 */
 	private LinkedList<Runnable> mScheduledAnimations;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -330,7 +330,7 @@ public class RefreshController<V extends View & Refreshable> extends BasePullCon
 		this.resetIndicator(false);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -1180,7 +1180,7 @@ public class RefreshController<V extends View & Refreshable> extends BasePullCon
 		}
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

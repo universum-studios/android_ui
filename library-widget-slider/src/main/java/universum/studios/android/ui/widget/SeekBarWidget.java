@@ -122,11 +122,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class SeekBarWidget extends SeekBar implements Widget, FontWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -161,11 +161,11 @@ public class SeekBarWidget extends SeekBar implements Widget, FontWidget {
 	 */
 	private static final int PFLAG_DISCRETE_PREVIEW_ENABLED = 0x00000001 << 17;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -237,7 +237,7 @@ public class SeekBarWidget extends SeekBar implements Widget, FontWidget {
 	 */
 	private Drawable mRippleBackgroundDrawable;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -281,7 +281,7 @@ public class SeekBarWidget extends SeekBar implements Widget, FontWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -2116,7 +2116,7 @@ public class SeekBarWidget extends SeekBar implements Widget, FontWidget {
 		setDiscretePreviewEnabled((savedState.privateFlags & PFLAG_DISCRETE_PREVIEW_ENABLED) != 0);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

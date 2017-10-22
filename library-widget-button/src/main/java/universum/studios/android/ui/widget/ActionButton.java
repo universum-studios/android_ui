@@ -60,11 +60,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class ActionButton extends ButtonWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -73,15 +73,15 @@ public class ActionButton extends ButtonWidget {
 	 */
 	// private static final String TAG = "ActionButton";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -124,7 +124,7 @@ public class ActionButton extends ButtonWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -224,7 +224,7 @@ public class ActionButton extends ButtonWidget {
 		return icon;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

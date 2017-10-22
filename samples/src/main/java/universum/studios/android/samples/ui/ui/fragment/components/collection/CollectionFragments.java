@@ -26,21 +26,21 @@ import universum.studios.android.support.fragment.manage.BaseFragmentFactory;
  */
 final class CollectionFragments extends BaseFragmentFactory {
 
-	/**
+	/*
 	 * GRIDS =======================================================================================
 	 */
 
 	@FactoryFragment(SimpleGridFragment.class)
 	static final int GRID_SIMPLE = 0x10000000;
 
-	/**
+	/*
 	 * LISTS =======================================================================================
 	 */
 
 	@FactoryFragment(SimpleListFragment.class)
 	static final int LIST_SIMPLE = 0x20000000;
 
-	/**
+	/*
 	 * PAGERS ======================================================================================
 	 */
 

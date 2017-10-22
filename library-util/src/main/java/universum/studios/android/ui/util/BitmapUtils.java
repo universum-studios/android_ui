@@ -29,11 +29,11 @@ import android.support.annotation.NonNull;
 @Deprecated
 public class BitmapUtils {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -42,15 +42,15 @@ public class BitmapUtils {
 	 */
 	private static final String TAG = "BitmapUtils";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -106,7 +106,7 @@ public class BitmapUtils {
 		return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

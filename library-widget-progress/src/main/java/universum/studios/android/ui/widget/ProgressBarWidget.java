@@ -68,11 +68,11 @@ import universum.studios.android.ui.graphics.drawable.TintLayerDrawable;
  */
 public class ProgressBarWidget extends ProgressBar implements Widget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -81,7 +81,7 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 	 */
 	// private static final String TAG = "ProgressBarWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -90,7 +90,7 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 	 */
 	private static int MAX_LEVEL = 10000;
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -105,7 +105,7 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 	 */
 	private Drawable mProgressDrawable;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -150,7 +150,7 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -760,7 +760,7 @@ public class ProgressBarWidget extends ProgressBar implements Widget {
 		return mDecorator.animateSize();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

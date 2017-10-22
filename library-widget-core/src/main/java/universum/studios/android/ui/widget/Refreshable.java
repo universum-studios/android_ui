@@ -39,7 +39,7 @@ import universum.studios.android.ui.R;
  */
 public interface Refreshable extends Scrollable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -63,7 +63,7 @@ public interface Refreshable extends Scrollable {
 		void onRefresh(@NonNull Refreshable refreshable);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -117,7 +117,7 @@ public interface Refreshable extends Scrollable {
 	 */
 	int TRANSITION_ABOVE = 0x03;
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 

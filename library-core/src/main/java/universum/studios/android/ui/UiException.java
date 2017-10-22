@@ -33,11 +33,11 @@ import android.util.AndroidRuntimeException;
  */
 public class UiException extends AndroidRuntimeException {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -80,11 +80,11 @@ public class UiException extends AndroidRuntimeException {
 	 */
 	private static final String INSTANTIATION_NOTE = "Make sure that such class has public access and empty (without arguments) public constructor.";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -93,7 +93,7 @@ public class UiException extends AndroidRuntimeException {
 	 */
 	private final int mType;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -132,7 +132,7 @@ public class UiException extends AndroidRuntimeException {
 		this.mType = type;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -218,7 +218,7 @@ public class UiException extends AndroidRuntimeException {
 		return mType;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

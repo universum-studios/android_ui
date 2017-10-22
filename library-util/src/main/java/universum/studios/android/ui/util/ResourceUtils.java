@@ -39,11 +39,11 @@ import android.util.DisplayMetrics;
  */
 public final class ResourceUtils {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -64,15 +64,15 @@ public final class ResourceUtils {
 	 */
 	private static final boolean ACCESS_MARSHMALLOW = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -82,7 +82,7 @@ public final class ResourceUtils {
 		// Creation of instances of this class is not publicly allowed.
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -183,7 +183,7 @@ public final class ResourceUtils {
 		return Math.round(resources.getDisplayMetrics().density * dp);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

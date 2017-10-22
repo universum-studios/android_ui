@@ -96,11 +96,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class FrameLayoutWidget extends FrameLayout implements WidgetGroup {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -109,11 +109,11 @@ public class FrameLayoutWidget extends FrameLayout implements WidgetGroup {
 	 */
 	// private static final String TAG = "FrameLayoutWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -123,7 +123,7 @@ public class FrameLayoutWidget extends FrameLayout implements WidgetGroup {
 	 */
 	WidgetGroupDecorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -167,7 +167,7 @@ public class FrameLayoutWidget extends FrameLayout implements WidgetGroup {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -370,7 +370,7 @@ public class FrameLayoutWidget extends FrameLayout implements WidgetGroup {
 		mDecorator.onDetachedFromWindow();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

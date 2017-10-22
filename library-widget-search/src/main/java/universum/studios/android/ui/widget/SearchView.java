@@ -68,7 +68,7 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class SearchView extends LinearLayoutWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -149,7 +149,7 @@ public class SearchView extends LinearLayoutWidget {
 		void startConcealAnimation(@NonNull SearchView searchView);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -158,11 +158,11 @@ public class SearchView extends LinearLayoutWidget {
 	 */
 	// private static final String TAG = "SearchView";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -273,7 +273,7 @@ public class SearchView extends LinearLayoutWidget {
 	 */
 	private boolean mPendingQueryClear;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -316,7 +316,7 @@ public class SearchView extends LinearLayoutWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -868,7 +868,7 @@ public class SearchView extends LinearLayoutWidget {
 		}
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

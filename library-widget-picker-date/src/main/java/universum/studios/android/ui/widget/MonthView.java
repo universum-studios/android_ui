@@ -96,7 +96,7 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class MonthView extends ViewWidget implements FontWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -117,7 +117,7 @@ public class MonthView extends ViewWidget implements FontWidget {
 		void onDaySelected(@NonNull MonthView monthView, @IntRange(from = 1, to = 31) int day, long dateInMillis);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -131,7 +131,7 @@ public class MonthView extends ViewWidget implements FontWidget {
 	 */
 	private static final int PFLAG_DAY_TOUCHED = 0x00000001 << 16;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -201,7 +201,7 @@ public class MonthView extends ViewWidget implements FontWidget {
 	 */
 	private static final int MAX_DAY_IN_MONTH = 31;
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -383,7 +383,7 @@ public class MonthView extends ViewWidget implements FontWidget {
 	 */
 	private Day mDay = new Day();
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -426,7 +426,7 @@ public class MonthView extends ViewWidget implements FontWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -2249,7 +2249,7 @@ public class MonthView extends ViewWidget implements FontWidget {
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

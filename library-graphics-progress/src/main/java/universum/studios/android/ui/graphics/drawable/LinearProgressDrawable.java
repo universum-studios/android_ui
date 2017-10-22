@@ -151,11 +151,11 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class LinearProgressDrawable extends ProgressDrawable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -226,11 +226,11 @@ public class LinearProgressDrawable extends ProgressDrawable {
 	 */
 	private static final long BUFFER_INDETERMINATE_MARK_TRANSLATION_UPDATE_DURATION = 80;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -321,7 +321,7 @@ public class LinearProgressDrawable extends ProgressDrawable {
 	 */
 	private LinearState mProgressState;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -358,7 +358,7 @@ public class LinearProgressDrawable extends ProgressDrawable {
 		this.init();
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -770,13 +770,27 @@ public class LinearProgressDrawable extends ProgressDrawable {
 		switch (mMode) {
 			case MODE_INDETERMINATE:
 			case MODE_QUERY_INDETERMINATE_DETERMINATE:
-				unscheduleSelf(UPDATE);
+				this.clearIndeterminateState();
 				break;
 			case MODE_BUFFER:
 				this.unscheduleBufferUpdates();
 				break;
 		}
 		notifyStopped();
+	}
+
+	/**
+	 * Clears the current indeterminate data. This will also stops all updates for running indeterminate
+	 * animation session and will call {@link #notifyStopped()} to notify that animation has been
+	 * stopped.
+	 */
+	private void clearIndeterminateState() {
+		unscheduleSelf(UPDATE);
+		updatePrivateFlags(PFLAG_FINISHING_INDETERMINATE, false);
+		if (mIndeterminateInfo != null) {
+			mIndeterminateInfo.clear(mBounds);
+		}
+		resetCurrentColor();
 	}
 
 	/**
@@ -882,7 +896,7 @@ public class LinearProgressDrawable extends ProgressDrawable {
 						changeNextColor();
 						scheduleSelf(UPDATE, computeScheduleTime(INDETERMINATE_SILENCE_DURATION));
 					} else {
-						updatePrivateFlags(PFLAG_FINISHING_INDETERMINATE, false);
+						clearIndeterminateState();
 						notifyStopped();
 					}
 					return false;
@@ -957,7 +971,7 @@ public class LinearProgressDrawable extends ProgressDrawable {
 		}
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

@@ -35,11 +35,11 @@ import android.view.View;
  */
 public class CubicPageTransformer implements ViewPager.PageTransformer {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -122,11 +122,11 @@ public class CubicPageTransformer implements ViewPager.PageTransformer {
 		}
 	}
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -140,7 +140,7 @@ public class CubicPageTransformer implements ViewPager.PageTransformer {
 	 */
 	private final CameraPosition mCameraPosition;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -160,7 +160,7 @@ public class CubicPageTransformer implements ViewPager.PageTransformer {
 		this.mCameraPosition = cameraPosition;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -239,7 +239,7 @@ public class CubicPageTransformer implements ViewPager.PageTransformer {
 		return mMinAlpha;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

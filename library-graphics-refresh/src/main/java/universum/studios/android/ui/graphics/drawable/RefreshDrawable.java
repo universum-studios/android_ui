@@ -42,11 +42,11 @@ import android.view.View;
  */
 public class RefreshDrawable extends DrawableWrapper implements Animatable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -55,11 +55,11 @@ public class RefreshDrawable extends DrawableWrapper implements Animatable {
 	 */
 	// private static final String TAG = "RefreshDrawable";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -89,7 +89,7 @@ public class RefreshDrawable extends DrawableWrapper implements Animatable {
 	 */
 	private boolean mProgressRoundedOverride;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -108,7 +108,7 @@ public class RefreshDrawable extends DrawableWrapper implements Animatable {
 		mDrawable.setArrowScale(0f);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -553,7 +553,7 @@ public class RefreshDrawable extends DrawableWrapper implements Animatable {
 		);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }
