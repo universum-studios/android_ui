@@ -46,11 +46,11 @@ import universum.studios.android.ui.R;
  */
 public final class TintManager {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -161,7 +161,7 @@ public final class TintManager {
 	 */
 	private static final int THEME_COLOR_INDEX_ERROR = 2;
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -551,7 +551,7 @@ public final class TintManager {
 		return drawable;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

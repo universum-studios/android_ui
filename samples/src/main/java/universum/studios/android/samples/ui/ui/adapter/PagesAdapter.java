@@ -19,6 +19,7 @@
 package universum.studios.android.samples.ui.ui.adapter;
 
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -33,7 +34,7 @@ public final class PagesAdapter extends FragmentPagerAdapter {
 	@SuppressWarnings("unused")
 	private static final String TAG = "PagesAdapter";
 
-	public PagesAdapter(FragmentManager fragmentManager) {
+	public PagesAdapter(@NonNull FragmentManager fragmentManager) {
 		super(fragmentManager);
 	}
 

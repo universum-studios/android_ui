@@ -141,11 +141,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class SwitchWidget extends SwitchCompat implements Widget, FontWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -154,11 +154,11 @@ public class SwitchWidget extends SwitchCompat implements Widget, FontWidget {
 	 */
 	// private static final String TAG = "SwitchWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -178,7 +178,7 @@ public class SwitchWidget extends SwitchCompat implements Widget, FontWidget {
 	 */
 	private Drawable mTrack;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -224,7 +224,7 @@ public class SwitchWidget extends SwitchCompat implements Widget, FontWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -591,7 +591,7 @@ public class SwitchWidget extends SwitchCompat implements Widget, FontWidget {
 		return mDecorator.animateSize();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

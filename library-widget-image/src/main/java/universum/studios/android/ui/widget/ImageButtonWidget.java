@@ -77,11 +77,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class ImageButtonWidget extends ImageButton implements Widget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -90,11 +90,11 @@ public class ImageButtonWidget extends ImageButton implements Widget {
 	 */
 	// private static final String TAG = "ImageButtonWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -104,7 +104,7 @@ public class ImageButtonWidget extends ImageButton implements Widget {
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -148,7 +148,7 @@ public class ImageButtonWidget extends ImageButton implements Widget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -351,7 +351,7 @@ public class ImageButtonWidget extends ImageButton implements Widget {
 		return null;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

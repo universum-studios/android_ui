@@ -36,11 +36,11 @@ import android.support.annotation.StyleRes;
  */
 public class TextGraphicsInfo extends GraphicsInfo {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -49,11 +49,11 @@ public class TextGraphicsInfo extends GraphicsInfo {
 	 */
 	// private static final String TAG = "TextGraphicsInfo";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -72,7 +72,7 @@ public class TextGraphicsInfo extends GraphicsInfo {
 	 */
 	Rect mBounds;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -94,7 +94,7 @@ public class TextGraphicsInfo extends GraphicsInfo {
 		super(paint);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -234,7 +234,7 @@ public class TextGraphicsInfo extends GraphicsInfo {
 		return mBounds;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

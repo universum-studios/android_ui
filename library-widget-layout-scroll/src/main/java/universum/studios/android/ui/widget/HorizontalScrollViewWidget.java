@@ -107,11 +107,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class HorizontalScrollViewWidget extends HorizontalScrollView implements WidgetGroup, Scrollable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -120,11 +120,11 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	 */
 	// private static final String TAG = "HorizontalScrollViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -139,7 +139,7 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	 */
 	private List<ViewWidget.OnScrollChangeListener> mScrollChangeListeners;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -185,7 +185,7 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -382,16 +382,30 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	@Override
 	public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
 		this.ensureDecorator();
-		return mDecorator.onInterceptTouchEvent(event) || super.onInterceptTouchEvent(event);
+		if (mDecorator.onInterceptTouchEvent(event)) {
+			final MotionEvent cancelEvent = WidgetUtils.createMotionCancelingEvent(event);
+			super.onInterceptTouchEvent(cancelEvent);
+			cancelEvent.recycle();
+			return true;
+		}
+		return super.onInterceptTouchEvent(event);
 	}
 
 	/**
 	 */
 	@Override
+	@SuppressLint("ClickableViewAccessibility")
 	public boolean onTouchEvent(@NonNull MotionEvent event) {
 		this.ensureDecorator();
+		if (mDecorator.onTouchEvent(event)) {
+			mDecorator.hideSoftKeyboardOnTouch();
+			return true;
+		}
+		if (super.onTouchEvent(event)) {
+			return true;
+		}
 		mDecorator.hideSoftKeyboardOnTouch();
-		return mDecorator.onTouchEvent(event) || super.onTouchEvent(event);
+		return false;
 	}
 
 	/**
@@ -422,7 +436,7 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 		return mDecorator.scrollableWrapper.isScrolledAtEnd();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

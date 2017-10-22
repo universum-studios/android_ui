@@ -139,11 +139,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class TextViewWidget extends TextView implements Widget, FontWidget, ErrorWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -152,11 +152,11 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	 */
 	// private static final String TAG = "TextViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -166,7 +166,7 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -210,7 +210,7 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -255,7 +255,7 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	/**
 	 */
 	@Override
-	public void setError(@NonNull CharSequence error) {
+	public void setError(@Nullable CharSequence error) {
 		this.ensureDecorator();
 		mDecorator.setError(error);
 	}
@@ -510,7 +510,7 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 		return drawableState;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

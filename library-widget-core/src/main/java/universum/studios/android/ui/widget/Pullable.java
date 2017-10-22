@@ -36,7 +36,7 @@ import universum.studios.android.ui.R;
  */
 public interface Pullable extends Scrollable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -151,11 +151,11 @@ public interface Pullable extends Scrollable {
 		void onPullOverflow(@NonNull Pullable pullable, @NonNull Pull pull);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 

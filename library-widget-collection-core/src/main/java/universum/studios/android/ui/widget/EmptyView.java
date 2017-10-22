@@ -66,11 +66,11 @@ import universum.studios.android.ui.UiConfig;
  */
 public class EmptyView extends TextViewWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -79,11 +79,11 @@ public class EmptyView extends TextViewWidget {
 	 */
 	// private static final String TAG = "EmptyView";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -102,7 +102,7 @@ public class EmptyView extends TextViewWidget {
 	 */
 	private boolean mTrimTextEnabled = true;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -145,7 +145,7 @@ public class EmptyView extends TextViewWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -336,7 +336,7 @@ public class EmptyView extends TextViewWidget {
 		return text;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

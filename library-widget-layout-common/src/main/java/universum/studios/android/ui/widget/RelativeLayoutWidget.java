@@ -18,6 +18,7 @@
  */
 package universum.studios.android.ui.widget;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -94,11 +95,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -107,11 +108,11 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 	 */
 	// private static final String TAG = "RelativeLayoutWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -121,7 +122,7 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 	 */
 	WidgetGroupDecorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -165,7 +166,7 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -349,6 +350,7 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 	/**
 	 */
 	@Override
+	@SuppressLint("ClickableViewAccessibility")
 	public boolean onTouchEvent(@NonNull MotionEvent event) {
 		if (super.onTouchEvent(event)) {
 			return true;
@@ -367,7 +369,7 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 		mDecorator.onDetachedFromWindow();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

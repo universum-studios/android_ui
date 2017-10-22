@@ -48,11 +48,11 @@ import java.io.IOException;
  */
 public class DrawableWrapper extends Drawable implements Drawable.Callback {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -61,11 +61,11 @@ public class DrawableWrapper extends Drawable implements Drawable.Callback {
 	 */
 	// private static final String TAG = "DrawableWrapper";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -79,7 +79,7 @@ public class DrawableWrapper extends Drawable implements Drawable.Callback {
 	 */
 	private boolean mMutated;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -108,7 +108,7 @@ public class DrawableWrapper extends Drawable implements Drawable.Callback {
 		mDrawable.setCallback(this);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -459,7 +459,7 @@ public class DrawableWrapper extends Drawable implements Drawable.Callback {
 		return UiConfig.MATERIALIZED ? mDrawable.getDirtyBounds() : null;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

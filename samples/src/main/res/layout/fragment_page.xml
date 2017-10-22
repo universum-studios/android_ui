@@ -20,15 +20,17 @@
  */
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent">
 
-    <TextView
-            android:id="@+id/fragment_page_text_view_label"
-            style="@style/Widget.TextView.Item.List.Note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="36sp"
-            android:gravity="center"
-            android:layout_gravity="center"/>
+	<TextView
+		android:id="@+id/fragment_page_text_view_label"
+		style="@style/Widget.TextView.Item.List.Note"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:gravity="center"
+		android:textSize="36sp"
+		tools:text="Page 1" />
 </FrameLayout>

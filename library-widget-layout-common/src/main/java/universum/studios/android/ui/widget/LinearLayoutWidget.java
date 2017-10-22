@@ -18,6 +18,7 @@
  */
 package universum.studios.android.ui.widget;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -94,11 +95,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -107,11 +108,11 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 	 */
 	// private static final String TAG = "LinearLayoutWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -121,7 +122,7 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 	 */
 	WidgetGroupDecorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -167,7 +168,7 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -352,6 +353,7 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 	/**
 	 */
 	@Override
+	@SuppressLint("ClickableViewAccessibility")
 	public boolean onTouchEvent(@NonNull MotionEvent event) {
 		if (super.onTouchEvent(event)) {
 			return true;
@@ -370,7 +372,7 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 		mDecorator.onDetachedFromWindow();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

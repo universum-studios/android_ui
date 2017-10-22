@@ -144,7 +144,7 @@ import universum.studios.android.ui.UiConfig;
  */
 public class EditLayout extends InputLayout {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -181,7 +181,7 @@ public class EditLayout extends InputLayout {
 		void onInputLengthChanged(@NonNull EditLayout editLayout, int length);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -197,11 +197,11 @@ public class EditLayout extends InputLayout {
 	 */
 	private static final int EDITABLE_CHANGE_DELAY = 10;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -331,7 +331,7 @@ public class EditLayout extends InputLayout {
 		}
 	};
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -374,7 +374,7 @@ public class EditLayout extends InputLayout {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -996,7 +996,7 @@ public class EditLayout extends InputLayout {
 		this.updateEditTextConfiguration();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

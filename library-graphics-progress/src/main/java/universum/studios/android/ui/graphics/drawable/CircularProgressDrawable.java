@@ -118,11 +118,11 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class CircularProgressDrawable extends ProgressDrawable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -238,11 +238,11 @@ public class CircularProgressDrawable extends ProgressDrawable {
 	 */
 	private static final int PFLAG_ROTATE_ON_PROGRESS_CHANGE = 0x00020000;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -300,7 +300,7 @@ public class CircularProgressDrawable extends ProgressDrawable {
 	 */
 	private float mIndeterminateFrozenAngleBuffer;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -337,7 +337,7 @@ public class CircularProgressDrawable extends ProgressDrawable {
 		this.init();
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -689,7 +689,8 @@ public class CircularProgressDrawable extends ProgressDrawable {
 	 */
 	@Override
 	protected void onStopImmediate() {
-		this.clearIndeterminate();
+		this.clearIndeterminateState();
+		notifyStopped();
 	}
 
 	/**
@@ -697,14 +698,13 @@ public class CircularProgressDrawable extends ProgressDrawable {
 	 * animation session and will call {@link #notifyStopped()} to notify that animation has been
 	 * stopped.
 	 */
-	private void clearIndeterminate() {
+	private void clearIndeterminateState() {
 		unscheduleSelf(UPDATE);
 		updatePrivateFlags(PFLAG_FINISHING_INDETERMINATE, false);
 		this.mIndeterminateState = INDETERMINATE_STATE_IDLE;
 		this.mStartAngle = mUserStartAngle;
 		this.mSweepAngle = 0;
 		resetCurrentColor();
-		notifyStopped();
 	}
 
 	/**
@@ -781,7 +781,8 @@ public class CircularProgressDrawable extends ProgressDrawable {
 				schedule = true;
 				if (hasPrivateFlag(PFLAG_FINISHING_INDETERMINATE)) {
 					if (mSweepAngle <= 0) {
-						this.clearIndeterminate();
+						this.clearIndeterminateState();
+						notifyStopped();
 					} else {
 						final float collapseBy = INDETERMINATE_COLLAPSING_ANGLE_UPDATE * indeterminateSpeed;
 						this.mStartAngle += collapseBy;
@@ -961,7 +962,7 @@ public class CircularProgressDrawable extends ProgressDrawable {
 		setThickness(15);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

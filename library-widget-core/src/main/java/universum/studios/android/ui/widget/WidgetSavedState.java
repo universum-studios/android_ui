@@ -33,11 +33,11 @@ import universum.studios.android.ui.UiConfig;
  */
 public abstract class WidgetSavedState implements Parcelable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -46,7 +46,7 @@ public abstract class WidgetSavedState implements Parcelable {
 	 */
 	// private static final String TAG = "WidgetSavedState";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -80,7 +80,7 @@ public abstract class WidgetSavedState implements Parcelable {
 		}
 	};
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -89,7 +89,7 @@ public abstract class WidgetSavedState implements Parcelable {
 	 */
 	private final Parcelable mSuperState;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -121,7 +121,7 @@ public abstract class WidgetSavedState implements Parcelable {
 		this.mSuperState = superState != null ? superState : EMPTY_STATE;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -150,7 +150,7 @@ public abstract class WidgetSavedState implements Parcelable {
 		return 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

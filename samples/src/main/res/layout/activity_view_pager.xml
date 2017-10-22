@@ -19,7 +19,13 @@
  * =================================================================================================
  */
 -->
-<universum.studios.android.ui.widget.ViewPagerWidget android:id="@+id/pager"
-													 xmlns:android="http://schemas.android.com/apk/res/android"
-													 android:layout_width="match_parent"
-													 android:layout_height="match_parent" />
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<universum.studios.android.ui.widget.ViewPagerWidget
+		android:id="@+id/pager"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="?attr/actionBarSize"/>
+
+	<include layout="@layout/samples_toolbar"/>
+</merge>

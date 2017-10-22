@@ -42,11 +42,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> extends FontWidgetDecorator<W> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -55,11 +55,11 @@ abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> ex
 	 */
 	// private static final String TAG = "CompoundButtonDecorator";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -68,7 +68,7 @@ abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> ex
 	 */
 	private Drawable mButton;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -91,7 +91,7 @@ abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> ex
 		super(widget, styleableAttrs);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -270,7 +270,7 @@ abstract class CompoundButtonDecorator<W extends CompoundButton & FontWidget> ex
 	 */
 	abstract PorterDuff.Mode superGetButtonTintMode();
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

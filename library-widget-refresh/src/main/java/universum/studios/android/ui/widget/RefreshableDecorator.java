@@ -37,11 +37,11 @@ import universum.studios.android.ui.controller.RefreshController;
  */
 abstract class RefreshableDecorator<W extends ViewGroup & Refreshable> extends WidgetGroupDecorator<W> implements Refreshable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -50,11 +50,11 @@ abstract class RefreshableDecorator<W extends ViewGroup & Refreshable> extends W
 	 */
 	// private static final String TAG = "RefreshableDecorator";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -69,7 +69,7 @@ abstract class RefreshableDecorator<W extends ViewGroup & Refreshable> extends W
 	 */
 	private ScrollableWrapper<W> mScrollableWrapper;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -86,7 +86,7 @@ abstract class RefreshableDecorator<W extends ViewGroup & Refreshable> extends W
 		this.updatePrivateFlags(PrivateFlags.PFLAG_DRAW_REFRESH_INDICATOR, true);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -312,7 +312,7 @@ abstract class RefreshableDecorator<W extends ViewGroup & Refreshable> extends W
 		if (mRefreshController != null) mRefreshController.dispatchViewDetachedFromWindow();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

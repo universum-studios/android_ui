@@ -38,11 +38,11 @@ import universum.studios.android.ui.UiConfig;
  */
 abstract class WidgetGroupDecorator<G extends ViewGroup> extends WidgetDecorator<G> implements WidgetGroup {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -51,15 +51,15 @@ abstract class WidgetGroupDecorator<G extends ViewGroup> extends WidgetDecorator
 	 */
 	// private static final String TAG = "WidgetGroupDecorator";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -82,7 +82,7 @@ abstract class WidgetGroupDecorator<G extends ViewGroup> extends WidgetDecorator
 		super(widgetGroup, styleableAttrs);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -195,7 +195,7 @@ abstract class WidgetGroupDecorator<G extends ViewGroup> extends WidgetDecorator
 		return false;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

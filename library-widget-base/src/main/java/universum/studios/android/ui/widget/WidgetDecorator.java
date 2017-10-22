@@ -53,11 +53,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -66,11 +66,11 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	 */
 	// private static final String TAG = "WidgetDecorator";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -110,7 +110,7 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	 */
 	private CharSequence mError;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -128,7 +128,7 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 		this.mStyleableAttrs = styleableAttrs;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -387,8 +387,10 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 	/**
 	 */
 	@Override
-	public void setError(@NonNull CharSequence error) {
-		if (!TextUtils.equals(mError, error)) {
+	public void setError(@Nullable CharSequence error) {
+		if (error == null) {
+			clearError();
+		} else if (!TextUtils.equals(mError, error)) {
 			this.mError = error;
 			mWidget.refreshDrawableState();
 			mWidget.invalidate();
@@ -506,7 +508,7 @@ abstract class WidgetDecorator<W extends View> implements Widget, ErrorWidget {
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

@@ -18,6 +18,7 @@
  */
 package universum.studios.android.ui.widget;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -115,11 +116,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class ListViewWidget extends ListView implements WidgetGroup, Refreshable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -128,11 +129,11 @@ public class ListViewWidget extends ListView implements WidgetGroup, Refreshable
 	 */
 	// private static final String TAG = "ListViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -142,7 +143,7 @@ public class ListViewWidget extends ListView implements WidgetGroup, Refreshable
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -187,7 +188,7 @@ public class ListViewWidget extends ListView implements WidgetGroup, Refreshable
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -497,15 +498,26 @@ public class ListViewWidget extends ListView implements WidgetGroup, Refreshable
 	@Override
 	public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
 		this.ensureDecorator();
-		return mDecorator.onInterceptTouchEvent(event) || super.onInterceptTouchEvent(event);
+		if (mDecorator.onInterceptTouchEvent(event)) {
+			final MotionEvent cancelEvent = WidgetUtils.createMotionCancelingEvent(event);
+			super.onInterceptTouchEvent(cancelEvent);
+			cancelEvent.recycle();
+			return true;
+		}
+		return super.onInterceptTouchEvent(event);
 	}
 
 	/**
 	 */
 	@Override
+	@SuppressLint("ClickableViewAccessibility")
 	public boolean onTouchEvent(@NonNull MotionEvent event) {
 		this.ensureDecorator();
-		if (mDecorator.onTouchEvent(event) || super.onTouchEvent(event)) {
+		if (mDecorator.onTouchEvent(event)) {
+			mDecorator.hideSoftKeyboardOnTouch();
+			return true;
+		}
+		if (super.onTouchEvent(event)) {
 			return true;
 		}
 		mDecorator.hideSoftKeyboardOnTouch();
@@ -602,7 +614,7 @@ public class ListViewWidget extends ListView implements WidgetGroup, Refreshable
 		}
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

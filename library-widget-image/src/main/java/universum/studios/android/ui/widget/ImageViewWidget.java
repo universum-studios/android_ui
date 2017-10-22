@@ -77,11 +77,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class ImageViewWidget extends ImageView implements Widget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -90,11 +90,11 @@ public class ImageViewWidget extends ImageView implements Widget {
 	 */
 	// private static final String TAG = "ImageViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -104,7 +104,7 @@ public class ImageViewWidget extends ImageView implements Widget {
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -149,7 +149,7 @@ public class ImageViewWidget extends ImageView implements Widget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -339,7 +339,7 @@ public class ImageViewWidget extends ImageView implements Widget {
 		return mDecorator.animateSize();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

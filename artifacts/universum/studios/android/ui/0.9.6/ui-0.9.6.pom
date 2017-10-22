@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>universum.studios.android</groupId>
   <artifactId>ui</artifactId>
-  <version>0.9.5</version>
+  <version>0.9.6</version>
   <name>Android UI</name>
   <description>Extended UI components for the Android platform.</description>
   <url>https://github.com/universum-studios/android_ui</url>

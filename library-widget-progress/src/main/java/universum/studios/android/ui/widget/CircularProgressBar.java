@@ -70,11 +70,11 @@ import universum.studios.android.ui.graphics.drawable.CircularProgressDrawable;
  */
 public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawable> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -101,15 +101,15 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 	public @interface ProgressMode {
 	}
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -153,7 +153,7 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -238,7 +238,7 @@ public class CircularProgressBar extends BaseProgressBar<CircularProgressDrawabl
 		return mDrawable != null ? mDrawable.getRotation() : 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

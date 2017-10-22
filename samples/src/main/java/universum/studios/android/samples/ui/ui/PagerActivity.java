@@ -19,11 +19,16 @@
 package universum.studios.android.samples.ui.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import universum.studios.android.samples.ui.R;
 import universum.studios.android.samples.ui.ui.adapter.PagesAdapter;
 import universum.studios.android.support.samples.ui.SamplesActivity;
+import universum.studios.android.ui.util.ResourceUtils;
 import universum.studios.android.ui.widget.ViewPagerWidget;
 
 /**
@@ -32,36 +37,42 @@ import universum.studios.android.ui.widget.ViewPagerWidget;
 public final class PagerActivity extends SamplesActivity {
 
 	@SuppressWarnings("unused")
-	private static final String TAG = "SamplePagerActivity";
+	private static final String TAG = "PagerActivity";
 
 	private ViewPagerWidget mViewPager;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	@SuppressWarnings("ConstantConditions")
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		requestFeature(FEATURE_TOOLBAR);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_pager);
-		this.mViewPager = (ViewPagerWidget) findViewById(R.id.pager);
-		setUpActionBar();
-		setUpViewPager();
-	}
-
-	private void setUpViewPager() {
+		this.mViewPager = findViewById(R.id.pager);
 		mViewPager.setAdapter(new PagesAdapter(getSupportFragmentManager()));
-		mViewPager.setPageFlingSwipingEnabled(true);
-	}
-
-	@SuppressWarnings("ConstantConditions")
-	private void setUpActionBar() {
-		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeAsUpIndicator(ResourceUtils.getVectorDrawable(getResources(), R.drawable.samples_vc_arrow_back_24dp, getTheme()));
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onCreateOptionsMenu(@NonNull Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.pager, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				finish();
 				return true;
+			case R.id.menu_action_page_swiping_enabled:
+				item.setChecked(!item.isChecked());
+				mViewPager.setPageSwipingEnabled(item.isChecked());
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 }

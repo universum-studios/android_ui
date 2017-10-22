@@ -54,11 +54,11 @@ import android.widget.ScrollView;
  */
 public abstract class ScrollableWrapper<V extends View> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -67,11 +67,11 @@ public abstract class ScrollableWrapper<V extends View> {
 	 */
 	// private static final String TAG = "ScrollableWrapper";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -80,7 +80,7 @@ public abstract class ScrollableWrapper<V extends View> {
 	 */
 	final V mScrollableView;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -94,7 +94,7 @@ public abstract class ScrollableWrapper<V extends View> {
 		this.mScrollableView = scrollableView;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -158,7 +158,7 @@ public abstract class ScrollableWrapper<V extends View> {
 		return mScrollableView;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

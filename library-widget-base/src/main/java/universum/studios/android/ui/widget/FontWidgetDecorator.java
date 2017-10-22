@@ -41,11 +41,11 @@ import universum.studios.android.font.FontWidget;
  */
 abstract class FontWidgetDecorator<W extends View & FontWidget> extends WidgetDecorator<W> implements FontWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -54,15 +54,15 @@ abstract class FontWidgetDecorator<W extends View & FontWidget> extends WidgetDe
 	 */
 	// private static final String TAG = "FontWidgetDecorator";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -77,7 +77,7 @@ abstract class FontWidgetDecorator<W extends View & FontWidget> extends WidgetDe
 		super(widget, styleableAttrs);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -147,7 +147,7 @@ abstract class FontWidgetDecorator<W extends View & FontWidget> extends WidgetDe
 		FontApplier.DEFAULT.applyFont(mWidget, resId);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

@@ -46,11 +46,11 @@ import universum.studios.android.ui.R;
  */
 public class FlatButton extends ButtonWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -59,15 +59,15 @@ public class FlatButton extends ButtonWidget {
 	 */
 	// private static final String TAG = "FlatButton";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -109,7 +109,7 @@ public class FlatButton extends ButtonWidget {
 		super(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -139,7 +139,7 @@ public class FlatButton extends ButtonWidget {
 		return tintColor != Color.TRANSPARENT ? ColorStateList.valueOf(tintColor) : null;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

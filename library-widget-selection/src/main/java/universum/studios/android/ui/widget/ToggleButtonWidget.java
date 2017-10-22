@@ -137,11 +137,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class ToggleButtonWidget extends ToggleButton implements Widget, FontWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -150,11 +150,11 @@ public class ToggleButtonWidget extends ToggleButton implements Widget, FontWidg
 	 */
 	// private static final String TAG = "ToggleButtonWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -164,7 +164,7 @@ public class ToggleButtonWidget extends ToggleButton implements Widget, FontWidg
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -209,7 +209,7 @@ public class ToggleButtonWidget extends ToggleButton implements Widget, FontWidg
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -406,7 +406,7 @@ public class ToggleButtonWidget extends ToggleButton implements Widget, FontWidg
 		return mDecorator.animateSize();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

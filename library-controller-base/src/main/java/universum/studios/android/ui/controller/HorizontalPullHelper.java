@@ -38,11 +38,11 @@ import universum.studios.android.ui.widget.Scrollable;
  */
 final class HorizontalPullHelper extends PullHelper {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -51,11 +51,11 @@ final class HorizontalPullHelper extends PullHelper {
 	 */
 	// private static final String TAG = "HorizontalPullHelper";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -69,7 +69,7 @@ final class HorizontalPullHelper extends PullHelper {
 	 */
 	private boolean mExpandingPull;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -83,7 +83,7 @@ final class HorizontalPullHelper extends PullHelper {
 		super(view);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -254,7 +254,7 @@ final class HorizontalPullHelper extends PullHelper {
 		return 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

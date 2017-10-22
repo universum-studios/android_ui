@@ -82,11 +82,11 @@ import universum.studios.android.ui.widget.Scrollable;
  */
 public class PullController<V extends View & Pullable> extends BasePullController<V> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -136,11 +136,11 @@ public class PullController<V extends View & Pullable> extends BasePullControlle
 	 */
 	private static final int PFLAG_OVER_SCROLL_ANIMATION_ENABLED = 0x00000001 << 1;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -170,7 +170,7 @@ public class PullController<V extends View & Pullable> extends BasePullControlle
 	 */
 	private List<Pullable.OnPullOverflowListener> mOverflowListeners;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -185,7 +185,7 @@ public class PullController<V extends View & Pullable> extends BasePullControlle
 		updatePrivateFlags(PFLAG_PULL_COLLAPSE_FIXED_TIME_ENABLED, true);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -575,7 +575,7 @@ public class PullController<V extends View & Pullable> extends BasePullControlle
 		return false;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
