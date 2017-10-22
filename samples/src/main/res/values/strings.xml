@@ -32,6 +32,7 @@
 	<string name="app_menu_action_refresh">Refresh</string>
 	<string name="app_menu_action_confirm">Confirm</string>
 	<string name="app_menu_action_search">Search</string>
+	<string name="app_menu_action_page_swiping_enabled">Page swiping enabled</string>
 
 	<!-- ### NAVIGATION ======================================================================== -->
 

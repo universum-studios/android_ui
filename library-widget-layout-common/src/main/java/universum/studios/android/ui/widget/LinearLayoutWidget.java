@@ -18,6 +18,7 @@
  */
 package universum.studios.android.ui.widget;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -352,6 +353,7 @@ public class LinearLayoutWidget extends LinearLayout implements WidgetGroup {
 	/**
 	 */
 	@Override
+	@SuppressLint("ClickableViewAccessibility")
 	public boolean onTouchEvent(@NonNull MotionEvent event) {
 		if (super.onTouchEvent(event)) {
 			return true;
