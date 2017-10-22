@@ -18,6 +18,7 @@
  */
 package universum.studios.android.ui.widget;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -660,14 +661,18 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	/**
 	 */
 	@Override
-	public boolean onInterceptTouchEvent(MotionEvent event) {
+	public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
 		this.ensureDecorator();
 		if (!mDecorator.hasPrivateFlag(PFLAG_PAGE_SWIPING_ENABLED)) {
-			// todo: send CANCEL event to the super
+			final MotionEvent cancelEvent = WidgetUtils.createMotionCancelingEvent(event);
+			super.onInterceptTouchEvent(cancelEvent);
+			cancelEvent.recycle();
 			return false;
 		}
 		if (mDecorator.onInterceptTouchEvent(event)) {
-			// todo: send CANCEL event to the super
+			final MotionEvent cancelEvent = WidgetUtils.createMotionCancelingEvent(event);
+			super.onInterceptTouchEvent(cancelEvent);
+			cancelEvent.recycle();
 			this.requestParentDisallowInterceptTouchEvent(true);
 			return true;
 		}
@@ -677,6 +682,7 @@ public class ViewPagerWidget extends ViewPager implements WidgetGroup {
 	/**
 	 */
 	@Override
+	@SuppressLint("ClickableViewAccessibility")
 	public boolean onTouchEvent(@NonNull MotionEvent event) {
 		this.ensureDecorator();
 		if (!mDecorator.hasPrivateFlag(PFLAG_PAGE_SWIPING_ENABLED)) {

@@ -6,8 +6,9 @@ Change-Log
 ### [0.9.6](https://github.com/universum-studios/android_ui/releases/tag/0.9.6) ###
 > upcoming
 
-- Fixed [Issue #15](https://github.com/universum-studios/android_ui/issues/15).
-- Fixed [Issue #16](https://github.com/universum-studios/android_ui/issues/16).
+- Resolved [Issue #15](https://github.com/universum-studios/android_ui/issues/15).
+- Resolved [Issue #16](https://github.com/universum-studios/android_ui/issues/16).
+- Fixed [Issue #17](https://github.com/universum-studios/android_ui/issues/17).
 
 ### [0.9.5](https://github.com/universum-studios/android_ui/releases/tag/0.9.5) ###
 > 01.08.2017
