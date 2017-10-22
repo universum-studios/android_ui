@@ -198,7 +198,7 @@ public class SpinnerWidget extends Spinner implements Widget, ErrorWidget {
 	/**
 	 */
 	@Override
-	public void setError(@NonNull CharSequence error) {
+	public void setError(@Nullable CharSequence error) {
 		this.ensureDecorator();
 		mDecorator.setError(error);
 	}

@@ -255,7 +255,7 @@ public class TextViewWidget extends TextView implements Widget, FontWidget, Erro
 	/**
 	 */
 	@Override
-	public void setError(@NonNull CharSequence error) {
+	public void setError(@Nullable CharSequence error) {
 		this.ensureDecorator();
 		mDecorator.setError(error);
 	}
