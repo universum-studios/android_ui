@@ -94,11 +94,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -107,11 +107,11 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 	 */
 	// private static final String TAG = "RelativeLayoutWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -121,7 +121,7 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 	 */
 	WidgetGroupDecorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -165,7 +165,7 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -367,7 +367,7 @@ public class RelativeLayoutWidget extends RelativeLayout implements WidgetGroup 
 		mDecorator.onDetachedFromWindow();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

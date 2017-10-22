@@ -41,7 +41,7 @@ import universum.studios.android.ui.widget.Scrollable;
  */
 abstract class BasePullController<V extends View & Scrollable> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -66,7 +66,7 @@ abstract class BasePullController<V extends View & Scrollable> {
 		float transform(float offset, float position);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -101,11 +101,11 @@ abstract class BasePullController<V extends View & Scrollable> {
 	 */
 	private static final int STATE_RELEASED = 0x04;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -165,7 +165,7 @@ abstract class BasePullController<V extends View & Scrollable> {
 	 */
 	private PullTransformer mPullTransformer = new PullTransformerImpl();
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -189,7 +189,7 @@ abstract class BasePullController<V extends View & Scrollable> {
 		}
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -686,7 +686,7 @@ abstract class BasePullController<V extends View & Scrollable> {
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

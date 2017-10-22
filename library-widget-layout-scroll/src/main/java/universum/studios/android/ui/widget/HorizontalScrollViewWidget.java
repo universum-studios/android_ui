@@ -107,11 +107,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class HorizontalScrollViewWidget extends HorizontalScrollView implements WidgetGroup, Scrollable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -120,11 +120,11 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	 */
 	// private static final String TAG = "HorizontalScrollViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -139,7 +139,7 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 	 */
 	private List<ViewWidget.OnScrollChangeListener> mScrollChangeListeners;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -185,7 +185,7 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -422,7 +422,7 @@ public class HorizontalScrollViewWidget extends HorizontalScrollView implements 
 		return mDecorator.scrollableWrapper.isScrolledAtEnd();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

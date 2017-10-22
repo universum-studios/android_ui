@@ -40,11 +40,11 @@ import universum.studios.android.ui.widget.Scrollable;
  */
 abstract class PullHelper {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -109,11 +109,11 @@ abstract class PullHelper {
 	 */
 	private static final int MAX_PULL_DELTA = 4;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -154,7 +154,7 @@ abstract class PullHelper {
 	 */
 	private int mPrivateFlags = PFLAG_START_PULL_VISIBLE | PFLAG_END_PULL_VISIBLE;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -171,7 +171,7 @@ abstract class PullHelper {
 		this.mMaxPullDelta = MAX_PULL_DELTA * density;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -461,7 +461,7 @@ abstract class PullHelper {
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

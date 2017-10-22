@@ -89,7 +89,7 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class CalendarView extends RecyclerView implements Widget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -308,7 +308,7 @@ public class CalendarView extends RecyclerView implements Widget {
 		void restoreInstanceState(@NonNull Parcelable savedState);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -332,11 +332,11 @@ public class CalendarView extends RecyclerView implements Widget {
 	 */
 	private static final int NO_VALUE = -1;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -447,7 +447,7 @@ public class CalendarView extends RecyclerView implements Widget {
 	 */
 	private WidgetSizeAnimator mSizeAnimator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -502,7 +502,7 @@ public class CalendarView extends RecyclerView implements Widget {
 		setCalendarAdapter(new SimpleCalendarAdapter(context, new CalendarDataSet()));
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -1164,7 +1164,7 @@ public class CalendarView extends RecyclerView implements Widget {
 		updateCurrentPosition(mScrolledYear, mScrolledMonth);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

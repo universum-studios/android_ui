@@ -94,7 +94,7 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class CircularNumberPicker extends ViewWidget implements FontWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -148,7 +148,7 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 		void onNumberChanged(@NonNull CircularNumberPicker picker, int number);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -174,11 +174,11 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	 */
 	private static final int PFLAG_ANIMATING = 0x00000001 << 17;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -284,7 +284,7 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 	 */
 	private Rect mRect;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -328,7 +328,7 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -1535,7 +1535,7 @@ public class CircularNumberPicker extends ViewWidget implements FontWidget {
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

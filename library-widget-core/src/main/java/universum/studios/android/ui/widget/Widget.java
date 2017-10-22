@@ -30,7 +30,7 @@ import android.support.annotation.NonNull;
  */
 public interface Widget {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -41,7 +41,7 @@ public interface Widget {
 	 */
 	boolean ANIMABLE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -51,7 +51,7 @@ public interface Widget {
 	@NonNull
 	WidgetSizeAnimator animateSize();
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

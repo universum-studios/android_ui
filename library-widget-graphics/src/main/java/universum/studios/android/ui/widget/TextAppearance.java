@@ -52,11 +52,11 @@ import universum.studios.android.ui.R;
  */
 public final class TextAppearance {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -97,7 +97,7 @@ public final class TextAppearance {
 	 */
 	public static final int MONOSPACE = 3;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -108,7 +108,7 @@ public final class TextAppearance {
 	 */
 	public static final ColorStateList TEXT_COLORS = ColorStateList.valueOf(Color.BLACK);
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -148,7 +148,7 @@ public final class TextAppearance {
 	 */
 	private boolean mInvalidateTypeface;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -159,7 +159,7 @@ public final class TextAppearance {
 		this.reset();
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -593,7 +593,7 @@ public final class TextAppearance {
 		this.mTypeface = null;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

@@ -26,7 +26,7 @@ import universum.studios.android.support.fragment.manage.BaseFragmentFactory;
  */
 public final class PatternsFragments extends BaseFragmentFactory {
 
-	/**
+	/*
 	 * ERRORS ======================================================================================
 	 */
 
@@ -36,13 +36,13 @@ public final class PatternsFragments extends BaseFragmentFactory {
 
 	public static final int ERRORS_INCOMPATIBLE_STATE = 0x20000003;
 
-	/**
+	/*
 	 * NAVIGATION DRAWER ===========================================================================
 	 */
 
 	// No sub-sections.
 
-	/**
+	/*
 	 * SWIPE TO REFRESH ============================================================================
 	 */
 
@@ -60,7 +60,7 @@ public final class PatternsFragments extends BaseFragmentFactory {
 
 	public static final int SWIPE_TO_REFRESH_LAYOUT = 0xb0000005;
 
-	/**
+	/*
 	 * SEARCH ======================================================================================
 	 */
 

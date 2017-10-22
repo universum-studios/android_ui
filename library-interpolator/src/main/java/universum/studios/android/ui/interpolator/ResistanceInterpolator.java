@@ -31,7 +31,7 @@ import android.view.animation.Interpolator;
  */
 public class ResistanceInterpolator implements Interpolator {
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -46,7 +46,7 @@ public class ResistanceInterpolator implements Interpolator {
 	 */
 	private float mMinResistanceFactor = 0.1f;
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 

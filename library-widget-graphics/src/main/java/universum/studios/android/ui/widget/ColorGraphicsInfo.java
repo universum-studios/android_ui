@@ -32,11 +32,11 @@ import android.support.annotation.Nullable;
  */
 public class ColorGraphicsInfo extends GraphicsInfo {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -45,11 +45,11 @@ public class ColorGraphicsInfo extends GraphicsInfo {
 	 */
 	// private static final String TAG = "ColorGraphicsInfo";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -58,7 +58,7 @@ public class ColorGraphicsInfo extends GraphicsInfo {
 	 */
 	ColorStateList colors = ColorStateList.valueOf(Color.TRANSPARENT);
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -80,7 +80,7 @@ public class ColorGraphicsInfo extends GraphicsInfo {
 		super(paint);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -128,7 +128,7 @@ public class ColorGraphicsInfo extends GraphicsInfo {
 		return false;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

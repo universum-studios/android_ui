@@ -138,11 +138,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class RadioButtonWidget extends RadioButton implements Widget, FontWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -151,11 +151,11 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 	 */
 	// private static final String TAG = "RadioButtonWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -165,7 +165,7 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -210,7 +210,7 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -418,7 +418,7 @@ public class RadioButtonWidget extends RadioButton implements Widget, FontWidget
 		return mDecorator.animateSize();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

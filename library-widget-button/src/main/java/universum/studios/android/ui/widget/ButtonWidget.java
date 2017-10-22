@@ -139,11 +139,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class ButtonWidget extends Button implements Widget, FontWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -152,11 +152,11 @@ public class ButtonWidget extends Button implements Widget, FontWidget {
 	 */
 	// private static final String TAG = "ButtonWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -166,7 +166,7 @@ public class ButtonWidget extends Button implements Widget, FontWidget {
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -210,7 +210,7 @@ public class ButtonWidget extends Button implements Widget, FontWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -481,7 +481,7 @@ public class ButtonWidget extends Button implements Widget, FontWidget {
 		return TintManager.createButtonBackgroundTintColors(getContext(), tintColor);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

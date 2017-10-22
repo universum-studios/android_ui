@@ -72,11 +72,11 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class SpinnerWidget extends Spinner implements Widget, ErrorWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -90,7 +90,7 @@ public class SpinnerWidget extends Spinner implements Widget, ErrorWidget {
 	 */
 	private static final int PFLAG_POPUP_WINDOW_OVERLAPS = 0x00008000;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -99,7 +99,7 @@ public class SpinnerWidget extends Spinner implements Widget, ErrorWidget {
 	 */
 	private static final boolean PRE_JELLY_BEAN = Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN;
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -109,7 +109,7 @@ public class SpinnerWidget extends Spinner implements Widget, ErrorWidget {
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -153,7 +153,7 @@ public class SpinnerWidget extends Spinner implements Widget, ErrorWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -312,7 +312,7 @@ public class SpinnerWidget extends Spinner implements Widget, ErrorWidget {
 		return drawableState;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

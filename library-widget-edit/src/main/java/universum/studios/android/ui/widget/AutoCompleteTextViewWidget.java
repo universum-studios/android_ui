@@ -139,11 +139,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class AutoCompleteTextViewWidget extends AutoCompleteTextView implements Widget, FontWidget, ErrorWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -152,11 +152,11 @@ public class AutoCompleteTextViewWidget extends AutoCompleteTextView implements 
 	 */
 	// private static final String TAG = "AutoCompleteTextViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -171,7 +171,7 @@ public class AutoCompleteTextViewWidget extends AutoCompleteTextView implements 
 	 */
 	private int mInputLength;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -216,7 +216,7 @@ public class AutoCompleteTextViewWidget extends AutoCompleteTextView implements 
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -542,7 +542,7 @@ public class AutoCompleteTextViewWidget extends AutoCompleteTextView implements 
 		return drawableState;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

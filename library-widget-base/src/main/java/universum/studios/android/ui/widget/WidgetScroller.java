@@ -35,11 +35,11 @@ import android.widget.Scroller;
  */
 final class WidgetScroller extends Scroller {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -48,11 +48,11 @@ final class WidgetScroller extends Scroller {
 	 */
 	// private static final String TAG = "WidgetScroller";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -62,7 +62,7 @@ final class WidgetScroller extends Scroller {
 	 */
 	private int mScrollDuration = -1;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -95,7 +95,7 @@ final class WidgetScroller extends Scroller {
 		super(context, interpolator, flywheel);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -126,7 +126,7 @@ final class WidgetScroller extends Scroller {
 		return mScrollDuration;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

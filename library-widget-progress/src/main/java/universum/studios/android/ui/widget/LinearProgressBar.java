@@ -86,11 +86,11 @@ import universum.studios.android.ui.graphics.drawable.ProgressDrawable;
  */
 public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -133,11 +133,11 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 	public @interface ProgressMode {
 	}
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -156,7 +156,7 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 	 */
 	private Widget.TintInfo mTintInfo;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -200,7 +200,7 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -563,7 +563,7 @@ public class LinearProgressBar extends BaseProgressBar<LinearProgressDrawable> {
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

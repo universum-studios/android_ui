@@ -35,11 +35,11 @@ import android.view.View;
  */
 public class DepthPageTransformer implements ViewPager.PageTransformer {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -97,11 +97,11 @@ public class DepthPageTransformer implements ViewPager.PageTransformer {
 		}
 	}
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -120,7 +120,7 @@ public class DepthPageTransformer implements ViewPager.PageTransformer {
 	 */
 	private float mMinAlpha = MIN_ALPHA;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -140,7 +140,7 @@ public class DepthPageTransformer implements ViewPager.PageTransformer {
 		this.mOrigin = depthOrigin;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -272,7 +272,7 @@ public class DepthPageTransformer implements ViewPager.PageTransformer {
 		return mMinAlpha;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

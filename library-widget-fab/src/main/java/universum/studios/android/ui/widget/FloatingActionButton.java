@@ -73,11 +73,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class FloatingActionButton extends ImageButtonWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -109,11 +109,11 @@ public class FloatingActionButton extends ImageButtonWidget {
 	 */
 	private static final float MINI_SIZE_SHADOW_OFFSET_CORRECTION_RATIO = 3.5f;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -143,7 +143,7 @@ public class FloatingActionButton extends ImageButtonWidget {
 	 */
 	private Drawable mDropShadow;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -187,7 +187,7 @@ public class FloatingActionButton extends ImageButtonWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 

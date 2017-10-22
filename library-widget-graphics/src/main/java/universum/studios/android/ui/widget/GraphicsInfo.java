@@ -30,11 +30,11 @@ import android.support.annotation.Nullable;
  */
 public abstract class GraphicsInfo {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -43,11 +43,11 @@ public abstract class GraphicsInfo {
 	 */
 	// private static final String TAG = "GraphicsInfo";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -56,7 +56,7 @@ public abstract class GraphicsInfo {
 	 */
 	public final Paint paint;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -76,7 +76,7 @@ public abstract class GraphicsInfo {
 		this.paint = paint;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -88,7 +88,7 @@ public abstract class GraphicsInfo {
 	 */
 	public abstract boolean updatePaint(@Nullable int[] stateSet);
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

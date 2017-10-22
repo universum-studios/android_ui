@@ -37,7 +37,6 @@ import android.os.SystemClock;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -97,7 +96,7 @@ import universum.studios.android.ui.UiConfig;
  */
 public abstract class ProgressDrawable extends Drawable implements Animatable {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -150,14 +149,14 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
 		void onImploded(@NonNull ProgressDrawable drawable);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
 	/**
 	 * Log TAG.
 	 */
-	private static final String TAG = "BaseProgressDrawable";
+	// private static final String TAG = "BaseProgressDrawable";
 
 	/**
 	 * Base flag for DETERMINATE mode.
@@ -251,11 +250,11 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
 	 */
 	static final int PFLAG_IN_EDIT_MODE = 0x00000040;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -404,7 +403,7 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
 	 */
 	private ExplodeAnimationCallback mExplodeAnimationCallback;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -436,7 +435,7 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
 		setColors(colors);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -1629,7 +1628,7 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
 		}
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
@@ -1637,6 +1636,11 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
 	 * Constant state implementation for this drawable class.
 	 */
 	static abstract class ProgressState extends ConstantState {
+
+		/**
+		 * Default indeterminate speed used.
+		 */
+		private static final float DEFAULT_INDETERMINATE_SPEED = 1.0f;
 
 		/**
 		 * Multicolored set of colors for indeterminate mode.
@@ -1690,7 +1694,7 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
 		 * <b>Note</b>, that this does not influences the FPS for the running indeterminate animation,
 		 * but rather the ratio for the update deltas for a start and sweep angle of the progress arc.
 		 */
-		float indeterminateSpeed = 1f;
+		float indeterminateSpeed = DEFAULT_INDETERMINATE_SPEED;
 
 		/**
 		 * Direction in which to draw progress drawable's graphics.

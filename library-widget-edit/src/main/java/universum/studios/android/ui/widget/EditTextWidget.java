@@ -136,11 +136,11 @@ import universum.studios.android.ui.util.ResourceUtils;
  */
 public class EditTextWidget extends EditText implements Widget, FontWidget, ErrorWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -149,11 +149,11 @@ public class EditTextWidget extends EditText implements Widget, FontWidget, Erro
 	 */
 	// private static final String TAG = "EditTextWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -168,7 +168,7 @@ public class EditTextWidget extends EditText implements Widget, FontWidget, Erro
 	 */
 	private int mInputLength;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -212,7 +212,7 @@ public class EditTextWidget extends EditText implements Widget, FontWidget, Erro
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -536,7 +536,7 @@ public class EditTextWidget extends EditText implements Widget, FontWidget, Erro
 		return drawableState;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

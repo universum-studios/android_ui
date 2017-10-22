@@ -115,11 +115,11 @@ import universum.studios.android.ui.R;
  */
 public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -167,11 +167,11 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 	 */
 	static final int PFLAG_ERROR_HIGHLIGHT_VISIBLE = 0x00000001 << 17;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -255,7 +255,7 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 	 */
 	long mNoteTextChangeDuration = 100;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -298,7 +298,7 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -1340,7 +1340,7 @@ public class InputLayout extends FrameLayoutWidget implements ErrorWidget {
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

@@ -60,7 +60,7 @@ public final class UiConfig {
 	 */
 	public static final boolean MATERIALIZED_MARSHMALLOW = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
 
-	/**
+	/*
 	 * MOTION EVENTS ===============================================================================
 	 */
 
@@ -71,7 +71,7 @@ public final class UiConfig {
 	 */
 	public static final int VELOCITY_UNITS = 1000;
 
-	/**
+	/*
 	 * ANIMATIONS ==================================================================================
 	 */
 
@@ -104,7 +104,7 @@ public final class UiConfig {
 	 */
 	public static final long ANIMATION_DURATION_LONG = 500;
 
-	/**
+	/*
 	 * LOCALE ======================================================================================
 	 */
 

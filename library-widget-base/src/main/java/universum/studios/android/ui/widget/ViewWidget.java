@@ -70,7 +70,7 @@ import universum.studios.android.ui.graphics.drawable.TintDrawable;
  */
 public class ViewWidget extends View implements Widget {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -93,7 +93,7 @@ public class ViewWidget extends View implements Widget {
 		void onScrollChanged(@NonNull View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY);
 	}
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -102,11 +102,11 @@ public class ViewWidget extends View implements Widget {
 	 */
 	// private static final String TAG = "ViewWidget";
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -116,7 +116,7 @@ public class ViewWidget extends View implements Widget {
 	 */
 	private Decorator mDecorator;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -159,7 +159,7 @@ public class ViewWidget extends View implements Widget {
 		this.init(context, attrs, defStyleAttr, defStyleRes);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -302,7 +302,7 @@ public class ViewWidget extends View implements Widget {
 		mDecorator.onDetachedFromWindow();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 

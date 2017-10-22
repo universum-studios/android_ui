@@ -36,11 +36,11 @@ import android.support.annotation.Nullable;
  */
 public class TintDrawable extends DrawableWrapper {
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -64,11 +64,11 @@ public class TintDrawable extends DrawableWrapper {
 	 */
 	static final int PFLAG_TINT_COLOR_CACHING_ENABLED = 0x00000001 << 1;
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -92,7 +92,7 @@ public class TintDrawable extends DrawableWrapper {
 	 */
 	int mPrivateFlags = PFLAG_TINT_COLOR_CACHING_ENABLED;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -125,7 +125,7 @@ public class TintDrawable extends DrawableWrapper {
 		this.updatePrivateFlags(PFLAG_TINT_COLOR_CACHING_ENABLED, cacheTintColor);
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -256,7 +256,7 @@ public class TintDrawable extends DrawableWrapper {
 		return (mPrivateFlags & flag) != 0;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }
