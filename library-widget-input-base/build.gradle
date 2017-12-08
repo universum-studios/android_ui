@@ -28,7 +28,7 @@ android {
     defaultConfig {
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
-        testInstrumentationRunner config.test.instrumentationRunner
+        testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
     }
 
     buildTypes {
@@ -64,7 +64,7 @@ dependencies {
     /*
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
-    compile deps.androidSupport.annotations
+    implementation deps.androidSupport.annotations
     // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-base:${config.library.version}@aar"
@@ -74,15 +74,15 @@ dependencies {
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
-    debugCompile project(':library-widget-core')
-    debugCompile project(':library-widget-base')
-    debugCompile project(':library-widget-text')
-    debugCompile project(':library-widget-layout-common')
+    debugApi project(':library-widget-core')
+    debugApi project(':library-widget-base')
+    debugApi project(':library-widget-text')
+    debugApi project(':library-widget-layout-common')
 
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
      */
-    androidTestCompile project(':test-instrumented')
+    androidTestImplementation project(':test-instrumented')
 }
 
  apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

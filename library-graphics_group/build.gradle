@@ -28,7 +28,7 @@ android {
     defaultConfig {
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
-        testInstrumentationRunner config.test.instrumentationRunner
+        testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
     }
 
     buildTypes {
@@ -75,7 +75,7 @@ dependencies {
     /*
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
-    compile deps.androidSupport.annotations
+    implementation deps.androidSupport.annotations
 }
 
  apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

@@ -28,7 +28,7 @@ android {
     defaultConfig {
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
-        testInstrumentationRunner config.test.instrumentationRunner
+        testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
     }
 
     buildTypes {
@@ -82,9 +82,9 @@ dependencies {
     /*
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
-    compile deps.androidSupport.annotations
-    compile deps.androidSupport.appCompatV7
-    compile deps.androidSupport.vectorDrawable
+    implementation deps.androidSupport.annotations
+    implementation deps.androidSupport.appCompatV7
+    implementation deps.androidSupport.vectorDrawable
     // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-widget-base:${config.library.version}@aar"
@@ -97,13 +97,13 @@ dependencies {
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
-    debugCompile project(':library-widget-core')
-    debugCompile project(':library-widget-base')
-    debugCompile project(':library-widget-graphics')
-    debugCompile project(':library-widget-text')
-    debugCompile project(':library-widget-edit')
-    debugCompile project(':library-widget-menu')
-    debugCompile project(':library-widget-layout-common')
+    debugApi project(':library-widget-core')
+    debugApi project(':library-widget-base')
+    debugApi project(':library-widget-graphics')
+    debugApi project(':library-widget-text')
+    debugApi project(':library-widget-edit')
+    debugApi project(':library-widget-menu')
+    debugApi project(':library-widget-layout-common')
 }
 
  apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

@@ -28,7 +28,7 @@ android {
     defaultConfig {
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
-        testInstrumentationRunner config.test.instrumentationRunner
+        testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
     }
 
     buildTypes {
@@ -106,11 +106,11 @@ dependencies {
     /*
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
      */
-    compile deps.androidSupport.annotations
-    compile deps.androidSupport.appCompatV7
-    compile deps.androidSupport.vectorDrawable
-    compile deps.androidSupport.recyclerView
-    compile deps.universumStudios.fontCore
+    implementation deps.androidSupport.annotations
+    implementation deps.androidSupport.appCompatV7
+    implementation deps.androidSupport.vectorDrawable
+    implementation deps.androidSupport.recyclerView
+    implementation deps.universumStudios.fontCore
     // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-base:${config.library.version}@aar"
     // todo: releaseCompile "universum.studios.android:ui-controller-refresh:${config.library.version}@aar"
@@ -118,13 +118,13 @@ dependencies {
     /*
      * DEBUG DEPENDENCIES --------------------------------------------------------------------------
      */
-    debugCompile project(':library-core')
-    debugCompile project(':library-controller-refresh')
+    debugApi project(':library-core')
+    debugApi project(':library-controller-refresh')
 
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
      */
-    androidTestCompile project(':test-instrumented')
+    androidTestImplementation project(':test-instrumented')
 }
 
  apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
