@@ -24,15 +24,18 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 
 /**
  * Class that may be used to group suite of <b>Android instrumented tests</b>.
  *
  * @author Martin Albedinsky
  */
+@RunWith(AndroidJUnit4.class)
 @SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public abstract class InstrumentedTestCase {
 

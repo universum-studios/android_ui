@@ -431,12 +431,12 @@ public class RecyclerViewWidget extends RecyclerView implements WidgetGroup, Ref
 		if (layoutManager instanceof LinearLayoutManager) {
 			switch (((LinearLayoutManager) layoutManager).getOrientation()) {
 				case LinearLayoutManager.VERTICAL:
-					return Orientation.VERTICAL;
+					return universum.studios.android.ui.widget.Orientation.VERTICAL;
 				case LinearLayoutManager.HORIZONTAL:
-					return Orientation.HORIZONTAL;
+					return universum.studios.android.ui.widget.Orientation.HORIZONTAL;
 			}
 		}
-		return Orientation.VERTICAL;
+		return universum.studios.android.ui.widget.Orientation.VERTICAL;
 	}
 
 	/**

@@ -28,17 +28,8 @@ android {
     defaultConfig {
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
-        testInstrumentationRunner config.test.instrumentationRunner
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
-        }
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
     }
 
     compileOptions {
@@ -61,38 +52,32 @@ repositories {
 }
 
 dependencies {
-    /*
-     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
-     */
-    compile deps.androidSupport.annotations
-    compile deps.androidSupport.appCompatV7
-    compile deps.androidSupport.vectorDrawable
-    // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-base:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-graphics:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-text:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-edit:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-image:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-progress:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-layout-common:${config.library.version}@aar"
+    // PRODUCTION ----------------------------------------------------------------------------------
+    implementation deps.androidSupport.annotations
+    implementation deps.androidSupport.appCompatV7
+    implementation deps.androidSupport.vectorDrawable
+    // todo: releaseImplementation "universum.studios.android:ui-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-base:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-graphics:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-text:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-edit:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-image:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-progress:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-layout-common:${config.library.version}@aar"
 
-    /*
-     * DEBUG DEPENDENCIES --------------------------------------------------------------------------
-     */
-    debugCompile project(':library-widget-core')
-    debugCompile project(':library-widget-base')
-    debugCompile project(':library-widget-graphics')
-    debugCompile project(':library-widget-text')
-    debugCompile project(':library-widget-edit')
-    debugCompile project(':library-widget-image')
-    debugCompile project(':library-widget-progress')
-    debugCompile project(':library-widget-layout-common')
+    // DEVELOPMENT ---------------------------------------------------------------------------------
+    debugApi project(':library-widget-core')
+    debugApi project(':library-widget-base')
+    debugApi project(':library-widget-graphics')
+    debugApi project(':library-widget-text')
+    debugApi project(':library-widget-edit')
+    debugApi project(':library-widget-image')
+    debugApi project(':library-widget-progress')
+    debugApi project(':library-widget-layout-common')
 
-    /*
-     * TEST DEPENDENCIES ---------------------------------------------------------------------------
-     */
-    androidTestCompile project(':test-instrumented')
+    // TEST ----------------------------------------------------------------------------------------
+    testImplementation project(':test-local')
 }
 
- apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
+apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

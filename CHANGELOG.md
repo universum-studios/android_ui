@@ -3,6 +3,9 @@ Change-Log
 
 ## Version 1.x ##
 
+### 0.9.7 ###
+> upcoming
+
 ### [0.9.6](https://github.com/universum-studios/android_ui/releases/tag/0.9.6) ###
 > 22.10.2017
 

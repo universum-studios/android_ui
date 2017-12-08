@@ -52,7 +52,7 @@ public final class NumberPickerFragment extends BaseSamplesFragment
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		final CircularNumberPicker numberPicker = (CircularNumberPicker) view.findViewById(R.id.picker);
+		final CircularNumberPicker numberPicker = view.findViewById(R.id.picker);
 		numberPicker.setNumbers(NUMBERS);
 		numberPicker.setOnNumberSelectionListener(this);
 		numberPicker.setOnNumberChangeListener(this);

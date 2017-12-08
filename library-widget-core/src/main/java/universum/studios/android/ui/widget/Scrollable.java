@@ -31,6 +31,7 @@ public interface Scrollable {
 	 *
 	 * @return Orientation of this view. One of {@link Orientation#VERTICAL} or {@link Orientation#HORIZONTAL}.
 	 */
+	@Orientation.Value
 	int getOrientation();
 
 	/**
