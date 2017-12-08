@@ -5,9 +5,9 @@ This file describes which proguard rules **should** be used to preserve *proper 
 source code provided by this library when the **Proguard's obfuscation** process is applied to a
 project that depends on this library.
 
-> **Note, that the proguard rules listed below are not guarantied to ensure obfuscation that will
-not affect the proper working of your Android application. Each Android application has its specific
-structure, so it is hard to find rules that will fit needs of all of them. New general rules may be
+> **Note that the proguard rules listed below are not guarantied to ensure obfuscation that will
+not affect the proper working of your Android application. Each application has its specific needs
+and caveats, so it is hard to find rules that will satisfy all of them. New general rules may be
 added in the future.**
 
 ### Proguard-Rules ###

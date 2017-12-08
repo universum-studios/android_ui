@@ -63,7 +63,7 @@ public final class TimerAdapter extends SimpleSpinnerAdapter<TimerAdapter, ViewH
 
 	@Override
 	protected void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-		updateView((TextView) holder.itemView.findViewById(R.id.view_spinner_timer_text_view), position);
+		updateView(holder.itemView.findViewById(R.id.view_spinner_timer_text_view), position);
 	}
 
 	@Override

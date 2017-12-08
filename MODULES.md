@@ -6,14 +6,12 @@ the library in order to decrease dependencies count in Android projects, so only
 needed in an Android project are included. **However** some modules may depend on another modules
 from this library or on modules from other libraries.
 
-Below are listed modules that are available for download also with theirs dependencies.
-
 ## Download ##
 
 ### Gradle ###
 
 For **successful resolving** of artifacts for separate modules via **Gradle** add the following snippet
-into **build.gradle** script of your desired Android project and use `compile '...'` declaration
+into **build.gradle** script of your desired Android project and use `implementation '...'` declaration
 as usually.
 
     repositories {
@@ -22,4 +20,7 @@ as usually.
         }
     }
 
-> COMING SOON
+## Available modules ##
+> Following modules are available in the [latest](https://github.com/universum-studios/android_ui/releases "Latest Releases page") stable release.
+
+- **none**

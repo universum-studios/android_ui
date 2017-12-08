@@ -27,42 +27,52 @@ android {
 
     defaultConfig {
         applicationId project.property('samples.applicationId')
+        versionName project.property('samples.versionName')
+        versionCode Integer.valueOf((String) project.property('samples.versionCode'))
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
-        versionCode Integer.valueOf((String) project.property('samples.versionCode'))
-        versionName project.property('samples.versionName')
         vectorDrawables.useSupportLibrary = true
     }
 
-    if (project.hasProperty('signing.properties') && new File((String) project.property('signing.properties')).exists()) {
-        final Properties properties = new Properties()
-        properties.load(new FileInputStream(file(project.property('signing.properties'))))
-
+    final String keyDirPath = "${System.getenv('ANDROID_UNIVERSUM_KEYSTORE')}/samples"
+    final File keyFile = file("${keyDirPath}/release.jks")
+    final File keyPropertiesFile = file("${keyDirPath}/key.properties")
+    if (keyFile.exists() && keyPropertiesFile.exists()) {
+        final Properties signingProperties = new Properties()
+        signingProperties.load(new FileInputStream(keyPropertiesFile))
+        //
+        // The key.properties file should contain following data (each property at a single line):
+        // <pre>
+        // store.password=STORE_PASSWORD
+        // key.alias=ALIAS_OF_THE_KEY
+        // key.password=KEY_PASSWORD
+        // </pre>
+        //
         signingConfigs {
             release {
-                storeFile file(properties['store.file'])
-                storePassword properties['store.password']
-                keyAlias properties['key.alias']
-                keyPassword properties['key.password']
+                storeFile keyFile
+                storePassword signingProperties['store.password']
+                keyAlias signingProperties['key.alias']
+                keyPassword signingProperties['key.password']
             }
         }
 
         buildTypes {
             release {
                 signingConfig signingConfigs.release
-                minifyEnabled false
+                minifyEnabled true
                 proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             }
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
-
     dataBinding {
         enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -75,23 +85,24 @@ repositories {
 }
 
 dependencies {
-    /*
-    * RELEASE DEPENDENCIES -------------------------------------------------------------------------
-    */
-    compile project(':library')
-    compile deps.androidSupport.design
-    compile deps.androidSupport.vectorDrawable
-    compile deps.androidSupport.recyclerView
-    compile deps.other.butterknife
+    // PRODUCTION ----------------------------------------------------------------------------------
+    implementation project(':library')
+    implementation deps.androidSupport.design
+    implementation deps.androidSupport.vectorDrawable
+    implementation deps.androidSupport.recyclerView
+    implementation deps.other.butterknife
     annotationProcessor deps.other.butterknifeProcessor
-    compile deps.universumStudios.supportSamples
-    compile deps.universumStudios.supportFragments
-    compile deps.universumStudios.widgetAdapters
-    compile deps.universumStudios.logger
-    releaseCompile deps.analytics.leakcanaryAndroidNoOp
+    implementation deps.universumStudios.fontCore
+    implementation deps.universumStudios.graphicsColorUtil
+    implementation deps.universumStudios.supportSamples
+    implementation deps.universumStudios.supportFragments
+    implementation deps.universumStudios.widgetAdapters
+    implementation deps.universumStudios.logger
+    releaseImplementation deps.analytics.leakcanaryAndroidNoOp
 
-    /*
-    * DEVELOPMENT DEPENDENCIES ---------------------------------------------------------------------
-    */
-    debugCompile deps.analytics.leakcanaryAndroid
+    // DEVELOPMENT ---------------------------------------------------------------------------------
+    debugImplementation deps.analytics.leakcanaryAndroid
+
+    // TEST ----------------------------------------------------------------------------------------
+    // None.
 }
