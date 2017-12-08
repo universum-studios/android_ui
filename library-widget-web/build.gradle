@@ -53,10 +53,10 @@ repositories {
 dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidSupport.annotations
-    // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-base:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-refresh:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-base:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-refresh:${config.library.version}@aar"
 
     // DEVELOPMENT ---------------------------------------------------------------------------------
     debugApi project(':library-widget-core')
@@ -64,7 +64,7 @@ dependencies {
     debugApi project(':library-widget-refresh')
 
     // TEST ----------------------------------------------------------------------------------------
-    androidTestImplementation project(':test-instrumented')
+    testImplementation project(':test-local')
 }
 
 apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

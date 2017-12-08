@@ -32,15 +32,8 @@ android {
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-        }
         modules {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
+            matchingFallbacks = ['debug', 'release']
         }
     }
 
@@ -72,10 +65,14 @@ repositories {
 }
 
 dependencies {
-    /*
-     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
-     */
+    // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidSupport.annotations
+
+    // DEVELOPMENT ---------------------------------------------------------------------------------
+    // None.
+
+    // TEST ----------------------------------------------------------------------------------------
+    // None.
 }
 
- apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
+apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

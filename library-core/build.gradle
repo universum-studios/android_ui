@@ -28,18 +28,8 @@ android {
     defaultConfig {
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
-        consumerProguardFiles 'proguard-rules.pro'
+        consumerProguardFiles "${rootProject.rootDir}/library/proguard-rules.pro"
         testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
-        }
     }
 
     compileOptions {
@@ -56,15 +46,14 @@ android {
  * Library dependencies ============================================================================
  */
 dependencies {
-    /*
-     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
-     */
+    // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidSupport.annotations
 
-    /*
-     * TEST DEPENDENCIES ---------------------------------------------------------------------------
-     */
-    androidTestImplementation project(':test-instrumented')
+    // DEVELOPMENT ---------------------------------------------------------------------------------
+    // None.
+
+    // TEST ----------------------------------------------------------------------------------------
+    testImplementation project(':test-local')
 }
 
- apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
+apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

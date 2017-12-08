@@ -28,17 +28,8 @@ android {
     defaultConfig {
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
-        }
     }
 
     compileOptions {
@@ -65,15 +56,15 @@ dependencies {
     implementation deps.androidSupport.annotations
     implementation deps.androidSupport.appCompatV7
     implementation deps.androidSupport.vectorDrawable
-    // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-base:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-graphics:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-text:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-edit:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-image:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-progress:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-layout-common:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-base:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-graphics:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-text:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-edit:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-image:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-progress:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-layout-common:${config.library.version}@aar"
 
     // DEVELOPMENT ---------------------------------------------------------------------------------
     debugApi project(':library-widget-core')
@@ -86,7 +77,7 @@ dependencies {
     debugApi project(':library-widget-layout-common')
 
     // TEST ----------------------------------------------------------------------------------------
-    androidTestImplementation project(':test-instrumented')
+    testImplementation project(':test-local')
 }
 
- apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
+apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

@@ -1,7 +1,7 @@
 // Defines configuration used across the library project.
 def libraryConfig = [
         name   : 'ui',
-        version: '0.9.6'
+        version: '0.9.7'
 ]
 
 def buildConfig = [

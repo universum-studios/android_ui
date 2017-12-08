@@ -32,15 +32,8 @@ android {
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-        }
         modules {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
+            matchingFallbacks = ['debug', 'release']
         }
     }
 
@@ -77,21 +70,20 @@ repositories {
 }
 
 dependencies {
-    /*
-     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
-     */
+    // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidSupport.annotations
-    // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-base:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-text:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-base:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-text:${config.library.version}@aar"
 
-    /*
-     * DEBUG DEPENDENCIES --------------------------------------------------------------------------
-     */
+    // DEVELOPMENT ---------------------------------------------------------------------------------
     debugApi project(':library-widget-core')
     debugApi project(':library-widget-base')
     debugApi project(':library-widget-text')
+
+    // TEST ----------------------------------------------------------------------------------------
+    // None.
 }
 
  apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

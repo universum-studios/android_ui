@@ -31,16 +31,6 @@ android {
         testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -60,16 +50,15 @@ repositories {
 }
 
 dependencies {
-    /*
-     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
-     */
+    // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidSupport.annotations
     implementation deps.androidSupport.vectorDrawable
 
-    /*
-     * TEST DEPENDENCIES ---------------------------------------------------------------------------
-     */
-    androidTestImplementation project(':test-instrumented')
+    // DEVELOPMENT ---------------------------------------------------------------------------------
+    // None.
+
+    // TEST ----------------------------------------------------------------------------------------
+    testImplementation project(':test-local')
 }
 
- apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
+apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

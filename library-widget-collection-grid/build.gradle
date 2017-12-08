@@ -31,16 +31,6 @@ android {
         testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -61,22 +51,18 @@ repositories {
 }
 
 dependencies {
-    /*
-     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
-     */
+    // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidSupport.annotations
-    // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-controller-base:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-controller-refresh:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-base:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-text:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-collection-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-refresh:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-controller-base:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-controller-refresh:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-base:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-text:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-collection-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-refresh:${config.library.version}@aar"
 
-    /*
-     * DEBUG DEPENDENCIES --------------------------------------------------------------------------
-     */
+    // DEVELOPMENT ---------------------------------------------------------------------------------
     debugApi project(':library-controller-refresh')
     debugApi project(':library-widget-core')
     debugApi project(':library-widget-base')
@@ -84,10 +70,8 @@ dependencies {
     debugApi project(':library-widget-refresh')
     debugApi project(':library-widget-collection-core')
 
-    /*
-     * TEST DEPENDENCIES ---------------------------------------------------------------------------
-     */
-    androidTestImplementation project(':test-instrumented')
+    // TEST ----------------------------------------------------------------------------------------
+    testImplementation project(':test-local')
 }
 
- apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
+apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

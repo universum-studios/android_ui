@@ -18,18 +18,31 @@
  */
 package universum.studios.android.ui.widget;
 
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * @author Martin Albedinsky
  */
 public final class Orientation {
 
 	/**
-	 * Orientation flag for the vertically oriented view.
+	 * Constant identifying horizontal orientation.
 	 */
-	public static final int VERTICAL = 0x01;
+	public static final int HORIZONTAL = 0;
 
 	/**
-	 * Orientation flag for the horizontally oriented view.
+	 * Constant identifying vertical orientation.
 	 */
-	public static final int HORIZONTAL = 0x02;
+	public static final int VERTICAL = 1;
+
+	/**
+	 * todo:
+	 */
+	@IntDef({HORIZONTAL, VERTICAL})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface Value {
+	}
 }

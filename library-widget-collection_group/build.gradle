@@ -32,12 +32,8 @@ android {
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
+        modules {
+            matchingFallbacks = ['debug', 'release']
         }
     }
 
@@ -61,28 +57,22 @@ repositories {
 }
 
 dependencies {
-    /*
-     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
-     */
+    // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidSupport.annotations
     implementation deps.androidSupport.v4
-    // todo: releaseCompile "universum.studios.android:ui-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-controller-base:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-controller-refresh:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-core:${config.library.version}@aar"
-    // todo: releaseCompile "universum.studios.android:ui-widget-base:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-controller-base:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-controller-refresh:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-core:${config.library.version}@aar"
+    // todo: releaseImplementation "universum.studios.android:ui-widget-base:${config.library.version}@aar"
 
-    /*
-     * DEBUG DEPENDENCIES --------------------------------------------------------------------------
-     */
+    // DEVELOPMENT ---------------------------------------------------------------------------------
     debugApi project(':library-controller-refresh')
     debugApi project(':library-widget-core')
     debugApi project(':library-widget-base')
 
-    /*
-     * TEST DEPENDENCIES ---------------------------------------------------------------------------
-     */
-    androidTestImplementation project(':test-instrumented')
+    // TEST ----------------------------------------------------------------------------------------
+    // None.
 }
 
  apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
