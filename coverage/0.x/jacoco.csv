@@ -1,0 +1,251 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+library,universum.studios.android.ui.controller,HorizontalPullHelper,350,0,91,0,58,0,64,0,15,0
+library,universum.studios.android.ui.controller,RefreshController.HoneyCombAnimations,295,0,0,0,50,0,8,0,8,0
+library,universum.studios.android.ui.controller,RefreshController.new Runnable() {...},11,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.controller,RefreshController,1256,0,148,0,284,0,130,0,55,0
+library,universum.studios.android.ui.controller,RefreshController.new Runnable() {...},15,0,0,0,4,0,2,0,2,0
+library,universum.studios.android.ui.controller,RefreshController.new Runnable() {...},15,0,0,0,4,0,2,0,2,0
+library,universum.studios.android.ui.controller,RefreshController.new Runnable() {...},11,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.controller,PullController.DefaultAnimations.new Runnable() {...},11,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.controller,VerticalPullHelper,349,0,91,0,58,0,64,0,15,0
+library,universum.studios.android.ui.controller,RefreshController.IndicatorInfo,51,0,0,0,10,0,2,0,2,0
+library,universum.studios.android.ui.controller,PullController.HoneyCombAnimations,153,0,2,0,28,0,7,0,6,0
+library,universum.studios.android.ui.controller,RefreshController.HoneyCombAnimations.new AnimatorListenerAdapter() {...},21,0,2,0,4,0,3,0,2,0
+library,universum.studios.android.ui.controller,RefreshController.HoneyCombAnimations.new AnimatorListenerAdapter() {...},34,0,4,0,5,0,4,0,2,0
+library,universum.studios.android.ui.controller,RefreshController.HoneyCombAnimations.new AnimatorListenerAdapter() {...},47,0,4,0,8,0,4,0,2,0
+library,universum.studios.android.ui.controller,RefreshController.HoneyCombAnimations.new AnimatorListenerAdapter() {...},11,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.controller,RefreshController.HoneyCombAnimations.new AnimatorListenerAdapter() {...},26,0,2,0,5,0,3,0,2,0
+library,universum.studios.android.ui.controller,PullController.Animations,31,0,2,0,9,0,6,0,5,0
+library,universum.studios.android.ui.controller,RefreshController.Animations,40,0,2,0,12,0,6,0,5,0
+library,universum.studios.android.ui.controller,PullController.PullImpl,34,0,2,0,12,0,6,0,5,0
+library,universum.studios.android.ui.controller,PullController.HoneyCombAnimations.new ValueAnimator.AnimatorUpdateListener() {...},11,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.controller,PullController.HoneyCombAnimations.new AnimatorListenerAdapter() {...},28,0,2,0,5,0,3,0,2,0
+library,universum.studios.android.ui.controller,RefreshController.DefaultAnimations,95,0,0,0,22,0,6,0,6,0
+library,universum.studios.android.ui.controller,PullHelper,187,0,28,0,53,0,34,0,18,0
+library,universum.studios.android.ui.controller,BasePullController.PullTransformerImpl,27,0,2,0,6,0,3,0,2,0
+library,universum.studios.android.ui.controller,PullController.DefaultAnimations,18,0,0,0,6,0,3,0,3,0
+library,universum.studios.android.ui.controller,PullController.CollapseOverScrollAction,12,0,0,0,5,0,2,0,2,0
+library,universum.studios.android.ui.controller,BasePullController,673,0,116,0,159,0,92,0,31,0
+library,universum.studios.android.ui.controller,PullController,532,0,78,0,120,0,70,0,31,0
+library,universum.studios.android.ui,UiException,95,0,2,0,20,0,12,0,11,0
+library,universum.studios.android.ui,UiConfig,9,22,3,3,2,6,4,1,1,1
+library,universum.studios.android.ui.interpolator,ResistanceInterpolator,56,0,10,0,14,0,11,0,6,0
+library,universum.studios.android.ui.interpolator,ScrollerInterpolator,19,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.graphics.drawable,TintDrawable,192,0,32,0,48,0,31,0,15,0
+library,universum.studios.android.ui.graphics.drawable,TintLayerDrawable.DrawableLayerTint,9,0,0,0,3,0,1,0,1,0
+library,universum.studios.android.ui.graphics.drawable,TintLayerDrawable,309,0,52,0,75,0,41,0,15,0
+library,universum.studios.android.ui.graphics.drawable,CircularProgressDrawable.ArrowInfo,11,0,0,0,3,0,1,0,1,0
+library,universum.studios.android.ui.graphics.drawable,DrawableWrapper,349,0,46,0,89,0,70,0,47,0
+library,universum.studios.android.ui.graphics.drawable,ProgressDrawable.new Runnable() {...},47,0,4,0,9,0,4,0,2,0
+library,universum.studios.android.ui.graphics.drawable,ProgressDrawable.new Runnable() {...},44,0,4,0,9,0,4,0,2,0
+library,universum.studios.android.ui.graphics.drawable,ProgressDrawable.new Runnable() {...},19,0,2,0,5,0,3,0,2,0
+library,universum.studios.android.ui.graphics.drawable,LinearProgressDrawable.new Runnable() {...},19,0,0,0,4,0,2,0,2,0
+library,universum.studios.android.ui.graphics.drawable,LinearProgressDrawable.new Runnable() {...},67,0,2,0,10,0,3,0,2,0
+library,universum.studios.android.ui.graphics.drawable,CircularProgressDrawable.CircularState,45,0,0,0,10,0,5,0,5,0
+library,universum.studios.android.ui.graphics.drawable,LinearProgressDrawable,1159,0,110,0,249,0,102,0,42,0
+library,universum.studios.android.ui.graphics.drawable,LinearProgressDrawable.BufferIndeterminateMarksScaleTask,115,0,7,0,21,0,6,0,2,0
+library,universum.studios.android.ui.graphics.drawable,RefreshDrawable,399,0,27,0,113,0,58,0,44,0
+library,universum.studios.android.ui.graphics.drawable,LinearProgressDrawable.LinearState,53,0,0,0,12,0,5,0,5,0
+library,universum.studios.android.ui.graphics.drawable,ProgressDrawable,1326,0,179,0,296,0,180,0,90,0
+library,universum.studios.android.ui.graphics.drawable,ProgressDrawable.ProgressState,112,0,2,0,28,0,5,0,4,0
+library,universum.studios.android.ui.graphics.drawable,CircularProgressDrawable,1129,0,107,0,236,0,100,0,43,0
+library,universum.studios.android.ui.graphics.drawable,LinearProgressDrawable.IndeterminateInfo,18,0,0,0,4,0,2,0,2,0
+library,universum.studios.android.ui.widget,CubicPageTransformer,109,0,6,0,26,0,8,0,5,0
+library,universum.studios.android.ui.widget,ImageViewWidget,199,0,4,0,67,0,26,0,24,0
+library,universum.studios.android.ui.widget,EditLayout.new Animation.AnimationListener() {...},18,0,2,0,5,0,5,0,4,0
+library,universum.studios.android.ui.widget,EditLayout.new TextWatcher() {...},26,0,0,0,6,0,4,0,4,0
+library,universum.studios.android.ui.widget,CheckBoxWidget.Decorator,53,0,0,0,19,0,11,0,11,0
+library,universum.studios.android.ui.widget,EditLayout.new Runnable() {...},20,0,2,0,4,0,3,0,2,0
+library,universum.studios.android.ui.widget,SeekBarWidget.DiscreteIndicatorTextInfo,11,0,0,0,4,0,1,0,1,0
+library,universum.studios.android.ui.widget,EditLayout.new View.OnFocusChangeListener() {...},22,0,2,0,4,0,3,0,2,0
+library,universum.studios.android.ui.widget,RelativeLayoutWidget,218,0,10,0,73,0,31,0,26,0
+library,universum.studios.android.ui.widget,BaseProgressBar.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,SpinnerLayout.SavedState,37,0,0,0,11,0,4,0,4,0
+library,universum.studios.android.ui.widget,FrameLayoutWidget.Decorator,30,0,0,0,11,0,6,0,6,0
+library,universum.studios.android.ui.widget,SearchView.LollipopRevealAnimationHandler.new AnimatorListenerAdapter() {...},14,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.widget,CalendarView.CalendarDataSet,273,0,12,0,57,0,21,0,15,0
+library,universum.studios.android.ui.widget,EditTextWidget.Decorator,64,0,0,0,21,0,12,0,12,0
+library,universum.studios.android.ui.widget,InputLayout.ColorsInfo,8,0,0,0,2,0,1,0,1,0
+library,universum.studios.android.ui.widget,InputLayout.TintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,EmptyView.DefaultAnimations,86,0,5,0,26,0,10,0,7,0
+library,universum.studios.android.ui.widget,ScrollableWrapper.ScrollViewWrapper,38,0,6,0,5,0,6,0,3,0
+library,universum.studios.android.ui.widget,ViewPagerWidget,718,0,70,0,205,0,85,0,50,0
+library,universum.studios.android.ui.widget,EditLayout.EditConfig,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,ActionButton.ItemConfiguration,39,0,0,0,11,0,1,0,1,0
+library,universum.studios.android.ui.widget,CircularNumberPicker.BearingLineInfo,27,0,2,0,8,0,3,0,2,0
+library,universum.studios.android.ui.widget,WidgetSizeAnimator,6,0,0,0,3,0,1,0,1,0
+library,universum.studios.android.ui.widget,AutoCompleteTextViewWidget.Decorator,125,0,10,0,41,0,21,0,16,0
+library,universum.studios.android.ui.widget,Widget.BackgroundTintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,LinearProgressBar.SavedState,26,0,0,0,9,0,4,0,4,0
+library,universum.studios.android.ui.widget,SeekBarWidget.DiscreteComponentsAnimation,27,0,0,0,8,0,2,0,2,0
+library,universum.studios.android.ui.widget,SpinnerLayout.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,ScrollableWrapper.WebViewWrapper,57,0,6,0,10,0,6,0,3,0
+library,universum.studios.android.ui.widget,EmptyView.Animations.new Runnable() {...},14,0,2,0,3,0,3,0,2,0
+library,universum.studios.android.ui.widget,ViewWidget.Decorator,81,0,10,0,22,0,12,0,7,0
+library,universum.studios.android.ui.widget,SearchView.IceCreamSandwichRevealAnimationHandler,42,0,0,0,15,0,3,0,3,0
+library,universum.studios.android.ui.widget,CalendarView.Decorator,32,0,0,0,12,0,7,0,7,0
+library,universum.studios.android.ui.widget,Widget.TintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,WidgetSizeAssistant.PendingAnimation,41,0,7,0,14,0,6,0,2,0
+library,universum.studios.android.ui.widget,ActionTextButton,176,0,22,0,50,0,23,0,12,0
+library,universum.studios.android.ui.widget,ColorGraphicsInfo,64,0,8,0,16,0,9,0,5,0
+library,universum.studios.android.ui.widget,RecyclerViewWidget,481,0,45,0,160,0,74,0,51,0
+library,universum.studios.android.ui.widget,ButtonWidget,293,0,20,0,86,0,39,0,29,0
+library,universum.studios.android.ui.widget,LinearLayoutWidget,223,0,10,0,74,0,31,0,26,0
+library,universum.studios.android.ui.widget,SearchView.IceCreamSandwichRevealAnimationHandler.new AnimatorListenerAdapter() {...},14,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.widget,MonthView.DayNumberColorsState,15,0,0,0,5,0,1,0,1,0
+library,universum.studios.android.ui.widget,ScrollViewWidget.Decorator,116,0,14,0,30,0,15,0,8,0
+library,universum.studios.android.ui.widget,TextViewWidget.Decorator,263,0,30,0,65,0,29,0,14,0
+library,universum.studios.android.ui.widget,CalendarView.SmoothScrollToPosition,12,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.widget,WidgetSavedState,57,0,6,0,16,0,10,0,7,0
+library,universum.studios.android.ui.widget,ScrollViewWidget,295,0,20,0,88,0,40,0,30,0
+library,universum.studios.android.ui.widget,SearchView.BaseRevealAnimationHandler,14,0,0,0,4,0,1,0,1,0
+library,universum.studios.android.ui.widget,SeekBarWidget.Decorator,380,0,72,0,81,0,47,0,11,0
+library,universum.studios.android.ui.widget,SpinnerWidget,181,0,6,0,57,0,25,0,22,0
+library,universum.studios.android.ui.widget,EditLayout.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,ScrollableWrapper.ViewPagerWrapper,51,0,12,0,8,0,9,0,3,0
+library,universum.studios.android.ui.widget,CollectionSavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,SpinnerWidget.Decorator,177,0,26,0,49,0,25,0,12,0
+library,universum.studios.android.ui.widget,EmptyView.IceCreamSandwichAnimations,47,0,2,0,20,0,9,0,8,0
+library,universum.studios.android.ui.widget,RecyclerViewWidget.Decorator,119,0,16,0,31,0,16,0,8,0
+library,universum.studios.android.ui.widget,LinearProgressBar,480,0,71,0,125,0,67,0,31,0
+library,universum.studios.android.ui.widget,SeekBarWidget.DefaultAnimations,66,0,4,0,15,0,7,0,5,0
+library,universum.studios.android.ui.widget,TextViewDecorator.CompoundTintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,ScrollableWrapper.ViewWrapper,9,0,0,0,4,0,3,0,3,0
+library,universum.studios.android.ui.widget,WidgetScroller,43,0,2,0,12,0,7,0,6,0
+library,universum.studios.android.ui.widget,WidgetGravity,19,0,4,0,4,0,5,0,3,0
+library,universum.studios.android.ui.widget,ImageButtonWidget.Decorator,186,0,22,0,47,0,24,0,13,0
+library,universum.studios.android.ui.widget,SeekBarWidget.Animations.new Runnable() {...},20,0,4,0,4,0,4,0,2,0
+library,universum.studios.android.ui.widget,CalendarView.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,CubicPageTransformer.CameraPosition,58,0,0,0,9,0,4,0,4,0
+library,universum.studios.android.ui.widget,CalendarView.LayoutManagerImpl,35,0,2,0,10,0,4,0,3,0
+library,universum.studios.android.ui.widget,InputLayout.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,SeekBarWidget,2708,0,460,0,691,0,349,0,117,0
+library,universum.studios.android.ui.widget,CalendarView.SimpleCalendarAdapter.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,MonthView.SavedState,43,0,0,0,13,0,4,0,4,0
+library,universum.studios.android.ui.widget,WidgetSizeAssistant,362,0,52,0,74,0,48,0,22,0
+library,universum.studios.android.ui.widget,WidgetSavedState.new WidgetSavedState() {...},4,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,WidgetSavedState.new Parcelable.Creator() {...},20,0,2,0,6,0,4,0,3,0
+library,universum.studios.android.ui.widget,CalendarView.LayoutManagerImpl.new LinearSmoothScroller() {...},30,0,2,0,4,0,5,0,4,0
+library,universum.studios.android.ui.widget,ScrollableWrapper,83,0,16,0,18,0,12,0,4,0
+library,universum.studios.android.ui.widget,MonthView,2787,0,292,0,564,0,263,0,115,0
+library,universum.studios.android.ui.widget,LinearLayoutWidget.Decorator,30,0,0,0,11,0,6,0,6,0
+library,universum.studios.android.ui.widget,SearchView.DefaultProgressBarAnimator,35,0,0,0,12,0,3,0,3,0
+library,universum.studios.android.ui.widget,InputLayout.NoteTextChangeListener,47,0,2,0,12,0,4,0,3,0
+library,universum.studios.android.ui.widget,TintManager,624,0,52,0,63,0,44,0,15,0
+library,universum.studios.android.ui.widget,EditTextWidget,357,0,28,0,109,0,49,0,35,0
+library,universum.studios.android.ui.widget,InputLayout,1642,0,227,0,364,0,190,0,75,0
+library,universum.studios.android.ui.widget,SpinnerLayout.new AdapterView.OnItemSelectedListener() {...},33,0,4,0,7,0,5,0,3,0
+library,universum.studios.android.ui.widget,HorizontalScrollViewWidget.Decorator,116,0,14,0,30,0,15,0,8,0
+library,universum.studios.android.ui.widget,CollectionSavedState,29,0,0,0,9,0,4,0,4,0
+library,universum.studios.android.ui.widget,CircularNumberPicker.MiddleCircleInfo,7,0,0,0,3,0,1,0,1,0
+library,universum.studios.android.ui.widget,ToggleButtonWidget.Decorator,53,0,0,0,19,0,11,0,11,0
+library,universum.studios.android.ui.widget,Orientation,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,TextGraphicsInfo,146,0,26,0,22,0,26,0,13,0
+library,universum.studios.android.ui.widget,SearchView.IceCreamSandwichProgressBarAnimator.new AnimatorListenerAdapter() {...},14,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.widget,SearchView.IceCreamSandwichProgressBarAnimator.new AnimatorListenerAdapter() {...},14,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.widget,ListViewWidget,456,0,36,0,151,0,66,0,48,0
+library,universum.studios.android.ui.widget,BaseProgressBar,1565,0,281,0,378,0,216,0,74,0
+library,universum.studios.android.ui.widget,FloatingActionButton,222,0,19,0,56,0,25,0,15,0
+library,universum.studios.android.ui.widget,ButtonWidget.Decorator,272,0,30,0,66,0,29,0,14,0
+library,universum.studios.android.ui.widget,SeekBarWidget.HoneyCombAnimations,96,0,6,0,18,0,8,0,5,0
+library,universum.studios.android.ui.widget,SpinnerWidget.SpinnerTintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,WidgetDecorator,432,0,80,0,110,0,70,0,30,0
+library,universum.studios.android.ui.widget,WidgetStateSet,317,0,8,0,38,0,8,0,4,0
+library,universum.studios.android.ui.widget,CheckBoxWidget,204,0,4,0,71,0,28,0,26,0
+library,universum.studios.android.ui.widget,RelativeLayoutWidget.Decorator,30,0,0,0,11,0,6,0,6,0
+library,universum.studios.android.ui.widget,SeekBarWidget.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,InputLayout.SavedState,62,0,0,0,15,0,4,0,4,0
+library,universum.studios.android.ui.widget,ActionButton.ItemConfigurationBuilder,87,0,0,0,31,0,10,0,10,0
+library,universum.studios.android.ui.widget,CompoundButtonDecorator,262,0,48,0,68,0,34,0,10,0
+library,universum.studios.android.ui.widget,HorizontalScrollViewWidget,300,0,22,0,88,0,41,0,30,0
+library,universum.studios.android.ui.widget,ScrollableWrapper.RecyclerViewWrapper,23,0,4,0,4,0,5,0,3,0
+library,universum.studios.android.ui.widget,SearchView.IceCreamSandwichProgressBarAnimator,126,0,0,0,51,0,3,0,3,0
+library,universum.studios.android.ui.widget,Widget,8,0,2,0,1,0,2,0,1,0
+library,universum.studios.android.ui.widget,EmptyView.Animations,173,0,33,0,40,0,26,0,9,0
+library,universum.studios.android.ui.widget,LinearProgressBar.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,CircularNumberPicker.SavedState,68,0,0,0,17,0,4,0,4,0
+library,universum.studios.android.ui.widget,BaseProgressBar.RefreshData,32,0,2,0,10,0,5,0,4,0
+library,universum.studios.android.ui.widget,SearchView.LollipopRevealAnimationHandler,126,0,0,0,24,0,6,0,6,0
+library,universum.studios.android.ui.widget,ActionButton,163,0,24,0,47,0,21,0,9,0
+library,universum.studios.android.ui.widget,CalendarView.CallbacksHandler,208,0,27,0,49,0,19,0,5,0
+library,universum.studios.android.ui.widget,WidgetSizeAssistant.ViewInfo,63,0,8,0,13,0,13,0,9,0
+library,universum.studios.android.ui.widget,RefreshableDecorator,273,0,44,0,67,0,49,0,27,0
+library,universum.studios.android.ui.widget,SeekBarWidget.SavedState,26,0,0,0,9,0,4,0,4,0
+library,universum.studios.android.ui.widget,TextAppearance,437,0,68,0,120,0,62,0,27,0
+library,universum.studios.android.ui.widget,BaseProgressBar.TintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,CalendarView,902,0,87,0,220,0,99,0,55,0
+library,universum.studios.android.ui.widget,TextViewDecorator,328,0,68,0,76,0,47,0,13,0
+library,universum.studios.android.ui.widget,CircularProgressBar,131,0,10,0,34,0,17,0,12,0
+library,universum.studios.android.ui.widget,MonthView.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,DepthPageTransformer.new Object() {...},19,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,TextViewWidget,326,0,22,0,98,0,44,0,33,0
+library,universum.studios.android.ui.widget,ListViewWidget.Decorator,119,0,16,0,31,0,16,0,8,0
+library,universum.studios.android.ui.widget,CalendarView.SavedState,65,0,0,0,17,0,4,0,4,0
+library,universum.studios.android.ui.widget,DepthPageTransformer.DepthOrigin,43,0,0,0,6,0,4,0,4,0
+library,universum.studios.android.ui.widget,ScrollableWrapper.HorizontalScrollViewWrapper,38,0,6,0,5,0,6,0,3,0
+library,universum.studios.android.ui.widget,SwitchWidget,447,0,46,0,134,0,56,0,33,0
+library,universum.studios.android.ui.widget,SeekBarWidget.Animations,261,0,26,0,62,0,29,0,16,0
+library,universum.studios.android.ui.widget,MonthView.Day,23,0,0,0,7,0,6,0,6,0
+library,universum.studios.android.ui.widget,ToggleButtonWidget,194,0,2,0,66,0,26,0,25,0
+library,universum.studios.android.ui.widget,FontWidgetDecorator,87,0,4,0,21,0,10,0,8,0
+library,universum.studios.android.ui.widget,SearchView.ProgressBarAnimator,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,Slideable,8,0,2,0,1,0,2,0,1,0
+library,universum.studios.android.ui.widget,EditLayout.SavedState,80,0,0,0,21,0,4,0,4,0
+library,universum.studios.android.ui.widget,WidgetSizeAssistant.SizeAnimator,320,0,41,0,88,0,40,0,18,0
+library,universum.studios.android.ui.widget,ViewPagerWidget.Decorator,85,0,10,0,23,0,12,0,7,0
+library,universum.studios.android.ui.widget,CalendarView.SimpleCalendarAdapter.SavedState,53,0,0,0,14,0,4,0,4,0
+library,universum.studios.android.ui.widget,GraphicsInfo,13,0,0,0,5,0,2,0,2,0
+library,universum.studios.android.ui.widget,PrivateFlags,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,SeekBarWidget.DiscreteIntervalTickMarkInfo,3,0,0,0,2,0,1,0,1,0
+library,universum.studios.android.ui.widget,SeekBarWidget.SeekBarTintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,BaseProgressBar.AccessibilityEventSender,11,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.widget,FlatButton,47,0,2,0,15,0,8,0,7,0
+library,universum.studios.android.ui.widget,SearchView,758,0,106,0,189,0,88,0,35,0
+library,universum.studios.android.ui.widget,CircularNumberPicker,1849,0,194,0,401,0,181,0,82,0
+library,universum.studios.android.ui.widget,EditTextDecorator,351,0,50,0,79,0,30,0,5,0
+library,universum.studios.android.ui.widget,WidgetGroupDecorator,185,0,30,0,34,0,27,0,12,0
+library,universum.studios.android.ui.widget,SwitchWidget.Decorator,183,0,24,0,44,0,28,0,16,0
+library,universum.studios.android.ui.widget,WidgetSizeAssistant.new View.OnLayoutChangeListener() {...},50,0,2,0,10,0,3,0,2,0
+library,universum.studios.android.ui.widget,SpinnerLayout,406,0,46,0,87,0,47,0,24,0
+library,universum.studios.android.ui.widget,ScrollableWrapper.AbsListViewWrapper,96,0,20,0,20,0,13,0,3,0
+library,universum.studios.android.ui.widget,SearchView.SearchTintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,ImageViewWidget.Decorator,172,0,22,0,44,0,24,0,13,0
+library,universum.studios.android.ui.widget,RadioButtonWidget,204,0,4,0,71,0,28,0,26,0
+library,universum.studios.android.ui.widget,CalendarView.SimpleCalendarAdapter,259,0,28,0,69,0,33,0,19,0
+library,universum.studios.android.ui.widget,AutoCompleteTextViewWidget,357,0,28,0,109,0,49,0,35,0
+library,universum.studios.android.ui.widget,WidgetUtils,71,0,16,0,16,0,13,0,5,0
+library,universum.studios.android.ui.widget,ProgressBarWidget.ProgressTintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,CircularNumberPicker.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,SearchView.SavedState,40,0,0,0,11,0,4,0,4,0
+library,universum.studios.android.ui.widget,RadioButtonWidget.Decorator,53,0,0,0,19,0,11,0,11,0
+library,universum.studios.android.ui.widget,ViewWidget,166,0,8,0,53,0,23,0,19,0
+library,universum.studios.android.ui.widget,ProgressBarWidget,1017,0,184,0,294,0,134,0,42,0
+library,universum.studios.android.ui.widget,SeekBarWidget.LollipopAnimations,6,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.widget,CalendarView.CalendarDataSet.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,SearchView.SavedState.new Parcelable.Creator() {...},11,0,0,0,3,0,3,0,3,0
+library,universum.studios.android.ui.widget,BaseProgressBar.RefreshProgressRunnable,65,0,6,0,14,0,5,0,2,0
+library,universum.studios.android.ui.widget,CalendarView.SimpleCalendarAdapter.ItemHolder,24,0,2,0,7,0,3,0,2,0
+library,universum.studios.android.ui.widget,ImageDecorator,158,0,34,0,47,0,24,0,7,0
+library,universum.studios.android.ui.widget,WebViewWidget.Decorator,119,0,16,0,31,0,16,0,8,0
+library,universum.studios.android.ui.widget,BaseProgressBar.SavedState,34,0,0,0,11,0,4,0,4,0
+library,universum.studios.android.ui.widget,ImageButtonWidget,201,0,4,0,68,0,27,0,25,0
+library,universum.studios.android.ui.widget,InputLayout.NoteTextChangeListener.new Runnable() {...},10,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.widget,InputLayout.LayoutParams,63,0,6,0,20,0,9,0,6,0
+library,universum.studios.android.ui.widget,ProgressBarWidget.Decorator,367,0,66,0,80,0,44,0,11,0
+library,universum.studios.android.ui.widget,CircularNumberPicker.TextInfo,13,0,0,0,4,0,1,0,1,0
+library,universum.studios.android.ui.widget,GridViewWidget.Decorator,119,0,16,0,31,0,16,0,8,0
+library,universum.studios.android.ui.widget,SwitchWidget.SwitchTintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,EditLayout,1147,0,172,0,249,0,132,0,46,0
+library,universum.studios.android.ui.widget,EmptyView,265,0,32,0,69,0,34,0,18,0
+library,universum.studios.android.ui.widget,WebViewWidget,360,0,20,0,117,0,54,0,44,0
+library,universum.studios.android.ui.widget,AutoCompleteTextViewWidget.AutoTextTintInfo,3,0,0,0,1,0,1,0,1,0
+library,universum.studios.android.ui.widget,CalendarView.ScrollToPosition,12,0,0,0,3,0,2,0,2,0
+library,universum.studios.android.ui.widget,DepthPageTransformer,161,0,12,0,45,0,14,0,7,0
+library,universum.studios.android.ui.widget,SearchView.new View.OnClickListener() {...},30,0,6,0,9,0,5,0,2,0
+library,universum.studios.android.ui.widget,FrameLayoutWidget,218,0,10,0,73,0,31,0,26,0
+library,universum.studios.android.ui.widget,GridViewWidget,456,0,36,0,151,0,66,0,48,0
+library,universum.studios.android.ui.widget,SearchView.new TextWatcher() {...},23,0,4,0,5,0,6,0,4,0
+library,universum.studios.android.ui.widget,SearchView.DefaultRevealAnimationHandler,12,0,0,0,5,0,3,0,3,0
+library,universum.studios.android.ui.widget,SearchView.new View.OnKeyListener() {...},19,0,4,0,6,0,4,0,2,0
+library,universum.studios.android.ui.util,BitmapUtils,72,0,10,0,15,0,7,0,2,0
+library,universum.studios.android.ui.util,ResourceUtils,86,0,20,0,13,0,17,0,7,0
