@@ -44,7 +44,7 @@ def pomConfig = {
             name 'Martin Albedinsky'
             email 'martin.albedinsky@gmail.com'
             roles {
-                role 'Android Software Engineer'
+                role 'Software Engineer'
             }
         }
     }
