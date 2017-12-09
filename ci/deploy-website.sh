@@ -38,7 +38,7 @@ rm -rf ${WEBSITE_DIR_TESTS_VERSIONED}
 rm -rf ${WEBSITE_DIR_COVERAGE_VERSIONED}
 rm -rf ${WEBSITE_DIR_BUGS_VERSIONED}
 
-# Copy files for documentation and reports for Android tests and Coverage from the primary library module.
+# Copy files for documentation and reports for tests and coverage from the primary project module.
 # Documentation:
 mkdir -p ${WEBSITE_DIR_REFERENCE_VERSIONED}
 cp ${LIBRARY_DIR_ARTIFACTS}${LIBRARY_JAVADOC_FILE_NAME} ${WEBSITE_DIR_REFERENCE_VERSIONED}${LIBRARY_JAVADOC_FILE_NAME}
