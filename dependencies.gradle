@@ -9,7 +9,56 @@ def versions = [
         robolectric               : '3.5.1'
 ]
 
-ext.versions = versions
+def modulesPrimaryId = "${config.pom.groupId}:${config.pom.artifactId}"
+def modulesVersion = "${config.library.version.production}"
+def modules = [
+        library                        : "${modulesPrimaryId}:${modulesVersion}@aar",
+        libraryCore                    : "${modulesPrimaryId}-core:${modulesVersion}@aar",
+        libraryController              : "${modulesPrimaryId}-controller:${modulesVersion}@aar",
+        libraryControllerBase          : "${modulesPrimaryId}-controller-base:${modulesVersion}@aar",
+        libraryControllerPull          : "${modulesPrimaryId}-controller-pull:${modulesVersion}@aar",
+        libraryControllerRefresh       : "${modulesPrimaryId}-controller-refresh:${modulesVersion}@aar",
+        libraryGraphics                : "${modulesPrimaryId}-graphics:${modulesVersion}@aar",
+        libraryGraphicsCore            : "${modulesPrimaryId}-graphics-core:${modulesVersion}@aar",
+        libraryGraphicsProgress        : "${modulesPrimaryId}-graphics-progress:${modulesVersion}@aar",
+        libraryGraphicsRefresh         : "${modulesPrimaryId}-graphics-refresh:${modulesVersion}@aar",
+        libraryInterpolator            : "${modulesPrimaryId}-interpolator:${modulesVersion}@aar",
+        libraryWidget                  : "${modulesPrimaryId}-widget:${modulesVersion}@aar",
+        libraryWidgetCommon            : "${modulesPrimaryId}-widget-common:${modulesVersion}@aar",
+        libraryWidgetCore              : "${modulesPrimaryId}-widget-core:${modulesVersion}@aar",
+        libraryWidgetBase              : "${modulesPrimaryId}-widget-base:${modulesVersion}@aar",
+        libraryWidgetGraphics          : "${modulesPrimaryId}-widget-graphics:${modulesVersion}@aar",
+        libraryWidgetText              : "${modulesPrimaryId}-widget-text:${modulesVersion}@aar",
+        libraryWidgetEdit              : "${modulesPrimaryId}-widget-edit:${modulesVersion}@aar",
+        libraryWidgetButton            : "${modulesPrimaryId}-widget-button:${modulesVersion}@aar",
+        libraryWidgetFab               : "${modulesPrimaryId}-widget-fab:${modulesVersion}@aar",
+        libraryWidgetImage             : "${modulesPrimaryId}-widget-image:${modulesVersion}@aar",
+        libraryWidgetProgress          : "${modulesPrimaryId}-widget-progress:${modulesVersion}@aar",
+        libraryWidgetSlider            : "${modulesPrimaryId}-widget-slider:${modulesVersion}@aar",
+        libraryWidgetSelection         : "${modulesPrimaryId}-widget-selection:${modulesVersion}@aar",
+        libraryWidgetMenu              : "${modulesPrimaryId}-widget-menu:${modulesVersion}@aar",
+        libraryWidgetInput             : "${modulesPrimaryId}-widget-input:${modulesVersion}@aar",
+        libraryWidgetInputBase         : "${modulesPrimaryId}-widget-input-base:${modulesVersion}@aar",
+        libraryWidgetInputEdit         : "${modulesPrimaryId}-widget-input-edit:${modulesVersion}@aar",
+        libraryWidgetInputMenu         : "${modulesPrimaryId}-widget-input-menu:${modulesVersion}@aar",
+        libraryWidgetPicker            : "${modulesPrimaryId}-widget-picker:${modulesVersion}@aar",
+        libraryWidgetPickerDate        : "${modulesPrimaryId}-widget-picker-date:${modulesVersion}@aar",
+        libraryWidgetPickerNumber      : "${modulesPrimaryId}-widget-picker-number:${modulesVersion}@aar",
+        libraryWidgetSearch            : "${modulesPrimaryId}-widget-:${modulesVersion}@aar",
+        libraryWidgetWeb               : "${modulesPrimaryId}-widget-web:${modulesVersion}@aar",
+        libraryWidgetRefresh           : "${modulesPrimaryId}-widget-refresh:${modulesVersion}@aar",
+        libraryWidgetLayout            : "${modulesPrimaryId}-widget-layout:${modulesVersion}@aar",
+        libraryWidgetLayoutCommon      : "${modulesPrimaryId}-widget-layout-common:${modulesVersion}@aar",
+        libraryWidgetLayoutCore        : "${modulesPrimaryId}-widget-layout-core:${modulesVersion}@aar",
+        libraryWidgetLayoutScroll      : "${modulesPrimaryId}-widget-layout-scroll:${modulesVersion}@aar",
+        libraryWidgetCollection        : "${modulesPrimaryId}-widget-collection:${modulesVersion}@aar",
+        libraryWidgetCollectionCore    : "${modulesPrimaryId}-widget-collection-core:${modulesVersion}@aar",
+        libraryWidgetCollectionList    : "${modulesPrimaryId}-widget-collection-list:${modulesVersion}@aar",
+        libraryWidgetCollectionGrid    : "${modulesPrimaryId}-widget-collection-grid:${modulesVersion}@aar",
+        libraryWidgetCollectionRecycler: "${modulesPrimaryId}-widget-collection-recycler:${modulesVersion}@aar",
+        libraryWidgetCollectionPager   : "${modulesPrimaryId}-widget-collection-pager:${modulesVersion}@aar",
+        libraryUtil                    : "${modulesPrimaryId}-util:${modulesVersion}@aar"
+]
 
 def androidSupport = [
         annotations   : "com.android.support:support-annotations:${versions.androidSupport}",
@@ -55,7 +104,9 @@ def other = [
         butterknifeProcessor: "com.jakewharton:butterknife-compiler:${versions.butterknife}"
 ]
 
+ext.versions = versions
 ext.deps = [
+        "modules"         : modules,
         "androidSupport"  : androidSupport,
         "test"            : test,
         "analytics"       : analytics,
