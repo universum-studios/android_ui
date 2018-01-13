@@ -1,4 +1,4 @@
-UI
+Android UI
 ===============
 
 [![CircleCI](https://circleci.com/gh/universum-studios/android_ui.svg?style=svg)](https://circleci.com/gh/universum-studios/android_ui)
