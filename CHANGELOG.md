@@ -5,11 +5,8 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 ## Version 1.x ##
 
-### 0.9.7 ###
-> upcoming
-
 ### [0.9.6](https://github.com/universum-studios/android_ui/releases/tag/0.9.6) ###
-> 22.10.
+> 22.10.2017
 
 - **Resolved** some of reported issues.
 
