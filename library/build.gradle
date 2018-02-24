@@ -161,7 +161,6 @@ android {
                 "${rootProject.rootDir}/library-widget-slider/src/test/java",
                 "${rootProject.rootDir}/library-widget-text/src/test/java",
                 "${rootProject.rootDir}/library-widget-web/src/test/java"
-
         ]
         androidTest.java.srcDirs = [
                 "${rootProject.rootDir}/library/src/androidTest/java",
@@ -202,7 +201,6 @@ android {
                 "${rootProject.rootDir}/library-widget-slider/src/androidTest/java",
                 "${rootProject.rootDir}/library-widget-text/src/androidTest/java",
                 "${rootProject.rootDir}/library-widget-web/src/androidTest/java"
-
         ]
     }
 
