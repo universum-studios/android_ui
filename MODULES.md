@@ -21,6 +21,6 @@ as usually.
     }
 
 ## Available modules ##
-> Following modules are available in the [latest](https://github.com/universum-studios/android_ui/releases "Latest Releases page") stable release.
+> Following modules are available in the [latest](https://github.com/universum-studios/android_ui/releases "Releases page") stable release.
 
-- **none**
+**Note that the separate modules will be available when final 1.0.0 version is released.**

@@ -51,9 +51,9 @@ repositories {
 
 dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
-    implementation deps.androidSupport.annotations
-    implementation deps.androidSupport.appCompatV7
-    implementation deps.androidSupport.vectorDrawable
+    implementation deps.android.support.annotations
+    implementation deps.android.support.appCompatV7
+    implementation deps.android.support.vectorDrawable
     // todo: releaseImplementation "universum.studios.android:ui-core:${config.library.version}@aar"
     // todo: releaseImplementation "universum.studios.android:ui-widget-graphics:${config.library.version}@aar"
 

@@ -1,9 +1,10 @@
 Change-Log
 ===============
+> Regular configuration update: _29.03.2018_
 
 More **detailed changelog** for each respective version may be viewed by pressing on a desired _version's name_.
 
-## Version 1.x ##
+## Version 0.x ##
 
 ### [0.9.6](https://github.com/universum-studios/android_ui/releases/tag/0.9.6) ###
 > 22.10.2017

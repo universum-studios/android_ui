@@ -1,6 +1,6 @@
 /*
  * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
+ *                             Copyright (C) 2018 Universum Studios
  * =================================================================================================
  *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
  * -------------------------------------------------------------------------------------------------
@@ -48,5 +48,5 @@ dependencies {
     api deps.test.mockitoCore
     api deps.test.robolectric
     api deps.test.robolectricShadowsSupportV4
-    api deps.test.androidSupportAnnotations
+    api deps.android.support.annotations
 }

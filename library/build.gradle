@@ -219,17 +219,17 @@ android {
  */
 repositories {
     mavenLocal()
-    maven { url repos.bintray.universumStudiosAndroid }
+    maven { url repos.bintray.universum.studios.android }
 }
 
 dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
-    implementation deps.androidSupport.annotations
-    implementation deps.androidSupport.appCompatV7
-    implementation deps.androidSupport.vectorDrawable
-    implementation deps.androidSupport.recyclerView
-    implementation deps.universumStudios.fontCore
-    implementation deps.universumStudios.graphicsColorUtil
+    implementation deps.android.support.annotations
+    implementation deps.android.support.appCompatV7
+    implementation deps.android.support.vectorDrawable
+    implementation deps.android.support.recyclerView
+    implementation deps.universum.studios.fontCore
+    implementation deps.universum.studios.graphicsColorUtil
 
     // DEVELOPMENT ---------------------------------------------------------------------------------
     // None.

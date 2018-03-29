@@ -31,7 +31,7 @@ def pomConfig = [
         packaging : 'pom',
         project   : [
                 name           : 'Android UI',
-                description    : 'Extended UI components for the Android platform.',
+                description    : 'Extended UI elements, views and widgets for the Android platform.',
                 url            : "https://github.com/${githubConfig.owner}/${githubConfig.repository}",
                 inceptionYear  : '2017',
                 issueManagement: [

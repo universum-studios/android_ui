@@ -51,7 +51,7 @@ repositories {
 
 dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
-    implementation deps.androidSupport.annotations
+    implementation deps.android.support.annotations
     // todo: releaseImplementation "universum.studios.android:ui-core:${config.library.version}@aar"
     // todo: releaseImplementation "universum.studios.android:ui-graphics-core:${config.library.version}@aar"
     // todo: releaseImplementation "universum.studios.android:ui-graphics-progress:${config.library.version}@aar"

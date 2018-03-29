@@ -47,12 +47,12 @@ android {
 repositories {
     maven { url repos.project.artifacts }
     mavenLocal()
-    maven { url repos.bintray.universumStudiosAndroid }
+    maven { url repos.bintray.universum.studios.android }
 }
 
 dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
-    implementation deps.androidSupport.annotations
+    implementation deps.android.support.annotations
     // todo: releaseImplementation "universum.studios.android:ui-core:${config.library.version}@aar"
     // todo: releaseImplementation "universum.studios.android:ui-graphics-progress:${config.library.version}@aar"
     // todo: releaseImplementation "universum.studios.android:ui-widget-core:${config.library.version}@aar"
