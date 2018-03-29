@@ -1,11 +1,11 @@
 Android UI
 ===============
 
-[![CircleCI](https://circleci.com/gh/universum-studios/android_ui.svg?style=svg)](https://circleci.com/gh/universum-studios/android_ui)
+[![CircleCI](https://circleci.com/gh/universum-studios/android_ui.svg?style=shield)](https://circleci.com/gh/universum-studios/android_ui)
 [![Codecov](https://codecov.io/gh/universum-studios/android_ui/branch/master/graph/badge.svg)](https://codecov.io/gh/universum-studios/android_ui)
 [![Codacy](https://api.codacy.com/project/badge/Grade/d3dcc71d3dbb49af9aa9384a45127850)](https://www.codacy.com/app/universum-studios/android_ui?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=universum-studios/android_ui&amp;utm_campaign=Badge_Grade)
 
-Extended UI components for the Android platform.
+Extended UI elements, views and widgets for the Android platform.
 
 For more information please visit the **[Wiki](https://github.com/universum-studios/android_ui/wiki)**.
 
@@ -17,7 +17,7 @@ over time and thus it is NOT RECOMMENDED to USE IT IN a PRODUCTION environment.*
 ## Download ##
 [![Bintray](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Aui/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Aui/_latestVersion)
 
-Download the latest **[release](https://github.com/universum-studios/android_ui/releases "Latest Releases page")** or **add as dependency** in your project via:
+Download the latest **[release](https://github.com/universum-studios/android_ui/releases "Releases page")** or **add as dependency** in your project via:
 
 ### Gradle ###
 
