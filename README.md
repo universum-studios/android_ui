@@ -5,14 +5,15 @@ Android UI
 [![Codecov](https://codecov.io/gh/universum-studios/android_ui/branch/master/graph/badge.svg)](https://codecov.io/gh/universum-studios/android_ui)
 [![Codacy](https://api.codacy.com/project/badge/Grade/d3dcc71d3dbb49af9aa9384a45127850)](https://www.codacy.com/app/universum-studios/android_ui?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=universum-studios/android_ui&amp;utm_campaign=Badge_Grade)
 
+## ! MOVED ! ##
+
+**> This library has been moved to a new [location](https://bitbucket.org/android-universum/ui). <**
+
+---
+
 Extended UI elements, views and widgets for the Android platform.
 
 For more information please visit the **[Wiki](https://github.com/universum-studios/android_ui/wiki)**.
-
-## Under Development ##
-
-**Note that this project is under outgoing development and its implementation may change
-over time and thus it is NOT RECOMMENDED to USE IT IN a PRODUCTION environment.**
 
 ## Download ##
 [![Bintray](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Aui/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Aui/_latestVersion)
